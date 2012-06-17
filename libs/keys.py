@@ -103,7 +103,8 @@ def ApiKeys():
          "render_use_overwrite","render_use_placeholder","render_file_quality", "utils_script_paths", "utils_resource_path", "app_version", "data_filepath", 
          "props", "utils_unregister_class", "utils_register_class", "ops", "ops_object", "types_panel", "types_operator", "invoke_props_dialog", "app_binary_path",
          "invoke_search_popup", "active_material", "fileselect_add", "materials_new", "shadow_only_type", "use_cast_shadows_only", "use_cast_buffer_shadows", "shadow_buffer_bias",
-         "use_ray_shadow_bias", "shadow_ray_bias", "use_cast_approximate", "material_slot_add", "material_slots",)
+         "use_ray_shadow_bias", "shadow_ray_bias", "use_cast_approximate", "material_slot_add", "material_slots", "diffuse_ramp_elements", "specular_ramp_elements", 
+         "texture_color_ramp_elements", "texture_point_density_color_ramp_elements",)
     return temp
 #end Api keys
 #Langages keys
@@ -245,6 +246,24 @@ def MaterialsPropertiesKeys(api_functions):
     "halo.flare_subflare_size":(api_functions['halo_flare_subflare_size'], ''),}
     return mat_properties
 #end Material Properties keys
+#Ramps Properties keys
+def RampsPropertiesKeys(api_functions):
+    ramps_properties  = \
+    {"diffuse_ramp.blend":(api_functions['diffuse_ramp_blend'], ''),"diffuse_ramp.input":(api_functions['diffuse_ramp_input'], ''),
+    "diffuse_ramp.factor":(api_functions['diffuse_ramp_factor'], ''),"diffuse_ramp.interpolation":(api_functions['diffuse_ramp_interpolation'], 'yes'),
+    "diffuse_ramp.elements.position":(api_functions['diffuse_ramp_elements_position'], ''),"diffuse_ramp.elements.color":(api_functions['diffuse_ramp_elements_color'], ''),
+    "diffuse_ramp.elements":(api_functions['diffuse_ramp_elements'], ''),
+    "specular_ramp.blend":(api_functions['specular_ramp_blend'], ''),"specular_ramp.input":(api_functions['specular_ramp_input'], ''),
+    "specular_ramp.factor":(api_functions['specular_ramp_factor'], ''),"specular_ramp.interpolation":(api_functions['specular_ramp_interpolation'], 'yes'),
+    "specular_ramp.elements.position":(api_functions['specular_ramp_elements_position'], ''),"specular_ramp.elements.color":(api_functions['specular_ramp_elements_color'], ''),
+    "specular_ramp.elements":(api_functions['specular_ramp_elements'], ''),
+    "color_ramp.interpolation":(api_functions['texture_color_ramp_interpolation'], 'yes'),
+    "color_ramp.elements.position":(api_functions['texture_color_ramp_elements_position'], ''),"color_ramp.elements.color":(api_functions['texture_color_ramp_elements_color'], ''),
+    "color_ramp.elements":(api_functions['texture_color_ramp_elements'], ''),
+    "point_density_ramp.interpolation":(api_functions['texture_point_density_color_ramp_interpolation'], 'yes'),
+    "point_density_ramp.elements.position":(api_functions['texture_point_density_color_ramp_elements_position'], ''),"point_density_ramp.elements.color":(api_functions['texture_point_density_color_ramp_elements_color'], ''), "point_density_ramp.elements":(api_functions['texture_point_density_color_ramp_elements'], ''),}
+    return ramps_properties
+#end Material Properties keys
 #SurfaceWire keys
 def SurfaceWireKeys():
     surface_wire  = \
@@ -297,5 +316,19 @@ def StringPropertiesKeys():
      "volume.light_method","volume.step_method",)    
     return string_properties
 #end String properties keys
-
-
+#Ramps properties keys
+def RampsKeys(type_ramp):
+    ramps  = \
+    ["#1#_ramp.blend", "#1#_ramp.input", "#1#_ramp.factor", "#1#_ramp.interpolation", 
+     "#1#_ramp.elements.color", "#1#_ramp.elements.position",]    
+    count = 0
+    for v in ramps:
+        ramps[count] = v.replace("#1#", type_ramp) 
+        count = count + 1
+    return ramps
+#end Ramps properties keys
+#Exceptions ramps properties keys
+def ExceptionsRampsKeys():
+    ramps  = (".blend", ".input", ".factor", ".interpolation",)    
+    return ramps
+#end Exceptions ramps properties keys

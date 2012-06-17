@@ -17,6 +17,7 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
+import bpy
 
 def Clear(path, type, option):
     #Imports & external libs:
@@ -98,3 +99,23 @@ def RemoveExceptions(prop, val):
             val = 0
     return val
 
+def RemoveColor(value):
+    if "Color(" in value:
+        value = value.replace("))", ")")
+        value = value.replace("Color(", "")
+    return value
+
+def RemoveRadius(value):
+    one = str(eval(value)[0])
+    two = str(eval(value)[1])
+    three = str(eval(value)[2])
+    value = "(%s, %s, %s)" % (one, two, three)
+    return value
+
+def RemoveRampsColor(value):
+    red = str(eval(value)[0])
+    green = str(eval(value)[1])
+    blue = str(eval(value)[2])
+    alpha = str(eval(value)[3])
+    value = "(%s, %s, %s, %s)" % (red, green, blue, alpha)
+    return value

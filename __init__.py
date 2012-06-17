@@ -47,21 +47,7 @@ except:
     print(misc.ConsoleError("Import external module ", 0, False))
 
 #Globals
-blender_version = str(bpy.app.version[0]) + "." + str(bpy.app.version[1]) + str(bpy.app.version[2])
-default_paths = environment.DefaultPaths()
-api_functions = environment.ApiDatas(default_paths['database'], blender_version)
-configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
-languages_config = environment.LanguagesDatas(default_paths['database'])
-active_configuration = environment.ActiveConfigurations(configurations_config)
-active_languages = environment.ActiveLanguage(languages_config, active_configuration['language'])
-about_config = environment.AboutDatas(default_paths['database'])
-active_categories = environment.MaterialsCatergories(active_languages)
-names_config = environment.ConfigurationsNames(configurations_config)
-options_actions = environment.ConfigurationsOptions(active_languages)
-names_languages = environment.LanguagesNames(languages_config)
-space_access_name = active_languages['space_access_name'] + " "
-
-'''try:
+try:
     blender_version = str(bpy.app.version[0]) + "." + str(bpy.app.version[1]) + str(bpy.app.version[2])
     default_paths = environment.DefaultPaths()
     api_functions = environment.ApiDatas(default_paths['database'], blender_version)
@@ -77,7 +63,7 @@ space_access_name = active_languages['space_access_name'] + " "
     space_access_name = active_languages['space_access_name'] + " "
     print(misc.ConsoleError("Globals ", 0, True))
 except:
-    print(misc.ConsoleError("Globals ", 0, False))'''
+    print(misc.ConsoleError("Globals ", 0, False))
 #Functions
 conf_current_name = ""
 conf_current_idx = 1
@@ -156,7 +142,6 @@ class Export(eval(api_functions['types_operator'])):
         else:
             row.label(active_languages['menu_error_error002'], icon='RADIO')
 
-
     def invoke(self, context, event):
         if ctx_active_object():
             wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
@@ -176,6 +161,7 @@ class Export(eval(api_functions['types_operator'])):
                      "temp":default_paths['temp'],  "zip":default_paths['zip'],
                     }
             exporter.MaterialExport(material_dict, api_functions)
+            exporter.RampsExport(material_dict, api_functions, '')
         else:
             eval(api_functions['utils_unregister_class'].replace("#1#", "Export"))
             eval(api_functions['utils_register_class'].replace("#1#", "Export"))

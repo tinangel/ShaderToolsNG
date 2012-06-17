@@ -20,27 +20,14 @@
 import bpy
 from . import misc, keys
 
-def RemoveColor(value):
-    if "Color(" in value:
-        value = value.replace("))", ")")
-        value = value.replace("Color(", "")
-    return value
-
-def RemoveRadius(value):
-    one = str(eval(value)[0])
-    two = str(eval(value)[1])
-    three = str(eval(value)[2])
-    value = "(%s, %s, %s)" % (one, two, three)
-    return value
-
 def SurfaceWireVolumeHalo(api_functions, mat_properties_keys, surface_wire_keys):
     mat_properties = []
     for k in surface_wire_keys:
         if k == "subsurface_scattering.radius": #radius subsurface is an exception
-            prop = RemoveRadius(mat_properties_keys[k][0])
+            prop = misc.RemoveRadius(mat_properties_keys[k][0])
 
         if k != "subsurface_scattering.radius": #radius subsurface is an exception
-            prop = RemoveColor(str(eval(mat_properties_keys[k][0])))
+            prop = misc.RemoveColor(str(eval(mat_properties_keys[k][0])))
         
         prop = misc.RemoveInvalidValues(prop) #remove invalid values
         prop = misc.ConvertBoolStringToNumber(prop) #convert True/False to 0/1

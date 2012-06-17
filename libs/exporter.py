@@ -18,8 +18,9 @@
 
 # <pep8-80 compliant>
 import bpy, os, shutil, sys
-from . import environment, misc, materials, keys
+from . import environment, misc, materials, keys, ramps
 
+#Create material only here
 def MaterialExport(material_dict, api_functions):
     ctx_obj = eval(api_functions['context_object'])
     ctx_mat = eval(api_functions['context_material'])
@@ -55,7 +56,7 @@ def MaterialExport(material_dict, api_functions):
 
         material_structure.append("\treturn mat\n\n")
         material_structure.append("%s\n" % api_functions['material_slot_add'])
-        material_structure.append("%s = CreateMaterial('EXP_%s')\n\n\n" % (slots, material_dict['material_name']))
+        material_structure.append("%s = CreateMaterial('EXP_%s')\n" % (slots, material_dict['material_name']))
 
     elif type_mat == 'VOLUME':
         mat_properties = materials.SurfaceWireVolumeHalo(api_functions, keys.MaterialsPropertiesKeys(api_functions), keys.VolumeKeys())
@@ -105,5 +106,50 @@ def MaterialExport(material_dict, api_functions):
         print("$hadertools : material sctructure write in blex file.")
     except:
         print("$hadertools : error material sctructure not write in blex file.")
+#end Create material only here
+#Create ramps only here
+def RampsExport(material_dict, api_functions, idx_texture):
+    ctx_mat = eval(api_functions['context_material'])
+    type_mat = eval(api_functions['type'])
+    ramp_used = False
+    ramp_properties = [] 
+    ramp_structure = ["\n", "# Create #1# ramp context :\n", "ramp = %s \n" % api_functions['context_material'],
+                          "ramp_min_position = 0.0\n", "ramp_max_position = 1.0\n\n",]
 
+    if type_mat == 'SURFACE' or type_mat == 'WIRE':
+        if eval(api_functions["use_diffuse_ramp"]):
+            ramp_used = True
+            type_ramp = 'diffuse'
+            ramp_structure[1] =  ramp_structure[1].replace("#1#", type_ramp)
+            ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp)
+        
+        if eval(api_functions["use_specular_ramp"]): 
+            ramp_used = True
+            type_ramp = 'specular'
+            ramp_structure[1] =  ramp_structure[1].replace("#1#", type_ramp)
+            ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp)
 
+        for i in ramp_properties:
+            for p in ramp_properties[i]:
+                if ramp_properties[i][p][1]:
+                    ramp_structure.append("slots.%s = %s \n" % (p, ramp_properties[i][p]))
+                else:
+                    ramp_structure.append("slots.%s = %s \n" % (p, ramp_properties[i][p]))
+
+    # i open and create export file:
+    temp_path = os.path.join(material_dict['temp'], material_dict['material_name'])
+    script_path = os.path.join(temp_path, "script.py")
+
+    # create script file:
+    if ramp_used:
+        try:
+            script_file = open(script_path, 'a',  encoding = "utf-8")
+            for l in ramp_structure:
+                script_file.write(l)
+        
+            script_file.close()
+            print("$hadertools : ramps sctructure write in blex file.")
+        except:
+            print("$hadertools : error ramps sctructure not write in blex file.")
+    
+#end Create ramps only here
