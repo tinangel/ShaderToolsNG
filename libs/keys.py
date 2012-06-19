@@ -319,8 +319,8 @@ def StringPropertiesKeys():
 #Ramps properties keys
 def RampsKeys(type_ramp):
     ramps  = \
-    ["#1#_ramp.blend", "#1#_ramp.input", "#1#_ramp.factor", "#1#_ramp.interpolation", 
-     "#1#_ramp.elements.color", "#1#_ramp.elements.position",]    
+    ["#1#_ramp.elements.position", "#1#_ramp.elements.color", "#1#_ramp.blend",   
+     "#1#_ramp.input", "#1#_ramp.factor", "#1#_ramp.interpolation",]    
     count = 0
     for v in ramps:
         ramps[count] = v.replace("#1#", type_ramp) 

@@ -33,10 +33,14 @@ def Ramps(api_functions, ramps_prop, ramps_keys, type_ramp):
             for k in ramps_keys:
                 if p == 0:
                     val = ramps_prop_temp[k][0].replace("#1#", str(p))
+                    val2 = copy(val)
                     if k.find("elements.color") >= 0:
                         val = misc.RemoveRampsColor(val)
                     ramps_prop_temp[k] = tuple((val, ramps_prop_temp[k][1]))
-                    ramp_properties[k] = str(eval(ramps_prop_temp[k][0]))
+                    if k.find("elements.color") >= 0:
+                        ramp_properties[k] = (val2, str(eval(ramps_prop_temp[k][0])))
+                    else:
+                        ramp_properties[k] = (val, str(eval(ramps_prop_temp[k][0])))
                     ramp_properties_final[str(p)] = ramp_properties
                 else:
                     exception = False
@@ -50,6 +54,7 @@ def Ramps(api_functions, ramps_prop, ramps_keys, type_ramp):
                             break
                     if exception == False:
                         val = ramps_prop_temp[k][0].replace("#1#", str(p))
+                        val2 = copy(val)
                         if k.find(".elements.color") >= 0:
                             val = misc.RemoveRampsColor(val)
                         
@@ -57,7 +62,10 @@ def Ramps(api_functions, ramps_prop, ramps_keys, type_ramp):
                             first = True
                         
                         ramps_prop_temp[k] = tuple((val, ramps_prop_temp[k][1]))
-                        ramp_properties[k] = str(eval(ramps_prop_temp[k][0]))
+                        if k.find("elements.color") >= 0:
+                            ramp_properties[k] = (val2, str(eval(ramps_prop_temp[k][0])))
+                        else:
+                            ramp_properties[k] = (val, str(eval(ramps_prop_temp[k][0])))
                         ramp_properties_final[str(p)] = ramp_properties
-
+        print(ramp_properties_final)
         return ramp_properties_final

@@ -114,7 +114,8 @@ def RampsExport(material_dict, api_functions, idx_texture):
     ramp_used = False
     ramp_properties = [] 
     ramp_structure = ["\n", "# Create #1# ramp context :\n", "ramp = %s \n" % api_functions['context_material'],
-                          "ramp_min_position = 0.0\n", "ramp_max_position = 1.0\n\n",]
+                      "%s = True\n" % api_functions['use_diffuse_ramp'].replace(api_functions['context_material'], "ramp"),
+                      "ramp_min_position = 0.0\n", "ramp_max_position = 1.0\n\n",]
 
     if type_mat == 'SURFACE' or type_mat == 'WIRE':
         if eval(api_functions["use_diffuse_ramp"]):
@@ -138,12 +139,12 @@ def RampsExport(material_dict, api_functions, idx_texture):
                             exception = True
                             break
                     if exception:
-                        ramp_structure.append("ramp.%s = '%s' \n" % (k, ramp_properties[str(i)][k]))
+                        ramp_structure.append("%s = '%s' \n" % (ramp_properties[str(i)][k][0].replace(api_functions['context_material'], "ramp"), ramp_properties[str(i)][k][1]))
                     else:
-                        ramp_structure.append("ramp.%s = %s \n" % (k, ramp_properties[str(i)][k]))
+                        ramp_structure.append("%s = %s \n" % (ramp_properties[str(i)][k][0].replace(api_functions['context_material'], "ramp"), ramp_properties[str(i)][k][1]))
             else:
                 for p in ramp_properties[str(i)]:
-                    ramp_structure.append("ramp.%s = %s \n" % (p, ramp_properties[str(i)][p]))
+                    ramp_structure.append("%s = %s \n" % (ramp_properties[str(i)][p][0].replace(api_functions['context_material'], "ramp"), ramp_properties[str(i)][p][1]))
 
     # i open and create export file:
     temp_path = os.path.join(material_dict['temp'], material_dict['material_name'])
