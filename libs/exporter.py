@@ -129,12 +129,21 @@ def RampsExport(material_dict, api_functions, idx_texture):
             ramp_structure[1] =  ramp_structure[1].replace("#1#", type_ramp)
             ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp)
 
-        for i in ramp_properties:
-            for p in ramp_properties[i]:
-                if ramp_properties[i][p][1]:
-                    ramp_structure.append("slots.%s = %s \n" % (p, ramp_properties[i][p]))
-                else:
-                    ramp_structure.append("slots.%s = %s \n" % (p, ramp_properties[i][p]))
+        for i in range(0, ramp_properties.__len__()):
+            if i == 0:
+                for k in keys.RampsKeys("diffuse"):
+                    exception = False
+                    for s in keys.StringPropertiesKeys():
+                        if s.find(k) >= 0:
+                            exception = True
+                            break
+                    if exception:
+                        ramp_structure.append("ramp.%s = '%s' \n" % (k, ramp_properties[str(i)][k]))
+                    else:
+                        ramp_structure.append("ramp.%s = %s \n" % (k, ramp_properties[str(i)][k]))
+            else:
+                for p in ramp_properties[str(i)]:
+                    ramp_structure.append("ramp.%s = %s \n" % (p, ramp_properties[str(i)][p]))
 
     # i open and create export file:
     temp_path = os.path.join(material_dict['temp'], material_dict['material_name'])

@@ -25,34 +25,39 @@ def Ramps(api_functions, ramps_prop, ramps_keys, type_ramp):
     if type_ramp == 'diffuse':
         ramp_properties_final = {}
         ramp_properties = {}
-
+        first = True
+        
         for p in range(0, eval(api_functions['diffuse_ramp_elements']).__len__()):
             ramps_prop_temp = copy(ramps_prop)
             ramp_properties_final[str(p)] = {}
             for k in ramps_keys:
                 if p == 0:
-                    print("P = 0")
                     val = ramps_prop_temp[k][0].replace("#1#", str(p))
-                    if k.find("elements.color") > 0:
+                    if k.find("elements.color") >= 0:
                         val = misc.RemoveRampsColor(val)
                     ramps_prop_temp[k] = tuple((val, ramps_prop_temp[k][1]))
                     ramp_properties[k] = str(eval(ramps_prop_temp[k][0]))
+                    ramp_properties_final[str(p)] = ramp_properties
                 else:
-                    test = True
+                    exception = False
+                    if first:
+                        ramp_properties = {}
+                        first = False
+                    
                     for e in keys.ExceptionsRampsKeys():
-                        if k.find(e) == -1:
-                            test = False
-
-                    if test == False:
-                        print(k)
+                        if k.find(e) >= 0:
+                            exception = True
+                            break
+                    if exception == False:
                         val = ramps_prop_temp[k][0].replace("#1#", str(p))
-                        if k.find("elements.color") > 0:
+                        if k.find(".elements.color") >= 0:
                             val = misc.RemoveRampsColor(val)
+                        
+                        if k.find(".elements.position") >= 0:
+                            first = True
+                        
                         ramps_prop_temp[k] = tuple((val, ramps_prop_temp[k][1]))
                         ramp_properties[k] = str(eval(ramps_prop_temp[k][0]))
+                        ramp_properties_final[str(p)] = ramp_properties
 
-
-            print(ramp_properties_final)
-            ramp_properties_final[str(p)] = ramp_properties
-            
         return ramp_properties_final

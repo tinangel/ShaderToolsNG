@@ -313,7 +313,7 @@ def HaloKeys():
 def StringPropertiesKeys():
     string_properties  = \
     ("diffuse_shader", "specular_shader", "transparency_method", "raytrace_mirror.fade_to", "shadow_only_type",
-     "volume.light_method","volume.step_method",)    
+     "volume.light_method","volume.step_method", "diffuse_ramp.blend", "diffuse_ramp.input", "diffuse_ramp.interpolation",)    
     return string_properties
 #end String properties keys
 #Ramps properties keys
