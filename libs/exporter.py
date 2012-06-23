@@ -108,43 +108,50 @@ def MaterialExport(material_dict, api_functions):
         print("$hadertools : error material sctructure not write in blex file.")
 #end Create material only here
 #Create ramps only here
-def RampsExport(material_dict, api_functions, idx_texture):
+def MaterialRampsExport(material_dict, api_functions, ramp_type):
     ctx_mat = eval(api_functions['context_material'])
     type_mat = eval(api_functions['type'])
     ramp_used = False
     ramp_properties = [] 
-    ramp_structure = ["\n", "# Create #1# ramp context :\n", "ramp = %s \n" % api_functions['context_material'],
-                      "%s = True\n" % api_functions['use_diffuse_ramp'].replace(api_functions['context_material'], "ramp"),
-                      "ramp_min_position = 0.0\n", "ramp_max_position = 1.0\n\n",]
+    ramp_structure = ["\n", "# Create ramps context :\n", "ramp = %s \n\n" % api_functions['context_material'],]
 
     if type_mat == 'SURFACE' or type_mat == 'WIRE':
-        if eval(api_functions["use_diffuse_ramp"]):
+        if eval(api_functions["use_diffuse_ramp"]) and ramp_type == 'diffuse':
             ramp_used = True
+            ramp_structure.append("# Create diffuse ramp context :\n")
+            ramp_structure.append("%s = True\n" % api_functions['use_diffuse_ramp'].replace(api_functions['context_material'], "ramp"))
             type_ramp = 'diffuse'
             ramp_structure[1] =  ramp_structure[1].replace("#1#", type_ramp)
+            for v in ramps.RampsPositions(api_functions, type_ramp):
+                ramp_structure.append(v.replace(api_functions['context_material'], "ramp"))
             ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp)
         
-        if eval(api_functions["use_specular_ramp"]): 
+        if eval(api_functions["use_specular_ramp"]) and ramp_type == 'specular': 
             ramp_used = True
+            if eval(api_functions["use_diffuse_ramp"]):
+                    ramp_structure = []
+            ramp_structure.append("\n# Create specular ramp context :\n")
+            ramp_structure.append("%s = True\n" % api_functions['use_specular_ramp'].replace(api_functions['context_material'], "ramp"))
             type_ramp = 'specular'
             ramp_structure[1] =  ramp_structure[1].replace("#1#", type_ramp)
+            for v in ramps.RampsPositions(api_functions, type_ramp):
+                ramp_structure.append(v.replace(api_functions['context_material'], "ramp"))
             ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp)
 
         for i in range(0, ramp_properties.__len__()):
-            if i == 0:
-                for k in keys.RampsKeys("diffuse"):
-                    exception = False
-                    for s in keys.StringPropertiesKeys():
-                        if s.find(k) >= 0:
-                            exception = True
-                            break
-                    if exception:
-                        ramp_structure.append("%s = '%s' \n" % (ramp_properties[str(i)][k][0].replace(api_functions['context_material'], "ramp"), ramp_properties[str(i)][k][1]))
-                    else:
-                        ramp_structure.append("%s = %s \n" % (ramp_properties[str(i)][k][0].replace(api_functions['context_material'], "ramp"), ramp_properties[str(i)][k][1]))
-            else:
-                for p in ramp_properties[str(i)]:
-                    ramp_structure.append("%s = %s \n" % (ramp_properties[str(i)][p][0].replace(api_functions['context_material'], "ramp"), ramp_properties[str(i)][p][1]))
+            for k in keys.RampsKeys(type_ramp):
+                exception = False
+                for s in keys.StringPropertiesKeys():
+                    if s.find(k) >= 0:
+                        exception = True
+                        break
+                if exception:
+                    ramp_structure.append("%s = '%s' \n" % (ramp_properties[str(i)][k][0].replace(api_functions['context_material'], "ramp"), ramp_properties[str(i)][k][1]))
+                else:
+                    ramp_structure.append("%s = %s \n" % (ramp_properties[str(i)][k][0].replace(api_functions['context_material'], "ramp"), ramp_properties[str(i)][k][1]))
+
+    for v in keys.ExceptionsRampsKeys_2():                    
+        ramps.RemoveElements(v, ramp_structure)        
 
     # i open and create export file:
     temp_path = os.path.join(material_dict['temp'], material_dict['material_name'])

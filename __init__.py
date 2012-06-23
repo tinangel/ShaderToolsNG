@@ -161,7 +161,8 @@ class Export(eval(api_functions['types_operator'])):
                      "temp":default_paths['temp'],  "zip":default_paths['zip'],
                     }
             exporter.MaterialExport(material_dict, api_functions)
-            exporter.RampsExport(material_dict, api_functions, '')
+            exporter.MaterialRampsExport(material_dict, api_functions, 'diffuse')
+            exporter.MaterialRampsExport(material_dict, api_functions, 'specular')
         else:
             eval(api_functions['utils_unregister_class'].replace("#1#", "Export"))
             eval(api_functions['utils_register_class'].replace("#1#", "Export"))
