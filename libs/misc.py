@@ -105,6 +105,13 @@ def RemoveColor(value):
         value = value.replace("Color(", "")
     return value
 
+def RemoveVector(value):
+    if "Vector(" in value:
+        value = value.replace("))", ")")
+        value = value.replace("Vector(", "")
+    return value
+
+
 def RemoveRadius(value):
     one = str(eval(value)[0])
     two = str(eval(value)[1])

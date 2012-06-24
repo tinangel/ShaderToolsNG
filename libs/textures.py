@@ -21,5 +21,19 @@ import bpy
 from . import misc, keys
 from copy import copy
 
-def Ramps(api_functions, ramps_prop, ramps_keys, type_ramp):
-    print("test")
+def MappingInfluenceExport(api_functions, texture_structure, texture_keys, idx):
+    for k in texture_keys:
+        slot = "%s[%s].%s" % (api_functions['texture_slots'], idx, k)
+        val = ""
+        try: val = copy(eval(slot))
+        except: val = None
+        if val != None and val != '':
+            if type(val).__name__ == 'str': texture_structure.append("slot.%s = '%s'\n" % (k,val))
+            elif type(val).__name__ == 'Color':
+                val = misc.RemoveColor(str(val))
+                texture_structure.append("slot.%s = %s\n" % (k,val))
+            elif type(val).__name__ == 'Vector':
+                val = misc.RemoveVector(str(val))
+                texture_structure.append("slot.%s = %s\n" % (k,val))
+            else: texture_structure.append("slot.%s = %s\n" % (k,val))
+    return texture_structure

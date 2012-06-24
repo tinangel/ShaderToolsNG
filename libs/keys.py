@@ -316,7 +316,8 @@ def StringPropertiesKeys():
     string_properties  = \
     ("diffuse_shader", "specular_shader", "transparency_method", "raytrace_mirror.fade_to", "shadow_only_type",
      "volume.light_method","volume.step_method", "diffuse_ramp.blend", "diffuse_ramp.input", "diffuse_ramp.interpolation",
-     "specular_ramp.blend", "specular_ramp.input", "specular_ramp.interpolation",)    
+     "specular_ramp.blend", "specular_ramp.input", "specular_ramp.interpolation",  "object", "object.name",
+     "texture_coords", "mapping", "mapping_x", "mapping_y", "mapping_z", "uv_layer", "uv_layer.name",)    
     return string_properties
 #end String properties keys
 #Ramps properties keys
@@ -338,3 +339,20 @@ def ExceptionsRampsKeys_2():
     ramps  = ("_blend", "_input", "_factor", ".interpolation",)    
     return ramps
 #end Exceptions ramps properties keys
+#Textures properties keys
+def MappingExportKeys():
+    mapping  = ("texture_coords", "mapping", "mapping_x", "mapping_y", "mapping_z",
+                "use_from_dupli", "use_from_original", "scale", "offset", )    
+    return mapping
+def InfluenceExportKeys():
+    influence  = ("use_map_diffuse", "use_map_color_diffuse", "use_map_alpha", "use_map_translucency", "use_map_ambient",
+                  "use_map_emit", "use_map_mirror", "use_map_raymir", "use_map_specular", "use_map_color_spec", 
+                  "use_map_hardness", "use_map_normal", "use_map_warp", "use_map_displacement", "diffuse_factor",
+                  "diffuse_color_factor", "alpha_factor", "translucency_factor", "specular_factor", "specular_color_factor",
+                  "hardness_factor", "ambient_factor", "emit_factor", "mirror_factor", "raymir_factor", "normal_factor",
+                  "warp_factor", "displacement_factor", "blend_type", "use_rgb_to_intensity", "color", "invert", "use_stencil",
+                  "default_value", "bump_method", "bump_objectspace",)    
+    return influence
+
+#end Textures properties keys
+

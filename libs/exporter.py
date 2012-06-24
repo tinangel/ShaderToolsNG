@@ -18,7 +18,7 @@
 
 # <pep8-80 compliant>
 import bpy, os, shutil, sys
-from . import environment, misc, materials, keys, ramps
+from . import environment, misc, materials, keys, ramps, textures
 from copy import copy
 
 #Create material only here
@@ -201,6 +201,11 @@ def TextureExport(material_dict, api_functions):
                 preview_eval = eval(api_functions['texture_use_preview_alpha'].replace("#1#", str(t))) 
                 preview = preview.replace(api_functions['texture_slots'], "ctx_texture_slots")
                 texture_structure.append("%s = %s \n" % (preview, preview_eval))
+                
+                #Create mapping texture properties
+                texture_structure = textures.MappingInfluenceExport(api_functions, texture_structure, keys.MappingExportKeys(), t)
+                #Create influence texture properties
+                texture_structure = textures.MappingInfluenceExport(api_functions, texture_structure, keys.InfluenceExportKeys(), t)
                 
                 #Now different type of texture
                 if texture_type == 'BLEND':
