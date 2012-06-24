@@ -19,6 +19,7 @@
 # <pep8-80 compliant>
 import bpy, os, shutil, sys
 from . import environment, misc, materials, keys, ramps
+from copy import copy
 
 #Create material only here
 def MaterialExport(material_dict, api_functions):
@@ -152,11 +153,9 @@ def MaterialRampsExport(material_dict, api_functions, ramp_type):
 
     for v in keys.ExceptionsRampsKeys_2():                    
         ramps.RemoveElements(v, ramp_structure)        
-
     # i open and create export file:
     temp_path = os.path.join(material_dict['temp'], material_dict['material_name'])
     script_path = os.path.join(temp_path, "script.py")
-
     # create script file:
     if ramp_used:
         try:
@@ -168,5 +167,93 @@ def MaterialRampsExport(material_dict, api_functions, ramp_type):
             print("$hadertools : ramps sctructure write in blex file.")
         except:
             print("$hadertools : error ramps sctructure not write in blex file.")
-    
 #end Create ramps only here
+#Textures only here
+def TextureExport(material_dict, api_functions):
+    texture_structure = ["\n", "# Create texture context :\n","ctx_texture_slots = %s\n" % api_functions['texture_slots'],
+                         "ctx_mat = %s\n" % api_functions['context_material'],]
+    ctx_mat = copy(api_functions['context_material'])
+    ctx_texture = copy(api_functions['context_texture'])
+    current_texture = eval(api_functions['texture_slots_values'])
+    texture_idx = 0
+    for t in range(0, current_texture.__len__()):
+        if current_texture[t] != None:
+            texture_used = copy(eval(api_functions['texture_slots_values_use'].replace("#1#", str(t))))
+            texture_type = copy(eval(api_functions['texture_slots_values_texture_type'].replace("#1#", str(t))))            
+            if texture_used :
+                texture_structure.append("\n# Create %s texture :\n" % texture_type)
+                #Add texture name here
+                add_name_eval = "'" + eval(api_functions['texture_slots_texture_name'].replace("#1#", str(t))) + "'"
+                add_type_eval = "'" + eval(api_functions['texture_slots_texture_type'].replace("#1#", str(t))) + "'"
+                add_name = copy(api_functions['texture_slots_new'].replace("#1#", add_name_eval))
+                add_name = add_name.replace("#2#", add_type_eval)
+                texture_structure.append("new_texture = %s\n" % add_name)
+                texture_structure.append("slot = %s\n" % api_functions['texture_slots_add'].replace(ctx_mat, "ctx_mat"))
+                texture_structure.append("slot.texture = new_texture\n")
+
+                #Here create texture slot context
+                val = copy(ctx_texture.replace("#1#", str(texture_idx)))
+                val = val.replace(api_functions['texture_slots'], "ctx_texture_slots")
+                texture_structure.append("ctx_texture = %s \n" % val)
+
+                #Use preview alpha bool
+                preview = copy(api_functions['texture_use_preview_alpha'].replace("#1#", str(texture_idx)))
+                preview_eval = eval(api_functions['texture_use_preview_alpha'].replace("#1#", str(t))) 
+                preview = preview.replace(api_functions['texture_slots'], "ctx_texture_slots")
+                texture_structure.append("%s = %s \n" % (preview, preview_eval))
+                
+                #Now different type of texture
+                if texture_type == 'BLEND':
+                    print("BLEND")
+                elif texture_type == 'CLOUDS':
+                    print("CLOUDS")
+                elif texture_type == 'DISTORTED_NOISE':
+                    print("DISTORTED_NOISE")
+                elif texture_type == 'ENVIRONMENT_MAP':
+                    print("ENVIRONMENT_MAP")
+                elif texture_type == 'IMAGE':
+                    print("IMAGE")
+                elif texture_type == 'MAGIC':
+                    print("MAGIC")
+                elif texture_type == 'MARBLE':
+                    print("MARBLE")
+                elif texture_type == 'MUSGRAVE':
+                    print("MUSGRAVE")
+                elif texture_type == 'NOISE':
+                    print("NOISE")
+                elif texture_type == 'POINT_DENSITY':
+                    print("POINT_DENSITY")
+                elif texture_type == 'STUCCI':
+                    print("STUCCI")
+                elif texture_type == 'VORONOI':
+                    print("VORONOI")
+                elif texture_type == 'VOXEL_DATA':
+                    print("VOXEL_DATA")
+                else:
+                    print("WOOD")
+
+                texture_idx = texture_idx + 1
+
+    # i open and create export file:
+    temp_path = os.path.join(material_dict['temp'], material_dict['material_name'])
+    script_path = os.path.join(temp_path, "script.py")
+    # create script file:
+    try:
+        script_file = open(script_path, 'a',  encoding = "utf-8")
+        for l in texture_structure:
+            script_file.write(l)
+        
+        script_file.close()
+        print("$hadertools : texture sctructure write in blex file.")
+    except:
+        print("$hadertools : error texture sctructure not write in blex file.")
+
+#end Textures only here
+
+
+
+
+
+
+
+

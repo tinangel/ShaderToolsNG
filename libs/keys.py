@@ -104,7 +104,9 @@ def ApiKeys():
          "props", "utils_unregister_class", "utils_register_class", "ops", "ops_object", "types_panel", "types_operator", "invoke_props_dialog", "app_binary_path",
          "invoke_search_popup", "active_material", "fileselect_add", "materials_new", "shadow_only_type", "use_cast_shadows_only", "use_cast_buffer_shadows", "shadow_buffer_bias",
          "use_ray_shadow_bias", "shadow_ray_bias", "use_cast_approximate", "material_slot_add", "material_slots", "diffuse_ramp_elements", "specular_ramp_elements", 
-         "texture_color_ramp_elements", "texture_point_density_color_ramp_elements",)
+         "texture_color_ramp_elements", "texture_point_density_color_ramp_elements", "texture_slots_values", "texture_slots_items","texture_slots", "texture_slots_create",
+         "texture_slots_values_use", "texture_slots_values_texture_type", "texture_use_preview_alpha", "texture_slots_texture_name", "texture_slots_new", "texture_slots_texture_type",
+         "texture_slots_add",)
     return temp
 #end Api keys
 #Langages keys

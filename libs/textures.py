@@ -17,4 +17,9 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
+import bpy
+from . import misc, keys
+from copy import copy
 
+def Ramps(api_functions, ramps_prop, ramps_keys, type_ramp):
+    print("test")

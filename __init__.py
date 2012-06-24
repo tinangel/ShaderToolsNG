@@ -22,7 +22,7 @@
 bl_info = {
     "name": "ShaderTools Next Gen",
     "author": "GRETETE Karim (Tinangel)",
-    "version": (0, 3, 0),
+    "version": (0, 3, 2),
     "blender": (2, 6, 0),
     "api": 41098,
     "location": "User Preferences",
@@ -163,6 +163,8 @@ class Export(eval(api_functions['types_operator'])):
             exporter.MaterialExport(material_dict, api_functions)
             exporter.MaterialRampsExport(material_dict, api_functions, 'diffuse')
             exporter.MaterialRampsExport(material_dict, api_functions, 'specular')
+            exporter.TextureExport(material_dict, api_functions)
+    
         else:
             eval(api_functions['utils_unregister_class'].replace("#1#", "Export"))
             eval(api_functions['utils_register_class'].replace("#1#", "Export"))
