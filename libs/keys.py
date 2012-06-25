@@ -317,7 +317,7 @@ def StringPropertiesKeys():
     ("diffuse_shader", "specular_shader", "transparency_method", "raytrace_mirror.fade_to", "shadow_only_type",
      "volume.light_method","volume.step_method", "diffuse_ramp.blend", "diffuse_ramp.input", "diffuse_ramp.interpolation",
      "specular_ramp.blend", "specular_ramp.input", "specular_ramp.interpolation",  "object", "object.name",
-     "texture_coords", "mapping", "mapping_x", "mapping_y", "mapping_z", "uv_layer", "uv_layer.name",)    
+     "texture_coords", "mapping", "mapping_x", "mapping_y", "mapping_z", "uv_layer", "uv_layer.name", "color_ramp.interpolation", )    
     return string_properties
 #end String properties keys
 #Ramps properties keys
@@ -329,6 +329,11 @@ def RampsKeys(type_ramp):
     for v in ramps:
         ramps[count] = v.replace("#1#", type_ramp) 
         count = count + 1
+    if type_ramp == 'color':
+        exceptions = ("%s_ramp.input"%type_ramp, "%s_ramp.factor"%type_ramp, "%s_ramp.blend"%type_ramp,)
+        for e in exceptions:
+            ramps.remove(e)
+    
     return ramps
 #end Ramps properties keys
 #Exceptions ramps properties keys
@@ -353,6 +358,10 @@ def InfluenceExportKeys():
                   "warp_factor", "displacement_factor", "blend_type", "use_rgb_to_intensity", "color", "invert", "use_stencil",
                   "default_value", "bump_method", "bump_objectspace",)    
     return influence
+def ColorsExportKeys():
+    colors  = ("texture.use_color_ramp", "texture.factor_red", "texture.factor_green", "texture.factor_blue", 
+                "texture.intensity", "texture.contrast", "texture.saturation", "texture.factor_blue",)    
+    return colors
 
 #end Textures properties keys
 

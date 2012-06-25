@@ -21,15 +21,26 @@ import bpy
 from . import misc, keys
 from copy import copy
 
-def Ramps(api_functions, ramps_prop, ramps_keys, type_ramp):
+def Ramps(api_functions, ramps_prop, ramps_keys, type_ramp, idx_texture):
     ramp_properties_final = {}
     ramp_properties = {}
     first = True
-    for p in range(0, eval(api_functions['%s_ramp_elements' % type_ramp]).__len__()):
+    range_elements = '' 
+    
+    if type_ramp == 'color':
+        type_ramp = 'texture_color'
+        range_elements = eval(api_functions['%s_ramp_elements' % type_ramp].replace("#1#", str(idx_texture))).__len__()
+    else:
+        range_elements = eval(api_functions['%s_ramp_elements' % type_ramp]).__len__()
+
+    for p in range(0, range_elements):
         ramps_prop_temp = copy(ramps_prop)
         ramp_properties_final[str(p)] = {}
         for k in ramps_keys:
-            val = copy(ramps_prop_temp[k][0].replace("#1#", str(p)))
+            if type_ramp == 'texture_color': 
+                val = copy(ramps_prop_temp[k][0].replace("#1#", str(idx_texture)))
+                val = val.replace("#2#", str(p))
+            else: val = copy(ramps_prop_temp[k][0].replace("#1#", str(p)))
             val2 = copy(val)
             if k.find("elements.color") >= 0:
                 val = misc.RemoveRampsColor(val)
@@ -56,10 +67,16 @@ def RemoveElements(exception, list):
         except: pass
     return list.reverse()
 
-def RampsPositions(api_functions, type_ramp):
+def RampsPositions(api_functions, type_ramp, idx_texture):
     ramp_positions = []
-    ramps_numbers = eval(api_functions['%s_ramp_elements' % type_ramp]).__len__()
+    ramps_numbers = ''
+    if type_ramp == 'color':
+        type_ramp = 'texture_color'
+        ramps_numbers = eval(api_functions['%s_ramp_elements' % type_ramp].replace("#1#", str(idx_texture))).__len__()
+    else : ramps_numbers = eval(api_functions['%s_ramp_elements' % type_ramp]).__len__()
     for p in range(1, ramps_numbers-1):
-        ramp_positions.append("%s.new(position=%s)\n" % (api_functions['%s_ramp_elements' % type_ramp], eval(api_functions['%s_ramp_elements' % type_ramp])[p].position))
+        ramp_positions.append("%s.new(position=%s)\n" % (api_functions['%s_ramp_elements' % type_ramp].replace("#1#", str(idx_texture)), eval(api_functions['%s_ramp_elements' % type_ramp].replace("#1#", str(idx_texture)))[p].position))
 
     return ramp_positions
+
+

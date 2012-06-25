@@ -117,27 +117,27 @@ def MaterialRampsExport(material_dict, api_functions, ramp_type):
     ramp_structure = ["\n", "# Create ramps context :\n", "ramp = %s \n\n" % api_functions['context_material'],]
 
     if type_mat == 'SURFACE' or type_mat == 'WIRE':
-        if eval(api_functions["use_diffuse_ramp"]) and ramp_type == 'diffuse':
+        if eval(api_functions['use_diffuse_ramp']) and ramp_type == 'diffuse':
             ramp_used = True
             ramp_structure.append("# Create diffuse ramp context :\n")
             ramp_structure.append("%s = True\n" % api_functions['use_diffuse_ramp'].replace(api_functions['context_material'], "ramp"))
             type_ramp = 'diffuse'
             ramp_structure[1] =  ramp_structure[1].replace("#1#", type_ramp)
-            for v in ramps.RampsPositions(api_functions, type_ramp):
+            for v in ramps.RampsPositions(api_functions, type_ramp, ''):
                 ramp_structure.append(v.replace(api_functions['context_material'], "ramp"))
-            ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp)
+            ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp, '')
         
-        if eval(api_functions["use_specular_ramp"]) and ramp_type == 'specular': 
+        if eval(api_functions['use_specular_ramp']) and ramp_type == 'specular': 
             ramp_used = True
-            if eval(api_functions["use_diffuse_ramp"]):
+            if eval(api_functions['use_diffuse_ramp']):
                     ramp_structure = []
             ramp_structure.append("\n# Create specular ramp context :\n")
             ramp_structure.append("%s = True\n" % api_functions['use_specular_ramp'].replace(api_functions['context_material'], "ramp"))
             type_ramp = 'specular'
             ramp_structure[1] =  ramp_structure[1].replace("#1#", type_ramp)
-            for v in ramps.RampsPositions(api_functions, type_ramp):
+            for v in ramps.RampsPositions(api_functions, type_ramp, ''):
                 ramp_structure.append(v.replace(api_functions['context_material'], "ramp"))
-            ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp)
+            ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp, '')
 
         for i in range(0, ramp_properties.__len__()):
             for k in keys.RampsKeys(type_ramp):
@@ -168,6 +168,38 @@ def MaterialRampsExport(material_dict, api_functions, ramp_type):
         except:
             print("$hadertools : error ramps sctructure not write in blex file.")
 #end Create ramps only here
+#Create texture ramps only here
+def TextureRampsExport(material_dict, api_functions, type_ramp, idx_texture, texture_structure):
+    ctx_texture = copy(api_functions['context_texture'].replace("#1#", str(idx_texture)))
+    ctx_slot = copy(api_functions['texture_slots']) + "[%s]"%str(idx_texture)
+    ramp_used = False
+    
+    if type_ramp == 'color': 
+        ramp_used = True
+        texture_structure.append("#colors ramp\n")
+        for v in ramps.RampsPositions(api_functions, type_ramp, idx_texture):
+            texture_structure.append(v.replace(ctx_slot, "slot"))
+        ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp, idx_texture)
+    
+    for i in range(0, ramp_properties.__len__()):
+        for k in keys.RampsKeys(type_ramp):
+            exception = False
+            for s in keys.StringPropertiesKeys():
+                if s.find(k) >= 0:
+                    exception = True
+                    break
+            if exception:
+                texture_structure.append("%s = '%s' \n" % (ramp_properties[str(i)][k][0].replace(ctx_slot, "slot"), ramp_properties[str(i)][k][1]))
+            else:
+                texture_structure.append("%s = %s \n" % (ramp_properties[str(i)][k][0].replace(ctx_slot, "slot"), ramp_properties[str(i)][k][1]))
+            
+
+    
+    return texture_structure
+
+
+
+#end Create texture ramps only here
 #Textures only here
 def TextureExport(material_dict, api_functions):
     texture_structure = ["\n", "# Create texture context :\n","ctx_texture_slots = %s\n" % api_functions['texture_slots'],
@@ -203,9 +235,14 @@ def TextureExport(material_dict, api_functions):
                 texture_structure.append("%s = %s \n" % (preview, preview_eval))
                 
                 #Create mapping texture properties
-                texture_structure = textures.MappingInfluenceExport(api_functions, texture_structure, keys.MappingExportKeys(), t)
+                texture_structure = textures.MappingInfluenceColorsExport(api_functions, texture_structure, keys.MappingExportKeys(), t)
                 #Create influence texture properties
-                texture_structure = textures.MappingInfluenceExport(api_functions, texture_structure, keys.InfluenceExportKeys(), t)
+                texture_structure = textures.MappingInfluenceColorsExport(api_functions, texture_structure, keys.InfluenceExportKeys(), t)
+                #Create colors texture properties
+                texture_structure = textures.MappingInfluenceColorsExport(api_functions, texture_structure, keys.ColorsExportKeys(), t)
+                ramp_colors =  copy(api_functions['texture_use_color_ramp'].replace("#1#", str(t)))
+                if eval(ramp_colors):
+                    TextureRampsExport(material_dict, api_functions, 'color', t, texture_structure)
                 
                 #Now different type of texture
                 if texture_type == 'BLEND':
