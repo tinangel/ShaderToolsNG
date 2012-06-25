@@ -26,9 +26,8 @@ def Ramps(api_functions, ramps_prop, ramps_keys, type_ramp, idx_texture):
     ramp_properties = {}
     first = True
     range_elements = '' 
-    
-    if type_ramp == 'color':
-        type_ramp = 'texture_color'
+    if type_ramp == 'color' or type_ramp == 'point_density_color':
+        type_ramp = 'texture_' + type_ramp
         range_elements = eval(api_functions['%s_ramp_elements' % type_ramp].replace("#1#", str(idx_texture))).__len__()
     else:
         range_elements = eval(api_functions['%s_ramp_elements' % type_ramp]).__len__()
@@ -37,7 +36,7 @@ def Ramps(api_functions, ramps_prop, ramps_keys, type_ramp, idx_texture):
         ramps_prop_temp = copy(ramps_prop)
         ramp_properties_final[str(p)] = {}
         for k in ramps_keys:
-            if type_ramp == 'texture_color': 
+            if type_ramp == 'texture_color' or type_ramp == 'texture_point_density_color':
                 val = copy(ramps_prop_temp[k][0].replace("#1#", str(idx_texture)))
                 val = val.replace("#2#", str(p))
             else: val = copy(ramps_prop_temp[k][0].replace("#1#", str(p)))
@@ -64,14 +63,16 @@ def RemoveElements(exception, list):
     for p in range(0, n-1):
         try:
             list.remove(val)
-        except: pass
+        except:
+            print("Error : %s" % val)
+            pass
     return list.reverse()
 
 def RampsPositions(api_functions, type_ramp, idx_texture):
     ramp_positions = []
     ramps_numbers = ''
-    if type_ramp == 'color':
-        type_ramp = 'texture_color'
+    if type_ramp == 'color' or type_ramp == 'point_density_color':
+        type_ramp = 'texture_' + type_ramp
         ramps_numbers = eval(api_functions['%s_ramp_elements' % type_ramp].replace("#1#", str(idx_texture))).__len__()
     else : ramps_numbers = eval(api_functions['%s_ramp_elements' % type_ramp]).__len__()
     for p in range(1, ramps_numbers-1):

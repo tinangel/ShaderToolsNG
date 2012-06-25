@@ -180,6 +180,13 @@ def TextureRampsExport(material_dict, api_functions, type_ramp, idx_texture, tex
         for v in ramps.RampsPositions(api_functions, type_ramp, idx_texture):
             texture_structure.append(v.replace(ctx_slot, "slot"))
         ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp, idx_texture)
+
+    if type_ramp == 'point_density_color': 
+        ramp_used = True
+        texture_structure.append("#point density ramp\n")
+        for v in ramps.RampsPositions(api_functions, type_ramp, idx_texture):
+            texture_structure.append(v.replace(ctx_slot, "slot"))
+        ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp, idx_texture)
     
     for i in range(0, ramp_properties.__len__()):
         for k in keys.RampsKeys(type_ramp):
@@ -192,7 +199,11 @@ def TextureRampsExport(material_dict, api_functions, type_ramp, idx_texture, tex
                 texture_structure.append("%s = '%s' \n" % (ramp_properties[str(i)][k][0].replace(ctx_slot, "slot"), ramp_properties[str(i)][k][1]))
             else:
                 texture_structure.append("%s = %s \n" % (ramp_properties[str(i)][k][0].replace(ctx_slot, "slot"), ramp_properties[str(i)][k][1]))
-    
+
+    for v in keys.ExceptionsRampsKeys_3():
+        ramps.RemoveElements(v, texture_structure)        
+
+
     texture_structure.append("#end %s ramp\n"%type_ramp)
     return texture_structure
 #end Create texture ramps only here
@@ -258,7 +269,10 @@ def TextureExport(material_dict, api_functions):
                 elif texture_type == 'MUSGRAVE':
                     texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MusgraveExportKeys(), t)
                 elif texture_type == 'POINT_DENSITY':
-                    print("POINT_DENSITY")
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.PointExportKeys(), t)
+                    ramp_point =  copy(api_functions['texture_point_density_color_source'].replace("#1#", str(t)))
+                    if eval(ramp_point) == 'PARTICLE_SPEED' or eval(ramp_point) == 'PARTICLE_AGE':
+                        TextureRampsExport(material_dict, api_functions, 'point_density_color', t, texture_structure)
                 elif texture_type == 'STUCCI':
                     texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.StucciExportKeys(), t)
                 elif texture_type == 'VORONOI':

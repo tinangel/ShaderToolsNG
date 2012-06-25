@@ -262,8 +262,10 @@ def RampsPropertiesKeys(api_functions):
     "color_ramp.interpolation":(api_functions['texture_color_ramp_interpolation'], 'yes'),
     "color_ramp.elements.position":(api_functions['texture_color_ramp_elements_position'], ''),"color_ramp.elements.color":(api_functions['texture_color_ramp_elements_color'], ''),
     "color_ramp.elements":(api_functions['texture_color_ramp_elements'], ''),
-    "point_density_ramp.interpolation":(api_functions['texture_point_density_color_ramp_interpolation'], 'yes'),
-    "point_density_ramp.elements.position":(api_functions['texture_point_density_color_ramp_elements_position'], ''),"point_density_ramp.elements.color":(api_functions['texture_point_density_color_ramp_elements_color'], ''), "point_density_ramp.elements":(api_functions['texture_point_density_color_ramp_elements'], ''),}
+    "point_density_color_ramp.interpolation":(api_functions['texture_point_density_color_ramp_interpolation'], 'yes'),
+    "point_density_color_ramp.elements.position":(api_functions['texture_point_density_color_ramp_elements_position'], ''),
+    "point_density_color_ramp.elements.color":(api_functions['texture_point_density_color_ramp_elements_color'], ''), 
+    "point_density_color_ramp.elements":(api_functions['texture_point_density_color_ramp_elements'], ''),}
     return ramps_properties
 #end Material Properties keys
 #SurfaceWire keys
@@ -317,7 +319,8 @@ def StringPropertiesKeys():
     ("diffuse_shader", "specular_shader", "transparency_method", "raytrace_mirror.fade_to", "shadow_only_type",
      "volume.light_method","volume.step_method", "diffuse_ramp.blend", "diffuse_ramp.input", "diffuse_ramp.interpolation",
      "specular_ramp.blend", "specular_ramp.input", "specular_ramp.interpolation",  "object", "object.name",
-     "texture_coords", "mapping", "mapping_x", "mapping_y", "mapping_z", "uv_layer", "uv_layer.name", "color_ramp.interpolation", )    
+     "texture_coords", "mapping", "mapping_x", "mapping_y", "mapping_z", "uv_layer", "uv_layer.name", "color_ramp.interpolation", 
+     "point_density_color_ramp.interpolation",)    
     return string_properties
 #end String properties keys
 #Ramps properties keys
@@ -329,11 +332,10 @@ def RampsKeys(type_ramp):
     for v in ramps:
         ramps[count] = v.replace("#1#", type_ramp) 
         count = count + 1
-    if type_ramp == 'color':
+    if type_ramp == 'color' or type_ramp == 'point_density_color':
         exceptions = ("%s_ramp.input"%type_ramp, "%s_ramp.factor"%type_ramp, "%s_ramp.blend"%type_ramp,)
         for e in exceptions:
             ramps.remove(e)
-    
     return ramps
 #end Ramps properties keys
 #Exceptions ramps properties keys
@@ -342,6 +344,9 @@ def ExceptionsRampsKeys():
     return ramps
 def ExceptionsRampsKeys_2():
     ramps  = ("_blend", "_input", "_factor", ".interpolation",)    
+    return ramps
+def ExceptionsRampsKeys_3():
+    ramps  = ("slot.texture.color_ramp.interpolation", "slot.texture.point_density.color_ramp.interpolation",)    
     return ramps
 #end Exceptions ramps properties keys
 #Textures properties keys
@@ -398,6 +403,14 @@ def WoodExportKeys():
     wood  = ("texture.noise_basis_2", "texture.wood_type", "texture.noise_type", "texture.noise_basis",
              "texture.noise_scale", "texture.nabla", "texture.turbulence", )    
     return wood
+def PointExportKeys():
+    point  = ("texture.point_density.use_turbulence", "texture.point_density.turbulence_influence", "texture.noise_basis",
+              "texture.point_density.turbulence_scale", "texture.point_density.turbulence_depth", "texture.point_density.turbulence_strength", 
+              "texture.point_density.point_source", "texture.point_density.particle_cache_space","texture.point_density.speed_scale",
+              "texture.point_density.color_source", "texture.point_density.radius", "texture.point_density.falloff", 
+              "texture.point_density.use_falloff_curve", "texture.point_density.vertex_cache_space", "texture.point_density.falloff_speed_scale",)    
+    return point
+
 
 #end Textures properties keys
 
