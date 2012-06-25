@@ -362,6 +362,42 @@ def ColorsExportKeys():
     colors  = ("texture.use_color_ramp", "texture.factor_red", "texture.factor_green", "texture.factor_blue", 
                 "texture.intensity", "texture.contrast", "texture.saturation", "texture.factor_blue",)    
     return colors
+def BlendExportKeys():
+    blend  = ("texture.progression", "texture.use_flip_axis",)    
+    return blend
+def CloudsExportKeys():
+    clouds  = ("texture.cloud_type", "texture.noise_type", "texture.noise_basis", "texture.noise_scale",
+               "texture.nabla", "texture.noise_depth", )    
+    return clouds
+def DistortedExportKeys():
+    distorted  = ("texture.noise_distortion", "texture.noise_basis", "texture_distortion",
+               "texture.nabla", "texture.noise_scale", )    
+    return distorted
+def MagicExportKeys():
+    magic  = ("texture.noise_depth", "texture.turbulence",)    
+    return magic
+def MarbleExportKeys():
+    marble  = ("texture.marble_type", "texture.noise_scale_2", "texture.noise_type", "texture.noise_basis",
+               "texture.noise_scale", "texture.noise_depth", "texture.nabla", "texture.turbulence",)    
+    return marble
+def MusgraveExportKeys():
+    musgrave  = ("texture.noise_basis", "texture.noise_scale", "texture.nabla", "texture.musgrave_type",
+                 "texture.dimension_max", "texture.lacunarity", "texture.octaves", "texture.offset",
+                 "texture.noise_intensity", "texture.gain",)    
+    return musgrave
+def StucciExportKeys():
+    stucci  = ("texture.stucci_type", "texture.noise_type", "texture.noise_basis", 
+               "texture.noise_scale", "texture.turbulence",)    
+    return stucci
+def VoronoiExportKeys():
+    voronoi  = ("texture.distance_metric", "texture.minkovsky_exponent", "texture.color_mode", 
+               "texture.noise_intensity", "texture.noise_scale", "texture.nabla", "",
+                "texture.weight_1", "texture.weight_2", "texture.weight_3", "texture.weight_4",)    
+    return voronoi
+def WoodExportKeys():
+    wood  = ("texture.noise_basis_2", "texture.wood_type", "texture.noise_type", "texture.noise_basis",
+             "texture.noise_scale", "texture.nabla", "texture.turbulence", )    
+    return wood
 
 #end Textures properties keys
 

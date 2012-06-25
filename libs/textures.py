@@ -21,7 +21,7 @@ import bpy
 from . import misc, keys
 from copy import copy
 
-def MappingInfluenceColorsExport(api_functions, texture_structure, texture_keys, idx):
+def TexturesPropertiesExport(api_functions, texture_structure, texture_keys, idx):
     for k in texture_keys:
         slot = "%s[%s].%s" % (api_functions['texture_slots'], idx, k)
         val = ""

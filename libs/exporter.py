@@ -176,7 +176,7 @@ def TextureRampsExport(material_dict, api_functions, type_ramp, idx_texture, tex
     
     if type_ramp == 'color': 
         ramp_used = True
-        texture_structure.append("#colors ramp\n")
+        texture_structure.append("#color ramp\n")
         for v in ramps.RampsPositions(api_functions, type_ramp, idx_texture):
             texture_structure.append(v.replace(ctx_slot, "slot"))
         ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp, idx_texture)
@@ -192,13 +192,9 @@ def TextureRampsExport(material_dict, api_functions, type_ramp, idx_texture, tex
                 texture_structure.append("%s = '%s' \n" % (ramp_properties[str(i)][k][0].replace(ctx_slot, "slot"), ramp_properties[str(i)][k][1]))
             else:
                 texture_structure.append("%s = %s \n" % (ramp_properties[str(i)][k][0].replace(ctx_slot, "slot"), ramp_properties[str(i)][k][1]))
-            
-
     
+    texture_structure.append("#end %s ramp\n"%type_ramp)
     return texture_structure
-
-
-
 #end Create texture ramps only here
 #Textures only here
 def TextureExport(material_dict, api_functions):
@@ -235,44 +231,42 @@ def TextureExport(material_dict, api_functions):
                 texture_structure.append("%s = %s \n" % (preview, preview_eval))
                 
                 #Create mapping texture properties
-                texture_structure = textures.MappingInfluenceColorsExport(api_functions, texture_structure, keys.MappingExportKeys(), t)
+                texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MappingExportKeys(), t)
                 #Create influence texture properties
-                texture_structure = textures.MappingInfluenceColorsExport(api_functions, texture_structure, keys.InfluenceExportKeys(), t)
+                texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.InfluenceExportKeys(), t)
                 #Create colors texture properties
-                texture_structure = textures.MappingInfluenceColorsExport(api_functions, texture_structure, keys.ColorsExportKeys(), t)
+                texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.ColorsExportKeys(), t)
                 ramp_colors =  copy(api_functions['texture_use_color_ramp'].replace("#1#", str(t)))
                 if eval(ramp_colors):
                     TextureRampsExport(material_dict, api_functions, 'color', t, texture_structure)
                 
                 #Now different type of texture
                 if texture_type == 'BLEND':
-                    print("BLEND")
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.BlendExportKeys(), t)
                 elif texture_type == 'CLOUDS':
-                    print("CLOUDS")
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.CloudsExportKeys(), t)
                 elif texture_type == 'DISTORTED_NOISE':
-                    print("DISTORTED_NOISE")
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.DistortedExportKeys(), t)
                 elif texture_type == 'ENVIRONMENT_MAP':
                     print("ENVIRONMENT_MAP")
                 elif texture_type == 'IMAGE':
                     print("IMAGE")
                 elif texture_type == 'MAGIC':
-                    print("MAGIC")
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MagicExportKeys(), t)
                 elif texture_type == 'MARBLE':
-                    print("MARBLE")
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MarbleExportKeys(), t)
                 elif texture_type == 'MUSGRAVE':
-                    print("MUSGRAVE")
-                elif texture_type == 'NOISE':
-                    print("NOISE")
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MusgraveExportKeys(), t)
                 elif texture_type == 'POINT_DENSITY':
                     print("POINT_DENSITY")
                 elif texture_type == 'STUCCI':
-                    print("STUCCI")
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.StucciExportKeys(), t)
                 elif texture_type == 'VORONOI':
-                    print("VORONOI")
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.VoronoiExportKeys(), t)
                 elif texture_type == 'VOXEL_DATA':
                     print("VOXEL_DATA")
                 else:
-                    print("WOOD")
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.WoodExportKeys(), t)
 
                 texture_idx = texture_idx + 1
 
