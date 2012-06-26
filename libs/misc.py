@@ -126,3 +126,12 @@ def RemoveRampsColor(value):
     alpha = str(eval(value)[3])
     value = "(%s, %s, %s, %s)" % (red, green, blue, alpha)
     return value
+
+def ImageAbsolutePath(path):
+    idx = 0
+    for p in bpy.utils.blend_paths(absolute=False):
+        if p.find(path): break
+        else: idx = idx + 1
+    
+    if type(path).__name__ == 'str': return bpy.utils.blend_paths(absolute=True)
+    else: return bpy.utils.blend_paths(absolute=True)[idx]
