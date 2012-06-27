@@ -17,8 +17,8 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
-import bpy
-from . import misc, keys
+import bpy, os, shutil
+from . import misc, keys 
 from copy import copy
 
 def TexturesPropertiesExport(api_functions, texture_structure, texture_keys, idx):
@@ -37,3 +37,41 @@ def TexturesPropertiesExport(api_functions, texture_structure, texture_keys, idx
                 texture_structure.append("slot.%s = %s\n" % (k,val))
             else: texture_structure.append("slot.%s = %s\n" % (k,val))
     return texture_structure
+
+def TexturesFileImagesExport(api_functions, material_dict, idx):
+    if eval(api_functions['texture_image_source'].replace("#1#", str(idx))) == 'GENERATED':
+        exec("%s = 'FILE'" % api_functions['texture_image_source'].replace("#1#", str(idx)))
+    
+    try:
+        material_folder = ""
+        name_image = misc.ImageAbsolutePath(os.path.relpath(api_functions['texture_image_filepath'].replace("#1#", str(idx))))
+        material_folder = os.path.join(material_dict['temp'], material_dict['material_name'], name_image[0].split(os.path.sep)[-1])
+        export_image = api_functions['texture_image_save_render'].replace("#1#", str(idx))
+        export_image = export_image.replace("#2#", "'%s'" % material_folder)
+        eval(export_image)
+    except: 
+        try:
+            unpack = api_functions['texture_image_unpack'].replace("#1#", str(idx))
+            eval(unpack.replace("#2#", "'USE_ORIGINAL'"))
+            material_folder = ""
+            name_image = misc.ImageAbsolutePath(os.path.relpath(api_functions['texture_image_filepath'].replace("#1#", str(idx))))
+            material_folder = os.path.join(material_dict['temp'], material_dict['material_name'], name_image[0].split(os.path.sep)[-1])
+            shutil.copy2(name_image[0], material_folder)            
+            pack = eval(api_functions['texture_image_pack'].replace("#1#", str(idx)))
+            print("$haderTools : WARNING -> texture is packed, i must unpack and repack texture to complete export")
+        except: print("$haderTools : ERROR -> texture image not available, verify your configuration")
+
+def TexturesGeneratedImagesExport(api_functions, material_dict, idx):
+        name_image = eval(api_functions['texture_image_filepath'].replace("#1#", str(idx)))
+        name_image_2 = eval(api_functions['texture_image_filepath'].replace("#1#", str(idx)))
+        name_image = name_image + ".tga"
+        material_folder = os.path.join(material_dict['temp'], material_dict['material_name'], name_image)
+        export_generated = api_functions['texture_image_save_as'].replace("#1#", "'%s'" % name_image_2)
+        export_generated = export_generated.replace("#2#", "'%s'" % material_folder)
+        try: eval(export_generated)
+        except:
+            try:
+                exec("%s = 'GENERATED'" % api_functions['texture_image_source'].replace("#1#", str(idx)))
+                eval(export_generated)
+            except:
+                print("$haderTools : ERROR -> texture generated not available, verify your configuration")

@@ -261,42 +261,20 @@ def TextureExport(material_dict, api_functions):
                 elif texture_type == 'ENVIRONMENT_MAP':
                     print("$haderTools : Environment map is not supported yet")
                 elif texture_type == 'IMAGE':
-
                     source_image = eval(api_functions['texture_image_source'].replace("#1#", str(t)))
-                    if source_image == 'FILE' or source_image == 'SEQUENCE':
-                        material_folder = ""
-                        name_image = misc.ImageAbsolutePath(os.path.relpath(api_functions['texture_image_filepath_raw'].replace("#1#", str(t))))
-                        if name_image != []:
-                            material_folder = os.path.join(material_dict['temp'], material_dict['material_name'], name_image[0].split(os.path.sep)[-1])
-                        else:
-                            name_image = eval(api_functions['texture_image_name'].replace("#1#", str(t)))
-                            file_format = keys.ImageFileFormatKeys(eval(api_functions['texture_image_file_format'].replace("#1#", str(t))))
-                            name_image = name_image.replace(file_format, '')
-                            name_image = name_image + file_format
-                            material_folder = os.path.join(material_dict['temp'], material_dict['material_name'], name_image)
+                    if source_image == 'FILE' or source_image == 'SEQUENCE' or source_image == 'GENERATED':
+                        name_image = eval(api_functions['texture_image_filepath'].replace("#1#", str(t)))
+                        name_image = name_image.upper()
+                        type_image = 'GENERATED' 
+                        for k in keys.ImageFileFormatKeys(''):
+                            if name_image.find(k.upper()) >= 0:
+                                type_image = 'FILE'
 
-                        export_image = api_functions['texture_image_save_render'].replace("#1#", str(t))
-                        export_image = export_image.replace("#2#", "'%s'" % material_folder)
-                        try:
-                            eval(export_image)
-                        except: 
-                            source_image = 'GENERATED'
-                            print("$haderTools : image is not available, try generated source")
+                        if type_image == 'GENERATED': textures.TexturesGeneratedImagesExport(api_functions, material_dict, t)
+                        else: textures.TexturesFileImagesExport(api_functions, material_dict, t)
 
-                    if source_image == 'GENERATED':
-                        name_image = eval(api_functions['texture_image_name'].replace("#1#", str(t)))
-                        name_image_2 = eval(api_functions['texture_image_name'].replace("#1#", str(t)))
-                        file_format = keys.ImageFileFormatKeys(eval(api_functions['texture_image_file_format'].replace("#1#", str(t))))
-                        name_image = name_image.replace(file_format, '')
-                        name_image = name_image + file_format
-                        material_folder = os.path.join(material_dict['temp'], material_dict['material_name'], name_image)
-                        export_generated = api_functions['texture_image_save_as'].replace("#1#", "'%s'" % name_image_2)
-                        export_generated = export_generated.replace("#2#", "'%s'" % material_folder)
-                        try: eval(export_generated)
-                        except: print("$haderTools : generated image error, please verify your image") 
-
-                    if source_image == 'MOVIE':
-                        print("$haderTools : movie is not supported")
+                    else:
+                        print("$haderTools : ERROR -> movie is not supported")
                         
                 elif texture_type == 'MAGIC':
                     texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MagicExportKeys(), t)
