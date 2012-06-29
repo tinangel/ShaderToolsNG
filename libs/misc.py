@@ -17,14 +17,14 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
-import bpy
+import bpy, os
 
 def Clear(path, type, option):
     #Imports & external libs:
     try:
         import bpy, os
     except:
-        print("#ShaderToolsNG : error import misc")
+        print("$haderTools : error import misc")
     #end Imports & external libs:
     #Clear files & folder:
     if type == 'files' and option == 'one':
@@ -39,6 +39,20 @@ def Clear(path, type, option):
                     return os.remove(os.path.join(path, f))
     #end Clear files & folder:
 
+def LogError(msg, clear):
+    app_path = os.path.join(bpy.utils.script_paths()[0], "addons", "shader_tools_ng")
+    path = os.path.join(app_path, "error" ,"log.txt")
+
+    if clear:
+        if os.path.exists(path) :
+            return os.remove(path)
+
+    # create log file:
+    log_file = open(path, 'a',  encoding = "utf-8")
+    log_file.write(msg + "\n")
+    log_file.close()
+
+
 def ConsoleError(msg, sub_error, type):
     e = ""
     if sub_error:
@@ -48,7 +62,8 @@ def ConsoleError(msg, sub_error, type):
         e = "%s" % msg + "."*(76-len(msg)) + "ok"
     else:
         e = "%s" % msg + "."*(73-len(msg)) + "error"
-
+    
+    LogError(e, False)
     return e
 
 def EnumPropertyItemsIdx(string_enum):

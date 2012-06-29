@@ -29,7 +29,7 @@ def DefaultConfiguration(database_path, name):
     update_configuration = request.DatabaseUpdate(database_path, "CONFIGURATION", "set default_config=0 where default_config=1")
     update_configuration = request.DatabaseUpdate(database_path, "CONFIGURATION", "set default_config=1 where name='%s'" % name)
 
-def DeleteConfiguration(database_path, new_config, names_config):
+def DeleteConfiguration(database_path, new_config, names_config, active_language):
     condition = "set "
     for v in new_config:
         condition = condition + "%s='%s',"%(v, new_config[v])
@@ -42,15 +42,18 @@ def DeleteConfiguration(database_path, new_config, names_config):
                     if v[0] != new_config['num_configuration']:
                         DefaultConfiguration(database_path, v[1])
                         break
-            print("$haderTools : configuration deleted ok.")
+            print(active_language['menu_error_error003'])
+            misc.LogError(active_language['menu_error_error003'], False)
         else:
-            print("$haderTools : you cannot delete the last configuration.")
-            print(" "*15 + "please create a new configuration before.")
-
+            print(active_language['menu_error_error004'])
+            print(eval(active_language['menu_error_error005']))
+            misc.LogError(active_language['menu_error_error004'], False)
+            misc.LogError(eval(active_language['menu_error_error005']), False)
     except:
-        print("$haderTools : configuration deleted error.")
+        print(active_language['menu_error_error006'])
+        misc.LogError(active_language['menu_error_error006'], False)
 
-def SaveConfiguration(database_path, new_config):
+def SaveConfiguration(database_path, new_config, active_language):
     idx = new_config['name2'].split("_")[-1]
     new_config['name2'] = new_config['name2'].replace("_%s" % idx, "")
     r = request.DatabaseCount(database_path, 'name', "CONFIGURATION", "", 'all')
@@ -69,9 +72,11 @@ def SaveConfiguration(database_path, new_config):
             request.DatabaseInsert(database_path, elements, elements_val, "CONFIGURATION")
             if new_config['default_config']:
                 DefaultConfiguration(database_path, new_config['name'])
-            print("$haderTools : new configuration created.")
+            print(active_language['menu_error_error007'])
+            misc.LogError(active_language['menu_error_error007'], False)
         except:
-            print("$haderTools : new configuration not created.")
+            print(active_language['menu_error_error008'])
+            misc.LogError(active_language['menu_error_error008'], False)
 
     return new_config['name']
 

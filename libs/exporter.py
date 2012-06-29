@@ -22,7 +22,7 @@ from . import environment, misc, materials, keys, ramps, textures
 from copy import copy
 
 #Create material only here
-def MaterialExport(material_dict, api_functions):
+def MaterialExport(material_dict, api_functions, active_language):
     ctx_obj = eval(api_functions['context_object'])
     ctx_mat = eval(api_functions['context_material'])
     type_mat = eval(api_functions['type'])
@@ -92,10 +92,16 @@ def MaterialExport(material_dict, api_functions):
     script_path = os.path.join(temp_path, "script.py")
     if os.path.exists(temp_path):
         try: misc.Clear(temp_path, 'files', 'all')
-        except: print("$hadertools : error clean up folder : %s" % temp_path)
+        except:
+            error = active_language['menu_error_error010'] % temp_path
+            print(error)
+            misc.LogError(error, False)
     else:
         try: os.makedirs(temp_path)
-        except: print("$hadertools : error create folder : %s" % temp_path)
+        except: 
+            error = active_language['menu_error_error009'] % temp_path 
+            print(error)
+            misc.LogError(error, False)
     
     # create script file:
     try:
@@ -104,12 +110,14 @@ def MaterialExport(material_dict, api_functions):
             script_file.write(l)
         
         script_file.close()
-        print("$hadertools : material sctructure write in blex file.")
+        print(active_language['menu_error_error011'])
+        misc.LogError(active_language['menu_error_error011'], False)
     except:
-        print("$hadertools : error material sctructure not write in blex file.")
+        print(active_language['menu_error_error012'])
+        misc.LogError(active_language['menu_error_error012'], False)
 #end Create material only here
 #Create ramps only here
-def MaterialRampsExport(material_dict, api_functions, ramp_type):
+def MaterialRampsExport(material_dict, api_functions, ramp_type, active_language):
     ctx_mat = eval(api_functions['context_material'])
     type_mat = eval(api_functions['type'])
     ramp_used = False
@@ -164,9 +172,11 @@ def MaterialRampsExport(material_dict, api_functions, ramp_type):
                 script_file.write(l)
         
             script_file.close()
-            print("$hadertools : ramps sctructure write in blex file.")
+            print(active_language['menu_error_error013'])
+            misc.LogError(active_language['menu_error_error013'], False)
         except:
-            print("$hadertools : error ramps sctructure not write in blex file.")
+            print(active_language['menu_error_error014'])
+            misc.LogError(active_language['menu_error_error014'], False)
 #end Create ramps only here
 #Create texture ramps only here
 def TextureRampsExport(material_dict, api_functions, type_ramp, idx_texture, texture_structure):
@@ -208,7 +218,7 @@ def TextureRampsExport(material_dict, api_functions, type_ramp, idx_texture, tex
     return texture_structure
 #end Create texture ramps only here
 #Textures only here
-def TextureExport(material_dict, api_functions):
+def TextureExport(material_dict, api_functions, active_language):
     texture_structure = ["\n", "# Create texture context :\n","ctx_texture_slots = %s\n" % api_functions['texture_slots'],
                          "ctx_mat = %s\n" % api_functions['context_material'],]
     ctx_mat = copy(api_functions['context_material'])
@@ -242,22 +252,22 @@ def TextureExport(material_dict, api_functions):
                 texture_structure.append("%s = %s \n" % (preview, preview_eval))
                 
                 #Create mapping texture properties
-                texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MappingExportKeys(), t)
+                texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MappingExportKeys(), t, active_language)
                 #Create influence texture properties
-                texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.InfluenceExportKeys(), t)
+                texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.InfluenceExportKeys(), t, active_language)
                 #Create colors texture properties
-                texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.ColorsExportKeys(), t)
+                texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.ColorsExportKeys(), t, active_language)
                 ramp_colors =  copy(api_functions['texture_use_color_ramp'].replace("#1#", str(t)))
                 if eval(ramp_colors):
                     TextureRampsExport(material_dict, api_functions, 'color', t, texture_structure)
                 
                 #Now different type of texture
                 if texture_type == 'BLEND':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.BlendExportKeys(), t)
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.BlendExportKeys(), t, active_language)
                 elif texture_type == 'CLOUDS':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.CloudsExportKeys(), t)
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.CloudsExportKeys(), t, active_language)
                 elif texture_type == 'DISTORTED_NOISE':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.DistortedExportKeys(), t)
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.DistortedExportKeys(), t, active_language)
                 elif texture_type == 'ENVIRONMENT_MAP':
                     print("$haderTools : Environment map is not supported yet")
                 elif texture_type == 'IMAGE':
@@ -270,32 +280,40 @@ def TextureExport(material_dict, api_functions):
                             if name_image.find(k.upper()) >= 0:
                                 type_image = 'FILE'
 
-                        if type_image == 'GENERATED': textures.TexturesGeneratedImagesExport(api_functions, material_dict, t)
-                        else: textures.TexturesFileImagesExport(api_functions, material_dict, t)
+                        if type_image == 'GENERATED': 
+                            if textures.TexturesGeneratedImagesExport(api_functions, material_dict, t, active_language):
+                                print("Generated image created")
+    
+
+
+                        else: 
+                            if textures.TexturesFileImagesExport(api_functions, material_dict, t, active_language):
+                                print("File image created")
 
                     else:
-                        print("$haderTools : ERROR -> movie is not supported")
+                        print(active_language['menu_error_error015'])
+                        misc.LogError(active_language['menu_error_error015'], False)
                         
                 elif texture_type == 'MAGIC':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MagicExportKeys(), t)
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MagicExportKeys(), t, active_language)
                 elif texture_type == 'MARBLE':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MarbleExportKeys(), t)
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MarbleExportKeys(), t, active_language)
                 elif texture_type == 'MUSGRAVE':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MusgraveExportKeys(), t)
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MusgraveExportKeys(), t, active_language)
                 elif texture_type == 'POINT_DENSITY':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.PointExportKeys(), t)
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.PointExportKeys(), t, active_language)
                     ramp_point =  copy(api_functions['texture_point_density_color_source'].replace("#1#", str(t)))
                     if eval(ramp_point) == 'PARTICLE_SPEED' or eval(ramp_point) == 'PARTICLE_AGE':
                         TextureRampsExport(material_dict, api_functions, 'point_density_color', t, texture_structure)
                 elif texture_type == 'STUCCI':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.StucciExportKeys(), t)
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.StucciExportKeys(), t, active_language)
                 elif texture_type == 'VORONOI':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.VoronoiExportKeys(), t)
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.VoronoiExportKeys(), t, active_language)
                 elif texture_type == 'VOXEL_DATA':
                     #texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.VoxelExportKeys(), t)
                     print("$haderTools : Voxel Data is not supported yet")
                 else:
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.WoodExportKeys(), t)
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.WoodExportKeys(), t, active_language)
 
                 texture_idx = texture_idx + 1
 
@@ -309,9 +327,11 @@ def TextureExport(material_dict, api_functions):
             script_file.write(l)
         
         script_file.close()
-        print("$hadertools : texture sctructure write in blex file.")
+        print(active_language['menu_error_error016'])
+        misc.LogError(active_language['menu_error_error016'], False)
     except:
-        print("$hadertools : error texture sctructure not write in blex file.")
+        print(active_language['menu_error_error017'])
+        misc.LogError(active_language['menu_error_error017'], False)
 
 #end Textures only here
 

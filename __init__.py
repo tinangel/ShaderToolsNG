@@ -40,7 +40,7 @@ print("*"*78)
 #Imports & external libs:
 try:
     import bpy, sqlite3, os, platform, locale, shutil, sys, time, shader_tools_ng.libs
-    from shader_tools_ng.libs import bookmark, environment, checkup, configuration, credits, exporter, help, importer, new, open, save, request, zip, misc, keys, materials, textures, ramps
+    from shader_tools_ng.libs import bookmark, environment, checkup, configuration, credits, exporter, help, importer, new, open, save, request, zip, misc, keys, materials, textures, ramps, log
     print(misc.ConsoleError("Import external module ", 0, True))
 
 except:
@@ -48,6 +48,10 @@ except:
 
 #Globals
 try:
+    misc.LogError("", True)
+    misc.LogError("*"*78, True)
+    misc.LogError("*" + " "*22 + "Shader Tools Next Gen - Console" + " "*23 + "*", False)
+    misc.LogError("*"*78, False)
     blender_version = str(bpy.app.version[0]) + "." + str(bpy.app.version[1]) + str(bpy.app.version[2])
     default_paths = environment.DefaultPaths()
     api_functions = environment.ApiDatas(default_paths['database'], blender_version)
@@ -81,6 +85,15 @@ def ctx_active_object():
     except:
         ctx_active_object = False
     return ctx_active_object 
+
+class Errors(eval(api_functions['types_operator'])):
+    bl_idname = "object.errors"
+    bl_label = " "
+
+    def execute(self, context):
+        global default_paths, active_configuration, api_functions
+        log.OpenLog(default_paths['app'], active_configuration, api_functions)
+        return {'FINISHED'}
 
 class UpdateWarning(eval(api_functions['types_operator'])):
     bl_idname = "object.warning"
@@ -160,10 +173,10 @@ class Export(eval(api_functions['types_operator'])):
                      "key_words":self.key_words_SP, "take_preview":self.take_preview_BP,
                      "temp":default_paths['temp'],  "zip":default_paths['zip'],
                     }
-            exporter.MaterialExport(material_dict, api_functions)
-            exporter.MaterialRampsExport(material_dict, api_functions, 'diffuse')
-            exporter.MaterialRampsExport(material_dict, api_functions, 'specular')
-            exporter.TextureExport(material_dict, api_functions)
+            exporter.MaterialExport(material_dict, api_functions, active_languages)
+            exporter.MaterialRampsExport(material_dict, api_functions, 'diffuse', active_languages)
+            exporter.MaterialRampsExport(material_dict, api_functions, 'specular', active_languages)
+            exporter.TextureExport(material_dict, api_functions, active_languages)
     
         else:
             eval(api_functions['utils_unregister_class'].replace("#1#", "Export"))
@@ -279,7 +292,7 @@ class Configuration(eval(api_functions['types_operator'])):
                  "resolution_default_x":0, "resolution_default_y":0, "resolution_max":0, "language":'', "error_folder":'',
                 "html_folder":'', "pack_folder":'', "temp_folder":'', "zip_folder":'', "workbase_file_path":'', "bin_folder":'', 
                 "help_file_path":'', "img_file_path":'', "option":'', "take_preview":0,}
-            configuration.DeleteConfiguration(default_paths['configs_database'], my_new_config, names_config)
+            configuration.DeleteConfiguration(default_paths['configs_database'], my_new_config, names_config, active_languages)
         else:
             my_new_config = \
                 {"num_configuration": conf_current_idx, "default_config":misc.ConvertBoolStringToNumber(self.conf_default_BP), "name":self.conf_name_SP, 
@@ -295,7 +308,7 @@ class Configuration(eval(api_functions['types_operator'])):
                  "bin_folder":active_configuration['bin_folder'], "help_file_path":active_configuration['help_file_path'],
                  "img_file_path":active_configuration['img_file_path'], "option":'menu_configuration_option_save', "name2":self.conf_name_SP,
                  "take_preview":misc.ConvertBoolStringToNumber(self.take_preview_BP),}
-            configuration.SaveConfiguration(default_paths['configs_database'], my_new_config)
+            configuration.SaveConfiguration(default_paths['configs_database'], my_new_config, active_languages)
 
         configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
         active_configuration = environment.ActiveConfigurations(configurations_config)
@@ -395,14 +408,18 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
             row = layout.row()
             row.operator("object.new", text=active_languages['buttons_create'], icon="BLENDER")
             row.operator("object.configuration_search", text=active_languages['buttons_config'], icon="TEXT")
+            row.operator("object.errors", text=active_languages['buttons_log'], icon="CONSOLE" )
+            row = layout.row()
             row.operator("object.help", text=active_languages['buttons_help'], icon="HELP")
             row.operator("object.credits", text=active_languages['buttons_credits'], icon="QUESTION")
+            
+            
 
 MyReg = \
     (
      ShadersToolsNGPanel, Open, Save, Export, Import,
      New, Configuration, Help, Credits, UpdateWarning,
-     ConfigurationSearch,
+     ConfigurationSearch, Errors,
     )
 
 def register():
@@ -412,7 +429,7 @@ def register():
         #end for
         print(misc.ConsoleError("Panel ", 0, True))
         print("*"*78)
-
+        misc.LogError("*"*78, False)
     except:
         print(misc.ConsoleError("Panel ", 0, False))
 #end register

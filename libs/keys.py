@@ -125,7 +125,7 @@ def LangagesKeys():
          "menu_category_car_paint", "menu_category_dirt", "menu_category_fabric_clothes", "menu_category_fancy", "menu_category_fibre_fur", "menu_category_glass", "menu_category_halo", 
          "menu_category_liquids", "menu_category_metal", "menu_category_misc", "menu_category_nature", "menu_category_organic", "menu_category_personal", "menu_category_plastic", "menu_category_sky",
          "menu_category_space", "menu_category_stone", "menu_category_toon", "menu_category_wall", "menu_category_water", "menu_category_wood", "buttons_update_blender",
-         "menu_configuration_default_config", "bl_id_config_search", "menu_configuration_langage_choice", "menu_configuration_current_index", "take_preview",
+         "menu_configuration_default_config", "bl_id_config_search", "menu_configuration_langage_choice", "menu_configuration_current_index", "take_preview", "buttons_log",
          ]
     for i in range(1, 31):
         temp.append("menu_error_error%03d" % i)
