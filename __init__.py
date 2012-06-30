@@ -47,7 +47,26 @@ except:
     print(misc.ConsoleError("Import external module ", 0, False))
 
 #Globals
-try:
+misc.LogError("", True)
+misc.LogError("*"*78, True)
+misc.LogError("*" + " "*22 + "Shader Tools Next Gen - Console" + " "*23 + "*", False)
+misc.LogError("*"*78, False)
+blender_version = str(bpy.app.version[0]) + "." + str(bpy.app.version[1]) + str(bpy.app.version[2])
+default_paths = environment.DefaultPaths()
+api_functions = environment.ApiDatas(default_paths['apis_database'], blender_version)
+configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
+languages_config = environment.LanguagesDatas(default_paths['database'])
+active_configuration = environment.ActiveConfigurations(configurations_config)
+active_languages = environment.ActiveLanguage(languages_config, active_configuration['language'])
+about_config = environment.AboutDatas(default_paths['database'])
+active_categories = environment.MaterialsCatergories(active_languages)
+names_config = environment.ConfigurationsNames(configurations_config)
+options_actions = environment.ConfigurationsOptions(active_languages)
+names_languages = environment.LanguagesNames(languages_config)
+space_access_name = active_languages['space_access_name'] + " "
+print(misc.ConsoleError("Globals ", 0, True))
+
+'''try:
     misc.LogError("", True)
     misc.LogError("*"*78, True)
     misc.LogError("*" + " "*22 + "Shader Tools Next Gen - Console" + " "*23 + "*", False)
@@ -68,7 +87,7 @@ try:
     print(misc.ConsoleError("Globals ", 0, True))
 except:
     print(misc.ConsoleError("Globals ", 0, False))
-#Functions
+#Functions'''
 conf_current_name = ""
 conf_current_idx = 1
     
@@ -209,7 +228,7 @@ class New(eval(api_functions['types_operator'])):
     bl_label = space_access_name + active_languages['bl_id_name_create']    
     
     def execute(self, context):
-        new.CreateNew(default_paths['app'], active_configuration, api_functions)
+        new.CreateNew(default_paths['app'], active_configuration, api_functions, active_languages)
         return {'FINISHED'}   
 
 class Configuration(eval(api_functions['types_operator'])):

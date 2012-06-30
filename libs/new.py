@@ -18,7 +18,7 @@
 
 # <pep8-80 compliant>
 
-def CreateNew(app_path, active_configuration, api_function):
+def CreateNew(app_path, active_configuration, api_function, active_language):
     #Imports & external libs:
     try:
         import bpy, os, platform
@@ -29,11 +29,11 @@ def CreateNew(app_path, active_configuration, api_function):
     #Dezip file:
     path_files = \
         (
-         os.path.join(active_configuration['zip_folder'].replace("#addon#", app_path), active_configuration['workbase_file_path'].split(os.path.sep)[-1] + ".zip"),
-         os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), active_configuration['workbase_file_path'].split(os.path.sep)[-1] + ".blend"),
+         os.path.join(active_configuration['zip_folder'].replace("#addon#", app_path), active_configuration['workbase_file_path'].split(os.sep)[-1] + ".zip"),
+         os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), active_configuration['workbase_file_path'].split(os.sep)[-1] + ".blend"),
         )
     for v in path_files:
-        misc.Clear(v, 'files', 'one')
+        misc.Clear(v, 'files', 'one', active_language)
     zip.DeZip(app_path, active_configuration, active_configuration['workbase_file_path'])        
     #end Dezip file: 
     #Open workbase blend file:
