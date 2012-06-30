@@ -106,7 +106,7 @@ def ApiKeys():
          "use_ray_shadow_bias", "shadow_ray_bias", "use_cast_approximate", "material_slot_add", "material_slots", "diffuse_ramp_elements", "specular_ramp_elements", 
          "texture_color_ramp_elements", "texture_point_density_color_ramp_elements", "texture_slots_values", "texture_slots_items","texture_slots", "texture_slots_create",
          "texture_slots_values_use", "texture_slots_values_texture_type", "texture_use_preview_alpha", "texture_slots_texture_name", "texture_slots_new", "texture_slots_texture_type",
-         "texture_slots_add", "texture_image_save_render", "texture_image_save_as", "texture_image_pack", "texture_image_unpack", "texture_image_load", "material_name",)
+         "texture_slots_add", "texture_image_save_render", "texture_image_save_as", "texture_image_pack", "texture_image_unpack", "texture_image_load", "material_name", "render_render")
     return temp
 #end Api keys
 #Langages keys
@@ -435,4 +435,18 @@ def ImageExportKeys():
               "texture.image.use_cyclic",)    
     return image
 #end Textures properties keys
+#Render properties keys
+def RenderInternalKeys():
+    render_internal  = ("render_resolution_x", "render_resolution_y", "render_resolution_percentage", "render_pixel_aspect_x", "render_pixel_aspect_y",
+                        "render_use_antialiasing", "render_antialiasing_samples", "render_use_full_sample", "render_filepath", "render_file_format",
+                        "render_color_mode", "render_use_file_extension", "render_use_overwrite", "render_use_placeholder", "render_file_quality",)    
+    return render_internal
+def StandartValuesRenderInternalKeys():
+    standart_render_internal  = {"render_resolution_x":512, "render_resolution_y":512, "render_resolution_percentage":100, "render_use_full_sample":False,
+                                 "render_pixel_aspect_x":1.0, "render_pixel_aspect_y":1.0, "render_use_antialiasing":True, "render_antialiasing_samples":'16', 
+                                 "render_filepath":'', "render_file_format":'JPEG',  "render_color_mode":'RGB', "render_use_file_extension":True, 
+                                 "render_use_overwrite":True, "render_use_placeholder":False, "render_file_quality":100,}    
+    return standart_render_internal
+#end Render properties keys
+
 

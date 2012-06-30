@@ -22,7 +22,7 @@
 bl_info = {
     "name": "ShaderTools Next Gen",
     "author": "GRETETE Karim (Tinangel)",
-    "version": (0, 4, 2),
+    "version": (0, 4, 5),
     "blender": (2, 6, 0),
     "api": 41098,
     "location": "User Preferences",
@@ -40,7 +40,7 @@ print("*"*78)
 #Imports & external libs:
 try:
     import bpy, sqlite3, os, platform, locale, shutil, sys, time, shader_tools_ng.libs
-    from shader_tools_ng.libs import bookmark, environment, checkup, configuration, credits, exporter, help, importer, new, open, save, request, zip, misc, keys, materials, textures, ramps, log
+    from shader_tools_ng.libs import bookmark, environment, checkup, configuration, credits, exporter, help, importer, new, open, save, request, zip, misc, keys, materials, textures, ramps, log, render
     print(misc.ConsoleError("Import external module ", 0, True))
 
 except:
@@ -184,7 +184,13 @@ class Export(eval(api_functions['types_operator'])):
             shutil.copy2(zip_file_path, material_dict['filepath'])
             try: misc.Clear(zip_file_path, 'files', 'all', active_languages)
             except: pass
-    
+            try: 
+                render.PreviewRenderInternal(api_functions, active_configuration, material_dict)
+                print(active_languages['menu_error_error023'])
+                misc.LogError(active_languages['menu_error_error023'], False)
+            except:
+                print(active_languages['menu_error_error024'])
+                misc.LogError(active_languages['menu_error_error024'], False)
         else:
             eval(api_functions['utils_unregister_class'].replace("#1#", "Export"))
             eval(api_functions['utils_register_class'].replace("#1#", "Export"))
