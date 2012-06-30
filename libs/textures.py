@@ -49,7 +49,8 @@ def TexturesFileImagesExport(api_functions, material_dict, idx, active_language)
         export_image = api_functions['texture_image_save_render'].replace("#1#", str(idx))
         export_image = export_image.replace("#2#", "'%s'" % material_folder)
         eval(export_image)
-        return True
+        list = (True, name_image, material_folder, export_image)
+        return list
     except: 
         try:
             unpack = api_functions['texture_image_unpack'].replace("#1#", str(idx))
@@ -61,7 +62,8 @@ def TexturesFileImagesExport(api_functions, material_dict, idx, active_language)
             pack = eval(api_functions['texture_image_pack'].replace("#1#", str(idx)))
             print(active_language['menu_error_error018'])
             misc.LogError(active_language['menu_error_error018'], False)
-            return True
+            list = (True, name_image, material_folder)
+            return list
         except: 
             print(active_language['menu_error_error019'])
             misc.LogError(active_language['menu_error_error019'], False)
@@ -73,15 +75,17 @@ def TexturesGeneratedImagesExport(api_functions, material_dict, idx, active_lang
         name_image = name_image + ".tga"
         material_folder = os.path.join(material_dict['temp'], material_dict['material_name'], name_image)
         export_generated = api_functions['texture_image_save_as'].replace("#1#", "'%s'" % name_image_2)
-        export_generated = export_generated.replace("#2#", "'%s'" % material_folder)
+        export_generated = export_generated.replace("#2#", "'%s'" % material_folder)    
         try: 
             eval(export_generated)
-            return True
+            list = (True, name_image, name_image_2, material_folder, export_generated)
+            return list
         except:
             try:
                 exec("%s = 'GENERATED'" % api_functions['texture_image_source'].replace("#1#", str(idx)))
                 eval(export_generated)
-                return True
+                list = (True, name_image, name_image_2, material_folder, export_generated)
+                return list
             except:
                 print(active_language['menu_error_error020'])
                 misc.LogError(active_language['menu_error_error020'], False)

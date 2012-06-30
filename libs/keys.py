@@ -106,7 +106,7 @@ def ApiKeys():
          "use_ray_shadow_bias", "shadow_ray_bias", "use_cast_approximate", "material_slot_add", "material_slots", "diffuse_ramp_elements", "specular_ramp_elements", 
          "texture_color_ramp_elements", "texture_point_density_color_ramp_elements", "texture_slots_values", "texture_slots_items","texture_slots", "texture_slots_create",
          "texture_slots_values_use", "texture_slots_values_texture_type", "texture_use_preview_alpha", "texture_slots_texture_name", "texture_slots_new", "texture_slots_texture_type",
-         "texture_slots_add", "texture_image_save_render", "texture_image_save_as", "texture_image_pack", "texture_image_unpack",)
+         "texture_slots_add", "texture_image_save_render", "texture_image_save_as", "texture_image_pack", "texture_image_unpack", "texture_image_load",)
     return temp
 #end Api keys
 #Langages keys
@@ -427,12 +427,12 @@ def ImageExportKeys():
               "texture.use_calculate_alpha", "texture.invert_alpha", "texture.use_flip_axis", "texture.use_normal_map",
               "texture.normal_map_space", "texture.use_derivative_map", "texture.use_mipmap", "texture.use_mipmap_gauss",
               "texture.use_interpolation","texture.filter_type","texture.filter_eccentricity","texture.filter_size",
-              "texture.filter_probes", "texture.use_filter_size_min", "texture.image.name", "texture.image.source",
+              "texture.filter_probes", "texture.use_filter_size_min", "texture.image.source",
               "texture.image.generated_width", "texture.image.generated_height", "texture.image.generated_float", 
               "texture.image.generated_type", "texture.image.use_fields", "texture.image.use_premultiply", 
               "texture.image.field_order", "texture.image.frame_duration", "texture.image.frame_start", 
               "texture.image.frame_offset", "texture.image.fields_per_frame", "texture.image.use_auto_refresh", 
-              "texture.image.use_cyclic", "texture.image.filepath",)    
+              "texture.image.use_cyclic",)    
     return image
 #end Textures properties keys
 

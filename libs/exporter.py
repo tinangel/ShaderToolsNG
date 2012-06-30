@@ -43,7 +43,7 @@ def MaterialExport(material_dict, api_functions, active_language):
                           "\n","# Script Path :\n",
                           "mat_name = '%s'\n" % material_dict['material_name'],
                           "mat_creator = '%s'\n" % material_dict['creator'],
-                          "!*-environnement_path-*!\n","\n","# Create Material :\n",
+                          "!*-environement_path-*!\n","\n","# Create Material :\n",
                           "def CreateMaterial(mat_name):\n","\t# Materials Values :\n",
                           "\tmat = %s\n" % api_functions['materials_new'].replace("#1#", "mat_name"),]
 
@@ -280,15 +280,23 @@ def TextureExport(material_dict, api_functions, active_language):
                             if name_image.find(k.upper()) >= 0:
                                 type_image = 'FILE'
 
-                        if type_image == 'GENERATED': 
-                            if textures.TexturesGeneratedImagesExport(api_functions, material_dict, t, active_language):
-                                print("Generated image created")
-    
-
-
-                        else: 
-                            if textures.TexturesFileImagesExport(api_functions, material_dict, t, active_language):
-                                print("File image created")
+                        if type_image == 'GENERATED':
+                            infos_texture = textures.TexturesGeneratedImagesExport(api_functions, material_dict, t, active_language)
+                            if infos_texture != False:
+                                image_path_in_script = "os.path.join(environment_path, %s)" % str("'" + infos_texture[1] + "'" )
+                                image_path_in_script = "img = %s \n" % api_functions['texture_image_load'].replace("#1#", image_path_in_script)
+                                texture_structure.append(image_path_in_script)
+                                texture_structure.append("slot.texture.image = img\n")
+                                texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.ImageExportKeys(), t, active_language)
+                        else:
+                            infos_texture = textures.TexturesFileImagesExport(api_functions, material_dict, t, active_language)
+                            if infos_texture != False:
+                                image_path = infos_texture[1][0].split(os.path.sep)[-1]
+                                image_path_in_script = "os.path.join(environment_path, %s)" % str("'" + image_path + "'" )
+                                image_path_in_script = "img = %s \n" % api_functions['texture_image_load'].replace("#1#", image_path_in_script)
+                                texture_structure.append(image_path_in_script)
+                                texture_structure.append("slot.texture.image = img\n")
+                                texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.ImageExportKeys(), t, active_language)
 
                     else:
                         print(active_language['menu_error_error015'])

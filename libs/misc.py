@@ -41,17 +41,26 @@ def Clear(path, type, option):
 
 def LogError(msg, clear):
     app_path = os.path.join(bpy.utils.script_paths()[0], "addons", "shader_tools_ng")
+    error_folder = os.path.join(app_path, "error") 
     path = os.path.join(app_path, "error" ,"log.txt")
 
+    #Verify error folder:
+    try:os.makedirs(error_folder)
+    except:pass
+    
     if clear:
         if os.path.exists(path) :
-            return os.remove(path)
+            os.remove(path)
+    
 
-    # create log file:
-    log_file = open(path, 'a',  encoding = "utf-8")
-    log_file.write(msg + "\n")
-    log_file.close()
-
+    #Test log file exists:
+    try:
+        # create log file:
+        log_file = open(path, 'a',  encoding = "utf-8")
+        log_file.write(msg + "\n")
+        log_file.close()
+    except:
+        print(active_language['menu_error_error020']) 
 
 def ConsoleError(msg, sub_error, type):
     e = ""
