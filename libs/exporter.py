@@ -91,7 +91,7 @@ def MaterialExport(material_dict, api_functions, active_language):
     temp_path = os.path.join(material_dict['temp'], material_dict['material_name'])
     script_path = os.path.join(temp_path, "script.py")
     if os.path.exists(temp_path):
-        try: misc.Clear(temp_path, 'files', 'all')
+        try: misc.Clear(temp_path, 'files', 'all', active_language)
         except:
             error = active_language['menu_error_error010'] % temp_path
             print(error)

@@ -106,7 +106,7 @@ def ApiKeys():
          "use_ray_shadow_bias", "shadow_ray_bias", "use_cast_approximate", "material_slot_add", "material_slots", "diffuse_ramp_elements", "specular_ramp_elements", 
          "texture_color_ramp_elements", "texture_point_density_color_ramp_elements", "texture_slots_values", "texture_slots_items","texture_slots", "texture_slots_create",
          "texture_slots_values_use", "texture_slots_values_texture_type", "texture_use_preview_alpha", "texture_slots_texture_name", "texture_slots_new", "texture_slots_texture_type",
-         "texture_slots_add", "texture_image_save_render", "texture_image_save_as", "texture_image_pack", "texture_image_unpack", "texture_image_load",)
+         "texture_slots_add", "texture_image_save_render", "texture_image_save_as", "texture_image_pack", "texture_image_unpack", "texture_image_load", "material_name",)
     return temp
 #end Api keys
 #Langages keys

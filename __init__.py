@@ -22,7 +22,7 @@
 bl_info = {
     "name": "ShaderTools Next Gen",
     "author": "GRETETE Karim (Tinangel)",
-    "version": (0, 3, 2),
+    "version": (0, 4, 2),
     "blender": (2, 6, 0),
     "api": 41098,
     "location": "User Preferences",
@@ -139,7 +139,7 @@ class Export(eval(api_functions['types_operator'])):
         row = layout.row(align=True)
         if ctx_active_object():
             row.label(active_languages['menu_configuration_material_name'] + ":")
-            row.label(active_configuration['material_name'])
+            row.label(eval(api_functions['material_name']))
             row = layout.row(align=True)
             row.prop(self, "take_preview_BP")    
             row = layout.row(align=True)
@@ -168,15 +168,22 @@ class Export(eval(api_functions['types_operator'])):
             material_dict = \
                     {
                      "filepath":self.filepath, "filename":self.filename, "app_path":default_paths['app'],
-                     "material_name":active_configuration['material_name'], "creator":self.creator_SP,
+                     "material_name":eval(api_functions['material_name']), "creator":self.creator_SP,
                      "weblink":self.weblink_SP,"email":self.email_SP,"description":self.description_SP,
                      "key_words":self.key_words_SP, "take_preview":self.take_preview_BP,
                      "temp":default_paths['temp'],  "zip":default_paths['zip'],
                     }
+            misc.Clear(os.path.join(material_dict['temp'], material_dict['material_name']), 'files', 'all', active_languages)
             exporter.MaterialExport(material_dict, api_functions, active_languages)
             exporter.MaterialRampsExport(material_dict, api_functions, 'diffuse', active_languages)
             exporter.MaterialRampsExport(material_dict, api_functions, 'specular', active_languages)
             exporter.TextureExport(material_dict, api_functions, active_languages)
+            zip_file_path = zip.Zip(material_dict, api_functions, active_languages)
+            if material_dict['filepath'].find(".blex") < 0:
+                material_dict['filepath'] = material_dict['filepath'] + ".blex"
+            shutil.copy2(zip_file_path, material_dict['filepath'])
+            try: misc.Clear(zip_file_path, 'files', 'all', active_languages)
+            except: pass
     
         else:
             eval(api_functions['utils_unregister_class'].replace("#1#", "Export"))

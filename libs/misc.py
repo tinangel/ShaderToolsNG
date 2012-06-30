@@ -19,7 +19,7 @@
 # <pep8-80 compliant>
 import bpy, os
 
-def Clear(path, type, option):
+def Clear(path, type, option, active_language):
     #Imports & external libs:
     try:
         import bpy, os
@@ -36,7 +36,8 @@ def Clear(path, type, option):
             files = os.listdir(path)
             for f in files:           
                 if not os.path.isdir(f):
-                    return os.remove(os.path.join(path, f))
+                    try: os.remove(os.path.join(path, f))
+                    except: print(active_language['menu_error_error021'] % f)
     #end Clear files & folder:
 
 def LogError(msg, clear):

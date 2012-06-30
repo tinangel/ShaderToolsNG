@@ -55,3 +55,28 @@ def DeZip(app_path, active_configuration, zip_path):
         return False
     #end Copy zip_file & dezip:
 
+def Zip(material_dict, api_functions, active_languages):
+    #Imports & external libs:
+    try:
+        import bpy, os, zipfile, platform, shutil
+    except:
+        print("#ShaderToolsNG : error import zip")
+    #Now I zip files :
+    material_path = os.path.join(material_dict['zip'], material_dict['material_name'])
+    script_path = os.path.join(material_dict['temp'], material_dict['material_name'])
+    zip_file_path = "%s_%s.blex" % (material_path, material_dict['creator'])
+    zip_file = zipfile.ZipFile(zip_file_path,'w', zipfile.ZIP_DEFLATED)
+    
+    #I zip files in Zip Folder:
+    try:
+        files = os.listdir(script_path)
+        for f in files:
+            if not os.path.isdir(f):
+                zip_file_write = os.path.join(script_path , f)
+                zip_file.write(zip_file_write, os.path.basename(zip_file_write), zipfile.ZIP_DEFLATED)    
+        zip_file.close()
+    except:
+        try: zip_file.close()
+        except: print(active_language['menu_error_error022'] % zip_file_path.split(os.sep)[-1])
+
+    return zip_file_path
