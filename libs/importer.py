@@ -17,5 +17,10 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
+import bpy, os, shutil
+from . import environment, misc, keys,
+from copy import copy
 
-import bpy
+#Create material only here
+def BlexImport(path, api_functions, active_language):
+    print("test")

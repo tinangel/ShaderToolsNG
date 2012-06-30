@@ -22,7 +22,7 @@
 bl_info = {
     "name": "ShaderTools Next Gen",
     "author": "GRETETE Karim (Tinangel)",
-    "version": (0, 4, 5),
+    "version": (0, 4, 6),
     "blender": (2, 6, 0),
     "api": 41098,
     "location": "User Preferences",
@@ -200,8 +200,32 @@ class Export(eval(api_functions['types_operator'])):
 class Import(eval(api_functions['types_operator'])):
     bl_idname = "object.import"
     bl_label = space_access_name + active_languages['bl_id_name_import']    
+
+    global default_paths
+    ctx = eval(api_functions['props'])
+    filename_ext = ".blex"
+    filter_glob = ctx.StringProperty(default="*.blex;*.BLEX", options={'HIDDEN'})
+    filename = ctx.StringProperty(subtype="FILENAME")
+    filepath = ctx.StringProperty(subtype="FILE_PATH")    
     
+    def draw(self, context):
+        layout = self.layout
+        row = layout.row(align=True)
+        row.label(active_languages['menu_import_label001'], icon="HELP")
+        row = layout.row(align=True)
+        row.label(eval(active_languages['menu_import_label002']))
+
+    def invoke(self, context, event):
+        wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
+        return {'RUNNING_MODAL'}
+
     def execute(self, context):
+        print(self.filepath)
+        
+        
+        
+        
+        
         return {'FINISHED'}   
 
 class New(eval(api_functions['types_operator'])):

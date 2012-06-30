@@ -37,15 +37,20 @@ def CreateNew(app_path, active_configuration, api_function, active_language):
     zip.DeZip(app_path, active_configuration, active_configuration['workbase_file_path'])        
     #end Dezip file: 
     #Open workbase blend file:
-    bin_path = eval(api_function['app_binary_path'])
-    if platform.system() == 'Windows':
-        workbase = os.popen('"%s"' % path_files[1])
+    try:
+        bin_path = eval(api_function['app_binary_path'])
+        if platform.system() == 'Windows':
+            workbase = os.popen('"%s"' % path_files[1])
 
-    if platform.system() == 'Darwin':
-        workbase = os.popen("open -n -a '%s' '%s'" % (bin_path.rstrip("/Contents/MacOS/blender"), path_files[1]))
+        if platform.system() == 'Darwin':
+            workbase = os.popen("open -n -a '%s' '%s'" % (bin_path.rstrip("/Contents/MacOS/blender"), path_files[1]))
 
-    if platform.system() == 'Linux':
-        workbase = os.popen(bin_path + " '%s'" % path_files[1])
-    
-    print("$hader Tools : create a new material.")
+        if platform.system() == 'Linux':
+            workbase = os.popen(bin_path + " '%s'" % path_files[1])
+
+        print(active_language['menu_error_error025'])
+        misc.LogError(active_language['menu_error_error025'], False)
+    except:
+        print(active_language['menu_error_error026'])
+        misc.LogError(active_language['menu_error_error026'], False)
     #end Open workbase zip file:

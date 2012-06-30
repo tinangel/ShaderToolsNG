@@ -48,12 +48,9 @@ def LogError(msg, clear):
     #Verify error folder:
     try:os.makedirs(error_folder)
     except:pass
-    
     if clear:
         if os.path.exists(path) :
             os.remove(path)
-    
-
     #Test log file exists:
     try:
         # create log file:
