@@ -22,7 +22,7 @@
 bl_info = {
     "name": "ShaderTools Next Gen",
     "author": "GRETETE Karim (Tinangel)",
-    "version": (0, 4, 6),
+    "version": (0, 5, 0),
     "blender": (2, 6, 0),
     "api": 41098,
     "location": "User Preferences",
@@ -228,11 +228,6 @@ class Import(eval(api_functions['types_operator'])):
 
     def execute(self, context):
         importer.BlexImport(self.filepath, api_functions, active_languages, active_configuration,default_paths)
-        
-        
-        
-        
-        
         return {'FINISHED'}   
 
 class New(eval(api_functions['types_operator'])):
