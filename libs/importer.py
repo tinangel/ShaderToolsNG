@@ -43,7 +43,6 @@ def BlexImport(path, api_functions, active_language, active_configuration, defau
         for l in new_script_file:
             file.write(l)
         file.close()
-
         eval(api_functions['ops_script_python_file_run'].replace("#1#", "'%s'" % script_path_2))
         
     misc.Clear(default_paths['zip'], 'all', '', active_language)

@@ -59,11 +59,11 @@ def DeZip(app_path, active_configuration, zip_path, option, active_language):
                 else: fp = open(os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), z), "wb")
                 fp.write(data)
                 fp.close()
-            zfile.close()
-            print(active_language['menu_error_error029'])
-            misc.LogError(active_language['menu_error_error029'], False)
-            if option == 'folder': return os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), name_folder)
-            else: return True
+        zfile.close()
+        print(active_language['menu_error_error029'])
+        misc.LogError(active_language['menu_error_error029'], False)
+        if option == 'folder': return os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), name_folder)
+        else: return True
     except:
         print(active_language['menu_error_error030'])
         misc.LogError(active_language['menu_error_error030'], False)

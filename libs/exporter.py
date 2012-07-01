@@ -297,7 +297,7 @@ def TextureExport(material_dict, api_functions, active_language):
                                 texture_structure.append(image_path_in_script)
                                 texture_structure.append("slot.texture.image = img\n")
                                 texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.ImageExportKeys(), t, active_language)
-
+                        texture_structure.append(api_functions['texture_image_pack'].replace("#1#", str(t)))
                     else:
                         print(active_language['menu_error_error015'])
                         misc.LogError(active_language['menu_error_error015'], False)
