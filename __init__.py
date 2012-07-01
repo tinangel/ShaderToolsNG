@@ -227,7 +227,7 @@ class Import(eval(api_functions['types_operator'])):
         return {'RUNNING_MODAL'}
 
     def execute(self, context):
-        print(self.filepath)
+        importer.BlexImport(self.filepath, api_functions, active_languages, active_configuration,default_paths)
         
         
         

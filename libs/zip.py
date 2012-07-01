@@ -18,10 +18,11 @@
 
 # <pep8-80 compliant>
 
-def DeZip(app_path, active_configuration, zip_path):
+def DeZip(app_path, active_configuration, zip_path, option, active_language):
     #Imports & external libs:
     try:
         import bpy, os, zipfile, platform, shutil
+        from . import misc
     except:
         print("#ShaderToolsNG : error import dezip")
     #end Imports & external libs:
@@ -31,6 +32,16 @@ def DeZip(app_path, active_configuration, zip_path):
         zip_in_zip_folder = os.path.join(active_configuration['zip_folder'].replace("#addon#", app_path), zip_file.split(os.path.sep)[-1] + ".zip")
         if os.path.exists(zip_in_zip_folder):
             os.remove(zip_in_zip_folder)
+        
+        name_folder = ''
+        if option == 'folder':
+            name_folder = zip_file.split(os.path.sep)[-1]
+            name_folder = name_folder.split(".")[0]
+            try:
+                os.makedirs(os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), name_folder))
+            except: 
+                misc.Clear()
+
         shutil.copy2(zip_file, zip_in_zip_folder)
 
         zfile = zipfile.ZipFile(zip_in_zip_folder, 'r')
@@ -38,20 +49,24 @@ def DeZip(app_path, active_configuration, zip_path):
             if os.path.isdir(z):
                 try: 
                     os.makedirs(os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), z))
-                except: 
-                    pass
+                except: pass
             else:
                 try: 
                     os.makedirs(os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), os.path.dirname(z)))
                 except: pass
                 data = zfile.read(z)
-                fp = open(os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), z), "wb")
+                if option == 'folder': fp = open(os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), name_folder, z), "wb")
+                else: fp = open(os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), z), "wb")
                 fp.write(data)
                 fp.close()
             zfile.close()
-            return True
+            print(active_language['menu_error_error029'])
+            misc.LogError(active_language['menu_error_error029'], False)
+            if option == 'folder': return os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), name_folder)
+            else: return True
     except:
-        print("#ShaderToolsNG : error dezip file")
+        print(active_language['menu_error_error030'])
+        misc.LogError(active_language['menu_error_error030'], False)
         return False
     #end Copy zip_file & dezip:
 

@@ -17,7 +17,7 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
-import bpy, os
+import bpy, os, time, shutil
 
 def Clear(path, type, option, active_language):
     #Imports & external libs:
@@ -38,7 +38,16 @@ def Clear(path, type, option, active_language):
                 if not os.path.isdir(f):
                     try: os.remove(os.path.join(path, f))
                     except: print(active_language['menu_error_error021'] % f)
+    
+    if type == 'all':
+        try:
+            shutil.rmtree(path)
+            os.makedirs(path)
+        except: print(active_language['menu_error_error021'] % path)
     #end Clear files & folder:
+
+def LogTimeError():
+    return time.strftime('[%H:%M:%S]',time.localtime())
 
 def LogError(msg, clear):
     app_path = os.path.join(bpy.utils.script_paths()[0], "addons", "shader_tools_ng")
@@ -55,7 +64,7 @@ def LogError(msg, clear):
     try:
         # create log file:
         log_file = open(path, 'a',  encoding = "utf-8")
-        log_file.write(msg + "\n")
+        log_file.write("%s -> %s\n" % (LogTimeError(), msg))
         log_file.close()
     except:
         print(active_language['menu_error_error020']) 

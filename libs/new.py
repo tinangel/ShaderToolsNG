@@ -34,7 +34,7 @@ def CreateNew(app_path, active_configuration, api_function, active_language):
         )
     for v in path_files:
         misc.Clear(v, 'files', 'one', active_language)
-    zip.DeZip(app_path, active_configuration, active_configuration['workbase_file_path'])        
+    zip.DeZip(app_path, active_configuration, active_configuration['workbase_file_path'], '', active_language)        
     #end Dezip file: 
     #Open workbase blend file:
     try:
