@@ -97,6 +97,7 @@ def DefaultPaths():
          "zip":r['zip_folder'].replace("#addon#", app_path),
          "error":r['error_folder'].replace("#addon#", app_path),
          "configs_database":os.path.join(app_path, "ShaderToolsConfigs.sqlite"),
+         "languages_database":os.path.join(app_path, "ShaderToolsLanguages.sqlite"),
          "apis_database":os.path.join(app_path, "ShaderToolsApis.sqlite"),
          "database":r['database_path'].replace("#addon#", app_path),
          "pack":r['pack_folder'].replace("#addon#", app_path),

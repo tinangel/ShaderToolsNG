@@ -56,7 +56,7 @@ try:
     default_paths = environment.DefaultPaths()
     api_functions = environment.ApiDatas(default_paths['apis_database'], blender_version)
     configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
-    languages_config = environment.LanguagesDatas(default_paths['database'])
+    languages_config = environment.LanguagesDatas(default_paths['languages_database'])
     active_configuration = environment.ActiveConfigurations(configurations_config)
     active_languages = environment.ActiveLanguage(languages_config, active_configuration['language'])
     about_config = environment.AboutDatas(default_paths['database'])
