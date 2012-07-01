@@ -178,19 +178,26 @@ class Export(eval(api_functions['types_operator'])):
             exporter.MaterialRampsExport(material_dict, api_functions, 'diffuse', active_languages)
             exporter.MaterialRampsExport(material_dict, api_functions, 'specular', active_languages)
             exporter.TextureExport(material_dict, api_functions, active_languages)
-            zip_file_path = zip.Zip(material_dict, api_functions, active_languages)
-            if material_dict['filepath'].find(".blex") < 0:
-                material_dict['filepath'] = material_dict['filepath'] + ".blex"
-            shutil.copy2(zip_file_path, material_dict['filepath'])
+            try:
+                zip_file_path = zip.Zip(material_dict, api_functions, active_languages)
+                if material_dict['filepath'].find(".blex") < 0:
+                    material_dict['filepath'] = material_dict['filepath'] + ".blex"
+                shutil.copy2(zip_file_path, material_dict['filepath'])
+                print(active_languages['menu_error_error027'])
+                misc.LogError(active_languages['menu_error_error027'], False)
+            except:
+                print(active_languages['menu_error_error028'])
+                misc.LogError(active_languages['menu_error_error028'], False)
             try: misc.Clear(zip_file_path, 'files', 'all', active_languages)
             except: pass
-            try: 
-                render.PreviewRenderInternal(api_functions, active_configuration, material_dict)
-                print(active_languages['menu_error_error023'])
-                misc.LogError(active_languages['menu_error_error023'], False)
-            except:
-                print(active_languages['menu_error_error024'])
-                misc.LogError(active_languages['menu_error_error024'], False)
+            if self.take_preview_BP:
+                try: 
+                    render.PreviewRenderInternal(api_functions, active_configuration, material_dict)
+                    print(active_languages['menu_error_error023'])
+                    misc.LogError(active_languages['menu_error_error023'], False)
+                except:
+                    print(active_languages['menu_error_error024'])
+                    misc.LogError(active_languages['menu_error_error024'], False)
         else:
             eval(api_functions['utils_unregister_class'].replace("#1#", "Export"))
             eval(api_functions['utils_register_class'].replace("#1#", "Export"))

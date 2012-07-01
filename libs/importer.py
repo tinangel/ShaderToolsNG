@@ -18,7 +18,7 @@
 
 # <pep8-80 compliant>
 import bpy, os, shutil
-from . import environment, misc, keys,
+from . import environment, misc, keys
 from copy import copy
 
 #Create material only here

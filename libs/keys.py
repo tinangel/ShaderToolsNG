@@ -128,7 +128,7 @@ def LangagesKeys():
          "menu_configuration_default_config", "bl_id_config_search", "menu_configuration_langage_choice", "menu_configuration_current_index", "take_preview", "buttons_log",
          "menu_import_label001", "menu_import_label002",
          ]
-    for i in range(1, 31):
+    for i in range(1, 41):
         temp.append("menu_error_error%03d" % i)
     return temp
 #end Langages keys
