@@ -88,7 +88,7 @@ def ctx_active_object():
 
 class Errors(eval(api_functions['types_operator'])):
     bl_idname = "object.errors"
-    bl_label = " "
+    bl_label = space_access_name + active_languages['bl_id_name_logs']
 
     def execute(self, context):
         global default_paths, active_configuration, api_functions
@@ -451,7 +451,6 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
             row = layout.row()
             row.operator("object.help", text=active_languages['buttons_help'], icon="HELP")
             row.operator("object.credits", text=active_languages['buttons_credits'], icon="QUESTION")
-            
             
 
 MyReg = \

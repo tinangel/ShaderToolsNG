@@ -127,7 +127,7 @@ def LangagesKeys():
          "menu_category_liquids", "menu_category_metal", "menu_category_misc", "menu_category_nature", "menu_category_organic", "menu_category_personal", "menu_category_plastic", "menu_category_sky",
          "menu_category_space", "menu_category_stone", "menu_category_toon", "menu_category_wall", "menu_category_water", "menu_category_wood", "buttons_update_blender",
          "menu_configuration_default_config", "bl_id_config_search", "menu_configuration_langage_choice", "menu_configuration_current_index", "take_preview", "buttons_log",
-         "menu_import_label001", "menu_import_label002",
+         "menu_import_label001", "menu_import_label002", "bl_id_name_logs",
          ]
     for i in range(1, 41):
         temp.append("menu_error_error%03d" % i)
@@ -418,24 +418,31 @@ def PointExportKeys():
               "texture.point_density.color_source", "texture.point_density.radius", "texture.point_density.falloff", 
               "texture.point_density.use_falloff_curve", "texture.point_density.vertex_cache_space", "texture.point_density.falloff_speed_scale",)    
     return point
-def VoxelExportKeys():
-    voxel  = ("texture.voxel_data.intensity", "texture.voxel_data.extension", "texture.voxel_data.interpolation", "texture.voxel_data.smoke_data_type",
-              "texture.voxel_data.file_format",)    
-    return voxel
+def IgnoreLayersExportKeys():
+    ignore_layers = ("texture.environment_map.layers_ignore",)
+    return ignore_layers
 def ImageExportKeys():
-    image  = ("texture.extension", "texture.crop_min_x", "texture.crop_min_y", "texture.crop_max_x","texture.crop_max_y",
+    image  = ["texture.extension", "texture.crop_min_x", "texture.crop_min_y", "texture.crop_max_x","texture.crop_max_y",
               "texture.repeat_x", "texture.repeat_y", "texture.use_mirror_x","texture.use_mirror_y",
               "texture.use_checker_even", "texture.use_checker_odd", "texture.checker_distance", "texture.use_alpha", 
               "texture.use_calculate_alpha", "texture.invert_alpha", "texture.use_flip_axis", "texture.use_normal_map",
               "texture.normal_map_space", "texture.use_derivative_map", "texture.use_mipmap", "texture.use_mipmap_gauss",
               "texture.use_interpolation","texture.filter_type","texture.filter_eccentricity","texture.filter_size",
-              "texture.filter_probes", "texture.use_filter_size_min", "texture.image.source",
-              "texture.image.generated_width", "texture.image.generated_height", "texture.image.generated_float", 
-              "texture.image.generated_type", "texture.image.use_fields", "texture.image.use_premultiply", 
-              "texture.image.field_order", "texture.image.frame_duration", "texture.image.frame_start", 
-              "texture.image.frame_offset", "texture.image.fields_per_frame", "texture.image.use_auto_refresh", 
-              "texture.image.use_cyclic",)    
+              "texture.filter_probes", "texture.use_filter_size_min", "texture.image.source", "texture.image.generated_width", 
+              "texture.image.generated_height", "texture.image.generated_float","texture.image.generated_type", "texture.image.use_fields", 
+              "texture.image.use_premultiply", "texture.image.field_order", "texture.image.frame_duration", "texture.image.frame_start", 
+              "texture.image.frame_offset", "texture.image.fields_per_frame", "texture.image.use_auto_refresh", "texture.image.use_cyclic",]
     return image
+def EnvironmentExportKeys():
+    map  = ["texture.filter_type", "texture.filter_eccentricity", "texture.filter_size", "texture.use_filter_size_min", 
+            "texture.filter_probes", "texture.environment_map.source", "texture.environment_map.zoom", "texture.environment_map.layers_ignore",
+            "texture.environment_map.resolution", "texture.environment_map.depth", "texture.environment_map.clip_start", "texture.environment_map.clip_end",
+            "texture.environment_map.mapping",]
+    return map
+def VoxelExportKeys():
+    voxel  = ["texture.voxel_data.intensity", "texture.voxel_data.extension", "texture.voxel_data.interpolation", "texture.voxel_data.smoke_data_type",
+              "texture.voxel_data.file_format",]
+    return voxel
 #end Textures properties keys
 #Render properties keys
 def RenderInternalKeys():

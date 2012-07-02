@@ -269,38 +269,12 @@ def TextureExport(material_dict, api_functions, active_language):
                 elif texture_type == 'DISTORTED_NOISE':
                     texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.DistortedExportKeys(), t, active_language)
                 elif texture_type == 'ENVIRONMENT_MAP':
-                    print("$haderTools : Environment map is not supported yet")
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.EnvironmentExportKeys(), t, active_language)
+                    texture_structure = textures.TexturesIgnoreLayersExport(api_functions, texture_structure, keys.EnvironmentExportKeys(), t, active_language)
+                    texture_structure = textures.TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active_language, material_dict)
+                        
                 elif texture_type == 'IMAGE':
-                    source_image = eval(api_functions['texture_image_source'].replace("#1#", str(t)))
-                    if source_image == 'FILE' or source_image == 'SEQUENCE' or source_image == 'GENERATED':
-                        name_image = eval(api_functions['texture_image_filepath'].replace("#1#", str(t)))
-                        name_image = name_image.upper()
-                        type_image = 'GENERATED' 
-                        for k in keys.ImageFileFormatKeys(''):
-                            if name_image.find(k.upper()) >= 0:
-                                type_image = 'FILE'
-
-                        if type_image == 'GENERATED':
-                            infos_texture = textures.TexturesGeneratedImagesExport(api_functions, material_dict, t, active_language)
-                            if infos_texture != False:
-                                image_path_in_script = "os.path.join(environment_path, %s)" % str("'" + infos_texture[1] + "'" )
-                                image_path_in_script = "img = %s \n" % api_functions['texture_image_load'].replace("#1#", image_path_in_script)
-                                texture_structure.append(image_path_in_script)
-                                texture_structure.append("slot.texture.image = img\n")
-                                texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.ImageExportKeys(), t, active_language)
-                        else:
-                            infos_texture = textures.TexturesFileImagesExport(api_functions, material_dict, t, active_language)
-                            if infos_texture != False:
-                                image_path = infos_texture[1][0].split(os.path.sep)[-1]
-                                image_path_in_script = "os.path.join(environment_path, %s)" % str("'" + image_path + "'" )
-                                image_path_in_script = "img = %s \n" % api_functions['texture_image_load'].replace("#1#", image_path_in_script)
-                                texture_structure.append(image_path_in_script)
-                                texture_structure.append("slot.texture.image = img\n")
-                                texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.ImageExportKeys(), t, active_language)
-                        texture_structure.append(api_functions['texture_image_pack'].replace("#1#", str(t)))
-                    else:
-                        print(active_language['menu_error_error015'])
-                        misc.LogError(active_language['menu_error_error015'], False)
+                    texture_structure = textures.TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active_language, material_dict)
                         
                 elif texture_type == 'MAGIC':
                     texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MagicExportKeys(), t, active_language)
