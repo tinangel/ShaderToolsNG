@@ -262,40 +262,28 @@ def TextureExport(material_dict, api_functions, active_language):
                     TextureRampsExport(material_dict, api_functions, 'color', t, texture_structure)
                 
                 #Now different type of texture
-                if texture_type == 'BLEND':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.BlendExportKeys(), t, active_language)
-                elif texture_type == 'CLOUDS':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.CloudsExportKeys(), t, active_language)
-                elif texture_type == 'DISTORTED_NOISE':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.DistortedExportKeys(), t, active_language)
+                if texture_type == 'BLEND': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.BlendExportKeys(), t, active_language)
+                elif texture_type == 'CLOUDS': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.CloudsExportKeys(), t, active_language)
+                elif texture_type == 'DISTORTED_NOISE': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.DistortedExportKeys(), t, active_language)
                 elif texture_type == 'ENVIRONMENT_MAP':
                     texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.EnvironmentExportKeys(), t, active_language)
                     texture_structure = textures.TexturesIgnoreLayersExport(api_functions, texture_structure, keys.EnvironmentExportKeys(), t, active_language)
                     texture_structure = textures.TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active_language, material_dict)
-                        
-                elif texture_type == 'IMAGE':
-                    texture_structure = textures.TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active_language, material_dict)
-                        
-                elif texture_type == 'MAGIC':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MagicExportKeys(), t, active_language)
-                elif texture_type == 'MARBLE':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MarbleExportKeys(), t, active_language)
-                elif texture_type == 'MUSGRAVE':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MusgraveExportKeys(), t, active_language)
+                elif texture_type == 'IMAGE': texture_structure = textures.TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active_language, material_dict)
+                elif texture_type == 'MAGIC': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MagicExportKeys(), t, active_language)
+                elif texture_type == 'MARBLE': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MarbleExportKeys(), t, active_language)
+                elif texture_type == 'MUSGRAVE': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MusgraveExportKeys(), t, active_language)
                 elif texture_type == 'POINT_DENSITY':
                     texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.PointExportKeys(), t, active_language)
                     ramp_point =  copy(api_functions['texture_point_density_color_source'].replace("#1#", str(t)))
                     if eval(ramp_point) == 'PARTICLE_SPEED' or eval(ramp_point) == 'PARTICLE_AGE':
                         TextureRampsExport(material_dict, api_functions, 'point_density_color', t, texture_structure)
-                elif texture_type == 'STUCCI':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.StucciExportKeys(), t, active_language)
-                elif texture_type == 'VORONOI':
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.VoronoiExportKeys(), t, active_language)
-                elif texture_type == 'VOXEL_DATA':
-                    #texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.VoxelExportKeys(), t)
-                    print("$haderTools : Voxel Data is not supported yet")
-                else:
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.WoodExportKeys(), t, active_language)
+                elif texture_type == 'STUCCI': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.StucciExportKeys(), t, active_language)
+                elif texture_type == 'VORONOI': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.VoronoiExportKeys(), t, active_language)
+                elif texture_type == 'VOXEL_DATA': 
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.VoxelExportKeys(), t, active_language)
+                    texture_structure = textures.TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active_language, material_dict)
+                else: texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.WoodExportKeys(), t, active_language)
 
                 texture_idx = texture_idx + 1
 
@@ -314,7 +302,6 @@ def TextureExport(material_dict, api_functions, active_language):
     except:
         print(active_language['menu_error_error017'])
         misc.LogError(active_language['menu_error_error017'], False)
-
 #end Textures only here
 
 

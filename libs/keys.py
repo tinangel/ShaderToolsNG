@@ -422,7 +422,7 @@ def IgnoreLayersExportKeys():
     ignore_layers = ("texture.environment_map.layers_ignore",)
     return ignore_layers
 def ImageExportKeys():
-    image  = ["texture.extension", "texture.crop_min_x", "texture.crop_min_y", "texture.crop_max_x","texture.crop_max_y",
+    image  = ("texture.extension", "texture.crop_min_x", "texture.crop_min_y", "texture.crop_max_x","texture.crop_max_y",
               "texture.repeat_x", "texture.repeat_y", "texture.use_mirror_x","texture.use_mirror_y",
               "texture.use_checker_even", "texture.use_checker_odd", "texture.checker_distance", "texture.use_alpha", 
               "texture.use_calculate_alpha", "texture.invert_alpha", "texture.use_flip_axis", "texture.use_normal_map",
@@ -431,17 +431,18 @@ def ImageExportKeys():
               "texture.filter_probes", "texture.use_filter_size_min", "texture.image.source", "texture.image.generated_width", 
               "texture.image.generated_height", "texture.image.generated_float","texture.image.generated_type", "texture.image.use_fields", 
               "texture.image.use_premultiply", "texture.image.field_order", "texture.image.frame_duration", "texture.image.frame_start", 
-              "texture.image.frame_offset", "texture.image.fields_per_frame", "texture.image.use_auto_refresh", "texture.image.use_cyclic",]
+              "texture.image.frame_offset", "texture.image.fields_per_frame", "texture.image.use_auto_refresh", "texture.image.use_cyclic",)
     return image
 def EnvironmentExportKeys():
-    map  = ["texture.filter_type", "texture.filter_eccentricity", "texture.filter_size", "texture.use_filter_size_min", 
+    map  = ("texture.filter_type", "texture.filter_eccentricity", "texture.filter_size", "texture.use_filter_size_min", 
             "texture.filter_probes", "texture.environment_map.source", "texture.environment_map.zoom", "texture.environment_map.layers_ignore",
             "texture.environment_map.resolution", "texture.environment_map.depth", "texture.environment_map.clip_start", "texture.environment_map.clip_end",
-            "texture.environment_map.mapping",]
+            "texture.environment_map.mapping",)
     return map
 def VoxelExportKeys():
-    voxel  = ["texture.voxel_data.intensity", "texture.voxel_data.extension", "texture.voxel_data.interpolation", "texture.voxel_data.smoke_data_type",
-              "texture.voxel_data.file_format",]
+    voxel  = ("texture.voxel_data.file_format", "texture.voxel_data.intensity", "texture.voxel_data.extension", "texture.voxel_data.interpolation", 
+              "texture.voxel_data.smoke_data_type", "texture.voxel_data.filepath", "texture.voxel_data.resolution", "texture.voxel_data.use_still_frame",
+              "texture.voxel_data.still_frame",)
     return voxel
 #end Textures properties keys
 #Render properties keys
