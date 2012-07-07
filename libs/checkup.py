@@ -110,7 +110,8 @@ def MakeCheckup(database_path, configs_database_path,bookmark_path, bookmark_fol
             )
 
         for v in folder_list:
-            v = v.replace("#addon#", app_path)
+            v = misc.ConvertMarkOut(v, app_path)
+            
             if not os.path.exists(v):
                 os.makedirs(v)
         print(misc.ConsoleError("check folders ", 1, True))        
@@ -129,10 +130,11 @@ def MakeCheckup(database_path, configs_database_path,bookmark_path, bookmark_fol
     #Test : zip files verification:
     zip_file_list = \
         (
-         active_configuration['workbase_file_path'].replace("#addon#", app_path),
-         active_configuration['help_file_path'].replace("#addon#", app_path),
-         active_configuration['img_file_path'].replace("#addon#", app_path),
+         misc.ConvertMarkOut(active_configuration['workbase_file_path'], app_path),
+         misc.ConvertMarkOut(active_configuration['help_file_path'], app_path),         
+         misc.ConvertMarkOut(active_configuration['img_file_path'], app_path),
         )
+
     print(" "*11 + "compress file : ")        
     for v in zip_file_list:
         name_file = str(v.split(os.path.sep)[-1])

@@ -142,6 +142,13 @@ def ConfigurationsKeys():
          "help_file_path", "img_file_path", "bin_folder", "key_words", "option", "resolution_default_x", "resolution_default_y", "take_preview", 
          )
     return temp
+def ConfigurationsKeys_2():
+    temp = \
+        (      
+         "database_path", "error_folder", "html_folder", "pack_folder", "temp_folder", 
+         "zip_folder", "workbase_file_path", "help_file_path", "img_file_path", "bin_folder",  
+         )
+    return temp
 #end Configurations keys
 #About keys
 def AboutKeys():

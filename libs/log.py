@@ -26,7 +26,7 @@ def OpenLog(app_path, active_configuration, api_function):
     except:
         print("#ShaderToolsNG : error import logs")
     #end Imports & external libs:
-    path_files = os.path.join(active_configuration['error_folder'].replace("#addon#", app_path), "log.txt")
+    path_files = os.path.join(misc.ConvertMarkOut(active_configuration['error_folder'], app_path), "log.txt")
     #Open log file:
     bin_path = eval(api_function['app_binary_path'])
     if platform.system() == 'Windows':

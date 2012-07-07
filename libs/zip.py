@@ -28,8 +28,8 @@ def DeZip(app_path, active_configuration, zip_path, option, active_language):
     #end Imports & external libs:
     #Copy zip_file & dezip:
     try:
-        zip_file = zip_path.replace("#addon#", app_path)
-        zip_in_zip_folder = os.path.join(active_configuration['zip_folder'].replace("#addon#", app_path), zip_file.split(os.path.sep)[-1] + ".zip")
+        zip_file = misc.ConvertMarkOut(zip_path, app_path)
+        zip_in_zip_folder = os.path.join(misc.ConvertMarkOut(active_configuration['zip_folder'], app_path), zip_file.split(os.path.sep)[-1] + ".zip")
         if os.path.exists(zip_in_zip_folder):
             os.remove(zip_in_zip_folder)
         
@@ -38,7 +38,7 @@ def DeZip(app_path, active_configuration, zip_path, option, active_language):
             name_folder = zip_file.split(os.path.sep)[-1]
             name_folder = name_folder.split(".")[0]
             try:
-                os.makedirs(os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), name_folder))
+                os.makedirs(os.path.join(misc.ConvertMarkOut(active_configuration['temp_folder'], app_path), name_folder))
             except: 
                 misc.Clear()
 
@@ -48,21 +48,21 @@ def DeZip(app_path, active_configuration, zip_path, option, active_language):
         for z in zfile.namelist():
             if os.path.isdir(z):
                 try: 
-                    os.makedirs(os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), z))
+                    os.makedirs(os.path.join(misc.ConvertMarkOut(active_configuration['temp_folder'], app_path), z))
                 except: pass
             else:
                 try: 
-                    os.makedirs(os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), os.path.dirname(z)))
+                    os.makedirs(os.path.join(misc.ConvertMarkOut(active_configuration['temp_folder'], app_path), os.path.dirname(z)))
                 except: pass
                 data = zfile.read(z)
-                if option == 'folder': fp = open(os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), name_folder, z), "wb")
-                else: fp = open(os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), z), "wb")
+                if option == 'folder': fp = open(os.path.join(misc.ConvertMarkOut(active_configuration['temp_folder'], app_path), name_folder, z), "wb")
+                else: fp = open(os.path.join(misc.ConvertMarkOut(active_configuration['temp_folder'], app_path), z), "wb")
                 fp.write(data)
                 fp.close()
         zfile.close()
         print(active_language['menu_error_error029'])
         misc.LogError(active_language['menu_error_error029'], False)
-        if option == 'folder': return os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), name_folder)
+        if option == 'folder': return os.path.join(misc.ConvertMarkOut(active_configuration['temp_folder'], app_path), name_folder)
         else: return True
     except:
         print(active_language['menu_error_error030'])

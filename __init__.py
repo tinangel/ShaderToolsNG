@@ -47,6 +47,28 @@ except:
     print(misc.ConsoleError("Import external module ", 0, False))
 
 #Globals
+misc.LogError("", True)
+misc.LogError("*"*78, True)
+misc.LogError("*" + " "*22 + "Shader Tools Next Gen - Console" + " "*23 + "*", False)
+misc.LogError("*"*78, False)
+blender_version = str(bpy.app.version[0]) + "." + str(bpy.app.version[1]) + str(bpy.app.version[2])
+default_paths = environment.DefaultPaths()
+api_functions = environment.ApiDatas(default_paths['apis_database'], blender_version)
+configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
+languages_config = environment.LanguagesDatas(default_paths['languages_database'])
+active_configuration = environment.ActiveConfigurations(configurations_config)
+active_languages = environment.ActiveLanguage(languages_config, active_configuration['language'])
+about_config = environment.AboutDatas(default_paths['database'])
+active_categories = environment.MaterialsCatergories(active_languages)
+names_config = environment.ConfigurationsNames(configurations_config)
+options_actions = environment.ConfigurationsOptions(active_languages)
+names_languages = environment.LanguagesNames(languages_config)
+space_access_name = active_languages['space_access_name'] + " "
+print(misc.ConsoleError("Globals ", 0, True))
+
+
+
+'''
 try:
     misc.LogError("", True)
     misc.LogError("*"*78, True)
@@ -67,7 +89,7 @@ try:
     space_access_name = active_languages['space_access_name'] + " "
     print(misc.ConsoleError("Globals ", 0, True))
 except:
-    print(misc.ConsoleError("Globals ", 0, False))
+    print(misc.ConsoleError("Globals ", 0, False))'''
 #Functions
 conf_current_name = ""
 conf_current_idx = 1
@@ -87,7 +109,7 @@ def ctx_active_object():
     return ctx_active_object 
 
 class Errors(eval(api_functions['types_operator'])):
-    bl_idname = "object.errors"
+    bl_idname = "object.shadertoolsng_errors"
     bl_label = space_access_name + active_languages['bl_id_name_logs']
 
     def execute(self, context):
@@ -96,28 +118,28 @@ class Errors(eval(api_functions['types_operator'])):
         return {'FINISHED'}
 
 class UpdateWarning(eval(api_functions['types_operator'])):
-    bl_idname = "object.warning"
+    bl_idname = "object.shadertoolsng_warning"
     bl_label = " "
     
     def execute(self, context):
         return {'FINISHED'}
 
 class Open(eval(api_functions['types_operator'])):
-    bl_idname = "object.open"
+    bl_idname = "object.shadertoolsng_open"
     bl_label = space_access_name + active_languages['bl_id_name_open']    
     
     def execute(self, context):
         return {'FINISHED'}   
 
 class Save(eval(api_functions['types_operator'])):
-    bl_idname = "object.save"
+    bl_idname = "object.shadertoolsng_save"
     bl_label = space_access_name + active_languages['bl_id_name_save']    
     
     def execute(self, context):
         return {'FINISHED'}   
 
 class Export(eval(api_functions['types_operator'])):
-    bl_idname = "object.export"
+    bl_idname = "object.shadertoolsng_export"
     bl_label = space_access_name + active_languages['bl_id_name_export']    
     
     global default_paths
@@ -205,7 +227,7 @@ class Export(eval(api_functions['types_operator'])):
         return {'FINISHED'}   
 
 class Import(eval(api_functions['types_operator'])):
-    bl_idname = "object.import"
+    bl_idname = "object.shadertoolsng_import"
     bl_label = space_access_name + active_languages['bl_id_name_import']    
 
     global default_paths
@@ -231,7 +253,7 @@ class Import(eval(api_functions['types_operator'])):
         return {'FINISHED'}   
 
 class New(eval(api_functions['types_operator'])):
-    bl_idname = "object.new"
+    bl_idname = "object.shadertoolsng_new"
     bl_label = space_access_name + active_languages['bl_id_name_create']    
     
     def execute(self, context):
@@ -239,7 +261,7 @@ class New(eval(api_functions['types_operator'])):
         return {'FINISHED'}   
 
 class Configuration(eval(api_functions['types_operator'])):
-    bl_idname = "object.configuration"
+    bl_idname = "object.shadertoolsng_configuration"
     bl_label = space_access_name + active_languages['bl_id_name_config']    
 
     ctx = eval(api_functions['props'])
@@ -261,7 +283,7 @@ class Configuration(eval(api_functions['types_operator'])):
     conf_res_y_IP = ctx.IntProperty(name=active_languages['menu_configuration_resolution_y'], min=active_configuration['resolution_min'], \
                                     max=active_configuration['resolution_max'], default=active_configuration['resolution_default_y'])
     take_preview_BP = ctx.BoolProperty(name="", default=int(active_configuration['take_preview']))
-    database_SP = ctx.StringProperty(name=active_languages['menu_configuration_base_path'], default=active_configuration['database_path'].replace("#addon#", default_paths['app']))
+    database_SP = ctx.StringProperty(name=active_languages['menu_configuration_base_path'], default=misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app']))
     
     def draw(self, context):
         layout = self.layout
@@ -363,7 +385,7 @@ class Configuration(eval(api_functions['types_operator'])):
         return {'FINISHED'}
 
 class ConfigurationSearch(eval(api_functions['types_operator'])):
-    bl_idname = "object.configuration_search"
+    bl_idname = "object.shadertoolsng_configuration_search"
     bl_label = ''#space_access_name + active_languages['bl_id_config_search']
     
     ctx = eval(api_functions['props'])
@@ -382,20 +404,20 @@ class ConfigurationSearch(eval(api_functions['types_operator'])):
         conf_current_name = selected_configuration['name']
         eval(api_functions['utils_unregister_class'].replace("#1#", "Configuration"))
         eval(api_functions['utils_register_class'].replace("#1#", "Configuration"))
-        ops_object.configuration('INVOKE_DEFAULT', conf_choice_EP=conf_current_idx , conf_language_EP=selected_configuration['language'],  
+        ops_object.shadertoolsng_configuration('INVOKE_DEFAULT', conf_choice_EP=conf_current_idx , conf_language_EP=selected_configuration['language'],  
                                  conf_options_EP=selected_configuration['option'], category_EP=selected_configuration['category'],
                                  conf_name_SP=selected_configuration['name'], conf_default_BP=selected_configuration['default_config'],
                                  mat_name_SP=selected_configuration['material_name'], key_words_SP=selected_configuration['key_words'],
                                  description_SP=selected_configuration['description'], creator_SP=selected_configuration['author'],
                                  weblink_SP=selected_configuration['web_link'], email_SP=selected_configuration['email_creator'],
                                  conf_res_x_IP=selected_configuration['resolution_default_x'], conf_res_y_IP=selected_configuration['resolution_default_y'],
-                                 database_SP=selected_configuration['database_path'].replace("#addon#", default_paths['app']),
+                                 database_SP=misc.ConvertMarkOut(selected_configuration['database_path'], default_paths['app']),
                                  take_preview_BP=int(selected_configuration['take_preview']))
         
         return {'FINISHED'}   
 
 class Help(eval(api_functions['types_operator'])):
-    bl_idname = "object.help"
+    bl_idname = "object.shadertoolsng_help"
     bl_label = space_access_name + active_languages['bl_id_name_help']    
     
     def execute(self, context):
@@ -403,7 +425,7 @@ class Help(eval(api_functions['types_operator'])):
         return {'FINISHED'}   
 
 class Credits(eval(api_functions['types_operator'])):
-    bl_idname = "object.credits"
+    bl_idname = "object.shadertoolsng_credits"
     bl_label = space_access_name + active_languages['bl_id_name_credits']    
 
     def draw(self, context):
@@ -436,22 +458,21 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
     def draw(self, context):
         layout = self.layout
         row = layout.row()
-
+        
         if update:
-            row.operator("object.warning", text=active_languages['menu_error_error001'], icon="RADIO" )
+            row.operator("object.warning", text=active_languages['menu_error_error001'], icon="RADIO")
         else:
-            row.operator("object.open", text=active_languages['buttons_open'], icon="NEWFOLDER")
-            row.operator("object.save", text=active_languages['buttons_save'], icon="MATERIAL")
-            row.operator("object.export", text=active_languages['buttons_export'], icon="SCRIPTWIN")
-            row.operator("object.import", text=active_languages['buttons_import'], icon="SCRIPTWIN")
+            row.operator("object.shadertoolsng_open", text=active_languages['buttons_open'], icon="NEWFOLDER")
+            row.operator("object.shadertoolsng_save", text=active_languages['buttons_save'], icon="MATERIAL")
             row = layout.row()
-            row.operator("object.new", text=active_languages['buttons_create'], icon="BLENDER")
-            row.operator("object.configuration_search", text=active_languages['buttons_config'], icon="TEXT")
-            row.operator("object.errors", text=active_languages['buttons_log'], icon="CONSOLE" )
+            row.operator("object.shadertoolsng_export", text=active_languages['buttons_export'], icon="SCRIPTWIN")
+            row.operator("object.shadertoolsng_import", text=active_languages['buttons_import'], icon="SCRIPTWIN")
+            row.operator("object.shadertoolsng_new", text=active_languages['buttons_create'], icon="BLENDER")
+            row.operator("object.shadertoolsng_configuration_search", text=active_languages['buttons_config'], icon="TEXT")
             row = layout.row()
-            row.operator("object.help", text=active_languages['buttons_help'], icon="HELP")
-            row.operator("object.credits", text=active_languages['buttons_credits'], icon="QUESTION")
-            
+            row.operator("object.shadertoolsng_errors", text=active_languages['buttons_log'], icon="CONSOLE" )
+            row.operator("object.shadertoolsng_help", text=active_languages['buttons_help'], icon="HELP")
+            row.operator("object.shadertoolsng_credits", text=active_languages['buttons_credits'], icon="QUESTION")
 
 MyReg = \
     (

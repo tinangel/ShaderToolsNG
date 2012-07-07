@@ -27,14 +27,16 @@ def CreateNew(app_path, active_configuration, api_function, active_language):
         print("#ShaderToolsNG : error import createnew")
     #end Imports & external libs:
     #Dezip file:
-    path_files = \
-        (
-         os.path.join(active_configuration['zip_folder'].replace("#addon#", app_path), active_configuration['workbase_file_path'].split(os.sep)[-1] + ".zip"),
-         os.path.join(active_configuration['temp_folder'].replace("#addon#", app_path), active_configuration['workbase_file_path'].split(os.sep)[-1] + ".blend"),
-        )
+    wbfp = misc.ConvertMarkOut(active_configuration['workbase_file_path'], app_path)
+    zf = misc.ConvertMarkOut(active_configuration['zip_folder'], app_path)
+    zip_val = os.path.join(zf, wbfp.split(os.sep)[-1] + ".zip")
+    tf = misc.ConvertMarkOut(active_configuration['temp_folder'], app_path)
+    temp_val = os.path.join(tf, wbfp.split(os.sep)[-1] + ".blend")
+    path_files = [zip_val, temp_val]
+
     for v in path_files:
         misc.Clear(v, 'files', 'one', active_language)
-    zip.DeZip(app_path, active_configuration, active_configuration['workbase_file_path'], '', active_language)        
+    zip.DeZip(app_path, active_configuration, wbfp, '', active_language)        
     #end Dezip file: 
     #Open workbase blend file:
     try:

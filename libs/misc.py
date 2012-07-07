@@ -164,3 +164,9 @@ def ImageAbsolutePath(path):
         if p.find(eval(path)) >= 0: break
         else: idx = idx + 1
     return bpy.utils.blend_paths(absolute=True)[idx]
+
+def ConvertMarkOut(path, app_path):
+    temp = path.replace("#addon#", app_path)
+    temp = temp.replace("#slash#", os.sep)
+    return temp
+

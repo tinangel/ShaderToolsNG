@@ -18,7 +18,7 @@
 
 # <pep8-80 compliant>
 
-import bpy, os, sqlite3, sys
+import bpy, os, sqlite3, sys, platform, copy
 from shader_tools_ng.libs import keys, request, misc, configuration, zip
 
 #Materials category dictionnary
@@ -71,16 +71,18 @@ def DefaultPaths():
     #end Test : verify if configs database path exists
     req = request.DatabaseSelect(configs_path, keys.ConfigurationsKeys(), "CONFIGURATION", "where default_config=1", 'one')
     if req == None:
-       configuration.DefaultConfiguration(configs_path, 'Default')
-       req = request.DatabaseSelect(configs_path, keys.ConfigurationsKeys(), "CONFIGURATION", "where default_config=1", 'one')
-
+        configuration.DefaultConfiguration(configs_path, 'Default')
+        req = request.DatabaseSelect(configs_path, keys.ConfigurationsKeys(), "CONFIGURATION", "where default_config=1", 'one')
+    
     r = {}
     c = 0
     for k in keys.ConfigurationsKeys():
         r[k] = req[c]
         c = c + 1 
+    
     #Test : verify if default database path exists:
-    if os.path.exists(r['database_path'].replace("#addon#", app_path)):
+    database_path = misc.ConvertMarkOut(r['database_path'], app_path)
+    if os.path.exists(database_path):
         print(misc.ConsoleError("Materials database exists ", 0, True))       
     else:
         print(misc.ConsoleError("Materials database exists ", 0, False))
@@ -90,20 +92,23 @@ def DefaultPaths():
         except:
             print(misc.ConsoleError("Restore default configuration ", 1, False))       
     #end Test : verify if default database path exists
+    for v in keys.ConfigurationsKeys_2():
+        r[v] = misc.ConvertMarkOut(r[v], app_path)
+
     temp = \
         {
-         "blend":os.path.dirname(bpy.data.filepath),
-         "app":app_path,
-         "zip":r['zip_folder'].replace("#addon#", app_path),
-         "error":r['error_folder'].replace("#addon#", app_path),
-         "configs_database":os.path.join(app_path, "ShaderToolsConfigs.sqlite"),
-         "languages_database":os.path.join(app_path, "ShaderToolsLanguages.sqlite"),
-         "apis_database":os.path.join(app_path, "ShaderToolsApis.sqlite"),
-         "database":r['database_path'].replace("#addon#", app_path),
-         "pack":r['pack_folder'].replace("#addon#", app_path),
-         "temp":r['temp_folder'].replace("#addon#", app_path),
-         "bookmarks":bookmarks_path_user,
-        }
+            "blend":os.path.dirname(bpy.data.filepath),
+            "app":app_path,
+            "zip":r['zip_folder'],
+            "error":r['error_folder'],
+            "configs_database":os.path.join(app_path, "ShaderToolsConfigs.sqlite"),
+            "languages_database":os.path.join(app_path, "ShaderToolsLanguages.sqlite"),
+            "apis_database":os.path.join(app_path, "ShaderToolsApis.sqlite"),
+            "database":r['database_path'],
+            "pack":r['pack_folder'],
+            "temp":r['temp_folder'],
+            "bookmarks":bookmarks_path_user,
+    }
     return temp
 #end Default paths dictionnary
 #Active configuration dictionnary
@@ -122,26 +127,26 @@ def ActiveLanguage(dict_language, active_config_lang):
 def ApiDatas(database_path, version):
     ApiFunctions = {}
     temp_datas = keys.ApiKeys()
-
+    
     def DatabaseRequest(database_path, request, list):
         ShaderToolsDatabase = sqlite3.connect(database_path) #open database
         DatabaseCursor = ShaderToolsDatabase.cursor() #create cursor
-                
+        
         #here my request :
         try:
             DatabaseCursor.execute(request)
             result = DatabaseCursor.fetchone()
             DatabaseCursor.close() #close cursor
             ShaderToolsDatabase.close() #close database        
-
+            
             #now the dictionnary :
             count = 0
             for k in list:
                 ApiFunctions[k] = result[count]
                 count = count + 1     
-                
+            
             return ApiFunctions   
-                
+        
         except:
             DatabaseCursor.close() #close cursor
             ShaderToolsDatabase.close() #close database        
@@ -149,10 +154,10 @@ def ApiDatas(database_path, version):
     #end DatabaseRequest
     #Api functions dictionnary :
     api_functions_request = "select "
-
+    
     for v in temp_datas :
-            api_functions_request  = api_functions_request + v + ","     
-
+        api_functions_request  = api_functions_request + v + ","     
+    
     api_functions_request = api_functions_request.rstrip(",") + " from 'API_FUNCTIONS' where " + version  + " between 'API_FUNCTIONS'.'blender_version_min' and 'API_FUNCTIONS'.'blender_version_max'"
     return DatabaseRequest(database_path, api_functions_request, temp_datas)    
 #end Api functions dictionnary
@@ -170,7 +175,7 @@ def LanguagesDatas(database_path):
             #here my request :
             DatabaseCursor.execute(request)
             result = DatabaseCursor.fetchall()
-
+            
             #i create temp_datas_lang keys dictionnary:
             for v in result:
                 count = 0
@@ -207,11 +212,11 @@ def VerifyDefaultConfiguration(database_path, option):
         if result[0][0] == 0:
             elements_val = \
                 (
-                 "1", "1", "Default_(1)", "#addon#/ShaderToolsDatabaseNG.sqlite", "You", "My material description",
+                 "1", "1", "Default_(1)", "#addon##slash#ShaderToolsDatabaseNG.sqlite", "You", "My material description",
                  "http://", "MyMaterial", "menu_category_personal", "my_email@company.com",
-                 "256", "768", "Francais", "#addon#/error", "#addon#/html", "#addon#/pack", "#addon#/temp",
-                 "#addon#/zip", "#addon#/bin/workbase", "#addon#/bin/help","#addon#/bin/img", "#addon#/bin", 
-                 "green, mat, red lines ...", "menu_configuration_option_save", "512", "512",
+                 "256", "768", "Francais", "#addon##slash#error", "#addon##slash#html", "#addon##slash#pack", "#addon##slash#temp",
+                 "#addon##slash#zip", "#addon##slash#bin#slash#workbase", "#addon##slash#bin#slash#help","#addon##slash#bin#slash#img", "#addon##slash#bin", 
+                 "green, mat, red lines ...", "menu_configuration_option_save", "256", "256",
                  )
             request.DatabaseInsert(database_path, keys.ConfigurationsKeys(), elements_val, "CONFIGURATION")
         if option:
@@ -219,7 +224,7 @@ def VerifyDefaultConfiguration(database_path, option):
     except:
         if option:
             print(misc.ConsoleError("default configuration verification ", 1, False))
-    #end Verify : default configuration
+#end Verify : default configuration
 
 def ConfigurationsDatas(database_path, option):
     VerifyDefaultConfiguration(database_path, option)
@@ -229,7 +234,7 @@ def ConfigurationsDatas(database_path, option):
     def DatabaseRequest(database_path, request, list):
         ShaderToolsDatabase = sqlite3.connect(database_path) #open database
         DatabaseCursor = ShaderToolsDatabase.cursor() #create cursor
-
+        
         try:
             #here my request :
             DatabaseCursor.execute(request)
@@ -271,7 +276,7 @@ def AboutDatas(database_path):
     def DatabaseRequest(database_path, request, list):
         ShaderToolsDatabase = sqlite3.connect(database_path) #open database
         DatabaseCursor = ShaderToolsDatabase.cursor() #create cursor
-
+        
         try:
             #here my request :
             DatabaseCursor.execute(request)
@@ -305,8 +310,6 @@ def AboutDatas(database_path):
     about_datas_request = about_datas_request.rstrip(",") + " from 'ABOUT'"
     return DatabaseRequest(database_path, about_datas_request, temp_datas)    
 #end About Datas dictionnary
-
-
 
 
 
