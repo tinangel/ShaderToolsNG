@@ -27,7 +27,7 @@ def BlexImport(path, api_functions, active_language, active_configuration, defau
     misc.Clear(default_paths['temp'], 'all', '', active_language)
     script_path = zip.DeZip(default_paths['app'], active_configuration, path, 'folder', active_language)
     if platform.system() == 'Windows':
-        script_path = script_path.replace(os.sep, "%s%s" % (os.sep, os.sep))
+        script_path = misc.DoubleSlash(script_path)
 
     new_script_file = []
     if type(script_path).__name__ == 'str':

@@ -17,7 +17,7 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
-import bpy, os, shutil
+import bpy, os, shutil, platform
 from . import misc, keys 
 from copy import copy
 
@@ -29,7 +29,8 @@ def TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active
         name_image = name_image.upper()
         type_image = 'GENERATED' 
         for k in keys.ImageFileFormatKeys(''):
-            if name_image.find(k.upper()) >= 0:
+            keys_temp = keys.ImageFileFormatKeys('') 
+            if name_image.find(keys_temp[k].upper()) >= 0:
                 type_image = 'FILE'
         
         if type_image == 'GENERATED':
@@ -49,12 +50,14 @@ def TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active
                 texture_structure.append(image_path_in_script)
                 texture_structure.append("slot.texture.image = img\n")
                 texture_structure = TexturesPropertiesExport(api_functions, texture_structure, keys.ImageExportKeys(), t, active_language)
-        texture_structure.append("%s\n" % api_functions['texture_image_pack'].replace("#1#", str(t)))
+        texture_structure.append("try:%s\n" % api_functions['texture_image_pack'].replace("#1#", str(t)))
+        texture_structure.append("except:pass\n")
         name_image_2 = name_image_2.split(os.sep)[-1]
         if name_image_2.find(".") < 0:
             name_image_2 = name_image_2 + ".png"
         exec_path = "#1##1#ShaderToolsImportNG#1#%s#1#%s" % (eval(api_functions['material_name']), name_image_2.split(os.sep)[-1])
         exec_path = exec_path.replace("#1#", os.sep)
+        if platform.system() == 'Windows': exec_path = misc.DoubleSlash(exec_path)
         texture_structure.append("try:%s = '%s'\n" % (api_functions['texture_image_filepath'].replace("#1#", str(t)), exec_path))
         texture_structure.append("except:pass\n\n")
     else:
@@ -98,6 +101,7 @@ def TexturesFileImagesExport(api_functions, material_dict, idx, active_language)
         material_folder = ""
         name_image = misc.ImageAbsolutePath(os.path.relpath(api_functions['texture_image_filepath'].replace("#1#", str(idx))))
         material_folder = os.path.join(material_dict['temp'], material_dict['material_name'], name_image.split(os.sep)[-1])
+        material_folder = misc.DoubleSlash(material_folder)
         export_image = api_functions['texture_image_save_render'].replace("#1#", str(idx))
         export_image = export_image.replace("#2#", "'%s'" % material_folder)
         eval(export_image)
@@ -110,6 +114,7 @@ def TexturesFileImagesExport(api_functions, material_dict, idx, active_language)
             material_folder = ""
             name_image = misc.ImageAbsolutePath(os.path.relpath(api_functions['texture_image_filepath'].replace("#1#", str(idx))))
             material_folder = os.path.join(material_dict['temp'], material_dict['material_name'], name_image.split(os.sep)[-1])
+            material_folder = misc.DoubleSlash(material_folder)
             shutil.copy2(name_image, material_folder)            
             pack = eval(api_functions['texture_image_pack'].replace("#1#", str(idx)))
             print(active_language['menu_error_error018'])
@@ -125,6 +130,7 @@ def TexturesGeneratedImagesExport(api_functions, material_dict, idx, active_lang
         name_image = eval(api_functions['texture_image_filepath'].replace("#1#", str(idx)))
         name_image_2 = eval(api_functions['texture_image_filepath'].replace("#1#", str(idx)))
         name_image = name_image + ".tga"
+        misc.Clear(material_dict['temp'], 'all', '', active_language)
         material_folder = os.path.join(material_dict['temp'], material_dict['material_name'], name_image)
         export_generated = api_functions['texture_image_save_as'].replace("#1#", "'%s'" % name_image_2)
         export_generated = export_generated.replace("#2#", "'%s'" % material_folder)    

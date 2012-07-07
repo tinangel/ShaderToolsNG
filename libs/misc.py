@@ -170,3 +170,6 @@ def ConvertMarkOut(path, app_path):
     temp = temp.replace("#slash#", os.sep)
     return temp
 
+def DoubleSlash(path):
+    return path.replace(os.sep, "%s%s" % (os.sep, os.sep))
+

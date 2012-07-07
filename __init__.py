@@ -210,7 +210,9 @@ class Export(eval(api_functions['types_operator'])):
             except:
                 print(active_languages['menu_error_error028'])
                 misc.LogError(active_languages['menu_error_error028'], False)
-            try: misc.Clear(zip_file_path, 'files', 'all', active_languages)
+            try:
+                misc.Clear(default_paths['zip'], 'all', '', active_language)
+                misc.Clear(default_paths['temp'], 'all', '', active_language)
             except: pass
             if self.take_preview_BP:
                 try: 
