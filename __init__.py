@@ -460,7 +460,7 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
         row = layout.row()
         
         if update:
-            row.operator("object.warning", text=active_languages['menu_error_error001'], icon="RADIO")
+            row.operator("object.shadertoolsng_warning", text=active_languages['menu_error_error001'], icon="RADIO")
         else:
             row.operator("object.shadertoolsng_open", text=active_languages['buttons_open'], icon="NEWFOLDER")
             row.operator("object.shadertoolsng_save", text=active_languages['buttons_save'], icon="MATERIAL")

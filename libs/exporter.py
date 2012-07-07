@@ -43,7 +43,7 @@ def MaterialExport(material_dict, api_functions, active_language):
                           "\n","# Script Path :\n",
                           "mat_name = '%s'\n" % material_dict['material_name'],
                           "mat_creator = '%s'\n" % material_dict['creator'],
-                          "!*-environement_path-*!\n","\n","# Create Material :\n",
+                          "!*-environment_path-*!\n","\n","# Create Material :\n",
                           "def CreateMaterial(mat_name):\n","\t# Materials Values :\n",
                           "\tmat = %s\n" % api_functions['materials_new'].replace("#1#", "mat_name"),]
 

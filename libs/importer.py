@@ -17,7 +17,7 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
-import bpy, os, shutil
+import bpy, os, shutil, platform
 from . import environment, misc, keys, zip
 from copy import copy
 
@@ -26,6 +26,9 @@ def BlexImport(path, api_functions, active_language, active_configuration, defau
     misc.Clear(default_paths['zip'], 'all', '', active_language)
     misc.Clear(default_paths['temp'], 'all', '', active_language)
     script_path = zip.DeZip(default_paths['app'], active_configuration, path, 'folder', active_language)
+    if platform.system() == 'Windows':
+        script_path = script_path.replace(os.sep, "%s%s" % (os.sep, os.sep))
+
     new_script_file = []
     if type(script_path).__name__ == 'str':
         script_path_2 = os.path.join(copy(script_path), "script.py")
@@ -33,7 +36,7 @@ def BlexImport(path, api_functions, active_language, active_configuration, defau
         file_lines = file.readlines()
         
         for l in file_lines:
-            if l == '!*-environement_path-*!\n':
+            if l == '!*-environment_path-*!\n':
                 l = "environment_path = '%s'\n" % script_path
             new_script_file.append(l)
         file.close()
