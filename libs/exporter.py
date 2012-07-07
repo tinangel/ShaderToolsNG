@@ -269,7 +269,11 @@ def TextureExport(material_dict, api_functions, active_language):
                     texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.EnvironmentExportKeys(), t, active_language)
                     texture_structure = textures.TexturesIgnoreLayersExport(api_functions, texture_structure, keys.EnvironmentExportKeys(), t, active_language)
                     texture_structure = textures.TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active_language, material_dict)
-                elif texture_type == 'IMAGE': texture_structure = textures.TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active_language, material_dict)
+                elif texture_type == 'IMAGE': 
+                    try:texture_structure = textures.TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active_language, material_dict)
+                    except:
+                        print(active_language['menu_error_error019'])
+                        misc.LogError(active_language['menu_error_error019'], False)
                 elif texture_type == 'MAGIC': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MagicExportKeys(), t, active_language)
                 elif texture_type == 'MARBLE': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MarbleExportKeys(), t, active_language)
                 elif texture_type == 'MUSGRAVE': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.MusgraveExportKeys(), t, active_language)
