@@ -55,9 +55,9 @@ def TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active
         name_image_2 = name_image_2.split(os.sep)[-1]
         if name_image_2.find(".") < 0:
             name_image_2 = name_image_2 + ".png"
-        exec_path = "#1##1#ShaderToolsImportNG#1#%s#1#%s" % (eval(api_functions['material_name']), name_image_2.split(os.sep)[-1])
-        exec_path = exec_path.replace("#1#", os.sep)
-        if platform.system() == 'Windows': exec_path = misc.DoubleSlash(exec_path)
+        name_image_2 = name_image_2.split(os.sep)[-1]
+        name_image_2 = name_image_2.split("/")[-1]
+        exec_path = "//ShaderToolsImportNG/%s/%s" % (eval(api_functions['material_name']), name_image_2)
         texture_structure.append("try:%s = '%s'\n" % (api_functions['texture_image_filepath'].replace("#1#", str(t)), exec_path))
         texture_structure.append("except:pass\n\n")
     else:
@@ -130,10 +130,10 @@ def TexturesGeneratedImagesExport(api_functions, material_dict, idx, active_lang
         name_image = eval(api_functions['texture_image_filepath'].replace("#1#", str(idx)))
         name_image_2 = eval(api_functions['texture_image_filepath'].replace("#1#", str(idx)))
         name_image = name_image + ".tga"
-        misc.Clear(material_dict['temp'], 'all', '', active_language)
         material_folder = os.path.join(material_dict['temp'], material_dict['material_name'], name_image)
-        export_generated = api_functions['texture_image_save_as'].replace("#1#", "'%s'" % name_image_2)
-        export_generated = export_generated.replace("#2#", "'%s'" % material_folder)    
+        material_folder = misc.DoubleSlash(material_folder)
+        export_generated = api_functions['texture_image_save_render'].replace("#1#", str(idx))
+        export_generated = export_generated.replace("#2#", "'%s'" % material_folder)
         try: 
             eval(export_generated)
             list = (True, name_image, name_image_2, material_folder, export_generated)

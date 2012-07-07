@@ -17,7 +17,7 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
-import bpy, os, time, shutil
+import bpy, os, time, shutil, platform
 
 def Clear(path, type, option, active_language):
     #Imports & external libs:
@@ -171,5 +171,5 @@ def ConvertMarkOut(path, app_path):
     return temp
 
 def DoubleSlash(path):
-    return path.replace(os.sep, "%s%s" % (os.sep, os.sep))
-
+    if platform.system() == 'Windows': return path.replace(os.sep, "%s%s" % (os.sep, os.sep))
+    else: return path
