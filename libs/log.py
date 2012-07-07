@@ -28,7 +28,6 @@ def OpenLog(app_path, active_configuration, api_function):
     #end Imports & external libs:
     path_files = os.path.join(misc.ConvertMarkOut(active_configuration['error_folder'], app_path), "log.txt")
     #Open log file:
-    bin_path = eval(api_function['app_binary_path'])
     if platform.system() == 'Windows':
         logs = os.popen('"%s"' % path_files)
 
@@ -36,5 +35,5 @@ def OpenLog(app_path, active_configuration, api_function):
         logs = os.popen("open '%s' " % path_files)
 
     if platform.system() == 'Linux':
-        logs = os.popen(bin_path + " '%s'" % path_files)    
+        logs = os.popen("gedit '%s'" % path_files)    
     #end Open log file:

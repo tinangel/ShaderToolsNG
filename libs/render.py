@@ -35,7 +35,6 @@ def PreviewRenderInternal(api_functions, active_configuration, material_dict):
             save_render_configuration[p] = eval(api_functions[p]) 
     
         for p in keys.RenderInternalKeys():
-            print(p)
             if p == 'render_resolution_x':standart_values[p] = active_configuration['resolution_default_x']
             if p == 'render_resolution_y':standart_values[p] = active_configuration['resolution_default_y']
             if p == 'render_filepath':standart_values[p] = path_preview
