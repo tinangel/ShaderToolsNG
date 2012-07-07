@@ -23,8 +23,9 @@ from copy import copy
 
 def PreviewRenderInternal(api_functions, active_configuration, material_dict):
     ctx_render = api_functions['context_render']
-    preview_name = "%s_%s_preview.jpg" % (material_dict['material_name'], material_dict['creator'])
+    preview_name = "%s_%s_%s_preview.jpg" % (material_dict['filename'].replace(".blex", ''), material_dict['material_name'], material_dict['creator'])
     path_preview = material_dict['filepath'].replace(material_dict['filepath'].split(os.sep)[-1], preview_name)
+    path_preview = misc.DoubleSlash(path_preview)
     
     save_render_configuration = {}
     standart_values = keys.StandartValuesRenderInternalKeys()
