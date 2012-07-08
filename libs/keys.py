@@ -107,7 +107,7 @@ def ApiKeys():
          "texture_color_ramp_elements", "texture_point_density_color_ramp_elements", "texture_slots_values", "texture_slots_items","texture_slots", "texture_slots_create",
          "texture_slots_values_use", "texture_slots_values_texture_type", "texture_use_preview_alpha", "texture_slots_texture_name", "texture_slots_new", "texture_slots_texture_type",
          "texture_slots_add", "texture_image_save_render", "texture_image_save_as", "texture_image_pack", "texture_image_unpack", "texture_image_load", "material_name", "render_render",
-         "ops_script_python_file_run")
+         "ops_script_python_file_run", "types_scene",)
     return temp
 #end Api keys
 #Langages keys
@@ -127,7 +127,7 @@ def LangagesKeys():
          "menu_category_liquids", "menu_category_metal", "menu_category_misc", "menu_category_nature", "menu_category_organic", "menu_category_personal", "menu_category_plastic", "menu_category_sky",
          "menu_category_space", "menu_category_stone", "menu_category_toon", "menu_category_wall", "menu_category_water", "menu_category_wood", "buttons_update_blender",
          "menu_configuration_default_config", "bl_id_config_search", "menu_configuration_langage_choice", "menu_configuration_current_index", "take_preview", "buttons_log",
-         "menu_import_label001", "menu_import_label002", "bl_id_name_logs",
+         "menu_import_label001", "menu_import_label002", "bl_id_name_logs", "buttons_utils", "bl_id_name_utils",  "panel_database_label", "panel_archive_label", "panel_utils_label",
          ]
     for i in range(1, 41):
         temp.append("menu_error_error%03d" % i)

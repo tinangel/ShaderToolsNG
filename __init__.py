@@ -22,7 +22,7 @@
 bl_info = {
     "name": "ShaderTools Next Gen",
     "author": "GRETETE Karim (Tinangel)",
-    "version": (0, 5, 8),
+    "version": (0, 5, 9),
     "blender": (2, 6, 0),
     "api": 41098,
     "location": "User Preferences",
@@ -427,37 +427,87 @@ class Credits(eval(api_functions['types_operator'])):
     def execute(self, context):
         return {'FINISHED'}   
 
+class Utils(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_utils"
+    bl_label = space_access_name + active_languages['bl_id_name_utils']    
+    
+    #def draw(self, context):
+    
+    def invoke(self, context, event):
+        wm = context.window_manager
+        return wm.invoke_popup(self, width = 380)
+    
+    def execute(self, context):
+        return {'FINISHED'}   
+
+def OpenSaveSwitch(self, context):
+    ops_object = eval(api_functions['ops_object'])
+    if self.shadertoolsng_open_save == 'buttons_open':ops_object.shadertoolsng_open('INVOKE_DEFAULT')
+    else:ops_object.shadertoolsng_save('INVOKE_DEFAULT')
+
+def ExportImportSwitch(self, context):
+    ops_object = eval(api_functions['ops_object'])
+    if self.shadertoolsng_export_import == 'buttons_export':ops_object.shadertoolsng_export('INVOKE_DEFAULT')
+    else:ops_object.shadertoolsng_import('INVOKE_DEFAULT')
+
+def UtilsSwitch(self, context):
+    ops_object = eval(api_functions['ops_object'])
+    if self.shadertoolsng_utils_enum == 'buttons_config':ops_object.shadertoolsng_configuration_search('INVOKE_DEFAULT')
+    elif self.shadertoolsng_utils_enum == 'buttons_log':ops_object.shadertoolsng_errors('INVOKE_DEFAULT')
+    elif self.shadertoolsng_utils_enum == 'buttons_help':ops_object.shadertoolsng_help('INVOKE_DEFAULT')
+    elif self.shadertoolsng_utils_enum == 'buttons_create':ops_object.shadertoolsng_new('INVOKE_DEFAULT')
+    else:ops_object.shadertoolsng_credits('INVOKE_DEFAULT')
+
+def SwitchButtonsList(list):
+    temp = []
+    for p in list: temp.append(tuple((p, active_languages[p], "")))
+    return temp
+
 class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
     bl_label = active_languages['panel_name']
     bl_idname = "OBJECT_PT_shaderstoolsng"
     bl_space_type = "PROPERTIES"
     bl_region_type = "WINDOW"
     bl_context = "material"
+
+    ctx_props = eval(api_functions['props'])
+    types_scene = eval(api_functions['types_scene'])
+    
+    #Open and save buttons in panel
+    OpenSaveItems = SwitchButtonsList(("buttons_open", "buttons_save"))
+    OpenSave = ctx_props.EnumProperty( name = "OpenSave", items = OpenSaveItems, update=OpenSaveSwitch)
+    types_scene.shadertoolsng_open_save = OpenSave
+    #Export and import buttons in panel
+    ExportImportItems = SwitchButtonsList(("buttons_export", "buttons_import"))
+    ExportImport = ctx_props.EnumProperty( name = "ExportImport", items = ExportImportItems, update=ExportImportSwitch)
+    types_scene.shadertoolsng_export_import = ExportImport
+    #Utils button in panel
+    UtilsItems = SwitchButtonsList(("buttons_config", "buttons_create", "buttons_log", "buttons_help", "buttons_credits"))
+    UtilsEnum = ctx_props.EnumProperty( name = "", items = UtilsItems, update=UtilsSwitch)
+    types_scene.shadertoolsng_utils_enum = UtilsEnum
     
     def draw(self, context):
+        ctx_scene = eval(api_functions['context_scene'])
         layout = self.layout
         row = layout.row()
         
         if update:
             row.operator("object.shadertoolsng_warning", text=active_languages['menu_error_error001'], icon="RADIO")
         else:
-            row.operator("object.shadertoolsng_open", text=active_languages['buttons_open'], icon="NEWFOLDER")
-            row.operator("object.shadertoolsng_save", text=active_languages['buttons_save'], icon="MATERIAL")
+            row.label("%s : " % active_languages['panel_database_label'], icon="SCENE_DATA")
+            row.prop(ctx_scene, "shadertoolsng_open_save", expand=True)
             row = layout.row()
-            row.operator("object.shadertoolsng_export", text=active_languages['buttons_export'], icon="SCRIPTWIN")
-            row.operator("object.shadertoolsng_import", text=active_languages['buttons_import'], icon="SCRIPTWIN")
-            row.operator("object.shadertoolsng_new", text=active_languages['buttons_create'], icon="BLENDER")
-            row.operator("object.shadertoolsng_configuration_search", text=active_languages['buttons_config'], icon="TEXT")
+            row.label("%s : " % active_languages['panel_archive_label'], icon="NEW")
+            row.prop(ctx_scene, "shadertoolsng_export_import", expand=True)
             row = layout.row()
-            row.operator("object.shadertoolsng_errors", text=active_languages['buttons_log'], icon="CONSOLE" )
-            row.operator("object.shadertoolsng_help", text=active_languages['buttons_help'], icon="HELP")
-            row.operator("object.shadertoolsng_credits", text=active_languages['buttons_credits'], icon="QUESTION")
+            row.label("%s : " % active_languages['panel_utils_label'], icon="PREFERENCES")
+            row.prop(ctx_scene, "shadertoolsng_utils_enum")
 
 MyReg = \
     (
      ShadersToolsNGPanel, Open, Save, Export, Import,
      New, Configuration, Help, Credits, UpdateWarning,
-     ConfigurationSearch, Errors,
+     ConfigurationSearch, Errors, Utils,
     )
 
 def register():
@@ -471,12 +521,10 @@ def register():
     except:
         print(misc.ConsoleError("Panel ", 0, False))
 #end register
-
 def unregister():
     for c in MyReg :
         bpy.utils.unregister_class(c)
     #end for
 #end unregister
-
 if __name__ == "__main__":
     register()
