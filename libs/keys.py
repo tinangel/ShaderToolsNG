@@ -465,5 +465,154 @@ def StandartValuesRenderInternalKeys():
                                  "render_use_overwrite":True, "render_use_placeholder":False, "render_file_quality":100,}    
     return standart_render_internal
 #end Render properties keys
+#Version properties keys
+def VersionKeys():
+    temp = \
+        (
+         "num_version", "app", "database", "blender",
+         )
+    return temp
+#end Version properties keys
+
+
+
+''' *******           Here ShaderTools Utils keys           ********* '''
+#ShaderTools materials keys
+def OldMaterialsKeys():
+    temp = \
+        (
+         "Mat_Index", "Mat_Name", "Mat_Type", "Mat_Preview_render_type", "Mat_diffuse_color_r", "Mat_diffuse_color_g", "Mat_diffuse_color_b", 
+         "Mat_diffuse_shader", "Mat_diffuse_intensity", "Mat_use_diffuse_ramp", "Mat_diffuse_roughness", "Mat_diffuse_toon_size", 
+         "Mat_diffuse_toon_smooth", "Mat_diffuse_darkness", "Mat_diffuse_fresnel", "Mat_diffuse_fresnel_factor", "Mat_specular_color_r", "Mat_specular_color_g",
+         "Mat_specular_color_b", "Mat_specular_shader", "Mat_specular_intensity", "Mat_specular_ramp", "Mat_specular_hardness",
+         "Mat_specular_ior", "Mat_specular_toon_size", "Mat_specular_toon_smooth", "Mat_shading_emit", "Mat_shading_ambient", "Mat_shading_translucency", 
+         "Mat_shading_use_shadeless", "Mat_shading_use_tangent_shading", "Mat_shading_use_cubic", "Mat_transparency_use_transparency", "Mat_transparency_method", 
+         "Mat_transparency_alpha", "Mat_transparency_fresnel", "Mat_transparency_specular_alpha", "Mat_transparency_fresnel_factor", "Mat_transparency_ior", 
+         "Mat_transparency_filter", "Mat_transparency_falloff", "Mat_transparency_depth_max", "Mat_transparency_depth", "Mat_transparency_gloss_factor",
+         "Mat_transparency_gloss_threshold", "Mat_transparency_gloss_samples", "Mat_raytracemirror_use", "Mat_raytracemirror_reflect_factor", 
+         "Mat_raytracemirror_fresnel", "Mat_raytracemirror_color_r", "Mat_raytracemirror_color_g", "Mat_raytracemirror_color_b", 
+         "Mat_raytracemirror_fresnel_factor", "Mat_raytracemirror_depth", "Mat_raytracemirror_distance", "Mat_raytracemirror_fade_to", 
+         "Mat_raytracemirror_gloss_factor", "Mat_raytracemirror_gloss_threshold", "Mat_raytracemirror_gloss_samples", "Mat_raytracemirror_gloss_anisotropic",
+         "Mat_subsurfacescattering_use", "Mat_subsurfacescattering_presets", "Mat_subsurfacescattering_ior", "Mat_subsurfacescattering_scale", 
+         "Mat_subsurfacescattering_color_r", "Mat_subsurfacescattering_color_g", "Mat_subsurfacescattering_color_b",  
+         "Mat_subsurfacescattering_color_factor", "Mat_subsurfacescattering_texture_factor", "Mat_subsurfacescattering_radius_one",
+         "Mat_subsurfacescattering_radius_two", "Mat_subsurfacescattering_radius_three", "Mat_subsurfacescattering_front", "Mat_subsurfacescattering_back", 
+         "Mat_subsurfacescattering_error_threshold", "Mat_strand_root_size", "Mat_strand_tip_size", "Mat_strand_size_min", "Mat_strand_blender_units",
+         "Mat_strand_use_tangent_shading", "Mat_strand_shape", "Mat_strand_width_fade", "Mat_strand_blend_distance", "Mat_options_use_raytrace", 
+         "Mat_options_use_full_oversampling", "Mat_options_use_sky", "Mat_options_use_mist", "Mat_options_invert_z", "Mat_options_offset_z",
+         "Mat_options_use_face_texture", "Mat_options_use_texture_alpha", "Mat_options_use_vertex_color_paint", "Mat_options_use_vertex_color_light", 
+         "Mat_options_use_object_color", "Mat_options_pass_index", "Mat_shadow_use_shadows", "Mat_shadow_use_transparent_shadows",
+         "Mat_shadow_use_cast_shadows_only", "Mat_shadow_shadow_cast_alpha", "Mat_shadow_use_only_shadow", "Mat_shadow_shadow_only_type", 
+         "Mat_shadow_use_cast_buffer_shadows", "Mat_shadow_shadow_buffer_bias", "Mat_shadow_use_ray_shadow_bias", "Mat_shadow_shadow_ray_bias", 
+         "Mat_shadow_use_cast_approximate", "Idx_ramp_diffuse", "Idx_ramp_specular", "Idx_textures",
+        )
+    return temp
+#end ShaderTools materials keys
+#ShaderTools version keys
+def OldVersionKeys():
+    temp = \
+        (
+         "APP_VERSION", "BLENDER_VERSION", "BASE_VERSION", 
+         )
+    return temp
+#end ShaderTools version keys
+#ShaderTools textures keys
+def OldTexturesKeys():
+    temp = \
+        (
+         "Tex_Index", "Tex_Name", "Tex_Type", "Tex_Preview_type", "Tex_use_preview_alpha", "Tex_type_blend_progression", "Tex_type_blend_use_flip_axis", 
+         "Tex_type_clouds_cloud_type", "Tex_type_clouds_noise_type", "Tex_type_clouds_noise_basis", "Tex_type_noise_distortion", "Tex_type_env_map_source", 
+         "Tex_type_env_map_mapping", "Tex_type_env_map_clip_start", "Tex_type_env_map_clip_end", "Tex_type_env_map_resolution", "Tex_type_env_map_depth", 
+         "Tex_type_env_map_image_file", "Tex_type_env_map_zoom", "Tex_type_magic_depth", "Tex_type_magic_turbulence", "Tex_type_marble_marble_type", 
+         "Tex_type_marble_noise_basis_2", "Tex_type_marble_noise_type", "Tex_type_marble_noise_basis", "Tex_type_marble_noise_scale",
+         "Tex_type_marble_noise_depth", "Tex_type_marble_turbulence", "Tex_type_marble_nabla", "Tex_type_musgrave_type", "Tex_type_musgrave_dimension_max",
+         "Tex_type_musgrave_lacunarity", "Tex_type_musgrave_octaves", "Tex_type_musgrave_noise_intensity", "Tex_type_musgrave_noise_basis", 
+         "Tex_type_musgrave_noise_scale", "Tex_type_musgrave_nabla", "Tex_type_musgrave_offset", "Tex_type_musgrave_gain", "Tex_type_clouds_noise_scale",
+         "Tex_type_clouds_nabla", "Tex_type_clouds_noise_depth", "Tex_type_noise_distortion_distortion", "Tex_type_noise_distortion_texture_distortion", 
+         "Tex_type_noise_distortion_nabla", "Tex_type_noise_distortion_noise_scale", "Tex_type_point_density_point_source", "Tex_type_point_density_radius", 
+         "Tex_type_point_density_particule_cache_space", "Tex_type_point_density_falloff", "Tex_type_point_density_use_falloff_curve", 
+         "Tex_type_point_density_falloff_soft", "Tex_type_point_density_falloff_speed_scale", "Tex_type_point_density_speed_scale", 
+         "Tex_type_point_density_color_source", "Tex_type_stucci_type", "Tex_type_stucci_noise_type", "Tex_type_stucci_basis", "Tex_type_stucci_noise_scale",
+         "Tex_type_stucci_turbulence", "Tex_type_voronoi_distance_metric", "Tex_type_voronoi_minkovsky_exponent", "Tex_type_voronoi_color_mode", 
+         "Tex_type_voronoi_noise_scale", "Tex_type_voronoi_nabla", "Tex_type_voronoi_weight_1", "Tex_type_voronoi_weight_2", "Tex_type_voronoi_weight_3",
+         "Tex_type_voronoi_weight_4", "Tex_type_voxel_data_file_format", "Tex_type_voxel_data_source_path", "Tex_type_voxel_data_use_still_frame",
+         "Tex_type_voxel_data_still_frame", "Tex_type_voxel_data_interpolation", "Tex_type_voxel_data_extension", "Tex_type_voxel_data_intensity", 
+         "Tex_type_voxel_data_resolution_1", "Tex_type_voxel_data_resolution_2", "Tex_type_voxel_data_resolution_3", "Tex_type_voxel_data_smoke_data_type", 
+         "Tex_type_wood_noise_basis_2", "Tex_type_wood_wood_type", "Tex_type_wood_noise_type", "Tex_type_wood_basis", "Tex_type_wood_noise_scale",
+         "Tex_type_wood_nabla", "Tex_type_wood_turbulence", "Tex_influence_use_map_diffuse", "Tex_influence_use_map_color_diffuse", 
+         "Tex_influence_use_map_alpha", "Tex_influence_use_map_translucency", "Tex_influence_use_map_specular", "Tex_influence_use_map_color_spec", 
+         "Tex_influence_use_map_map_hardness", "Tex_influence_use_map_ambient", "Tex_influence_use_map_emit", "Tex_influence_use_map_mirror", 
+         "Tex_influence_use_map_raymir", "Tex_influence_use_map_normal", "Tex_influence_use_map_warp", "Tex_influence_use_map_displacement", 
+         "Tex_influence_use_map_rgb_to_intensity", "Tex_influence_map_invert", "Tex_influence_use_stencil", "Tex_influence_diffuse_factor", 
+         "Tex_influence_color_factor", "Tex_influence_alpha_factor", "Tex_influence_translucency_factor", "Tex_influence_specular_factor", 
+         "Tex_influence_specular_color_factor", "Tex_influence_hardness_factor", "Tex_influence_ambiant_factor", "Tex_influence_emit_factor", 
+         "Tex_influence_mirror_factor", "Tex_influence_raymir_factor", "Tex_influence_normal_factor", "Tex_influence_warp_factor",
+         "Tex_influence_displacement_factor", "Tex_influence_default_value", "Tex_influence_blend_type", "Tex_influence_color_r", "Tex_influence_color_g", 
+         "Tex_influence_color_b", "Tex_influence_bump_method", "Tex_influence_objectspace", "Tex_mapping_texture_coords", "Tex_mapping_mapping", 
+         "Tex_mapping_use_from_dupli", "Tex_mapping_mapping_x", "Tex_mapping_mapping_y", "Tex_mapping_mapping_z", "Tex_mapping_offset_x", 
+         "Tex_mapping_offset_y", "Tex_mapping_offset_z", "Tex_mapping_scale_x", "Tex_mapping_scale_y", "Tex_mapping_scale_z", "Tex_colors_use_color_ramp", 
+         "Tex_colors_factor_r", "Tex_colors_factor_g", "Tex_colors_factor_b", "Tex_colors_intensity", "Tex_colors_contrast", "Tex_colors_saturation",
+         "Mat_Idx", "Poi_Idx", "Col_Idx", "Tex_type_voronoi_intensity", "Tex_mapping_use_from_original", "Tex_type_noise_distortion_noise_distortion", 
+         "Tex_type_noise_distortion_basis",
+         )
+    return temp
+#end ShaderTools texures keys
+#ShaderTools image_uv keys
+def OldImageUvKeys():
+    temp = \
+        (
+         "Ima_Index", "Idx_Texture", "Ima_Name", "Ima_Source", "Ima_Filepath", "Ima_Fileformat", "Ima_Fields", "Ima_Premultiply", 
+         "Ima_Fields_order", "Ima_Generated_type", "Ima_Generated_width", "Ima_Generated_height", "Ima_Float_buffer", "Ima_Blob",
+         )
+    return temp
+#end ShaderTools image_uv keys
+#ShaderTools render keys
+def OldRenderKeys():
+    temp = \
+        (
+         "Ren_Index", "Ren_Color_Management", "Ren_Preview_Object", "Mat_Index", 
+        )
+    return temp
+#end ShaderTools render keys
+#ShaderTools diffuse ramps keys
+def OldDiffuseRampsKeys():
+    temp = \
+        (
+         "Dif_Index", "Dif_Num_Material", "Dif_Num_Texture", "Dif_Flip", "Dif_Active_color_stop", "Dif_Between_color_stop", "Dif_Interpolation", 
+         "Dif_Position", "Dif_Color_stop_one_r", "Dif_Color_stop_one_g", "Dif_Color_stop_one_b", "Dif_Color_stop_one_a", "Dif_Color_stop_two_r", 
+         "Dif_Color_stop_two_g", "Dif_Color_stop_two_b", "Dif_Color_stop_two_a", "Dif_Ramp_input", "Dif_Ramp_blend", "Dif_Ramp_factor",   
+         )
+    return temp
+#end ShaderTools diffuse ramps keys
+#ShaderTools specular ramps keys
+def OldSpecularRampsKeys():
+    temp = \
+        (
+         "Spe_Index", "Spe_Num_Material", "Spe_Num_Texture", "Spe_Flip", "Spe_Active_color_stop", "Spe_Between_color_stop", "Spe_Interpolation", 
+         "Spe_Position", "Spe_Color_stop_one_r", "Spe_Color_stop_one_g", "Spe_Color_stop_one_b", "Spe_Color_stop_one_a", "Spe_Color_stop_two_r", 
+         "Spe_Color_stop_two_g", "Spe_Color_stop_two_b", "Spe_Color_stop_two_a", "Spe_Ramp_input", "Spe_Ramp_blend", "Spe_Ramp_factor",   
+         )
+    return temp
+#end ShaderTools specular ramps keys
+#ShaderTools color ramps keys
+def OldColorRampsKeys():
+    temp = \
+        (
+         "Col_Index", "Col_Num_Material", "Col_Num_Texture", "Col_Flip", "Col_Active_color_stop", "Col_Between_color_stop", "Col_Interpolation", 
+         "Col_Position", "Col_Color_stop_one_r", "Col_Color_stop_one_g", "Col_Color_stop_one_b", "Col_Color_stop_one_a", "Col_Color_stop_two_r", 
+         "Col_Color_stop_two_g", "Col_Color_stop_two_b", "Col_Color_stop_two_a",    
+         )
+    return temp
+#end ShaderTools color ramps keys
+#ShaderTools point density ramps keys
+def OldPointDensityRampsKeys():
+    temp = \
+        (
+         "Poi_Index", "Poi_Num_Material", "Poi_Num_Texture", "Poi_Flip", "Poi_Active_color_stop", "Poi_Between_color_stop", "Poi_Interpolation", 
+         "Poi_Position", "Poi_Color_stop_one_r", "Poi_Color_stop_one_g", "Poi_Color_stop_one_b", "Poi_Color_stop_one_a", "Poi_Color_stop_two_r", 
+         "Poi_Color_stop_two_g", "Poi_Color_stop_two_b", "Poi_Color_stop_two_a",    
+         )
+    return temp
+#end ShaderTools point density ramps keys
 
 
