@@ -81,7 +81,7 @@ def VerifyBookmark(bookmark_path, bookmark_folder_path, bookmark_folder_name):
         
         bookmarks_file.close()
         os.remove(bookmark_path)
-        new_bookmarks_file = open(bookmark_path, 'w', encoding = "utf-8")
+        new_bookmarks_file = open(bookmark_path, 'a', encoding = "utf-8")
         for v in bookmarks_new_list: 
             new_bookmarks_file.write(v)
         print(misc.ConsoleError("bookmark update ", 1, True))        
