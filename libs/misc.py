@@ -173,3 +173,8 @@ def ConvertMarkOut(path, app_path):
 def DoubleSlash(path):
     if platform.system() == 'Windows': return path.replace(os.sep, "%s%s" % (os.sep, os.sep))
     else: return path
+
+def CrossProduct(current_value, max_value):
+    total = (current_value*100)/max_value
+    return int(total)
+

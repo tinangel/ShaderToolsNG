@@ -107,7 +107,7 @@ def ApiKeys():
          "texture_color_ramp_elements", "texture_point_density_color_ramp_elements", "texture_slots_values", "texture_slots_items","texture_slots", "texture_slots_create",
          "texture_slots_values_use", "texture_slots_values_texture_type", "texture_use_preview_alpha", "texture_slots_texture_name", "texture_slots_new", "texture_slots_texture_type",
          "texture_slots_add", "texture_image_save_render", "texture_image_save_as", "texture_image_pack", "texture_image_unpack", "texture_image_load", "material_name", "render_render",
-         "ops_script_python_file_run", "types_scene",)
+         "ops_script_python_file_run", "types_scene", "invoke_popup",)
     return temp
 #end Api keys
 #Langages keys
@@ -127,7 +127,8 @@ def LangagesKeys():
          "menu_category_liquids", "menu_category_metal", "menu_category_misc", "menu_category_nature", "menu_category_organic", "menu_category_personal", "menu_category_plastic", "menu_category_sky",
          "menu_category_space", "menu_category_stone", "menu_category_toon", "menu_category_wall", "menu_category_water", "menu_category_wood", "buttons_update_blender",
          "menu_configuration_default_config", "bl_id_config_search", "menu_configuration_langage_choice", "menu_configuration_current_index", "take_preview", "buttons_log",
-         "menu_import_label001", "menu_import_label002", "bl_id_name_logs", "buttons_utils", "bl_id_name_utils",  "panel_database_label", "panel_archive_label", "panel_utils_label",
+         "menu_import_label001", "menu_import_label002", "bl_id_name_logs", "buttons_utils", "panel_database_label", "panel_archive_label", "panel_utils_label", "menu_utils_migrate",
+         "bl_id_name_utils_migrate", "menu_utils_migrate_help01", "menu_utils_migrate_help02",
          ]
     for i in range(1, 41):
         temp.append("menu_error_error%03d" % i)
@@ -537,7 +538,7 @@ def OldTexturesKeys():
          "Tex_type_voronoi_noise_scale", "Tex_type_voronoi_nabla", "Tex_type_voronoi_weight_1", "Tex_type_voronoi_weight_2", "Tex_type_voronoi_weight_3",
          "Tex_type_voronoi_weight_4", "Tex_type_voxel_data_file_format", "Tex_type_voxel_data_source_path", "Tex_type_voxel_data_use_still_frame",
          "Tex_type_voxel_data_still_frame", "Tex_type_voxel_data_interpolation", "Tex_type_voxel_data_extension", "Tex_type_voxel_data_intensity", 
-         "Tex_type_voxel_data_resolution_1", "Tex_type_voxel_data_resolution_2", "Tex_type_voxel_data_resolution_3", "Tex_type_voxel_data_smoke_data_type", 
+         "Tex_type_voxel_data_resolution_1", "Tex_type_voxel_data_resolution_2", "Tex_type_voxel_data_resoltion_3", "Tex_type_voxel_data_smoke_data_type", 
          "Tex_type_wood_noise_basis_2", "Tex_type_wood_wood_type", "Tex_type_wood_noise_type", "Tex_type_wood_basis", "Tex_type_wood_noise_scale",
          "Tex_type_wood_nabla", "Tex_type_wood_turbulence", "Tex_influence_use_map_diffuse", "Tex_influence_use_map_color_diffuse", 
          "Tex_influence_use_map_alpha", "Tex_influence_use_map_translucency", "Tex_influence_use_map_specular", "Tex_influence_use_map_color_spec", 
@@ -578,7 +579,7 @@ def OldRenderKeys():
 def OldDiffuseRampsKeys():
     temp = \
         (
-         "Dif_Index", "Dif_Num_Material", "Dif_Num_Texture", "Dif_Flip", "Dif_Active_color_stop", "Dif_Between_color_stop", "Dif_Interpolation", 
+         "Dif_Index", "Dif_Num_Material", "Dif_Num_material", "Dif_Flip", "Dif_Active_color_stop", "Dif_Between_color_stop", "Dif_Interpolation", 
          "Dif_Position", "Dif_Color_stop_one_r", "Dif_Color_stop_one_g", "Dif_Color_stop_one_b", "Dif_Color_stop_one_a", "Dif_Color_stop_two_r", 
          "Dif_Color_stop_two_g", "Dif_Color_stop_two_b", "Dif_Color_stop_two_a", "Dif_Ramp_input", "Dif_Ramp_blend", "Dif_Ramp_factor",   
          )
@@ -588,7 +589,7 @@ def OldDiffuseRampsKeys():
 def OldSpecularRampsKeys():
     temp = \
         (
-         "Spe_Index", "Spe_Num_Material", "Spe_Num_Texture", "Spe_Flip", "Spe_Active_color_stop", "Spe_Between_color_stop", "Spe_Interpolation", 
+         "Spe_Index", "Spe_Num_Material", "Spe_Num_material", "Spe_Flip", "Spe_Active_color_stop", "Spe_Between_color_stop", "Spe_Interpolation", 
          "Spe_Position", "Spe_Color_stop_one_r", "Spe_Color_stop_one_g", "Spe_Color_stop_one_b", "Spe_Color_stop_one_a", "Spe_Color_stop_two_r", 
          "Spe_Color_stop_two_g", "Spe_Color_stop_two_b", "Spe_Color_stop_two_a", "Spe_Ramp_input", "Spe_Ramp_blend", "Spe_Ramp_factor",   
          )

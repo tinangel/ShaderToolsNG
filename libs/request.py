@@ -57,22 +57,22 @@ def DatabaseSelect(database_path, elements, table, condition, options):
     
     request = request.rstrip(",") + " from '%s' " % table + condition
     #here my request :
-    try:
-        DatabaseCursor.execute(request)
+    #try:
+    DatabaseCursor.execute(request)
         
-        if options == "one": #options
-            result = DatabaseCursor.fetchone()
-        else:
-            result = DatabaseCursor.fetchall()
+    if options == "one": #options
+        result = DatabaseCursor.fetchone()
+    else:
+        result = DatabaseCursor.fetchall()
         
-        DatabaseCursor.close() #close cursor
-        ShaderToolsDatabase.close() #close database 
-        return result
+    DatabaseCursor.close() #close cursor
+    ShaderToolsDatabase.close() #close database 
+    return result
     
-    except:
-        DatabaseCursor.close() #close cursor
-        ShaderToolsDatabase.close() #close database
-        return False
+    #except:
+    #    DatabaseCursor.close() #close cursor
+    #    ShaderToolsDatabase.close() #close database
+    #    return False
 #end Select in database
 #Count in database
 def DatabaseCount(database_path, element, table, condition, options):

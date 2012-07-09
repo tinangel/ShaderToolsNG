@@ -40,7 +40,8 @@ print("*"*78)
 #Imports & external libs:
 try:
     import bpy, sqlite3, os, platform, locale, shutil, sys, time, shader_tools_ng.libs
-    from shader_tools_ng.libs import bookmark, environment, checkup, configuration, credits, exporter, help, importer, new, open, save, request, zip, misc, keys, materials, textures, ramps, log, render
+    from shader_tools_ng.libs import bookmark, environment, checkup, configuration, credits, exporter, help, importer, new, open, save, request, \
+    zip, misc, keys, materials, textures, ramps, log, render, migrate
     print(misc.ConsoleError("Import external module ", 0, True))
 
 except:
@@ -365,7 +366,7 @@ class Configuration(eval(api_functions['types_operator'])):
 
 class ConfigurationSearch(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_configuration_search"
-    bl_label = ''#space_access_name + active_languages['bl_id_config_search']
+    bl_label = ''
     
     ctx = eval(api_functions['props'])
     type = ctx.EnumProperty(name=active_languages['menu_configuration_select_title'],items=(names_config),)
@@ -421,23 +422,43 @@ class Credits(eval(api_functions['types_operator'])):
                 row = layout.row(align=True)
 
     def invoke(self, context, event):
-        wm = context.window_manager
-        return wm.invoke_popup(self, width = 380)
+        return eval(api_functions['invoke_popup'].replace("#1#", "self, width = 380"))
     
     def execute(self, context):
         return {'FINISHED'}   
 
-class Utils(eval(api_functions['types_operator'])):
-    bl_idname = "object.shadertoolsng_utils"
-    bl_label = space_access_name + active_languages['bl_id_name_utils']    
+class UtilsMigrate(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_utils_migrate"
+    bl_label = space_access_name + active_languages['bl_id_name_utils_migrate']    
     
-    #def draw(self, context):
+    ctx = eval(api_functions['props'])
+    filename_ext = ".sqlite"
+    filter_glob = ctx.StringProperty(default="*.sqlite;*.SQLITE", options={'HIDDEN'})
+    filename = ctx.StringProperty(subtype="FILENAME")
+    filepath = ctx.StringProperty(subtype="FILE_PATH")   
+    load_bar = ctx.FloatProperty(name=active_languages['menu_utils_migrate_help02'], subtype="PERCENTAGE", min=0, max=100)
     
+    def draw(self, context):
+        layout = self.layout
+        row = layout.row(align=True)
+        row.label(active_languages['menu_utils_migrate_help01'], icon="HELP")
+        row = layout.row(align=True)
+        row.prop(self, "load_bar")
+        
     def invoke(self, context, event):
-        wm = context.window_manager
-        return wm.invoke_popup(self, width = 380)
+        wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
+        return {'RUNNING_MODAL'}
     
     def execute(self, context):
+        global default_paths, active_configuration, api_functions, active_languages 
+        number_max = request.DatabaseCount(self.filepath, "Mat_Index", "MATERIALS", "", 'one')
+        version_values = request.DatabaseSelect(self.filepath, keys.OldVersionKeys(), "VERSION", "", 'one')   
+        
+        for v in range(2, number_max[0]+1):
+            #migrate.MigrateV1V2(self.filepath, api_functions, active_languages, active_configuration, default_paths, v)
+            self.load_bar = misc.CrossProduct(v, number_max[0]+1)
+        
+
         return {'FINISHED'}   
 
 def OpenSaveSwitch(self, context):
@@ -456,6 +477,7 @@ def UtilsSwitch(self, context):
     elif self.shadertoolsng_utils_enum == 'buttons_log':ops_object.shadertoolsng_errors('INVOKE_DEFAULT')
     elif self.shadertoolsng_utils_enum == 'buttons_help':ops_object.shadertoolsng_help('INVOKE_DEFAULT')
     elif self.shadertoolsng_utils_enum == 'buttons_create':ops_object.shadertoolsng_new('INVOKE_DEFAULT')
+    elif self.shadertoolsng_utils_enum == 'menu_utils_migrate':ops_object.shadertoolsng_utils_migrate('INVOKE_DEFAULT')
     else:ops_object.shadertoolsng_credits('INVOKE_DEFAULT')
 
 def SwitchButtonsList(list):
@@ -482,7 +504,7 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
     ExportImport = ctx_props.EnumProperty( name = "ExportImport", items = ExportImportItems, update=ExportImportSwitch)
     types_scene.shadertoolsng_export_import = ExportImport
     #Utils button in panel
-    UtilsItems = SwitchButtonsList(("buttons_config", "buttons_create", "buttons_log", "buttons_help", "buttons_credits"))
+    UtilsItems = SwitchButtonsList(("buttons_config", "buttons_create", "buttons_log", "buttons_help", "buttons_credits", "menu_utils_migrate",))
     UtilsEnum = ctx_props.EnumProperty( name = "", items = UtilsItems, update=UtilsSwitch)
     types_scene.shadertoolsng_utils_enum = UtilsEnum
     
@@ -507,7 +529,7 @@ MyReg = \
     (
      ShadersToolsNGPanel, Open, Save, Export, Import,
      New, Configuration, Help, Credits, UpdateWarning,
-     ConfigurationSearch, Errors, Utils,
+     ConfigurationSearch, Errors, UtilsMigrate,
     )
 
 def register():
