@@ -508,6 +508,58 @@ def OldMaterialsKeys():
          "Mat_shadow_use_cast_approximate", "Idx_ramp_diffuse", "Idx_ramp_specular", "Idx_textures",
         )
     return temp
+def OldMaterialsDict():
+    temp = \
+        {
+         "Mat_Index":'num_materials', "Mat_Name":'name', "Mat_Type":'type', "Mat_Preview_render_type":'preview_render_type',  
+         "Mat_diffuse_shader":'diffuse_shader', "Mat_diffuse_intensity":'diffuse_intensity', "Mat_use_diffuse_ramp":'use_diffuse_ramp', 
+         "Mat_diffuse_roughness":'roughness', "Mat_diffuse_toon_size":'diffuse_toon_size', "Mat_diffuse_toon_smooth":'diffuse_toon_smooth', 
+         "Mat_diffuse_darkness":'darkness', "Mat_diffuse_fresnel":'diffuse_fresnel', "Mat_diffuse_fresnel_factor":'diffuse_fresnel_factor', 
+         "Mat_specular_shader":'specular_shader', "Mat_specular_intensity":'specular_intensity', "Mat_specular_ramp":'use_specular_ramp', 
+         "Mat_specular_hardness":'specular_hardness', "Mat_specular_ior":'specular_ior', "Mat_specular_toon_size":'specular_toon_size', 
+         "Mat_specular_toon_smooth":'specular_toon_smooth', "Mat_shading_emit":'emit', "Mat_shading_ambient":'ambient', 
+         "Mat_shading_translucency":'translucency', "Mat_shading_use_shadeless": 'use_shadeless', "Mat_shading_use_tangent_shading":'use_tangent_shading',
+         "Mat_shading_use_cubic":'use_cubic', "Mat_transparency_use_transparency":'use_transparency', "Mat_transparency_method":'transparency_method', 
+         "Mat_transparency_alpha":'alpha', "Mat_transparency_fresnel":'raytrace_transparency_fresnel':, 
+         "Mat_transparency_specular_alpha":'specular_alpha', "Mat_transparency_fresnel_factor":'raytrace_transparency_fresnel_factor', 
+         "Mat_transparency_ior":'raytrace_transparency_ior', "Mat_transparency_filter":'raytrace_transparency_filter', 
+         "Mat_transparency_falloff":'raytrace_transparency_falloff', "Mat_transparency_depth_max":'raytrace_transparency_depth_max', 
+         "Mat_transparency_depth":'raytrace_transparency_depth', "Mat_transparency_gloss_factor":'raytrace_transparency_gloss_factor',
+         "Mat_transparency_gloss_threshold":'raytrace_transparency_gloss_threshold', "Mat_transparency_gloss_samples":'raytrace_transparency_gloss_samples',
+         "Mat_raytracemirror_use":'raytrace_mirror_use', "Mat_raytracemirror_reflect_factor":'raytrace_mirror_reflect_factor', 
+         "Mat_raytracemirror_fresnel":'raytrace_mirror_fresnel', "Mat_raytracemirror_fresnel_factor":'raytrace_mirror_fresnel_factor', 
+         "Mat_raytracemirror_depth":'raytrace_mirror_depth', "Mat_raytracemirror_distance":'raytrace_mirror_distance', 
+         "Mat_raytracemirror_fade_to":'raytrace_mirror_fade_to', "Mat_raytracemirror_gloss_factor":'raytrace_mirror_gloss_factor', 
+         "Mat_raytracemirror_gloss_threshold":'raytrace_mirror_gloss_threshold', "Mat_raytracemirror_gloss_samples":'raytrace_mirror_gloss_samples',
+         "Mat_raytracemirror_gloss_anisotropic":'raytrace_mirror_gloss_anisotropic', "Mat_subsurfacescattering_use":'subsurface_scattering_use',
+         "Mat_subsurfacescattering_ior":'subsurface_scattering_ior', "Mat_subsurfacescattering_scale":'subsurface_scattering_scale', 
+         "Mat_subsurfacescattering_color_factor":'subsurface_scattering_color_factor', "Mat_subsurfacescattering_texture_factor":'subsurface_scattering_texture_factor',
+         "Mat_subsurfacescattering_front":'subsurface_scattering_front', "Mat_subsurfacescattering_back":'subsurface_scattering_back', 
+         "Mat_subsurfacescattering_error_threshold":'subsurface_scattering_error_threshold', "Mat_strand_root_size":'strand_root_size', 
+         "Mat_strand_tip_size":'strand_tip_size', "Mat_strand_size_min":'strand_size_min', "Mat_strand_blender_units":'strand_use_blender_units',
+         "Mat_strand_use_tangent_shading":'strand_use_tangent_shading', "Mat_strand_shape":'strand_shape', "Mat_strand_width_fade":'strand_width_fade',
+         "Mat_strand_blend_distance":'strand_blend_distance', "Mat_options_use_raytrace":'use_raytrace', "Mat_options_use_full_oversampling":'use_full_oversampling',
+         "Mat_options_use_sky":'use_sky', "Mat_options_use_mist":'use_mist', "Mat_options_invert_z":'invert_z', "Mat_options_offset_z":'offset_z',
+         "Mat_options_use_face_texture":'use_face_texture', "Mat_options_use_texture_alpha":'use_face_texture_alpha', 
+         "Mat_options_use_vertex_color_paint":'use_vertex_color_paint', "Mat_options_use_vertex_color_light":'use_vertex_color_light', 
+         "Mat_options_use_object_color":'use_object_color', "Mat_options_pass_index":'pass_index', "Mat_shadow_use_shadows":'use_shadows',
+         "Mat_shadow_use_transparent_shadows":'use_transparent_shadows', "Mat_shadow_use_cast_shadows_only":'use_cast_shadows_only', 
+         "Mat_shadow_shadow_cast_alpha":'shadow_cast_alpha', "Mat_shadow_use_only_shadow":'use_only_shadow', "Mat_shadow_shadow_only_type":'shadow_only_type', 
+         "Mat_shadow_use_cast_buffer_shadows":'use_cast_buffer_shadows', "Mat_shadow_shadow_buffer_bias":'shadow_buffer_bias', 
+         "Mat_shadow_use_ray_shadow_bias":'use_ray_shadow_bias', "Mat_shadow_shadow_ray_bias":'shadow_ray_bias', "Mat_shadow_use_cast_approximate":'use_cast_approximate', 
+         "Idx_ramp_diffuse":'idx_diffuse_ramp', "Idx_ramp_specular":'idx_specular_ramp', "Idx_textures":'idx_textures',
+        }
+    return temp
+def OldMaterialsColorRadiusDict():
+    temp = \
+        {
+         'diffuse_color':("Mat_diffuse_color_r", "Mat_diffuse_color_g", "Mat_diffuse_color_b"),
+         'specular_color':("Mat_specular_color_r", "Mat_specular_color_g", "Mat_specular_color_b"),
+         'mirror_color':("Mat_raytracemirror_color_r", "Mat_raytracemirror_color_g", "Mat_raytracemirror_color_b"),
+         'subsurface_scattering_color':("Mat_subsurfacescattering_color_r", "Mat_subsurfacescattering_color_g", "Mat_subsurfacescattering_color_b"),
+         'subsurface_scattering_radius':("Mat_subsurfacescattering_radius_one","Mat_subsurfacescattering_radius_two", "Mat_subsurfacescattering_radius_three"),
+        }
+    return temp
 #end ShaderTools materials keys
 #ShaderTools version keys
 def OldVersionKeys():
@@ -556,6 +608,62 @@ def OldTexturesKeys():
          "Mat_Idx", "Poi_Idx", "Col_Idx", "Tex_type_voronoi_intensity", "Tex_mapping_use_from_original", "Tex_type_noise_distortion_noise_distortion", 
          "Tex_type_noise_distortion_basis",
          )
+    return temp
+def OldTexturesDict():
+    temp = \
+        {
+         "Tex_Index":'num_textures', "Tex_Name":'name', "Tex_Type":'type',  "Tex_use_preview_alpha":'texture_use_alpha', 
+         "Tex_type_blend_progression":'texture_progression', "Tex_type_blend_use_flip_axis":'texture_use_flip_axis', 
+         "Tex_type_clouds_cloud_type":'texture_cloud_type', "Tex_type_clouds_noise_type":'texture_noise_type', "Tex_type_clouds_noise_basis":'texture_noise_basis',
+         "Tex_type_noise_distortion":'texture_noise_distortion', "Tex_type_magic_depth":'texture_noise_depth',
+         "Tex_type_magic_turbulence":'texture_turbulence', "Tex_type_marble_marble_type":'texture_marble_type', "Tex_type_marble_noise_basis_2":'texture_noise_basis_2',
+         "Tex_type_marble_noise_type":'texture_noise_type', "Tex_type_marble_noise_basis":'texture_noise_basis', "Tex_type_marble_noise_scale":'texture_noise_scale',
+         "Tex_type_marble_noise_depth":'texture_noise_depth', "Tex_type_marble_turbulence":'texture_turbulence', "Tex_type_marble_nabla":'texture_nabla',
+         "Tex_type_musgrave_type":'texture_musgrave_type', "Tex_type_musgrave_dimension_max":'texture_dimension_max',
+         "Tex_type_musgrave_lacunarity":'texture_lacunarity', "Tex_type_musgrave_octaves":'texture_octaves', 
+         "Tex_type_musgrave_noise_intensity":'texture_noise_intensity', "Tex_type_musgrave_noise_basis":'texture_noise_basis', 
+         "Tex_type_musgrave_noise_scale":'texture_noise_scale', "Tex_type_musgrave_nabla":'texture_nabla', "Tex_type_musgrave_offset":'texture_offset',
+         "Tex_type_musgrave_gain":'texture_gain', "Tex_type_clouds_noise_scale":'texture_noise_scale', "Tex_type_clouds_nabla":'texture_nabla',
+         "Tex_type_clouds_noise_depth":'texture_noise_depth', "Tex_type_noise_distortion_distortion":'texture_noise_distortion',
+         "Tex_type_noise_distortion_texture_distortion":'texture_distortion', "Tex_type_noise_distortion_nabla":'texture_nabla', 
+         "Tex_type_noise_distortion_noise_scale":'texture_noise_scale', "Tex_type_point_density_point_source":'texture_point_density_point_source',
+         "Tex_type_stucci_type":'texture_stucci_type', "Tex_type_stucci_noise_type":'texture_noise_type', "Tex_type_stucci_basis":'texture_noise_basis',
+         "Tex_type_stucci_noise_scale":'texture_noise_scale', "Tex_type_stucci_turbulence":'texture_turbulence', 
+         "Tex_type_voronoi_distance_metric":'texture_distance_metric', "Tex_type_voronoi_minkovsky_exponent":'texture_minkovsky_exponent', 
+         "Tex_type_voronoi_color_mode":'texture_color_mode', "Tex_type_voronoi_noise_scale":'texture_noise_scale', "Tex_type_voronoi_nabla":'texture_nabla',
+         "Tex_type_voronoi_weight_1":'texture_weight_1', "Tex_type_voronoi_weight_2":'texture_weight_2', "Tex_type_voronoi_weight_3":'texture_weight_3',
+         "Tex_type_voronoi_weight_4":'texture_weight_4', "Tex_type_wood_noise_basis_2":'texture_noise_basis_2', "Tex_type_wood_wood_type":'texture_wood_type',
+         "Tex_type_wood_noise_type":'texture_noise_type', "Tex_type_wood_basis":'texture_noise_basis', "Tex_type_wood_noise_scale":'texture_noise_scale',
+         "Tex_type_wood_nabla":'texture_nabla', "Tex_type_wood_turbulence":'texture_turbulence', "Tex_influence_use_map_diffuse":'use_map_diffuse',
+         "Tex_influence_use_map_color_diffuse":'use_map_color_diffuse', "Tex_influence_use_map_alpha":'use_map_alpha', 
+         "Tex_influence_use_map_translucency":'use_map_translucency', "Tex_influence_use_map_specular":'use_map_specular', 
+         "Tex_influence_use_map_color_spec":'use_map_color_spec', "Tex_influence_use_map_map_hardness":'use_map_hardness', 
+         "Tex_influence_use_map_ambient":'use_map_ambient', "Tex_influence_use_map_emit":'use_map_emit', "Tex_influence_use_map_mirror":'use_map_mirror', 
+         "Tex_influence_use_map_raymir":'use_map_raymir', "Tex_influence_use_map_normal":'use_map_normal', "Tex_influence_use_map_warp":'use_map_warp',
+         "Tex_influence_use_map_displacement":'use_map_displacement', "Tex_influence_use_map_rgb_to_intensity":'use_rgb_to_intensity', 
+         "Tex_influence_map_invert":'invert', "Tex_influence_use_stencil":'use_stencil', "Tex_influence_diffuse_factor":'diffuse_factor', 
+         "Tex_influence_color_factor":'diffuse_color_factor', "Tex_influence_alpha_factor":'alpha_factor', "Tex_influence_translucency_factor":'translucency_factor',
+         "Tex_influence_specular_factor":'specular_factor', "Tex_influence_specular_color_factor":'specular_color_factor', 
+         "Tex_influence_hardness_factor":'hardness_factor', "Tex_influence_ambiant_factor":'ambient_factor', "Tex_influence_emit_factor":'emit_factor', 
+         "Tex_influence_mirror_factor":'mirror_factor', "Tex_influence_raymir_factor":'raymir_factor', "Tex_influence_normal_factor":'normal_factor',
+         "Tex_influence_warp_factor":'warp_factor', "Tex_influence_displacement_factor":'displacement_factor', "Tex_influence_default_value":'default_value',
+         "Tex_influence_blend_type":'blend_type',  "Tex_influence_bump_method":'bump_method', "Tex_influence_objectspace":'bump_objectspace', 
+         "Tex_mapping_texture_coords":'texture_coords', "Tex_mapping_mapping":'mapping', "Tex_mapping_use_from_dupli":'use_from_dupli', 
+         "Tex_mapping_mapping_x":'mapping_x', "Tex_mapping_mapping_y":'mapping_y', "Tex_mapping_mapping_z":'mapping_z', 
+         "Tex_colors_use_color_ramp":'texture_use_color_ramp', "Tex_colors_factor_r":'texture_factor_red', "Tex_colors_factor_g":'texture_factor_green',
+         "Tex_colors_factor_b":'texture_factor_blue', "Tex_colors_intensity":'texture_intensity', "Tex_colors_contrast":'texture_contrast', 
+         "Tex_colors_saturation":'texture_saturation', "Mat_Idx":'idx_materials', "Poi_Idx":'idx_point_density_ramp', "Col_Idx":'idx_color_ramp',
+         "Tex_type_voronoi_intensity":'texture_intensity' , "Tex_mapping_use_from_original":'use_from_original', 
+         "Tex_type_noise_distortion_noise_distortion":'texture_noise_distortion', "Tex_type_noise_distortion_basis":'texture_noise_basis',
+    }
+    return temp
+def OldTexturesColorVectorDict():
+    temp = \
+        {
+            'influence_color':("Tex_influence_color_r", "Tex_influence_color_g", "Tex_influence_color_b"),
+            'offset':("Tex_mapping_offset_x", "Tex_mapping_offset_y", "Tex_mapping_offset_z"),
+            'scale':("Tex_mapping_scale_x", "Tex_mapping_scale_y", "Tex_mapping_scale_z"),
+        }
     return temp
 #end ShaderTools texures keys
 #ShaderTools image_uv keys

@@ -436,29 +436,22 @@ class UtilsMigrate(eval(api_functions['types_operator'])):
     filter_glob = ctx.StringProperty(default="*.sqlite;*.SQLITE", options={'HIDDEN'})
     filename = ctx.StringProperty(subtype="FILENAME")
     filepath = ctx.StringProperty(subtype="FILE_PATH")   
-    load_bar = ctx.FloatProperty(name=active_languages['menu_utils_migrate_help02'], subtype="PERCENTAGE", min=0, max=100)
     
     def draw(self, context):
         layout = self.layout
         row = layout.row(align=True)
         row.label(active_languages['menu_utils_migrate_help01'], icon="HELP")
         row = layout.row(align=True)
-        row.prop(self, "load_bar")
-        
+    
     def invoke(self, context, event):
         wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
         return {'RUNNING_MODAL'}
     
     def execute(self, context):
-        global default_paths, active_configuration, api_functions, active_languages 
-        number_max = request.DatabaseCount(self.filepath, "Mat_Index", "MATERIALS", "", 'one')
-        version_values = request.DatabaseSelect(self.filepath, keys.OldVersionKeys(), "VERSION", "", 'one')   
-        
-        for v in range(2, number_max[0]+1):
-            #migrate.MigrateV1V2(self.filepath, api_functions, active_languages, active_configuration, default_paths, v)
-            self.load_bar = misc.CrossProduct(v, number_max[0]+1)
-        
-
+        '''number_max[0]+1 '''
+        for v in range(2, 10):
+            self.report({'WARNING'},"Material %s" % str(v))
+            migrate.MigrateV1V2(self.filepath, api_functions, active_languages, active_configuration, default_paths, v)
         return {'FINISHED'}   
 
 def OpenSaveSwitch(self, context):
