@@ -520,7 +520,7 @@ def OldMaterialsDict():
          "Mat_specular_toon_smooth":'specular_toon_smooth', "Mat_shading_emit":'emit', "Mat_shading_ambient":'ambient', 
          "Mat_shading_translucency":'translucency', "Mat_shading_use_shadeless": 'use_shadeless', "Mat_shading_use_tangent_shading":'use_tangent_shading',
          "Mat_shading_use_cubic":'use_cubic', "Mat_transparency_use_transparency":'use_transparency', "Mat_transparency_method":'transparency_method', 
-         "Mat_transparency_alpha":'alpha', "Mat_transparency_fresnel":'raytrace_transparency_fresnel':, 
+         "Mat_transparency_alpha":'alpha', "Mat_transparency_fresnel":'raytrace_transparency_fresnel', 
          "Mat_transparency_specular_alpha":'specular_alpha', "Mat_transparency_fresnel_factor":'raytrace_transparency_fresnel_factor', 
          "Mat_transparency_ior":'raytrace_transparency_ior', "Mat_transparency_filter":'raytrace_transparency_filter', 
          "Mat_transparency_falloff":'raytrace_transparency_falloff', "Mat_transparency_depth_max":'raytrace_transparency_depth_max', 
@@ -574,24 +574,17 @@ def OldTexturesKeys():
     temp = \
         (
          "Tex_Index", "Tex_Name", "Tex_Type", "Tex_Preview_type", "Tex_use_preview_alpha", "Tex_type_blend_progression", "Tex_type_blend_use_flip_axis", 
-         "Tex_type_clouds_cloud_type", "Tex_type_clouds_noise_type", "Tex_type_clouds_noise_basis", "Tex_type_noise_distortion", "Tex_type_env_map_source", 
-         "Tex_type_env_map_mapping", "Tex_type_env_map_clip_start", "Tex_type_env_map_clip_end", "Tex_type_env_map_resolution", "Tex_type_env_map_depth", 
-         "Tex_type_env_map_image_file", "Tex_type_env_map_zoom", "Tex_type_magic_depth", "Tex_type_magic_turbulence", "Tex_type_marble_marble_type", 
+         "Tex_type_clouds_cloud_type", "Tex_type_clouds_noise_type", "Tex_type_clouds_noise_basis", "Tex_type_noise_distortion", "Tex_type_magic_depth",
          "Tex_type_marble_noise_basis_2", "Tex_type_marble_noise_type", "Tex_type_marble_noise_basis", "Tex_type_marble_noise_scale",
          "Tex_type_marble_noise_depth", "Tex_type_marble_turbulence", "Tex_type_marble_nabla", "Tex_type_musgrave_type", "Tex_type_musgrave_dimension_max",
          "Tex_type_musgrave_lacunarity", "Tex_type_musgrave_octaves", "Tex_type_musgrave_noise_intensity", "Tex_type_musgrave_noise_basis", 
          "Tex_type_musgrave_noise_scale", "Tex_type_musgrave_nabla", "Tex_type_musgrave_offset", "Tex_type_musgrave_gain", "Tex_type_clouds_noise_scale",
          "Tex_type_clouds_nabla", "Tex_type_clouds_noise_depth", "Tex_type_noise_distortion_distortion", "Tex_type_noise_distortion_texture_distortion", 
-         "Tex_type_noise_distortion_nabla", "Tex_type_noise_distortion_noise_scale", "Tex_type_point_density_point_source", "Tex_type_point_density_radius", 
-         "Tex_type_point_density_particule_cache_space", "Tex_type_point_density_falloff", "Tex_type_point_density_use_falloff_curve", 
-         "Tex_type_point_density_falloff_soft", "Tex_type_point_density_falloff_speed_scale", "Tex_type_point_density_speed_scale", 
-         "Tex_type_point_density_color_source", "Tex_type_stucci_type", "Tex_type_stucci_noise_type", "Tex_type_stucci_basis", "Tex_type_stucci_noise_scale",
+         "Tex_type_noise_distortion_nabla", "Tex_type_noise_distortion_noise_scale", "Tex_type_stucci_type", "Tex_type_stucci_noise_type", "Tex_type_stucci_basis",
+         "Tex_type_stucci_noise_scale", "Tex_type_wood_noise_scale", "Tex_type_magic_turbulence", "Tex_type_marble_marble_type",
          "Tex_type_stucci_turbulence", "Tex_type_voronoi_distance_metric", "Tex_type_voronoi_minkovsky_exponent", "Tex_type_voronoi_color_mode", 
          "Tex_type_voronoi_noise_scale", "Tex_type_voronoi_nabla", "Tex_type_voronoi_weight_1", "Tex_type_voronoi_weight_2", "Tex_type_voronoi_weight_3",
-         "Tex_type_voronoi_weight_4", "Tex_type_voxel_data_file_format", "Tex_type_voxel_data_source_path", "Tex_type_voxel_data_use_still_frame",
-         "Tex_type_voxel_data_still_frame", "Tex_type_voxel_data_interpolation", "Tex_type_voxel_data_extension", "Tex_type_voxel_data_intensity", 
-         "Tex_type_voxel_data_resolution_1", "Tex_type_voxel_data_resolution_2", "Tex_type_voxel_data_resoltion_3", "Tex_type_voxel_data_smoke_data_type", 
-         "Tex_type_wood_noise_basis_2", "Tex_type_wood_wood_type", "Tex_type_wood_noise_type", "Tex_type_wood_basis", "Tex_type_wood_noise_scale",
+         "Tex_type_voronoi_weight_4", "Tex_type_wood_noise_basis_2", "Tex_type_wood_wood_type", "Tex_type_wood_noise_type", "Tex_type_wood_basis",
          "Tex_type_wood_nabla", "Tex_type_wood_turbulence", "Tex_influence_use_map_diffuse", "Tex_influence_use_map_color_diffuse", 
          "Tex_influence_use_map_alpha", "Tex_influence_use_map_translucency", "Tex_influence_use_map_specular", "Tex_influence_use_map_color_spec", 
          "Tex_influence_use_map_map_hardness", "Tex_influence_use_map_ambient", "Tex_influence_use_map_emit", "Tex_influence_use_map_mirror", 
@@ -612,7 +605,7 @@ def OldTexturesKeys():
 def OldTexturesDict():
     temp = \
         {
-         "Tex_Index":'num_textures', "Tex_Name":'name', "Tex_Type":'type',  "Tex_use_preview_alpha":'texture_use_alpha', 
+         "Tex_Index":'num_textures', "Tex_Name":'name', "Tex_Type":'type', "Tex_use_preview_alpha":'texture_use_alpha', 
          "Tex_type_blend_progression":'texture_progression', "Tex_type_blend_use_flip_axis":'texture_use_flip_axis', 
          "Tex_type_clouds_cloud_type":'texture_cloud_type', "Tex_type_clouds_noise_type":'texture_noise_type', "Tex_type_clouds_noise_basis":'texture_noise_basis',
          "Tex_type_noise_distortion":'texture_noise_distortion', "Tex_type_magic_depth":'texture_noise_depth',
@@ -655,7 +648,7 @@ def OldTexturesDict():
          "Tex_colors_saturation":'texture_saturation', "Mat_Idx":'idx_materials', "Poi_Idx":'idx_point_density_ramp', "Col_Idx":'idx_color_ramp',
          "Tex_type_voronoi_intensity":'texture_intensity' , "Tex_mapping_use_from_original":'use_from_original', 
          "Tex_type_noise_distortion_noise_distortion":'texture_noise_distortion', "Tex_type_noise_distortion_basis":'texture_noise_basis',
-    }
+        }
     return temp
 def OldTexturesColorVectorDict():
     temp = \
@@ -670,9 +663,14 @@ def OldTexturesColorVectorDict():
 def OldImageUvKeys():
     temp = \
         (
-         "Ima_Index", "Idx_Texture", "Ima_Name", "Ima_Source", "Ima_Filepath", "Ima_Fileformat", "Ima_Fields", "Ima_Premultiply", 
-         "Ima_Fields_order", "Ima_Generated_type", "Ima_Generated_width", "Ima_Generated_height", "Ima_Float_buffer", "Ima_Blob",
+         "Idx_Texture", "Ima_Blob",
          )
+    return temp
+def OldImageUvDict():
+    temp = \
+        {
+         "Idx_Texture":'num_textures', "Ima_Blob":'image_uv_blob',
+        }
     return temp
 #end ShaderTools image_uv keys
 #ShaderTools render keys
@@ -682,45 +680,107 @@ def OldRenderKeys():
          "Ren_Index", "Ren_Color_Management", "Ren_Preview_Object", "Mat_Index", 
         )
     return temp
+def OldRenderDict():
+    temp = \
+        {
+         "Ren_Index":'num_render', "Ren_Color_Management":'render_color_management', 
+         "Ren_Preview_Object":'render_preview_object', "Mat_Index":'idx_materials', 
+        }
+    return temp
 #end ShaderTools render keys
 #ShaderTools diffuse ramps keys
 def OldDiffuseRampsKeys():
     temp = \
         (
-         "Dif_Index", "Dif_Num_Material", "Dif_Num_material", "Dif_Flip", "Dif_Active_color_stop", "Dif_Between_color_stop", "Dif_Interpolation", 
-         "Dif_Position", "Dif_Color_stop_one_r", "Dif_Color_stop_one_g", "Dif_Color_stop_one_b", "Dif_Color_stop_one_a", "Dif_Color_stop_two_r", 
-         "Dif_Color_stop_two_g", "Dif_Color_stop_two_b", "Dif_Color_stop_two_a", "Dif_Ramp_input", "Dif_Ramp_blend", "Dif_Ramp_factor",   
+         "Dif_Index", "Dif_Num_Material", "Dif_Num_material", "Dif_Interpolation", "Dif_Position", "Dif_Ramp_input", 
+         "Dif_Ramp_blend", "Dif_Ramp_factor",   
          )
+    return temp
+def OldDiffuseRampsDict():
+    temp = \
+        {
+         "Dif_Index":'num_diffuse_ramps', "Dif_Num_Material":'idx_materials', "Dif_Interpolation":'diffuse_ramp_interpolation', 
+         "Dif_Position":'diffuse_ramp_elements_position', "Dif_Ramp_input":'diffuse_ramp_input', 
+         "Dif_Ramp_blend":'diffuse_ramp_blend', "Dif_Ramp_factor":'diffuse_ramp_factor',   
+        }
+    return temp
+def OldDiffuseRampsColorDict():
+    temp = \
+        {
+         'diffuse_ramp_elements_color':("Dif_Color_stop_one_r", "Dif_Color_stop_one_g", "Dif_Color_stop_one_b"),
+        }
     return temp
 #end ShaderTools diffuse ramps keys
 #ShaderTools specular ramps keys
 def OldSpecularRampsKeys():
     temp = \
         (
-         "Spe_Index", "Spe_Num_Material", "Spe_Num_material", "Spe_Flip", "Spe_Active_color_stop", "Spe_Between_color_stop", "Spe_Interpolation", 
-         "Spe_Position", "Spe_Color_stop_one_r", "Spe_Color_stop_one_g", "Spe_Color_stop_one_b", "Spe_Color_stop_one_a", "Spe_Color_stop_two_r", 
-         "Spe_Color_stop_two_g", "Spe_Color_stop_two_b", "Spe_Color_stop_two_a", "Spe_Ramp_input", "Spe_Ramp_blend", "Spe_Ramp_factor",   
+         "Spe_Index", "Spe_Num_Material", "Spe_Interpolation", 
+         "Spe_Position", "Spe_Color_stop_one_r", "Spe_Color_stop_one_g", "Spe_Color_stop_one_b", 
+         "Spe_Ramp_input", "Spe_Ramp_blend", "Spe_Ramp_factor",   
          )
+    return temp
+def OldSpecularRampsDict():
+    temp = \
+        {
+            "Spe_Index":'num_diffuse_ramps', "Spe_Num_Material":'idx_materials', "Spe_Interpolation":'specular_ramp_interpolation', 
+            "Spe_Position":'specular_ramp_elements_position', "Spe_Ramp_input":'specular_ramp_input', 
+            "Spe_Ramp_blend":'specular_ramp_blend', "Spe_Ramp_factor":'specular_ramp_factor',   
+        }
+    return temp
+def OldSpecularRampsColorDict():
+    temp = \
+        {
+            'specular_ramp_elements_color':("Spe_Color_stop_one_r", "Spe_Color_stop_one_g", "Spe_Color_stop_one_b"),
+        }
     return temp
 #end ShaderTools specular ramps keys
 #ShaderTools color ramps keys
 def OldColorRampsKeys():
     temp = \
         (
-         "Col_Index", "Col_Num_Material", "Col_Num_Texture", "Col_Flip", "Col_Active_color_stop", "Col_Between_color_stop", "Col_Interpolation", 
-         "Col_Position", "Col_Color_stop_one_r", "Col_Color_stop_one_g", "Col_Color_stop_one_b", "Col_Color_stop_one_a", "Col_Color_stop_two_r", 
-         "Col_Color_stop_two_g", "Col_Color_stop_two_b", "Col_Color_stop_two_a",    
+         "Col_Index", "Col_Num_Material", "Col_Num_Texture", "Col_Interpolation", 
+         "Col_Position", "Col_Color_stop_one_r", "Col_Color_stop_one_g", "Col_Color_stop_one_b",     
          )
+    return temp
+def OldColorRampsDict():
+    temp = \
+        {
+            "Col_Index":'num_color_ramps', "Col_Num_Material":'idx_materials', 
+            "Col_Num_Texture":'idx_textures', 
+            "Col_Interpolation":'color_ramp_interpolation', 
+            "Col_Position":'color_ramp_elements_position',   
+        }
+    return temp
+def OldColorRampsColorDict():
+    temp = \
+        {
+            'color_ramp_elements_color':("Col_Color_stop_one_r", "Col_Color_stop_one_g", "Col_Color_stop_one_b"),
+        }
     return temp
 #end ShaderTools color ramps keys
 #ShaderTools point density ramps keys
 def OldPointDensityRampsKeys():
     temp = \
         (
-         "Poi_Index", "Poi_Num_Material", "Poi_Num_Texture", "Poi_Flip", "Poi_Active_color_stop", "Poi_Between_color_stop", "Poi_Interpolation", 
-         "Poi_Position", "Poi_Color_stop_one_r", "Poi_Color_stop_one_g", "Poi_Color_stop_one_b", "Poi_Color_stop_one_a", "Poi_Color_stop_two_r", 
-         "Poi_Color_stop_two_g", "Poi_Color_stop_two_b", "Poi_Color_stop_two_a",    
+         "Poi_Index", "Poi_Num_Material", "Poi_Num_Texture", "Poi_Interpolation", 
+         "Poi_Position", "Col_Color_stop_one_r", "Col_Color_stop_one_g", "Col_Color_stop_one_b",    
          )
+    return temp
+def OldPointDensityRampsDict():
+    temp = \
+        {
+            "Col_Index":'num_point_density_ramps', "Col_Num_Material":'idx_materials',
+            "Poi_Num_Texture":'idx_textures',
+            "Poi_Interpolation":'point_density_ramp_interpolation', 
+            "Poi_Position":'point_density_ramp_elements_position',   
+        }
+    return temp
+def OldPointDensityRampsColorDict():
+    temp = \
+        {
+            'point_density_ramp_elements_color':("Col_Color_stop_one_r", "Col_Color_stop_one_g", "Col_Color_stop_one_b"),
+        }
     return temp
 #end ShaderTools point density ramps keys
 
