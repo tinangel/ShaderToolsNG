@@ -21,6 +21,24 @@ import bpy, os
 from . import misc, keys, request, materials
 from copy import copy
 
+#Migrate materials ramps
+def MigrateV1V2MaterialRamps(materials_ramps_properties):
+    temp_current_ramps_values = materials_ramps_properties[0]
+    current_ramps_values = []
+    materials_ramps_values_element = []
+    for k in materials_ramps_properties[1]:materials_ramps_values_element.append(materials_ramps_properties[2][k])   
+    for r in temp_current_ramps_values:
+        temp = []
+        for k in r:
+            temp.append(k)
+        for p in materials_ramps_properties[3]:
+            v = materials_ramps_properties[4]
+            temp.append(str(v[0]))
+        if not p in materials_ramps_values_element: materials_ramps_values_element.append(p)
+        current_ramps_values.append(copy(temp))
+    for r in current_ramps_values:request.DatabaseInsert(materials_ramps_properties[6]['database'], materials_ramps_values_element, r, materials_ramps_properties[5])
+#end Migrate materials ramps
+
 #Migrate SQLite Database V1->V2
 def MigrateV1V2(path, api_functions, active_language, active_configuration, default_paths, idx):
     #Database stuff
@@ -46,36 +64,24 @@ def MigrateV1V2(path, api_functions, active_language, active_configuration, defa
     #materials ramps
     if material_created:
         try:
-            temp_diffuse_values = request.DatabaseSelect(path, keys.OldDiffuseRampsKeys(), "DIFFUSE_RAMP", "where Dif_Num_material=%s" %idx, 'all')
-            diffuse_values = []
-            materials_ramps_values_element = []
-            for k in keys.OldDiffuseRampsKeys():materials_ramps_values_element.append(keys.OldDiffuseRampsDict()[k])   
-            for r in temp_diffuse_values:
-                temp = []
-                for k in r:
-                    temp.append(k)
-                for p in keys.OldDiffuseRampsColorDict():
-                    v = request.DatabaseSelect(path,keys.OldDiffuseRampsColorDict()[p], "DIFFUSE_RAMP", "where Dif_Num_material=%s" %idx, 'all')
-                    temp.append(str(v[0]))
-                if not p in materials_ramps_values_element: materials_ramps_values_element.append(p)
-                diffuse_values.append(copy(temp))
-            for r in diffuse_values:request.DatabaseInsert(default_paths['database'], materials_ramps_values_element, r, "DIFFUSE_RAMPS")
+            materials_ramps_properties = \
+                (
+                 request.DatabaseSelect(path, keys.OldDiffuseRampsKeys(), "DIFFUSE_RAMP", "where Dif_Num_material=%s" %idx, 'all'),
+                 keys.OldDiffuseRampsKeys(), keys.OldDiffuseRampsDict(), keys.OldDiffuseRampsColorDict(),
+                 request.DatabaseSelect(path,keys.OldDiffuseRampsColorDict()['diffuse_ramp_elements_color'], "DIFFUSE_RAMP", "where Dif_Num_material=%s" %idx, 'all'),
+                 "DIFFUSE_RAMPS", default_paths,
+                )
+            MigrateV1V2MaterialRamps(materials_ramps_properties)            
         except:pass
         try:
-            temp_specular_values = request.DatabaseSelect(path, keys.OldSpecularRampsKeys(), "SPECULAR_RAMP", "where Spe_Num_material=%s" %idx, 'all')
-            specular_values = []
-            materials_ramps_values_element = []
-            for k in keys.OldSpecularRampsKeys():materials_ramps_values_element.append(keys.OldSpecularRampsDict()[k])   
-            for r in temp_specular_values:
-                temp = []
-                for k in r:
-                    temp.append(k)
-                for p in keys.OldSpecularRampsColorDict():
-                    v = request.DatabaseSelect(path,keys.OldSpecularRampsColorDict()[p], "SPECULAR_RAMP", "where Spe_Num_Material=%s" %idx, 'all')
-                    temp.append(str(v[0]))
-                if not p in materials_ramps_values_element: materials_ramps_values_element.append(p)
-                specular_values.append(copy(temp))
-            for r in specular_values:request.DatabaseInsert(default_paths['database'], materials_ramps_values_element, r, "SPECULAR_RAMPS")
+            materials_ramps_properties = \
+                (
+                 request.DatabaseSelect(path, keys.OldSpecularRampsKeys(), "SPECULAR_RAMP", "where Spe_Num_material=%s" %idx, 'all'),
+                 keys.OldSpecularRampsKeys(), keys.OldSpecularRampsDict(), keys.OldSpecularRampsColorDict(),
+                 request.DatabaseSelect(path,keys.OldSpecularRampsColorDict()['specular_ramp_elements_color'], "SPECULAR_RAMP", "where Spe_Num_Material=%s" %idx, 'all'),
+                 "SPECULAR_RAMPS", default_paths,
+                 )
+            MigrateV1V2MaterialRamps(materials_ramps_properties)    
         except:pass
     #end materials ramps
 
