@@ -482,22 +482,20 @@ def VersionKeys():
 def OldMaterialsKeys():
     temp = \
         (
-         "Mat_Index", "Mat_Name", "Mat_Type", "Mat_Preview_render_type", "Mat_diffuse_color_r", "Mat_diffuse_color_g", "Mat_diffuse_color_b", 
+         "Mat_Index", "Mat_Name", "Mat_Type", "Mat_Preview_render_type", 
          "Mat_diffuse_shader", "Mat_diffuse_intensity", "Mat_use_diffuse_ramp", "Mat_diffuse_roughness", "Mat_diffuse_toon_size", 
-         "Mat_diffuse_toon_smooth", "Mat_diffuse_darkness", "Mat_diffuse_fresnel", "Mat_diffuse_fresnel_factor", "Mat_specular_color_r", "Mat_specular_color_g",
-         "Mat_specular_color_b", "Mat_specular_shader", "Mat_specular_intensity", "Mat_specular_ramp", "Mat_specular_hardness",
+         "Mat_diffuse_toon_smooth", "Mat_diffuse_darkness", "Mat_diffuse_fresnel", "Mat_diffuse_fresnel_factor", "Mat_specular_shader", 
+         "Mat_specular_intensity", "Mat_specular_ramp", "Mat_specular_hardness",
          "Mat_specular_ior", "Mat_specular_toon_size", "Mat_specular_toon_smooth", "Mat_shading_emit", "Mat_shading_ambient", "Mat_shading_translucency", 
          "Mat_shading_use_shadeless", "Mat_shading_use_tangent_shading", "Mat_shading_use_cubic", "Mat_transparency_use_transparency", "Mat_transparency_method", 
          "Mat_transparency_alpha", "Mat_transparency_fresnel", "Mat_transparency_specular_alpha", "Mat_transparency_fresnel_factor", "Mat_transparency_ior", 
          "Mat_transparency_filter", "Mat_transparency_falloff", "Mat_transparency_depth_max", "Mat_transparency_depth", "Mat_transparency_gloss_factor",
          "Mat_transparency_gloss_threshold", "Mat_transparency_gloss_samples", "Mat_raytracemirror_use", "Mat_raytracemirror_reflect_factor", 
-         "Mat_raytracemirror_fresnel", "Mat_raytracemirror_color_r", "Mat_raytracemirror_color_g", "Mat_raytracemirror_color_b", 
+         "Mat_raytracemirror_fresnel",  
          "Mat_raytracemirror_fresnel_factor", "Mat_raytracemirror_depth", "Mat_raytracemirror_distance", "Mat_raytracemirror_fade_to", 
          "Mat_raytracemirror_gloss_factor", "Mat_raytracemirror_gloss_threshold", "Mat_raytracemirror_gloss_samples", "Mat_raytracemirror_gloss_anisotropic",
-         "Mat_subsurfacescattering_use", "Mat_subsurfacescattering_presets", "Mat_subsurfacescattering_ior", "Mat_subsurfacescattering_scale", 
-         "Mat_subsurfacescattering_color_r", "Mat_subsurfacescattering_color_g", "Mat_subsurfacescattering_color_b",  
-         "Mat_subsurfacescattering_color_factor", "Mat_subsurfacescattering_texture_factor", "Mat_subsurfacescattering_radius_one",
-         "Mat_subsurfacescattering_radius_two", "Mat_subsurfacescattering_radius_three", "Mat_subsurfacescattering_front", "Mat_subsurfacescattering_back", 
+         "Mat_subsurfacescattering_use", "Mat_subsurfacescattering_ior", "Mat_subsurfacescattering_scale", 
+         "Mat_subsurfacescattering_color_factor", "Mat_subsurfacescattering_texture_factor", "Mat_subsurfacescattering_front", "Mat_subsurfacescattering_back", 
          "Mat_subsurfacescattering_error_threshold", "Mat_strand_root_size", "Mat_strand_tip_size", "Mat_strand_size_min", "Mat_strand_blender_units",
          "Mat_strand_use_tangent_shading", "Mat_strand_shape", "Mat_strand_width_fade", "Mat_strand_blend_distance", "Mat_options_use_raytrace", 
          "Mat_options_use_full_oversampling", "Mat_options_use_sky", "Mat_options_use_mist", "Mat_options_invert_z", "Mat_options_offset_z",
@@ -692,7 +690,7 @@ def OldRenderDict():
 def OldDiffuseRampsKeys():
     temp = \
         (
-         "Dif_Index", "Dif_Num_Material", "Dif_Num_material", "Dif_Interpolation", "Dif_Position", "Dif_Ramp_input", 
+         "Dif_Index", "Dif_Num_Material", "Dif_Interpolation", "Dif_Position", "Dif_Ramp_input", 
          "Dif_Ramp_blend", "Dif_Ramp_factor",   
          )
     return temp
@@ -716,8 +714,7 @@ def OldSpecularRampsKeys():
     temp = \
         (
          "Spe_Index", "Spe_Num_Material", "Spe_Interpolation", 
-         "Spe_Position", "Spe_Color_stop_one_r", "Spe_Color_stop_one_g", "Spe_Color_stop_one_b", 
-         "Spe_Ramp_input", "Spe_Ramp_blend", "Spe_Ramp_factor",   
+         "Spe_Position", "Spe_Ramp_input", "Spe_Ramp_blend", "Spe_Ramp_factor",   
          )
     return temp
 def OldSpecularRampsDict():
