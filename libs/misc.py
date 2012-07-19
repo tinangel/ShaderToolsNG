@@ -177,4 +177,3 @@ def DoubleSlash(path):
 def CrossProduct(current_value, max_value):
     total = (current_value*100)/max_value
     return int(total)
-

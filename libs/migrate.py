@@ -17,7 +17,7 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
-import bpy, os
+import bpy, os,  sqlite3
 from . import misc, keys, request, materials
 from copy import copy
 
@@ -29,8 +29,7 @@ def MigrateV1V2MaterialRamps(materials_ramps_properties):
     for k in materials_ramps_properties[1]:materials_ramps_values_element.append(materials_ramps_properties[2][k])   
     for r in temp_current_ramps_values:
         temp = []
-        for k in r:
-            temp.append(k)
+        for k in r:  temp.append(k)
         for p in materials_ramps_properties[3]:
             v = materials_ramps_properties[4]
             temp.append(str(v[0]))
@@ -103,9 +102,17 @@ def MigrateV1V2(path, api_functions, active_language, active_configuration, defa
                  )
             if  not materials_ramps_properties[0] == []: MigrateV1V2MaterialRamps(materials_ramps_properties)
         except:pass
-     #end materials ramps
-
-
+    #end materials ramps
+    #render 
+    render_values = request.DatabaseSelect(path, keys.OldRenderKeys(), "RENDER", "where Mat_Index=%s" %idx, 'one')
+    #render properties
+    render_values_element = []
+    render_values_final = []
+    for v in render_values:  render_values_final.append(v)
+    for e in keys.OldRenderKeys(): render_values_element.append(keys.OldRenderDict()[e])
+    request.DatabaseInsert(default_paths['database'], render_values_element, render_values_final, "RENDER")
+    #end render 
+    
 
 
 
@@ -116,10 +123,6 @@ def MigrateV1V2(path, api_functions, active_language, active_configuration, defa
         except:pass
         try: imageuv_values = request.DatabaseSelect(path, keys.OldImageUvKeys(), "IMAGE_UV", "where Idx_Texture=%s" %textures_values[0][0], 'all')
         except:pass
-    try: colors_values = request.DatabaseSelect(path, keys.OldColorRampsKeys(), "COLORS_RAMP", "where Col_Num_material=%s" %idx, 'all')
-    except: pass
-    try: point_values = request.DatabaseSelect(path, keys.OldPointDensityRampsKeys(), "POINTDENSITY_RAMP", "where Poi_Num_material=%s" %idx, 'all')
-    except: pass
     try: render_values = request.DatabaseSelect(path, keys.OldRenderKeys(), "RENDER", "where Mat_Index=%s" %idx, 'all')
     except: pass
     #end Database stuff

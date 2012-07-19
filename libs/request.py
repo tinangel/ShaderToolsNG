@@ -17,20 +17,24 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
-import bpy, os, sqlite3
+import bpy, os, sqlite3,  copy
 
 #Insert into database
 def DatabaseInsert(database_path, elements, elements_val, table):
     ShaderToolsDatabase = sqlite3.connect(database_path) #open database
     DatabaseCursor = ShaderToolsDatabase.cursor() #create cursor
     request = "insert into '%s' (" % table   
-    for e in elements:
-        request = request + "'%s'," % e 
+    for e in elements: request = request + "'%s'," % e 
     
     request = request.rstrip(",") 
     request = request + ") values("
     for v in elements_val:
-        request = request + "'%s'," % v
+        if type(v).__name__ == 'bytes': 
+            test = str(v)
+            v = test.replace('"', "#double_quote#")
+            v = v.replace("'", "#quote#")
+            request = request + "'%s'," % v
+        else: request = request + "'%s'," % v
 
     request = request.rstrip(",") + ")"
     #here my request :
@@ -53,9 +57,7 @@ def DatabaseSelect(database_path, elements, table, condition, options):
     DatabaseCursor = ShaderToolsDatabase.cursor() #create cursor
     request = "select "
     
-    for e in elements:
-        request = request + e + ","
-    
+    for e in elements:  request = request + e + ","
     request = request.rstrip(",") + " from '%s' " % table + condition
     #here my request :
     #try:
