@@ -450,7 +450,6 @@ class UtilsMigrate(eval(api_functions['types_operator'])):
     def execute(self, context):
         '''number_max[0]+1 '''
         for v in range(2, 5):
-            #self.report({'WARNING'},"Material %s" % str(v))
             migrate.MigrateV1V2(self.filepath, api_functions, active_languages, active_configuration, default_paths, v)
         return {'FINISHED'}   
 

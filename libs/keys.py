@@ -720,7 +720,7 @@ def OldSpecularRampsKeys():
 def OldSpecularRampsDict():
     temp = \
         {
-            "Spe_Index":'num_diffuse_ramps', "Spe_Num_Material":'idx_materials', "Spe_Interpolation":'specular_ramp_interpolation', 
+            "Spe_Index":'num_specular_ramps', "Spe_Num_Material":'idx_materials', "Spe_Interpolation":'specular_ramp_interpolation', 
             "Spe_Position":'specular_ramp_elements_position', "Spe_Ramp_input":'specular_ramp_input', 
             "Spe_Ramp_blend":'specular_ramp_blend', "Spe_Ramp_factor":'specular_ramp_factor',   
         }
@@ -736,8 +736,8 @@ def OldSpecularRampsColorDict():
 def OldColorRampsKeys():
     temp = \
         (
-         "Col_Index", "Col_Num_Material", "Col_Num_Texture", "Col_Interpolation", 
-         "Col_Position", "Col_Color_stop_one_r", "Col_Color_stop_one_g", "Col_Color_stop_one_b",     
+         "Col_Index", "Col_Num_Material", "Col_Num_Texture", 
+         "Col_Interpolation", "Col_Position",     
          )
     return temp
 def OldColorRampsDict():
@@ -760,14 +760,14 @@ def OldColorRampsColorDict():
 def OldPointDensityRampsKeys():
     temp = \
         (
-         "Poi_Index", "Poi_Num_Material", "Poi_Num_Texture", "Poi_Interpolation", 
-         "Poi_Position", "Col_Color_stop_one_r", "Col_Color_stop_one_g", "Col_Color_stop_one_b",    
+         "Poi_Index", "Poi_Num_Material", "Poi_Num_Texture", 
+         "Poi_Interpolation", "Poi_Position",    
          )
     return temp
 def OldPointDensityRampsDict():
     temp = \
         {
-            "Col_Index":'num_point_density_ramps', "Col_Num_Material":'idx_materials',
+            "Poi_Index":'num_point_density_ramps', "Poi_Num_Material":'idx_materials',
             "Poi_Num_Texture":'idx_textures',
             "Poi_Interpolation":'point_density_ramp_interpolation', 
             "Poi_Position":'point_density_ramp_elements_position',   
@@ -776,7 +776,7 @@ def OldPointDensityRampsDict():
 def OldPointDensityRampsColorDict():
     temp = \
         {
-            'point_density_ramp_elements_color':("Col_Color_stop_one_r", "Col_Color_stop_one_g", "Col_Color_stop_one_b"),
+            'point_density_ramp_elements_color':("Poi_Color_stop_one_r", "Poi_Color_stop_one_g", "Poi_Color_stop_one_b"),
         }
     return temp
 #end ShaderTools point density ramps keys

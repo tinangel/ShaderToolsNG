@@ -34,7 +34,7 @@ def DatabaseInsert(database_path, elements, elements_val, table):
 
     request = request.rstrip(",") + ")"
     #here my request :
-    print(request)
+    #print(request)
     try:
         DatabaseCursor.execute(request)
         ShaderToolsDatabase.commit()

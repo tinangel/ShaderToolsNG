@@ -63,7 +63,7 @@ def MigrateV1V2(path, api_functions, active_language, active_configuration, defa
     #end materials
     #materials ramps
     if material_created:
-        try:
+        try: #Diffuse ramp migration
             materials_ramps_properties = \
                 (
                  request.DatabaseSelect(path, keys.OldDiffuseRampsKeys(), "DIFFUSE_RAMP", "where Dif_Num_material=%s" %idx, 'all'),
@@ -71,9 +71,9 @@ def MigrateV1V2(path, api_functions, active_language, active_configuration, defa
                  request.DatabaseSelect(path,keys.OldDiffuseRampsColorDict()['diffuse_ramp_elements_color'], "DIFFUSE_RAMP", "where Dif_Num_material=%s" %idx, 'all'),
                  "DIFFUSE_RAMPS", default_paths,
                 )
-            MigrateV1V2MaterialRamps(materials_ramps_properties)            
+            if  not materials_ramps_properties[0] == []: MigrateV1V2MaterialRamps(materials_ramps_properties)
         except:pass
-        try:
+        try: #Specular ramp migration
             materials_ramps_properties = \
                 (
                  request.DatabaseSelect(path, keys.OldSpecularRampsKeys(), "SPECULAR_RAMP", "where Spe_Num_material=%s" %idx, 'all'),
@@ -81,9 +81,29 @@ def MigrateV1V2(path, api_functions, active_language, active_configuration, defa
                  request.DatabaseSelect(path,keys.OldSpecularRampsColorDict()['specular_ramp_elements_color'], "SPECULAR_RAMP", "where Spe_Num_Material=%s" %idx, 'all'),
                  "SPECULAR_RAMPS", default_paths,
                  )
-            MigrateV1V2MaterialRamps(materials_ramps_properties)    
+            if  not materials_ramps_properties[0] == []: MigrateV1V2MaterialRamps(materials_ramps_properties)
         except:pass
-    #end materials ramps
+        try: #Color ramp migration
+            materials_ramps_properties = \
+                (
+                 request.DatabaseSelect(path, keys.OldColorRampsKeys(), "COLORS_RAMP", "where Col_Num_Material=%s" %idx, 'all'),
+                 keys.OldColorRampsKeys(), keys.OldColorRampsDict(), keys.OldColorRampsColorDict(),
+                 request.DatabaseSelect(path,keys.OldColorRampsColorDict()['color_ramp_elements_color'], "COLORS_RAMP", "where Col_Num_Material=%s" %idx, 'all'),
+                 "COLOR_RAMPS", default_paths,
+                 )
+            if  not materials_ramps_properties[0] == []: MigrateV1V2MaterialRamps(materials_ramps_properties)
+        except:pass
+        try: #PointDensity ramp migration
+            materials_ramps_properties = \
+                (
+                 request.DatabaseSelect(path, keys.OldPointDensityRampsKeys(), "POINTDENSITY_RAMP", "where Poi_Num_Material=%s" %idx, 'all'),
+                 keys.OldPointDensityRampsKeys(), keys.OldPointDensityRampsDict(), keys.OldPointDensityRampsColorDict(),
+                 request.DatabaseSelect(path,keys.OldPointDensityRampsColorDict()['point_density_ramp_elements_color'], "POINTDENSITY_RAMP", "where Poi_Num_Material=%s" %idx, 'all'),
+                 "POINTDENSITY_RAMPS", default_paths,
+                 )
+            if  not materials_ramps_properties[0] == []: MigrateV1V2MaterialRamps(materials_ramps_properties)
+        except:pass
+     #end materials ramps
 
 
 
