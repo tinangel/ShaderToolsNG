@@ -17,25 +17,21 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
-import bpy, os, sqlite3,  copy
-
+import bpy, os, sqlite3,  binascii
+from copy import copy
+        
+#end Convert blobs elements
 #Insert into database
 def DatabaseInsert(database_path, elements, elements_val, table):
     ShaderToolsDatabase = sqlite3.connect(database_path) #open database
     DatabaseCursor = ShaderToolsDatabase.cursor() #create cursor
     request = "insert into '%s' (" % table   
     for e in elements: request = request + "'%s'," % e 
-    
     request = request.rstrip(",") 
-    request = request + ") values("
-    for v in elements_val:
-        if type(v).__name__ == 'bytes': 
-            test = str(v)
-            v = test.replace('"', "#double_quote#")
-            v = v.replace("'", "#quote#")
-            request = request + "'%s'," % v
+    request = request + ") values ("
+    for v in elements_val: 
+        if type(v).__name__ == 'bytes': request =request + '"%s",' % binascii.hexlify(v)
         else: request = request + "'%s'," % v
-
     request = request.rstrip(",") + ")"
     #here my request :
     #print(request)
@@ -60,22 +56,22 @@ def DatabaseSelect(database_path, elements, table, condition, options):
     for e in elements:  request = request + e + ","
     request = request.rstrip(",") + " from '%s' " % table + condition
     #here my request :
-    #try:
-    DatabaseCursor.execute(request)
+    try:
+        DatabaseCursor.execute(request)
         
-    if options == "one": #options
-        result = DatabaseCursor.fetchone()
-    else:
-        result = DatabaseCursor.fetchall()
+        if options == "one": #options 
+            result = DatabaseCursor.fetchone()
+        else:
+            result = DatabaseCursor.fetchall()
         
-    DatabaseCursor.close() #close cursor
-    ShaderToolsDatabase.close() #close database 
-    return result
+        DatabaseCursor.close() #close cursor
+        ShaderToolsDatabase.close() #close database 
+        return result
     
-    #except:
-    #    DatabaseCursor.close() #close cursor
-    #    ShaderToolsDatabase.close() #close database
-    #    return False
+    except:
+        DatabaseCursor.close() #close cursor
+        ShaderToolsDatabase.close() #close database
+        return False
 #end Select in database
 #Count in database
 def DatabaseCount(database_path, element, table, condition, options):
@@ -96,7 +92,6 @@ def DatabaseCount(database_path, element, table, condition, options):
         DatabaseCursor.close() #close cursor
         ShaderToolsDatabase.close() #close database 
         return result
-    
     except:
         DatabaseCursor.close() #close cursor
         ShaderToolsDatabase.close() #close database
@@ -142,3 +137,4 @@ def DatabaseDelete(database_path, table, condition):
         ShaderToolsDatabase.close() #close database        
         return False  
 #end Delete in database
+

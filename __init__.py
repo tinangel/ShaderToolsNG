@@ -448,9 +448,21 @@ class UtilsMigrate(eval(api_functions['types_operator'])):
         return {'RUNNING_MODAL'}
     
     def execute(self, context):
+        print("*"*78)  
+        print("*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*")
+        print("*"*78) 
+        misc.LogError("*"*78, 0)
+        misc.LogError("*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*", 0)
+        misc.LogError("*"*78, 0)
+
         '''number_max[0]+1 '''
-        for v in range(2, 100):
+        for v in range(2, 10):
+            err = active_languages['menu_error_error037'] % str(v)
+            print("\n%s" % err)
+            misc.LogError("*"*3, 0)
+            misc.LogError(err, 0)
             migrate.MigrateV1V2(self.filepath, api_functions, active_languages, active_configuration, default_paths, v)
+            misc.LogError("*"*3 +"\n", 0)
         return {'FINISHED'}   
 
 def OpenSaveSwitch(self, context):

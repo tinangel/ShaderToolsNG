@@ -17,7 +17,7 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
-import bpy, os,  sqlite3
+import bpy, os
 from . import misc, keys, request, materials
 from copy import copy
 
@@ -39,7 +39,7 @@ def MigrateV1V2MaterialRamps(materials_ramps_properties):
 #end Migrate materials ramps
 
 #Migrate SQLite Database V1->V2
-def MigrateV1V2(path, api_functions, active_language, active_configuration, default_paths, idx):
+def MigrateV1V2(path, api_functions, active_languages, active_configuration, default_paths, idx):
     #Database stuff
     material_created = False
     #materials
@@ -58,7 +58,11 @@ def MigrateV1V2(path, api_functions, active_language, active_configuration, defa
         materials_values_final[1] = materials_values_final[1].replace("MAT_PRE_", "$T_")
         request.DatabaseInsert(default_paths['database'], materials_values_element, materials_values_final, "MATERIALS")
         material_created = True
-    except:pass
+        print(active_languages['menu_error_error035'] % (materials_values[1]))
+        misc.LogError(active_languages['menu_error_error035'] % (materials_values[1]), 0)
+    except:
+        print(active_languages['menu_error_error033'] % (materials_values[1]))
+        misc.LogError(active_languages['menu_error_error033'] % (materials_values[1]), 0)
     #end materials
     #materials ramps
     if material_created:
@@ -70,8 +74,13 @@ def MigrateV1V2(path, api_functions, active_language, active_configuration, defa
                  request.DatabaseSelect(path,keys.OldDiffuseRampsColorDict()['diffuse_ramp_elements_color'], "DIFFUSE_RAMP", "where Dif_Num_material=%s" %idx, 'all'),
                  "DIFFUSE_RAMPS", default_paths,
                 )
-            if  not materials_ramps_properties[0] == []: MigrateV1V2MaterialRamps(materials_ramps_properties)
-        except:pass
+            if  not materials_ramps_properties[0] == []: 
+                MigrateV1V2MaterialRamps(materials_ramps_properties)
+                print(active_languages['menu_error_error036'] % ("diffuse ramps",materials_values[1]))
+                misc.LogError(active_languages['menu_error_error036'] % ("diffuse ramps",materials_values[1]), 0)
+        except:
+            print(active_languages['menu_error_error034'] % ("diffuse ramps",materials_values[1]))
+            misc.LogError(active_languages['menu_error_error034'] % ("diffuse ramps",materials_values[1]), 0)
         try: #Specular ramp migration
             materials_ramps_properties = \
                 (
@@ -80,8 +89,13 @@ def MigrateV1V2(path, api_functions, active_language, active_configuration, defa
                  request.DatabaseSelect(path,keys.OldSpecularRampsColorDict()['specular_ramp_elements_color'], "SPECULAR_RAMP", "where Spe_Num_Material=%s" %idx, 'all'),
                  "SPECULAR_RAMPS", default_paths,
                  )
-            if  not materials_ramps_properties[0] == []: MigrateV1V2MaterialRamps(materials_ramps_properties)
-        except:pass
+            if  not materials_ramps_properties[0] == []: 
+                MigrateV1V2MaterialRamps(materials_ramps_properties)
+                print(active_languages['menu_error_error036'] % ("specular ramps",materials_values[1]))
+                misc.LogError(active_languages['menu_error_error036'] % ("specular ramps",materials_values[1]), 0)
+        except:
+            print(active_languages['menu_error_error034'] % ("specular ramps",materials_values[1]))
+            misc.LogError(active_languages['menu_error_error034'] % ("specular ramps",materials_values[1]), 0)
         try: #Color ramp migration
             materials_ramps_properties = \
                 (
@@ -90,8 +104,13 @@ def MigrateV1V2(path, api_functions, active_language, active_configuration, defa
                  request.DatabaseSelect(path,keys.OldColorRampsColorDict()['color_ramp_elements_color'], "COLORS_RAMP", "where Col_Num_Material=%s" %idx, 'all'),
                  "COLOR_RAMPS", default_paths,
                  )
-            if  not materials_ramps_properties[0] == []: MigrateV1V2MaterialRamps(materials_ramps_properties)
-        except:pass
+            if  not materials_ramps_properties[0] == []: 
+                MigrateV1V2MaterialRamps(materials_ramps_properties)
+                print(active_languages['menu_error_error036'] % ("color ramps",materials_values[1]))
+                misc.LogError(active_languages['menu_error_error036'] % ("color ramps",materials_values[1]), 0)
+        except:
+            print(active_languages['menu_error_error034'] % ("color ramps",materials_values[1]))
+            misc.LogError(active_languages['menu_error_error034'] % ("color ramps",materials_values[1]), 0)
         try: #PointDensity ramp migration
             materials_ramps_properties = \
                 (
@@ -100,18 +119,33 @@ def MigrateV1V2(path, api_functions, active_language, active_configuration, defa
                  request.DatabaseSelect(path,keys.OldPointDensityRampsColorDict()['point_density_ramp_elements_color'], "POINTDENSITY_RAMP", "where Poi_Num_Material=%s" %idx, 'all'),
                  "POINTDENSITY_RAMPS", default_paths,
                  )
-            if  not materials_ramps_properties[0] == []: MigrateV1V2MaterialRamps(materials_ramps_properties)
-        except:pass
+            if  not materials_ramps_properties[0] == []: 
+                MigrateV1V2MaterialRamps(materials_ramps_properties)
+                print(active_languages['menu_error_error036'] % ("point density ramps",materials_values[1]))
+                misc.LogError(active_languages['menu_error_error036'] % ("point density ramps",materials_values[1]), 0)
+        except:
+            print(active_languages['menu_error_error034'] % ("point density ramps",materials_values[1]))
+            misc.LogError(active_languages['menu_error_error034'] % ("point density ramps",materials_values[1]), 0)
     #end materials ramps
-    #render 
-    render_values = request.DatabaseSelect(path, keys.OldRenderKeys(), "RENDER", "where Mat_Index=%s" %idx, 'one')
-    #render properties
-    render_values_element = []
-    render_values_final = []
-    for v in render_values:  render_values_final.append(v)
-    for e in keys.OldRenderKeys(): render_values_element.append(keys.OldRenderDict()[e])
-    request.DatabaseInsert(default_paths['database'], render_values_element, render_values_final, "RENDER")
-    #end render 
+    #preview render 
+        try:
+            render_values = request.DatabaseSelect(path, keys.OldRenderKeys(), "RENDER", "where Mat_Index=%s" %idx, 'one')
+            #render properties
+            render_values_element = []
+            render_values_final = []
+            for v in render_values:  render_values_final.append(v)
+            for e in keys.OldRenderKeys(): render_values_element.append(keys.OldRenderDict()[e])
+            request.DatabaseInsert(default_paths['database'], render_values_element, render_values_final, "RENDER")
+            print(active_languages['menu_error_error036'] % ("preview render",materials_values[1]))
+            misc.LogError(active_languages['menu_error_error036'] % ("preview render",materials_values[1]), 0)
+        except:
+            print(active_languages['menu_error_error034'] % ("preview render",materials_values[1]))
+            misc.LogError(active_languages['menu_error_error034'] % ("preview render",materials_values[1]), 0)
+    #end preview render 
+    #textures
+    
+    #end textures
+    
     
 
 
@@ -123,8 +157,6 @@ def MigrateV1V2(path, api_functions, active_language, active_configuration, defa
         except:pass
         try: imageuv_values = request.DatabaseSelect(path, keys.OldImageUvKeys(), "IMAGE_UV", "where Idx_Texture=%s" %textures_values[0][0], 'all')
         except:pass
-    try: render_values = request.DatabaseSelect(path, keys.OldRenderKeys(), "RENDER", "where Mat_Index=%s" %idx, 'all')
-    except: pass
     #end Database stuff
     '''
     #Here 
