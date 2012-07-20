@@ -143,7 +143,17 @@ def MigrateV1V2(path, api_functions, active_languages, active_configuration, def
             misc.LogError(active_languages['menu_error_error034'] % ("preview render",materials_values[1]), 0)
     #end preview render 
     #textures
-    
+        textures_values = request.DatabaseSelect(path, keys.OldTexturesKeys(), "TEXTURES", "where Mat_Idx=%s" %idx, 'all')
+        #textures properties
+        textures_values_element = []
+        textures_values_final = []
+        if type(textures_values).__name__ != 'NoneType' and type(textures_values).__name__ != 'bool': 
+            for v in textures_values: 
+                textures_values_element = []
+                textures_values_final = []
+                for t in v: textures_values_final.append(t)
+                for e in keys.OldTexturesKeys(): textures_values_element.append(keys.OldTexturesDict()[e])
+                request.DatabaseInsert(default_paths['database'], textures_values_element, textures_values_final, "TEXTURES")
     #end textures
     
     

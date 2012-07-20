@@ -571,7 +571,7 @@ def OldVersionKeys():
 def OldTexturesKeys():
     temp = \
         (
-         "Tex_Index", "Tex_Name", "Tex_Type", "Tex_Preview_type", "Tex_use_preview_alpha", "Tex_type_blend_progression", "Tex_type_blend_use_flip_axis", 
+         "Tex_Index", "Tex_Name", "Tex_Type", "Tex_use_preview_alpha", "Tex_type_blend_progression", "Tex_type_blend_use_flip_axis", 
          "Tex_type_clouds_cloud_type", "Tex_type_clouds_noise_type", "Tex_type_clouds_noise_basis", "Tex_type_noise_distortion", "Tex_type_magic_depth",
          "Tex_type_marble_noise_basis_2", "Tex_type_marble_noise_type", "Tex_type_marble_noise_basis", "Tex_type_marble_noise_scale",
          "Tex_type_marble_noise_depth", "Tex_type_marble_turbulence", "Tex_type_marble_nabla", "Tex_type_musgrave_type", "Tex_type_musgrave_dimension_max",
@@ -591,10 +591,9 @@ def OldTexturesKeys():
          "Tex_influence_color_factor", "Tex_influence_alpha_factor", "Tex_influence_translucency_factor", "Tex_influence_specular_factor", 
          "Tex_influence_specular_color_factor", "Tex_influence_hardness_factor", "Tex_influence_ambiant_factor", "Tex_influence_emit_factor", 
          "Tex_influence_mirror_factor", "Tex_influence_raymir_factor", "Tex_influence_normal_factor", "Tex_influence_warp_factor",
-         "Tex_influence_displacement_factor", "Tex_influence_default_value", "Tex_influence_blend_type", "Tex_influence_color_r", "Tex_influence_color_g", 
-         "Tex_influence_color_b", "Tex_influence_bump_method", "Tex_influence_objectspace", "Tex_mapping_texture_coords", "Tex_mapping_mapping", 
-         "Tex_mapping_use_from_dupli", "Tex_mapping_mapping_x", "Tex_mapping_mapping_y", "Tex_mapping_mapping_z", "Tex_mapping_offset_x", 
-         "Tex_mapping_offset_y", "Tex_mapping_offset_z", "Tex_mapping_scale_x", "Tex_mapping_scale_y", "Tex_mapping_scale_z", "Tex_colors_use_color_ramp", 
+         "Tex_influence_displacement_factor", "Tex_influence_default_value", "Tex_influence_blend_type",  "Tex_influence_bump_method", 
+         "Tex_influence_objectspace", "Tex_mapping_texture_coords", "Tex_mapping_mapping", 
+         "Tex_mapping_use_from_dupli", "Tex_mapping_mapping_x", "Tex_mapping_mapping_y", "Tex_mapping_mapping_z",  "Tex_colors_use_color_ramp", 
          "Tex_colors_factor_r", "Tex_colors_factor_g", "Tex_colors_factor_b", "Tex_colors_intensity", "Tex_colors_contrast", "Tex_colors_saturation",
          "Mat_Idx", "Poi_Idx", "Col_Idx", "Tex_type_voronoi_intensity", "Tex_mapping_use_from_original", "Tex_type_noise_distortion_noise_distortion", 
          "Tex_type_noise_distortion_basis",
