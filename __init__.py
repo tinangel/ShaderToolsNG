@@ -448,18 +448,18 @@ class UtilsMigrate(eval(api_functions['types_operator'])):
         return {'RUNNING_MODAL'}
     
     def execute(self, context):
-        print("*"*78)  
-        print("*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*")
-        print("*"*78) 
-        misc.LogError("*"*78, 0)
-        misc.LogError("*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*", 0)
-        misc.LogError("*"*78, 0)
-        for v in range(2, 3):
+        number_max = request.DatabaseCount(self.filepath, "Mat_Index", "MATERIALS", "", 'one')
+        version_values = request.DatabaseSelect(self.filepath, keys.OldVersionKeys(), "VERSION", "", 'one')         
+        misc.LogAndPrintError(("*"*78,  "*"*78))
+        misc.LogAndPrintError(("*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*",  "*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*"))
+        misc.LogAndPrintError(("*"*78,  "*"*78))
+        misc.LogAndPrintError(("Database version : %s" %version_values[2] ,  "Database version : %s" %version_values[2]))
+        misc.SaveDatabase(default_paths['database'],  default_paths['save'],  default_paths['bin'])
+        for v in range(2, number_max[0]+1):
             err = active_languages['menu_error_error037'] % str(v)
             print("\n%s" % err)
             misc.LogError("*"*3, 0)
             misc.LogError(err, 0)
-            misc.SaveDatabase(default_paths['database'],  default_paths['save'],  default_paths['bin'])
             migrate.MigrateV1V2(self.filepath, api_functions, active_languages, active_configuration, default_paths, v)
             misc.LogError("*"*3 +"\n", 0)
         return {'FINISHED'}   

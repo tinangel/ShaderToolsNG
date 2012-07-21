@@ -147,7 +147,7 @@ def MigrateV1V2(path, api_functions, active_languages, active_configuration, def
                         for i in keys.OldImageUvKeys(): textures_values_element.append(keys.OldImageUvDict()[i])
                         for u in range(0, keys.OldImageUvKeys().__len__()): textures_values_final.append( imageuv_values[u])
                     request.DatabaseInsert(default_paths['database'], textures_values_element, textures_values_final, "TEXTURES")
-            misc.LogAndPrintError((active_languages['menu_error_error038'] % (v[2],materials_values[1]), active_languages['menu_error_error038'] % (v[2],materials_values[1])))
-        except: misc.LogAndPrintError((active_languages['menu_error_error039'] % (v[2],materials_values[1]), active_languages['menu_error_error039'] % (v[2],materials_values[1])))
+                    misc.LogAndPrintError((active_languages['menu_error_error038'] % (str(v[2]),str(materials_values[1])), active_languages['menu_error_error038'] % (str(v[2]),str(materials_values[1]))))
+        except: misc.LogAndPrintError(((active_languages['menu_error_error039'] %  materials_values[1]), active_languages['menu_error_error039'] % materials_values[1]))
     #end textures
 #end Migrate SQLite Database V1->V2
