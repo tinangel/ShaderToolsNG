@@ -46,6 +46,10 @@ def Clear(path, type, option, active_language):
         except: print(active_language['menu_error_error021'] % path)
     #end Clear files & folder:
 
+def LogAndPrintError(list_error):
+    print(list_error[0])
+    LogError(list_error[1], 0)
+
 def LogTimeError():
     return time.strftime('[%H:%M:%S]',time.localtime())
 
