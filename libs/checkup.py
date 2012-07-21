@@ -18,7 +18,7 @@
 
 # <pep8-80 compliant>
 
-def MakeCheckup(database_path, configs_database_path,bookmark_path, bookmark_folder_path, bookmark_folder_name, active_configuration, app_path, languages_config):
+def MakeCheckup(database_path, configs_database_path,bookmark_path, bookmark_folder_path, bookmark_folder_name, active_configuration, app_path, languages_config, default_paths):
     #Imports & external libs:
     print("Checkup : ")
     try:
@@ -143,6 +143,22 @@ def MakeCheckup(database_path, configs_database_path,bookmark_path, bookmark_fol
         else:
             print(misc.ConsoleError(name_file, 2, False))
     #end Test : zip files verification:
+    #Auto save verification:
+    req = request.DatabaseSelect(default_paths['configs_database'], keys.AutoSaveKeys(), "CONFIGURATION", "where default_config=1", 'one')
+    if not req == None:
+        if req[1] >= req[0]:
+            auto_save_list = \
+            (
+            default_paths['database'],  default_paths['configs_database'],  
+            default_paths['languages_database'],  default_paths['apis_database'], 
+            )
+            for s in auto_save_list: misc.AutoSaveDatabase(s,  default_paths['save'])
+            auto_save_update = "set %s = '%s' where default_config=1" % (keys.AutoSaveKeys()[1] ,  "0")
+            result = request.DatabaseUpdate(default_paths['configs_database'], 'CONFIGURATION', auto_save_update)  
+        else:
+            auto_save_update = "set %s = '%s' where default_config=1" % (keys.AutoSaveKeys()[1] ,  str(req[1] + 1))
+            result = request.DatabaseUpdate(default_paths['configs_database'], 'CONFIGURATION', auto_save_update)  
+    #end Auto save verification
     #Test : bookmark verification:
     return(bookmark.VerifyBookmark(bookmark_path, bookmark_folder_path, bookmark_folder_name))
     #end Test : bookmark verification:

@@ -107,7 +107,7 @@ def DefaultPaths():
             "database":r['database_path'],
             "save":r['save_folder'],
             "temp":r['temp_folder'],
-	    "bin":r['bin_folder'],
+            "bin":r['bin_folder'],
             "bookmarks":bookmarks_path_user,
     }
     return temp

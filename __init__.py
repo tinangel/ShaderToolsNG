@@ -47,6 +47,27 @@ try:
 except:
     print(misc.ConsoleError("Import external module ", 0, False))
 
+misc.LogError("", True)
+misc.LogError("*"*78, True)
+misc.LogError("*" + " "*22 + "Shader Tools Next Gen - Console" + " "*23 + "*", False)
+misc.LogError("*"*78, False)
+blender_version = str(bpy.app.version[0]) + "." + str(bpy.app.version[1]) + str(bpy.app.version[2])
+default_paths = environment.DefaultPaths()
+api_functions = environment.ApiDatas(default_paths['apis_database'], blender_version)
+configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
+languages_config = environment.LanguagesDatas(default_paths['languages_database'])
+active_configuration = environment.ActiveConfigurations(configurations_config)
+active_languages = environment.ActiveLanguage(languages_config, active_configuration['language'])
+about_config = environment.AboutDatas(default_paths['database'])
+active_categories = environment.MaterialsCatergories(active_languages)
+names_config = environment.ConfigurationsNames(configurations_config)
+options_actions = environment.ConfigurationsOptions(active_languages)
+names_languages = environment.LanguagesNames(languages_config)
+space_access_name = active_languages['space_access_name'] + " "
+print(misc.ConsoleError("Globals ", 0, True))
+
+
+'''
 try:
     misc.LogError("", True)
     misc.LogError("*"*78, True)
@@ -68,13 +89,16 @@ try:
     print(misc.ConsoleError("Globals ", 0, True))
 except:
     print(misc.ConsoleError("Globals ", 0, False))
+'''
 #Functions
 conf_current_name = ""
 conf_current_idx = 1
-    
+
 #Tests & verifications
 bookmarks_folder_path = os.path.join(default_paths['app'], active_languages['menu_bookmarks_name'])
-update = checkup.MakeCheckup(default_paths['database'], default_paths['configs_database'], default_paths['bookmarks'], bookmarks_folder_path, active_languages['menu_bookmarks_name'], active_configuration, default_paths['app'], languages_config)
+update = checkup.MakeCheckup(default_paths['database'], default_paths['configs_database'], default_paths['bookmarks'], 
+                             bookmarks_folder_path, active_languages['menu_bookmarks_name'], active_configuration, default_paths['app'], 
+                             languages_config,  default_paths)
 #Panel and buttons 
 def ctx_active_object():
     global api_functions
@@ -264,7 +288,7 @@ class Configuration(eval(api_functions['types_operator'])):
                                     max=active_configuration['resolution_max'], default=active_configuration['resolution_default_y'])
     take_preview_BP = ctx.BoolProperty(name="", default=int(active_configuration['take_preview']))
     database_SP = ctx.StringProperty(name=active_languages['menu_configuration_base_path'], default=misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app']))
-    
+    auto_save_IP = ctx.IntProperty(name="", min=1, max=50, default=active_configuration['auto_save'])
     def draw(self, context):
         layout = self.layout
         row = layout.row(align=True)
@@ -313,17 +337,19 @@ class Configuration(eval(api_functions['types_operator'])):
         row.label(active_languages['menu_configuration_base_parameters'])
         row = layout.row(align=True)
         row.prop(self, "database_SP")
+        row = layout.row(align=True)
+        row.label(active_languages['menu_configuration_auto_save_1'] )
+        row.prop(self, "auto_save_IP")
+        row.label(active_languages['menu_configuration_auto_save_2'] )
     
     def invoke(self, context, event):
-        wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
+        wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=520"))
         return {'RUNNING_MODAL'}
     
     def execute(self, context):
         global default_paths, languages_config, active_configuration, active_languages, active_categories, names_config, options_actions,\
                names_languages, space_access_name, ConfigurationSearch, conf_current_idx 
         configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
-
- 
         c = self.conf_options_EP.split("_")[-1]
         if c == "delete":
             my_new_config = \
@@ -332,7 +358,7 @@ class Configuration(eval(api_functions['types_operator'])):
                  "web_link":'', "material_name":'', "key_words":'', "category":'', "email_creator":'', "resolution_min":0, 
                  "resolution_default_x":0, "resolution_default_y":0, "resolution_max":0, "language":'', "error_folder":'',
                 "html_folder":'', "save_folder":'', "temp_folder":'', "zip_folder":'', "workbase_file_path":'', "bin_folder":'', 
-                "help_file_path":'', "img_file_path":'', "option":'', "take_preview":0,}
+                "help_file_path":'', "img_file_path":'', "option":'', "take_preview":0,"auto_save":0, "load_number":0, }
             configuration.DeleteConfiguration(default_paths['configs_database'], my_new_config, names_config, active_languages)
         else:
             my_new_config = \
@@ -348,7 +374,7 @@ class Configuration(eval(api_functions['types_operator'])):
                  "workbase_file_path":active_configuration['workbase_file_path'], 
                  "bin_folder":active_configuration['bin_folder'], "help_file_path":active_configuration['help_file_path'],
                  "img_file_path":active_configuration['img_file_path'], "option":'menu_configuration_option_save', "name2":self.conf_name_SP,
-                 "take_preview":misc.ConvertBoolStringToNumber(self.take_preview_BP),}
+                 "take_preview":misc.ConvertBoolStringToNumber(self.take_preview_BP), "auto_save":self.auto_save_IP,  "load_number":0}
             configuration.SaveConfiguration(default_paths['configs_database'], my_new_config, active_languages)
 
         configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)

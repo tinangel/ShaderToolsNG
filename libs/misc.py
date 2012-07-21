@@ -19,9 +19,16 @@
 # <pep8-80 compliant>
 import bpy, os, time, shutil, platform
 
+def AutoSaveDatabase(path,  destination):
+    auto_save_folder =  os.path.join(destination , time.strftime('AutoSave %d-%m-%y %H:%M:%S',time.localtime()))
+    if not os.path.exists(auto_save_folder): os.makedirs(auto_save_folder)
+    destination_path = os.path.join(destination , auto_save_folder,  path.split(os.sep)[-1])
+    try: os.remove(destination_path)
+    except:pass
+    shutil.copy2(path, destination_path)
+
 def SaveDatabase(path,  destination,  bin_folder):
-    destination_path = os.path.join(destination ,   time.strftime('[%d-%m-%y %H:%M:%S]',time.localtime()) + path.split(os.sep)[-1])
-    print(destination_path )
+    destination_path = os.path.join(destination ,   time.strftime('Migration %d-%m-%y %H:%M:%S',time.localtime()) + path.split(os.sep)[-1])
     try: os.remove(destination_path)
     except:pass
     shutil.copy2(path, destination_path)

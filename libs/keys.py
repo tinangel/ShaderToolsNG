@@ -128,7 +128,7 @@ def LangagesKeys():
          "menu_category_space", "menu_category_stone", "menu_category_toon", "menu_category_wall", "menu_category_water", "menu_category_wood", "buttons_update_blender",
          "menu_configuration_default_config", "bl_id_config_search", "menu_configuration_langage_choice", "menu_configuration_current_index", "take_preview", "buttons_log",
          "menu_import_label001", "menu_import_label002", "bl_id_name_logs", "buttons_utils", "panel_database_label", "panel_archive_label", "panel_utils_label", "menu_utils_migrate",
-         "bl_id_name_utils_migrate", "menu_utils_migrate_help01", "menu_utils_migrate_help02",
+         "bl_id_name_utils_migrate", "menu_utils_migrate_help01", "menu_utils_migrate_help02", "menu_configuration_auto_save_1", "menu_configuration_auto_save_2", 
          ]
     for i in range(1, 41):
         temp.append("menu_error_error%03d" % i)
@@ -140,17 +140,26 @@ def ConfigurationsKeys():
         (      
          "num_configuration", "default_config", "name", "database_path", "author", "description", "web_link", "material_name", "category", "email_creator",
          "resolution_min", "resolution_max", "language", "error_folder", "html_folder", "save_folder", "temp_folder", "zip_folder", "workbase_file_path",
-         "help_file_path", "img_file_path", "bin_folder", "key_words", "option", "resolution_default_x", "resolution_default_y", "take_preview", 
+         "help_file_path", "img_file_path", "bin_folder", "key_words", "option", "resolution_default_x", "resolution_default_y", "take_preview", "auto_save", 
+         "load_number", 
          )
     return temp
 def ConfigurationsKeys_2():
     temp = \
         (      
          "database_path", "error_folder", "html_folder", "save_folder", "temp_folder", 
-         "zip_folder", "workbase_file_path", "help_file_path", "img_file_path", "bin_folder",  
+         "zip_folder", "workbase_file_path", "help_file_path", "img_file_path", "bin_folder",
          )
     return temp
 #end Configurations keys
+#Autosave keys
+def AutoSaveKeys():
+    temp = \
+        (      
+         "auto_save","load_number",          
+         )
+    return temp
+#end Autosave keys
 #About keys
 def AboutKeys():
     temp = \
