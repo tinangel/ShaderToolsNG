@@ -105,7 +105,7 @@ def MakeCheckup(database_path, configs_database_path,bookmark_path, bookmark_fol
         folder_list = \
             (
              active_configuration['zip_folder'],active_configuration['temp_folder'],
-             active_configuration['pack_folder'], active_configuration['html_folder'],
+             active_configuration['save_folder'], active_configuration['html_folder'],
              active_configuration['error_folder'], active_configuration['bin_folder'],
             )
 

@@ -19,6 +19,16 @@
 # <pep8-80 compliant>
 import bpy, os, time, shutil, platform
 
+def SaveDatabase(path,  destination,  bin_folder):
+    destination_path = os.path.join(destination ,   time.strftime('[%d-%m-%y %H:%M:%S]',time.localtime()) + path.split(os.sep)[-1])
+    print(destination_path )
+    try: os.remove(destination_path)
+    except:pass
+    shutil.copy2(path, destination_path)
+    os.rename(path,  path+"_old")
+    shutil.copy2(os.path.join(bin_folder,  "database"), path)
+    os.remove(path+"_old")
+
 def Clear(path, type, option, active_language):
     #Imports & external libs:
     try:

@@ -331,7 +331,7 @@ class Configuration(eval(api_functions['types_operator'])):
                  "name":'', "database_path":'', "author":'', "description":'',
                  "web_link":'', "material_name":'', "key_words":'', "category":'', "email_creator":'', "resolution_min":0, 
                  "resolution_default_x":0, "resolution_default_y":0, "resolution_max":0, "language":'', "error_folder":'',
-                "html_folder":'', "pack_folder":'', "temp_folder":'', "zip_folder":'', "workbase_file_path":'', "bin_folder":'', 
+                "html_folder":'', "save_folder":'', "temp_folder":'', "zip_folder":'', "workbase_file_path":'', "bin_folder":'', 
                 "help_file_path":'', "img_file_path":'', "option":'', "take_preview":0,}
             configuration.DeleteConfiguration(default_paths['configs_database'], my_new_config, names_config, active_languages)
         else:
@@ -343,7 +343,7 @@ class Configuration(eval(api_functions['types_operator'])):
                  "resolution_min":active_configuration['resolution_min'], "resolution_default_x":self.conf_res_x_IP,
                  "resolution_default_y":self.conf_res_y_IP, "resolution_max":active_configuration['resolution_max'],
                  "language":self.conf_language_EP, "error_folder":active_configuration['error_folder'],
-                 "html_folder":active_configuration['html_folder'], "pack_folder":active_configuration['pack_folder'],
+                 "html_folder":active_configuration['html_folder'], "save_folder":active_configuration['save_folder'],
                  "temp_folder":active_configuration['temp_folder'], "zip_folder":active_configuration['zip_folder'],
                  "workbase_file_path":active_configuration['workbase_file_path'], 
                  "bin_folder":active_configuration['bin_folder'], "help_file_path":active_configuration['help_file_path'],
@@ -454,13 +454,12 @@ class UtilsMigrate(eval(api_functions['types_operator'])):
         misc.LogError("*"*78, 0)
         misc.LogError("*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*", 0)
         misc.LogError("*"*78, 0)
-
-        '''number_max[0]+1 '''
-        for v in range(2, 10):
+        for v in range(2, 3):
             err = active_languages['menu_error_error037'] % str(v)
             print("\n%s" % err)
             misc.LogError("*"*3, 0)
             misc.LogError(err, 0)
+            misc.SaveDatabase(default_paths['database'],  default_paths['save'],  default_paths['bin'])
             migrate.MigrateV1V2(self.filepath, api_functions, active_languages, active_configuration, default_paths, v)
             misc.LogError("*"*3 +"\n", 0)
         return {'FINISHED'}   

@@ -94,7 +94,7 @@ def DefaultPaths():
     #end Test : verify if default database path exists
     for v in keys.ConfigurationsKeys_2():
         r[v] = misc.ConvertMarkOut(r[v], app_path)
-
+        
     temp = \
         {
             "blend":os.path.dirname(bpy.data.filepath),
@@ -105,8 +105,9 @@ def DefaultPaths():
             "languages_database":os.path.join(app_path, "ShaderToolsLanguages.sqlite"),
             "apis_database":os.path.join(app_path, "ShaderToolsApis.sqlite"),
             "database":r['database_path'],
-            "pack":r['pack_folder'],
+            "save":r['save_folder'],
             "temp":r['temp_folder'],
+	    "bin":r['bin_folder'],
             "bookmarks":bookmarks_path_user,
     }
     return temp
@@ -214,7 +215,7 @@ def VerifyDefaultConfiguration(database_path, option):
                 (
                  "1", "1", "Default_(1)", "#addon##slash#ShaderToolsDatabaseNG.sqlite", "You", "My material description",
                  "http://", "MyMaterial", "menu_category_personal", "my_email@company.com",
-                 "256", "768", "Francais", "#addon##slash#error", "#addon##slash#html", "#addon##slash#pack", "#addon##slash#temp",
+                 "256", "768", "Francais", "#addon##slash#error", "#addon##slash#html", "#addon##slash#save", "#addon##slash#temp",
                  "#addon##slash#zip", "#addon##slash#bin#slash#workbase", "#addon##slash#bin#slash#help","#addon##slash#bin#slash#img", "#addon##slash#bin", 
                  "green, mat, red lines ...", "menu_configuration_option_save", "256", "256",
                  )

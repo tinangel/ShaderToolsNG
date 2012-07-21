@@ -139,14 +139,14 @@ def ConfigurationsKeys():
     temp = \
         (      
          "num_configuration", "default_config", "name", "database_path", "author", "description", "web_link", "material_name", "category", "email_creator",
-         "resolution_min", "resolution_max", "language", "error_folder", "html_folder", "pack_folder", "temp_folder", "zip_folder", "workbase_file_path",
+         "resolution_min", "resolution_max", "language", "error_folder", "html_folder", "save_folder", "temp_folder", "zip_folder", "workbase_file_path",
          "help_file_path", "img_file_path", "bin_folder", "key_words", "option", "resolution_default_x", "resolution_default_y", "take_preview", 
          )
     return temp
 def ConfigurationsKeys_2():
     temp = \
         (      
-         "database_path", "error_folder", "html_folder", "pack_folder", "temp_folder", 
+         "database_path", "error_folder", "html_folder", "save_folder", "temp_folder", 
          "zip_folder", "workbase_file_path", "help_file_path", "img_file_path", "bin_folder",  
          )
     return temp
@@ -660,13 +660,13 @@ def OldTexturesColorVectorDict():
 def OldImageUvKeys():
     temp = \
         (
-         "Idx_Texture", "Ima_Blob",
+         "Ima_Blob", "Ima_Filepath", 
          )
     return temp
 def OldImageUvDict():
     temp = \
         {
-         "Idx_Texture":'num_textures', "Ima_Blob":'image_uv_blob',
+         "Ima_Blob":'image_uv_blob', "Ima_Filepath":'texture_image_filepath'
         }
     return temp
 #end ShaderTools image_uv keys
