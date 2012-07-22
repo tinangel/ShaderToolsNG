@@ -39,7 +39,7 @@ print("*"*78)
 
 #Imports & external libs:
 try:
-    import bpy, sqlite3, os, platform, locale, shutil, sys, time, shader_tools_ng.libs,  threading,  time
+    import bpy, sqlite3, os, platform, locale, shutil, sys, time, shader_tools_ng.libs,  threading
     from shader_tools_ng.libs import *
     print(misc.ConsoleError("Import external module ", 0, True))
 except:
@@ -101,7 +101,7 @@ def LoadingMigrateProgressBar(path):
     misc.LogAndPrintError(("Database version : %s" %version_values[2] ,  "Database version : %s" %version_values[2]))
     misc.SaveDatabase(default_paths['database'],  default_paths['save'],  default_paths['bin'])
     for v in range(2, number_max[0]+1):
-        ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(v+1, 50)
+        ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(v+1, number_max[0]+1)
         err = active_languages['menu_error_error037'] % str(v)
         print("\n%s" % err)
         misc.LogError("*"*3, 0)
@@ -131,6 +131,9 @@ class Open(eval(api_functions['types_operator'])):
     bl_label = space_access_name + active_languages['bl_id_name_open']    
     
     global  database_stuff
+    ctx = eval(api_functions['props'])
+    filename = ctx.StringProperty(subtype="FILENAME")
+    filepath = ctx.StringProperty(subtype="FILE_PATH")    
     
     def draw(self, context):
         if database_stuff: 
@@ -147,8 +150,10 @@ class Open(eval(api_functions['types_operator'])):
             row.label("En cours de developpement", icon='RADIO')
 
     def invoke(self, context, event):
-        if not database_stuff: 
-            wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
+        if not database_stuff:
+            lauch_progress_bar = threading.Thread(None, open.CreateThumbnails, None, (default_paths,  active_configuration, api_functions, active_languages, ), {})
+            lauch_progress_bar.start()
+            wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
         else: 
              wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
         return {'RUNNING_MODAL'}
@@ -156,7 +161,9 @@ class Open(eval(api_functions['types_operator'])):
     def execute(self, context):
         global database_stuff
         if not database_stuff:
-           print("Database has not stuff") 
+            lauch_progress_bar = threading.Thread(None, open.ImportMaterialInApp, None, (default_paths,  active_configuration, api_functions, active_languages, self.filename), {})
+            lauch_progress_bar.start()
+            
         return {'FINISHED'}   
 
 class Save(eval(api_functions['types_operator'])):

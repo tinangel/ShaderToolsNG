@@ -56,6 +56,7 @@ def DatabaseSelect(database_path, elements, table, condition, options):
     for e in elements:  request = request + e + ","
     request = request.rstrip(",") + " from '%s' " % table + condition
     #here my request :
+    #print(request)
     try:
         DatabaseCursor.execute(request)
         

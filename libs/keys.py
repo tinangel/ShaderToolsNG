@@ -479,11 +479,21 @@ def StandartValuesRenderInternalKeys():
 def VersionKeys():
     temp = \
         (
-         "num_version", "app", "database", "blender",
+         "num_version", "app", "database", "blender", 
          )
     return temp
 #end Version properties keys
-
+#Thumbnails properties keys
+def ThumbnailsRenderKeys():
+    temp = \
+        (
+         "idx_materials", "render_preview_object",
+         )
+    return temp
+def ThumbnailsMaterialsKeys():
+    temp = ("name",)
+    return temp
+#end Thumbnails properties keys
 
 
 ''' *******           Here ShaderTools Utils keys           ********* '''
