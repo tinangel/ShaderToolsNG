@@ -22,7 +22,7 @@
 bl_info = {
     "name": "ShaderTools Next Gen",
     "author": "GRETETE Karim (Tinangel)",
-    "version": (0, 5, 9),
+    "version": (0, 7, 0),
     "blender": (2, 6, 0),
     "api": 41098,
     "location": "User Preferences",
@@ -39,35 +39,12 @@ print("*"*78)
 
 #Imports & external libs:
 try:
-    import bpy, sqlite3, os, platform, locale, shutil, sys, time, shader_tools_ng.libs
-    from shader_tools_ng.libs import bookmark, environment, checkup, configuration, credits, exporter, help, importer, new, open, save, request, \
-    zip, misc, keys, materials, textures, ramps, log, render, migrate
+    import bpy, sqlite3, os, platform, locale, shutil, sys, time, shader_tools_ng.libs,  threading,  time
+    from shader_tools_ng.libs import *
     print(misc.ConsoleError("Import external module ", 0, True))
-
 except:
     print(misc.ConsoleError("Import external module ", 0, False))
 
-misc.LogError("", True)
-misc.LogError("*"*78, True)
-misc.LogError("*" + " "*22 + "Shader Tools Next Gen - Console" + " "*23 + "*", False)
-misc.LogError("*"*78, False)
-blender_version = str(bpy.app.version[0]) + "." + str(bpy.app.version[1]) + str(bpy.app.version[2])
-default_paths = environment.DefaultPaths()
-api_functions = environment.ApiDatas(default_paths['apis_database'], blender_version)
-configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
-languages_config = environment.LanguagesDatas(default_paths['languages_database'])
-active_configuration = environment.ActiveConfigurations(configurations_config)
-active_languages = environment.ActiveLanguage(languages_config, active_configuration['language'])
-about_config = environment.AboutDatas(default_paths['database'])
-active_categories = environment.MaterialsCatergories(active_languages)
-names_config = environment.ConfigurationsNames(configurations_config)
-options_actions = environment.ConfigurationsOptions(active_languages)
-names_languages = environment.LanguagesNames(languages_config)
-space_access_name = active_languages['space_access_name'] + " "
-print(misc.ConsoleError("Globals ", 0, True))
-
-
-'''
 try:
     misc.LogError("", True)
     misc.LogError("*"*78, True)
@@ -89,10 +66,11 @@ try:
     print(misc.ConsoleError("Globals ", 0, True))
 except:
     print(misc.ConsoleError("Globals ", 0, False))
-'''
+
 #Functions
 conf_current_name = ""
 conf_current_idx = 1
+database_stuff = False
 
 #Tests & verifications
 bookmarks_folder_path = os.path.join(default_paths['app'], active_languages['menu_bookmarks_name'])
@@ -110,6 +88,29 @@ def ctx_active_object():
         ctx_active_object = False
     return ctx_active_object 
 
+def UpdateProgressBar(self,  context): return None
+def LoadingMigrateProgressBar(path):
+    global database_stuff
+    database_stuff = True
+    ctx_scene = eval(api_functions['context_scene'])
+    number_max = request.DatabaseCount(path, "Mat_Index", "MATERIALS", "", 'one')
+    version_values = request.DatabaseSelect(path, keys.OldVersionKeys(), "VERSION", "", 'one')         
+    misc.LogAndPrintError(("*"*78,  "*"*78))
+    misc.LogAndPrintError(("*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*",  "*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*"))
+    misc.LogAndPrintError(("*"*78,  "*"*78))
+    misc.LogAndPrintError(("Database version : %s" %version_values[2] ,  "Database version : %s" %version_values[2]))
+    misc.SaveDatabase(default_paths['database'],  default_paths['save'],  default_paths['bin'])
+    for v in range(2, 50):
+    #for v in range(2, number_max[0]+1):
+        ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(v+1, 50)
+        err = active_languages['menu_error_error037'] % str(v)
+        print("\n%s" % err)
+        misc.LogError("*"*3, 0)
+        misc.LogError(err, 0)
+        migrate.MigrateV1V2(path, api_functions, active_languages, active_configuration, default_paths, v)
+        misc.LogError("*"*3 +"\n", 0)
+    database_stuff = False
+    
 class Errors(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_errors"
     bl_label = space_access_name + active_languages['bl_id_name_logs']
@@ -122,7 +123,7 @@ class Errors(eval(api_functions['types_operator'])):
 class UpdateWarning(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_warning"
     bl_label = " "
-    
+
     def execute(self, context):
         return {'FINISHED'}
 
@@ -130,20 +131,72 @@ class Open(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_open"
     bl_label = space_access_name + active_languages['bl_id_name_open']    
     
+    global  database_stuff
+    
+    def draw(self, context):
+        if database_stuff: 
+            layout = self.layout
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error040'], icon='RADIO')
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error041'])
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error042'])
+        else: 
+            layout = self.layout
+            row = layout.row(align=True)
+            row.label("En cours de developpement", icon='RADIO')
+
+    def invoke(self, context, event):
+        if not database_stuff: 
+            wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
+        else: 
+             wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
+        return {'RUNNING_MODAL'}
+
     def execute(self, context):
+        global database_stuff
+        if not database_stuff:
+           print("Database has not stuff") 
         return {'FINISHED'}   
 
 class Save(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_save"
     bl_label = space_access_name + active_languages['bl_id_name_save']    
+
+    global  database_stuff
+    
+    def draw(self, context):
+        if database_stuff: 
+            layout = self.layout
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error040'], icon='RADIO')
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error041'])
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error042'])
+        else: 
+            layout = self.layout
+            row = layout.row(align=True)
+            row.label("En cours de developpement", icon='RADIO')
+ 
+    def invoke(self, context, event):
+        if not database_stuff: 
+            wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
+        else: 
+             wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
+        return {'RUNNING_MODAL'} 
     
     def execute(self, context):
+        global database_stuff
+        if not database_stuff:
+           print("Database has not stuff") 
         return {'FINISHED'}   
 
 class Export(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_export"
     bl_label = space_access_name + active_languages['bl_id_name_export']    
-    
+
     global default_paths
     ctx = eval(api_functions['props'])
     filename_ext = ".blex"
@@ -185,7 +238,7 @@ class Export(eval(api_functions['types_operator'])):
         else:
             wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
         return {'RUNNING_MODAL'}
-    
+
     def execute(self, context):
         if ctx_active_object():
             global default_paths, active_configuration, api_functions
@@ -240,7 +293,7 @@ class Import(eval(api_functions['types_operator'])):
     filter_glob = ctx.StringProperty(default="*.blex;*.BLEX", options={'HIDDEN'})
     filename = ctx.StringProperty(subtype="FILENAME")
     filepath = ctx.StringProperty(subtype="FILE_PATH")    
-    
+
     def draw(self, context):
         layout = self.layout
         row = layout.row(align=True)
@@ -259,7 +312,7 @@ class Import(eval(api_functions['types_operator'])):
 class New(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_new"
     bl_label = space_access_name + active_languages['bl_id_name_create']    
-    
+
     def execute(self, context):
         new.CreateNew(default_paths['app'], active_configuration, api_functions, active_languages)
         return {'FINISHED'}   
@@ -341,11 +394,11 @@ class Configuration(eval(api_functions['types_operator'])):
         row.label(active_languages['menu_configuration_auto_save_1'] )
         row.prop(self, "auto_save_IP")
         row.label(active_languages['menu_configuration_auto_save_2'] )
-    
+
     def invoke(self, context, event):
         wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=520"))
         return {'RUNNING_MODAL'}
-    
+
     def execute(self, context):
         global default_paths, languages_config, active_configuration, active_languages, active_categories, names_config, options_actions,\
                names_languages, space_access_name, ConfigurationSearch, conf_current_idx 
@@ -394,23 +447,37 @@ class ConfigurationSearch(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_configuration_search"
     bl_label = ''
     
+    global  database_stuff
     ctx = eval(api_functions['props'])
     type = ctx.EnumProperty(name=active_languages['menu_configuration_select_title'],items=(names_config),)
-    
+        
+    def draw(self, context):
+        layout = self.layout
+        row = layout.row(align=True)
+        row.label(active_languages['menu_error_error040'], icon='RADIO')
+        row = layout.row(align=True)
+        row.label(active_languages['menu_error_error041'])
+        row = layout.row(align=True)
+        row.label(active_languages['menu_error_error042'])
+        
     def invoke(self, context, event):
-        wm = eval(api_functions['invoke_search_popup'].replace("#1#", "self"))
-        return {'FINISHED'}
-    
+        if not database_stuff: 
+            wm = eval(api_functions['invoke_search_popup'].replace("#1#", "self"))
+        else: 
+             wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
+        return {'RUNNING_MODAL'}
+
     def execute(self, context):
-        global default_paths, conf_current_name, conf_current_idx
-        conf_current_idx = str(self.type)
-        ops_object = eval(api_functions['ops_object'])
-        configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
-        selected_configuration = configurations_config[misc.EnumPropertyItemsInverseIdx(conf_current_idx, configurations_config)]
-        conf_current_name = selected_configuration['name']
-        eval(api_functions['utils_unregister_class'].replace("#1#", "Configuration"))
-        eval(api_functions['utils_register_class'].replace("#1#", "Configuration"))
-        ops_object.shadertoolsng_configuration('INVOKE_DEFAULT', conf_choice_EP=conf_current_idx , conf_language_EP=selected_configuration['language'],  
+        global default_paths, conf_current_name, conf_current_idx,  database_stuff
+        if not database_stuff: 
+            conf_current_idx = str(self.type)
+            ops_object = eval(api_functions['ops_object'])
+            configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
+            selected_configuration = configurations_config[misc.EnumPropertyItemsInverseIdx(conf_current_idx, configurations_config)]
+            conf_current_name = selected_configuration['name']
+            eval(api_functions['utils_unregister_class'].replace("#1#", "Configuration"))
+            eval(api_functions['utils_register_class'].replace("#1#", "Configuration"))
+            ops_object.shadertoolsng_configuration('INVOKE_DEFAULT', conf_choice_EP=conf_current_idx , conf_language_EP=selected_configuration['language'],  
                                  conf_options_EP=selected_configuration['option'], category_EP=selected_configuration['category'],
                                  conf_name_SP=selected_configuration['name'], conf_default_BP=selected_configuration['default_config'],
                                  mat_name_SP=selected_configuration['material_name'], key_words_SP=selected_configuration['key_words'],
@@ -419,13 +486,12 @@ class ConfigurationSearch(eval(api_functions['types_operator'])):
                                  conf_res_x_IP=selected_configuration['resolution_default_x'], conf_res_y_IP=selected_configuration['resolution_default_y'],
                                  database_SP=misc.ConvertMarkOut(selected_configuration['database_path'], default_paths['app']),
                                  take_preview_BP=int(selected_configuration['take_preview']))
-        
         return {'FINISHED'}   
 
 class Help(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_help"
     bl_label = space_access_name + active_languages['bl_id_name_help']    
-    
+
     def execute(self, context):
         help.help_me(default_paths['app'], active_languages['name_language'])
         return {'FINISHED'}   
@@ -449,45 +515,49 @@ class Credits(eval(api_functions['types_operator'])):
 
     def invoke(self, context, event):
         return eval(api_functions['invoke_popup'].replace("#1#", "self, width = 380"))
-    
+
     def execute(self, context):
         return {'FINISHED'}   
 
 class UtilsMigrate(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_utils_migrate"
     bl_label = space_access_name + active_languages['bl_id_name_utils_migrate']    
+
+    global database_stuff
     
     ctx = eval(api_functions['props'])
     filename_ext = ".sqlite"
     filter_glob = ctx.StringProperty(default="*.sqlite;*.SQLITE", options={'HIDDEN'})
     filename = ctx.StringProperty(subtype="FILENAME")
     filepath = ctx.StringProperty(subtype="FILE_PATH")   
-    
+
     def draw(self, context):
-        layout = self.layout
-        row = layout.row(align=True)
-        row.label(active_languages['menu_utils_migrate_help01'], icon="HELP")
-        row = layout.row(align=True)
-    
+        if not database_stuff:
+            layout = self.layout
+            row = layout.row(align=True)
+            row.label(active_languages['menu_utils_migrate_help01'], icon="HELP")
+            row = layout.row(align=True)
+        else:
+            layout = self.layout
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error040'], icon='RADIO')
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error041'])
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error042'])
+
     def invoke(self, context, event):
-        wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
-        return {'RUNNING_MODAL'}
-    
+        if not database_stuff: 
+           wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
+        else: 
+             wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
+        return {'RUNNING_MODAL'} 
+
     def execute(self, context):
-        number_max = request.DatabaseCount(self.filepath, "Mat_Index", "MATERIALS", "", 'one')
-        version_values = request.DatabaseSelect(self.filepath, keys.OldVersionKeys(), "VERSION", "", 'one')         
-        misc.LogAndPrintError(("*"*78,  "*"*78))
-        misc.LogAndPrintError(("*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*",  "*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*"))
-        misc.LogAndPrintError(("*"*78,  "*"*78))
-        misc.LogAndPrintError(("Database version : %s" %version_values[2] ,  "Database version : %s" %version_values[2]))
-        misc.SaveDatabase(default_paths['database'],  default_paths['save'],  default_paths['bin'])
-        for v in range(2, number_max[0]+1):
-            err = active_languages['menu_error_error037'] % str(v)
-            print("\n%s" % err)
-            misc.LogError("*"*3, 0)
-            misc.LogError(err, 0)
-            migrate.MigrateV1V2(self.filepath, api_functions, active_languages, active_configuration, default_paths, v)
-            misc.LogError("*"*3 +"\n", 0)
+        global database_stuff
+        if not database_stuff: 
+            lauch_progress_bar = threading.Thread(None, LoadingMigrateProgressBar, None, (self.filepath,), {})
+            lauch_progress_bar.start()
         return {'FINISHED'}   
 
 def OpenSaveSwitch(self, context):
@@ -523,7 +593,7 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
 
     ctx_props = eval(api_functions['props'])
     types_scene = eval(api_functions['types_scene'])
-    
+
     #Open and save buttons in panel
     OpenSaveItems = SwitchButtonsList(("buttons_open", "buttons_save"))
     OpenSave = ctx_props.EnumProperty( name = "OpenSave", items = OpenSaveItems, update=OpenSaveSwitch)
@@ -535,13 +605,15 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
     #Utils button in panel
     UtilsItems = SwitchButtonsList(("buttons_config", "buttons_create", "buttons_log", "buttons_help", "buttons_credits", "menu_utils_migrate",))
     UtilsEnum = ctx_props.EnumProperty( name = "", items = UtilsItems, update=UtilsSwitch)
+    UtilsProgressBar = ctx_props.IntProperty( name = "",  subtype='PERCENTAGE',  options={'ANIMATABLE'},  min=0,  max=100,  default=0,  update=UpdateProgressBar)
+    types_scene.shadertoolsng_utils_bar = UtilsProgressBar
     types_scene.shadertoolsng_utils_enum = UtilsEnum
-    
+
     def draw(self, context):
         ctx_scene = eval(api_functions['context_scene'])
         layout = self.layout
         row = layout.row()
-        
+
         if update:
             row.operator("object.shadertoolsng_warning", text=active_languages['menu_error_error001'], icon="RADIO")
         else:
@@ -553,19 +625,20 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
             row = layout.row()
             row.label("%s : " % active_languages['panel_utils_label'], icon="PREFERENCES")
             row.prop(ctx_scene, "shadertoolsng_utils_enum")
+            row = layout.row()
+            row.prop(ctx_scene, "shadertoolsng_utils_bar")
 
 MyReg = \
     (
-     ShadersToolsNGPanel, Open, Save, Export, Import,
-     New, Configuration, Help, Credits, UpdateWarning,
-     ConfigurationSearch, Errors, UtilsMigrate,
+     ShadersToolsNGPanel, Open, Save, Export, Import,New, Configuration, Help, Credits, UpdateWarning,
+     ConfigurationSearch, Errors, UtilsMigrate,  
     )
 
 def register():
     try:
         for c in MyReg :
             bpy.utils.register_class(c)
-        #end for
+        #end 
         print(misc.ConsoleError("Panel ", 0, True))
         print("*"*78)
         misc.LogError("*"*78, False)

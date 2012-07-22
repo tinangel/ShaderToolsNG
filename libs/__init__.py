@@ -17,3 +17,28 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
+
+__all__ = (
+    "bookmark",
+    "checkup",
+    "configuration",
+    "credits",
+    "environment",
+    "exporter",
+    "help",
+    "importer",
+    "keys",
+    "log",
+    "materials",
+    "migrate",
+    "misc",
+    "new",
+    "open",
+    "ramps",
+    "render",
+    "request",
+    "save",
+    "textures",
+    "zip",
+    )
+

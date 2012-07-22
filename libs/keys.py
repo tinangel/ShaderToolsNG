@@ -130,7 +130,7 @@ def LangagesKeys():
          "menu_import_label001", "menu_import_label002", "bl_id_name_logs", "buttons_utils", "panel_database_label", "panel_archive_label", "panel_utils_label", "menu_utils_migrate",
          "bl_id_name_utils_migrate", "menu_utils_migrate_help01", "menu_utils_migrate_help02", "menu_configuration_auto_save_1", "menu_configuration_auto_save_2", 
          ]
-    for i in range(1, 41):
+    for i in range(1, 81):
         temp.append("menu_error_error%03d" % i)
     return temp
 #end Langages keys
