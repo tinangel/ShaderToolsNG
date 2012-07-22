@@ -100,8 +100,7 @@ def LoadingMigrateProgressBar(path):
     misc.LogAndPrintError(("*"*78,  "*"*78))
     misc.LogAndPrintError(("Database version : %s" %version_values[2] ,  "Database version : %s" %version_values[2]))
     misc.SaveDatabase(default_paths['database'],  default_paths['save'],  default_paths['bin'])
-    for v in range(2, 50):
-    #for v in range(2, number_max[0]+1):
+    for v in range(2, number_max[0]+1):
         ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(v+1, 50)
         err = active_languages['menu_error_error037'] % str(v)
         print("\n%s" % err)
