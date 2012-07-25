@@ -39,7 +39,7 @@ print("*"*78)
 
 #Imports & external libs:
 try:
-    import bpy, sqlite3, os, platform, locale, shutil, sys, time, shader_tools_ng.libs,  threading
+    import bpy, sqlite3, os, platform, locale, shutil, sys, time, shader_tools_ng.libs, threading
     from shader_tools_ng.libs import *
     print(misc.ConsoleError("Import external module ", 0, True))
 except:
@@ -136,34 +136,34 @@ class Open(eval(api_functions['types_operator'])):
     filepath = ctx.StringProperty(subtype="FILE_PATH")    
     
     def draw(self, context):
+        layout = self.layout
+        row = layout.row(align=True)
         if database_stuff: 
-            layout = self.layout
-            row = layout.row(align=True)
             row.label(active_languages['menu_error_error040'], icon='RADIO')
             row = layout.row(align=True)
             row.label(active_languages['menu_error_error041'])
             row = layout.row(align=True)
             row.label(active_languages['menu_error_error042'])
+        elif not ctx_active_object():
+            row.label(active_languages['menu_error_error047'], icon='RADIO')
         else: 
-            layout = self.layout
-            row = layout.row(align=True)
             row.label("En cours de developpement", icon='RADIO')
 
     def invoke(self, context, event):
-        if not database_stuff:
-            lauch_progress_bar = threading.Thread(None, open.CreateThumbnails, None, (default_paths,  active_configuration, api_functions, active_languages, ), {})
-            lauch_progress_bar.start()
+        global  database_stuff
+        if not database_stuff and ctx_active_object():
             wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
         else: 
-             wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
+             wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
         return {'RUNNING_MODAL'}
 
     def execute(self, context):
         global database_stuff
-        if not database_stuff:
-            lauch_progress_bar = threading.Thread(None, open.ImportMaterialInApp, None, (default_paths,  active_configuration, api_functions, active_languages, self.filename), {})
-            lauch_progress_bar.start()
-            
+        if not database_stuff and  ctx_active_object():
+            ctx_scene = eval(api_functions['context_scene'])
+            ctx_scene.shadertoolsng_utils_bar = 0
+            step_number = 4
+            open.ImportMaterialInApp(default_paths,  active_configuration, api_functions, active_languages, self.filename,  step_number)
         return {'FINISHED'}   
 
 class Save(eval(api_functions['types_operator'])):
@@ -658,3 +658,8 @@ def unregister():
 #end unregister
 if __name__ == "__main__":
     register()
+    open.CreateThumbnails(default_paths,  active_configuration, api_functions, active_languages)
+    #lauch_progress_bar = threading.Thread(None, open.CreateThumbnails, "Create_thumbnails", (default_paths,  active_configuration, api_functions, active_languages, ), {})
+    #misc.CurrentThreads()
+    #lauch_progress_bar.start()
+

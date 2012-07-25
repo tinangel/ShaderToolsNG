@@ -17,7 +17,7 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
-import bpy, os, time, shutil, platform
+import bpy, os, time, shutil, platform,  threading
 
 def AutoSaveDatabase(path,  destination):
     auto_save_folder =  os.path.join(destination , time.strftime('AutoSave %d-%m-%y %H:%M:%S',time.localtime()))
@@ -198,3 +198,8 @@ def DoubleSlash(path):
 def CrossProduct(current_value, max_value):
     total = (current_value*100)/max_value
     return int(total)
+
+def CurrentThreads(name):
+    while threading.active_count() > 1:
+        time.sleep(1)
+        
