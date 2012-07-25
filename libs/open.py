@@ -22,18 +22,23 @@ import bpy, shutil,  os, binascii,  time, threading
 from . import misc, keys, request
 from copy import copy
 
-def CreateThumbnails(default_paths,  active_configuration, api_functions, active_languages):
+def IdxMaterial(name_object):
+    idx_material = name_object.split("(")[-1]
+    idx_material = idx_material.split(")")[0]
+    return idx_material 
+    
+def CreateThumbnails(default_paths,  active_configuration, api_functions, active_languages,  option_bar):
     ctx_scene = eval(api_functions['context_scene'])
     thumbnails_folder_path = os.path.join(default_paths['app'], active_languages['menu_bookmarks_name'])
     database_path = misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app'])
     req = request.DatabaseSelect(database_path, keys.ThumbnailsRenderKeys(),"RENDER", "", 'all')
     try: misc.Clear(thumbnails_folder_path, 'files', 'all', active_languages)
     except: pass
-    current_element = 1
-    max_elements = req.__len__()
     try:
+        current_element = 1
+        max_elements = req.__len__()
         for e in req:
-            ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(current_element, max_elements)
+            if  option_bar: ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(current_element, max_elements)
             req_names = request.DatabaseSelect(database_path, keys.ThumbnailsMaterialsKeys(),"MATERIALS", "where num_materials =%s" %e[0], 'one')
             thumbnail_name = req_names[0].replace("$T_",  "") + "_(%s).jpg" %e[0]
             thumbnail_bytes = binascii.unhexlify(eval(e[1]))
@@ -51,16 +56,22 @@ def CreateThumbnails(default_paths,  active_configuration, api_functions, active
             
 def ImportMaterialInApp(default_paths,  active_configuration, api_functions, active_languages,  name_object,  step_number):
     ctx_scene = eval(api_functions['context_scene'])
-    idx_material = name_object.split("(")[-1]
-    idx_material = idx_material.split(")")[0]
     database_path = misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app'])
     database_keys_elements = []
     keys_elements = []
-    
-    for e in keys.MaterialsPropertiesKeys(api_functions):
+    req_type = request.DatabaseSelect(database_path,  ('type', ),"MATERIALS", "where num_materials =%s" % IdxMaterial(name_object), 'one')
+    materials_keys_elements = []
+    if req_type[0] == 'SURFACE' or req_type[0] == 'WIRE':
+        for k in keys.SurfaceWireKeys(): materials_keys_elements.append(k)
+    elif req_type[0] == 'VOLUME':  
+        for k in keys.VolumeKeys(): materials_keys_elements.append(k)
+    else: 
+         for k in keys.HaloKeys(): materials_keys_elements.append(k)
+ 
+    for e in materials_keys_elements:
         keys_elements.append(e)
         database_keys_elements.append(e.replace(".",  "_"))
-    req = request.DatabaseSelect(database_path,  database_keys_elements,"MATERIALS", "where num_materials =%s" % idx_material, 'one')
+    req = request.DatabaseSelect(database_path,  database_keys_elements,"MATERIALS", "where num_materials =%s" % IdxMaterial(name_object), 'one')
     if not req == []:
         c = 0
         for p in keys_elements:
@@ -72,20 +83,23 @@ def ImportMaterialInApp(default_paths,  active_configuration, api_functions, act
             else: val = str(req[c])
             api_propertie = keys.MaterialsPropertiesKeys(api_functions)[p][0]
             if keys.MaterialsPropertiesKeys(api_functions)[p][1] == 'yes': val = "'%s'" % val
-            try: exec("%s = %s"% (api_propertie,  val, ))
+            try:exec("%s = %s"% (api_propertie,  val, ))
             except: pass
             c = c + 1
     ctx_scene.shadertoolsng_utils_bar = (100/step_number) * 1
-    ImportTexturesInApp(default_paths,  active_configuration, api_functions, active_languages,  name_object,  step_number,  idx_material,  ctx_scene)
+    ImportTexturesInApp(default_paths,  active_configuration, api_functions, active_languages,  name_object,  step_number,   IdxMaterial(name_object),  ctx_scene)
    
     
 def ImportTexturesInApp(default_paths,  active_configuration, api_functions, active_languages,  name_object,  step_number,  idx_materials,  ctx_scene):
+    ctx_scene = eval(api_functions['context_scene'])
+    idx_material = name_object.split("(")[-1]
+    idx_material = idx_material.split(")")[0]
     database_path = misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app'])
-    database_keys_elements = []
-    keys_elements = []
-    print(database_path )
- 
-
+    #for e in keys.MaterialsPropertiesKeys(api_functions):
+    #    keys_elements.append(e)
+    #    database_keys_elements.append(e.replace(".",  "_")) 
+    req = request.DatabaseSelect(database_path,  ("*", ),"TEXTURES", "where idx_materials =%s" % IdxMaterial(name_object), 'all')
+    print(req)
     
     
     

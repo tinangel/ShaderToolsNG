@@ -199,7 +199,6 @@ def CrossProduct(current_value, max_value):
     total = (current_value*100)/max_value
     return int(total)
 
-def CurrentThreads(name):
-    while threading.active_count() > 1:
-        time.sleep(1)
+def CurrentThreads():
+    while threading.active_count() > 1:return None
         

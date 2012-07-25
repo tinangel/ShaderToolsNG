@@ -69,7 +69,7 @@ def MakeCheckup(database_path, configs_database_path,bookmark_path, bookmark_fol
         print(misc.ConsoleError("select in database ", 1, False))
     #end Test : select in database:
     #Test : update in database:
-    condition_update = "set text='Hello world', float='1234.56789', bool='0', blob='4+4e4û4ÿ55M5á5¬5˝676', date='22/12/2012', time='00:30:58' where num_test='0'"
+    condition_update = "set text='Hello world', float='1234.56789', bool='0', blob='ffd8ffe000104a46', date='22/12/2012', time='00:30:58' where num_test='0'"
     try:
         result = request.DatabaseUpdate(database_path, 'TEST', condition_update)
         if result:

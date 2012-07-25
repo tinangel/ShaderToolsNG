@@ -293,7 +293,7 @@ def RampsPropertiesKeys(api_functions):
     "point_density_color_ramp.elements":(api_functions['texture_point_density_color_ramp_elements'], ''),}
     return ramps_properties
 #end Material Properties keys
-#SurfaceWire keys
+#SurfaceWire keys 
 def SurfaceWireKeys():
     surface_wire  = \
     ("diffuse_color","diffuse_shader","diffuse_intensity","roughness","diffuse_toon_size","diffuse_toon_smooth",

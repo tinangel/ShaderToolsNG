@@ -77,6 +77,8 @@ bookmarks_folder_path = os.path.join(default_paths['app'], active_languages['men
 update = checkup.MakeCheckup(default_paths['database'], default_paths['configs_database'], default_paths['bookmarks'], 
                              bookmarks_folder_path, active_languages['menu_bookmarks_name'], active_configuration, default_paths['app'], 
                              languages_config,  default_paths)
+lauch_progress_bar = threading.Thread(None, open.CreateThumbnails, "Create_thumbnails", (default_paths,  active_configuration, api_functions, active_languages, False, ), {})
+lauch_progress_bar.start()
 #Panel and buttons 
 def ctx_active_object():
     global api_functions
@@ -154,7 +156,7 @@ class Open(eval(api_functions['types_operator'])):
         if not database_stuff and ctx_active_object():
             wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
         else: 
-             wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
+            wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
         return {'RUNNING_MODAL'}
 
     def execute(self, context):
@@ -658,8 +660,7 @@ def unregister():
 #end unregister
 if __name__ == "__main__":
     register()
-    open.CreateThumbnails(default_paths,  active_configuration, api_functions, active_languages)
+    #open.CreateThumbnails(default_paths,  active_configuration, api_functions, active_languages)
     #lauch_progress_bar = threading.Thread(None, open.CreateThumbnails, "Create_thumbnails", (default_paths,  active_configuration, api_functions, active_languages, ), {})
-    #misc.CurrentThreads()
     #lauch_progress_bar.start()
 
