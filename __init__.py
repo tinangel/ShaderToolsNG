@@ -45,6 +45,26 @@ try:
 except:
     print(misc.ConsoleError("Import external module ", 0, False))
 
+misc.LogError("", True)
+misc.LogError("*"*78, True)
+misc.LogError("*" + " "*22 + "Shader Tools Next Gen - Console" + " "*23 + "*", False)
+misc.LogError("*"*78, False)
+blender_version = str(bpy.app.version[0]) + "." + str(bpy.app.version[1]) + str(bpy.app.version[2])
+default_paths = environment.DefaultPaths()
+api_functions = environment.ApiDatas(default_paths['apis_database'], blender_version)
+configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
+languages_config = environment.LanguagesDatas(default_paths['languages_database'])
+active_configuration = environment.ActiveConfigurations(configurations_config)
+active_languages = environment.ActiveLanguage(languages_config, active_configuration['language'])
+about_config = environment.AboutDatas(default_paths['database'])
+active_categories = environment.MaterialsCatergories(active_languages)
+names_config = environment.ConfigurationsNames(configurations_config)
+options_actions = environment.ConfigurationsOptions(active_languages)
+names_languages = environment.LanguagesNames(languages_config)
+space_access_name = active_languages['space_access_name'] + " "
+
+
+'''
 try:
     misc.LogError("", True)
     misc.LogError("*"*78, True)
@@ -66,7 +86,7 @@ try:
     print(misc.ConsoleError("Globals ", 0, True))
 except:
     print(misc.ConsoleError("Globals ", 0, False))
-
+'''
 #Functions
 conf_current_name = ""
 conf_current_idx = 1
@@ -153,7 +173,7 @@ class Open(eval(api_functions['types_operator'])):
 
     def invoke(self, context, event):
         global  database_stuff
-        if not database_stuff and ctx_active_object():
+        if not database_stuff :
             wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
         else: 
             wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
@@ -161,7 +181,7 @@ class Open(eval(api_functions['types_operator'])):
 
     def execute(self, context):
         global database_stuff
-        if not database_stuff and  ctx_active_object():
+        if not database_stuff:
             ctx_scene = eval(api_functions['context_scene'])
             ctx_scene.shadertoolsng_utils_bar = 0
             step_number = 4

@@ -59,8 +59,17 @@ def ImportMaterialInApp(default_paths,  active_configuration, api_functions, act
     database_path = misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app'])
     database_keys_elements = []
     keys_elements = []
-    req_type = request.DatabaseSelect(database_path,  ('type', ),"MATERIALS", "where num_materials =%s" % IdxMaterial(name_object), 'one')
+    req_type = request.DatabaseSelect(database_path,  ('type', 'name'),"MATERIALS", "where num_materials =%s" % IdxMaterial(name_object), 'one')
     materials_keys_elements = []
+
+    eval(api_functions['material_slot_add'])
+    slots = api_functions['material_slots']
+    slots = slots.replace("#1#", str(api_functions['material_slots'].replace("[#1#].material", "")) + ".__len__() - 1")
+    new_mat = api_functions['materials_new'].replace("#1#", "'%s'" % req_type[1])
+    mat_slots = eval(api_functions['material_slots'].replace("[#1#].material", ".__len__()" ))
+    exec("%s = %s" % (slots,  new_mat))
+    exec("%s = %s" %(api_functions['material_index'],  mat_slots))
+    
     if req_type[0] == 'SURFACE' or req_type[0] == 'WIRE':
         for k in keys.SurfaceWireKeys(): materials_keys_elements.append(k)
     elif req_type[0] == 'VOLUME':  
@@ -92,54 +101,69 @@ def ImportMaterialInApp(default_paths,  active_configuration, api_functions, act
 def ImportTexturesInApp(default_paths,  active_configuration, api_functions, active_languages,  name_object,  step_number,  idx_materials):
     ctx_scene = eval(api_functions['context_scene'])
     database_path = misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app'])
-    req_type = request.DatabaseSelect(database_path,  ('type', ),"TEXTURES", "where idx_materials =%s" % IdxMaterial(name_object), 'all')
+    req_type = request.DatabaseSelect(database_path,  ('type', 'name',  'num_textures'),"TEXTURES", "where idx_materials =%s" % IdxMaterial(name_object), 'all')
 
-    textures_keys_elements = []
-    database_keys_elements = []
-    for e in keys.InfluenceExportKeys(): textures_keys_elements.append(e)
-    for e in keys.MappingExportKeys(): textures_keys_elements.append(e)
-    for e in keys.ColorsExportKeys(): textures_keys_elements.append(e)
+    # Create textures slots : 
+    idx = 0
+    for t in req_type:
+        new_texture = api_functions['texture_slots_new'].replace("#1#", "'%s'" % t[1]) 
+        new_texture = eval(new_texture.replace("#2#", "'%s'" % t[0]))
+        slot = eval(api_functions['texture_slots_add'])
+        slot.texture = new_texture
 
-    if req_type[0] == 'BLEND':
-        for e in keys.BlendExportKeys(): textures_keys_elements.append(e)
-    elif req_type[0] == 'CLOUDS':
-        for e in keys.BlendExportKeys(): textures_keys_elements.append(e)
-    elif req_type[0] == 'DISTORTED_NOISE':
-        for e in keys.DistortedExportKeys(): textures_keys_elements.append(e)
-    elif req_type[0] == 'MAGIC':
-        for e in keys.MagicExportKeys(): textures_keys_elements.append(e)    
-    elif req_type[0] == 'MARBLE':
-        for e in keys.MarbleExportKeys(): textures_keys_elements.append(e)
-    elif req_type[0] == 'MUSGRAVE':
-        for e in keys.MusgraveExportKeys(): textures_keys_elements.append(e)
-    elif req_type[0] == 'STUCCI':
-        for e in keys.StucciExportKeys(): textures_keys_elements.append(e)
-    elif req_type[0] == 'VORONOI':
-        for e in keys.VoronoiExportKeys(): textures_keys_elements.append(e)
-    elif req_type[0] == 'WOOD':
-        for e in keys.WoodExportKeys(): textures_keys_elements.append(e)
-    elif req_type[0] == 'POINT_DENSITY':
-        for e in keys.PointExportKeys(): textures_keys_elements.append(e)
-    elif req_type[0] == 'IMAGE':
-        for e in keys.ImageExportKeys(): textures_keys_elements.append(e)
-    elif req_type[0] == 'ENVIRONMENT_MAP':
-        for e in keys.EnvironmentExportKeys(): textures_keys_elements.append(e)
-    else: 
-        for e in keys.VoxelExportKeys(): textures_keys_elements.append(e)
+        #Create textures keys:
+        textures_keys_elements = []
+        database_keys_elements = []
+        for e in keys.InfluenceExportKeys(): textures_keys_elements.append(e)
+        for e in keys.MappingExportKeys(): textures_keys_elements.append(e)
+        for e in keys.ColorsExportKeys(): textures_keys_elements.append(e)
 
-    for e in  textures_keys_elements:
-        database_keys_elements.append(e.replace(".",  "_")) 
+        if t[0] == 'BLEND':
+            for e in keys.BlendExportKeys(): textures_keys_elements.append(e)
+        elif t[0] == 'CLOUDS':
+            for e in keys.BlendExportKeys(): textures_keys_elements.append(e)
+        elif t[0] == 'DISTORTED_NOISE':
+            for e in keys.DistortedExportKeys(): textures_keys_elements.append(e)
+        elif t[0] == 'MAGIC':
+            for e in keys.MagicExportKeys(): textures_keys_elements.append(e)    
+        elif t[0] == 'MARBLE':
+            for e in keys.MarbleExportKeys(): textures_keys_elements.append(e)
+        elif t[0] == 'MUSGRAVE':
+            for e in keys.MusgraveExportKeys(): textures_keys_elements.append(e)
+        elif t[0] == 'STUCCI':
+            for e in keys.StucciExportKeys(): textures_keys_elements.append(e)
+        elif t[0] == 'VORONOI':
+            for e in keys.VoronoiExportKeys(): textures_keys_elements.append(e)
+        elif t[0] == 'WOOD':
+            for e in keys.WoodExportKeys(): textures_keys_elements.append(e)
+        elif t[0] == 'POINT_DENSITY':
+            for e in keys.PointExportKeys(): textures_keys_elements.append(e)
+        elif t[0] == 'IMAGE':
+            for e in keys.ImageExportKeys(): textures_keys_elements.append(e)
+        elif t[0] == 'ENVIRONMENT_MAP':
+            for e in keys.EnvironmentExportKeys(): textures_keys_elements.append(e)
+        else: 
+            for e in keys.VoxelExportKeys(): textures_keys_elements.append(e)
+        for e in  textures_keys_elements: database_keys_elements.append(e.replace(".",  "_")) 
         
-    req = request.DatabaseSelect(database_path, database_keys_elements,"TEXTURES", "where idx_materials =%s" % IdxMaterial(name_object), 'all')
-    print(req)
-    
-    
-    
-    
-    
-    
-    
-    
+        req = request.DatabaseSelect(database_path, database_keys_elements,"TEXTURES", "where num_textures =%s" % t[2], 'one')
+        print("*"* 70)
+        print("REQUETE = %s" % str(req))
+        
+        if not req == [] and not req == False:
+            c = 0
+            for v in req:
+                print("V = %s" %str(v))
+                propertie = ""
+                propertie = keys.TexturesPropertiesKeys(api_functions)[database_keys_elements[c]][0].replace("#1#", str(idx))
+                propertie = propertie.replace("[#2#]", "")
+            
+                if type(v).__name__ == 'str' : 
+                    if not "(" in v: v = "'%s'" %v
+                try: exec("%s = %s" % (propertie, v))
+                except:pass
+                c = c + 1
+            idx = idx + 1
     ctx_scene.shadertoolsng_utils_bar = (100/step_number) * 2
     
     
