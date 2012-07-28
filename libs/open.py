@@ -96,6 +96,7 @@ def ImportMaterialInApp(default_paths,  active_configuration, api_functions, act
             except: pass
             c = c + 1
     ctx_scene.shadertoolsng_utils_bar = (100/step_number) * 1
+    ImportMaterialRampsInApp(default_paths,  active_configuration, api_functions, active_languages,  name_object,  step_number,   IdxMaterial(name_object))
     ImportTexturesInApp(default_paths,  active_configuration, api_functions, active_languages,  name_object,  step_number,   IdxMaterial(name_object))
    
 def ImportTexturesInApp(default_paths,  active_configuration, api_functions, active_languages,  name_object,  step_number,  idx_materials):
@@ -113,6 +114,7 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
 
         #Create textures keys:
         textures_keys_elements = []
+        keys_elements = []
         database_keys_elements = []
         for e in keys.InfluenceExportKeys(): textures_keys_elements.append(e)
         for e in keys.MappingExportKeys(): textures_keys_elements.append(e)
@@ -144,18 +146,15 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
             for e in keys.EnvironmentExportKeys(): textures_keys_elements.append(e)
         else: 
             for e in keys.VoxelExportKeys(): textures_keys_elements.append(e)
-        for e in  textures_keys_elements: database_keys_elements.append(e.replace(".",  "_")) 
-        
+        for e in  textures_keys_elements: 
+            keys_elements.append(e)
+            database_keys_elements.append(e.replace(".",  "_")) 
+
         req = request.DatabaseSelect(database_path, database_keys_elements,"TEXTURES", "where num_textures =%s" % t[2], 'one')
-        print("*"* 70)
-        print("REQUETE = %s" % str(req))
-        
         if not req == [] and not req == False:
             c = 0
             for v in req:
-                print("V = %s" %str(v))
-                propertie = ""
-                propertie = keys.TexturesPropertiesKeys(api_functions)[database_keys_elements[c]][0].replace("#1#", str(idx))
+                propertie = keys.TexturesPropertiesKeys(api_functions)[keys_elements[c]][0].replace("#1#", str(idx))
                 propertie = propertie.replace("[#2#]", "")
             
                 if type(v).__name__ == 'str' : 
@@ -163,7 +162,109 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
                 try: exec("%s = %s" % (propertie, v))
                 except:pass
                 c = c + 1
+            ImportTextureRampsInApp(default_paths,  active_configuration, api_functions, active_languages,  step_number, idx,  t[2])
             idx = idx + 1
+    
+    ctx_scene.shadertoolsng_utils_bar = (100/step_number) * 5
+    
+def ImportTextureRampsInApp(default_paths,  active_configuration, api_functions, active_languages, step_number, new_idx,  idx_textures):
+    print(idx_textures)
+    ctx_scene = eval(api_functions['context_scene'])
+    database_path = misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app'])
+    
+    ramp_list = []
+    for p in keys.RampsKeys("color"):ramp_list.append(p.replace(".",  "_"))
+    req_color_ramps = request.DatabaseSelect(database_path,  ramp_list,"COLOR_RAMPS", "where idx_textures =%s" % idx_textures, 'all')
+
+    ramp_list = []
+    for p in keys.RampsKeys("point_density_color"):ramp_list.append(p.replace(".",  "_"))
+    req_pointdensity_ramps = request.DatabaseSelect(database_path, ramp_list,"POINTDENSITY_RAMPS", "where idx_textures =%s" %  idx_textures, 'all')
+    requests_ramps = \
+        {
+         "texture_use_color_ramp":req_color_ramps, "texture_point_density_color_source":req_pointdensity_ramps,  
+        }
+    
+    print(requests_ramps)
+    
+    #Active ramps:
+    for r in requests_ramps:
+        if requests_ramps[r] and not requests_ramps[r] == []:
+            try: exec("%s = True" % api_functions[r])
+            except: pass
+    
+            #Import ramps new positions:
+            c = 0
+            if requests_ramps[r].__len__() > 2:
+                for e in requests_ramps[r]:
+                    if c > 1:   
+                        type_ramp = r.split("_",  1)[-1]                
+                        exec(api_functions['ramps_new'] % (type_ramp,  str(e[0])))
+                    c = c + 1
+
+            #Import ramps elements:
+            c = 0
+            for e in requests_ramps[r]:
+                type_ramp = r.split("_",  1)[-1]
+                my_temp_list = \
+                    (
+                     (api_functions['%s_elements_position' % type_ramp].replace("#1#", str(c)), str(e[0]), False), 
+                     (api_functions['%s_elements_color' % type_ramp].replace("#1#", str(c)), str(e[1]), False),                    
+                     (api_functions['%s_blend' % type_ramp].replace("#1#", str(c)), str(e[2]), True),
+                     (api_functions['%s_input' % type_ramp].replace("#1#", str(c)), str(e[3]), True),
+                     (api_functions['%s_factor' % type_ramp].replace("#1#", str(c)), str(e[4]), False),
+                     (api_functions['%s_interpolation' % type_ramp].replace("#1#", str(c)), str(e[5]), True),
+                    )
+                    
+                for k in my_temp_list:
+                    if k[2]: exec("%s = '%s'" % (k[0],  k[1]))
+                    else: exec("%s = %s" % (k[0],  k[1]))
+                c = c + 1
     ctx_scene.shadertoolsng_utils_bar = (100/step_number) * 2
     
+def ImportMaterialRampsInApp(default_paths,  active_configuration, api_functions, active_languages,  name_object,  step_number,  idx_materials):
+    ctx_scene = eval(api_functions['context_scene'])
+    database_path = misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app'])
+    req_textures = request.DatabaseSelect(database_path,  ('num_textures', ), "TEXTURES", "where idx_materials =%s" % IdxMaterial(name_object), 'all')
     
+    ramp_list = []
+    for p in keys.RampsKeys("diffuse"):ramp_list.append(p.replace(".",  "_"))
+    req_diffuse_ramps = request.DatabaseSelect(database_path,  ramp_list,"DIFFUSE_RAMPS", "where idx_materials =%s" % IdxMaterial(name_object), 'all')
+
+    ramp_list = []
+    for p in keys.RampsKeys("specular"):ramp_list.append(p.replace(".",  "_"))
+    req_specular_ramps = request.DatabaseSelect(database_path, ramp_list,"SPECULAR_RAMPS", "where idx_materials =%s" % IdxMaterial(name_object), 'all')
+    requests_ramps = \
+        {
+         "use_diffuse_ramp":req_diffuse_ramps,  "use_specular_ramp":req_specular_ramps, 
+        }
+    #Active ramps:
+    for r in requests_ramps:
+        if requests_ramps[r] and not requests_ramps[r] == []:
+            try: exec("%s = True" % api_functions[r])
+            except: pass
+            #Import ramps new positions:
+            c = 0
+            if requests_ramps[r].__len__() > 2:
+                for e in requests_ramps[r]:
+                    if c > 1:   
+                        type_ramp = r.split("_",  1)[-1]                
+                        exec(api_functions['ramps_new'] % (type_ramp,  str(e[0])))
+                    c = c + 1
+            #Import ramps elements:
+            c = 0
+            for e in requests_ramps[r]:
+                type_ramp = r.split("_",  1)[-1]
+                my_temp_list = \
+                    (
+                     (api_functions['%s_elements_position' % type_ramp].replace("#1#", str(c)), str(e[0]), False), 
+                     (api_functions['%s_elements_color' % type_ramp].replace("#1#", str(c)), str(e[1]), False),                    
+                     (api_functions['%s_blend' % type_ramp].replace("#1#", str(c)), str(e[2]), True),
+                     (api_functions['%s_input' % type_ramp].replace("#1#", str(c)), str(e[3]), True),
+                     (api_functions['%s_factor' % type_ramp].replace("#1#", str(c)), str(e[4]), False),
+                     (api_functions['%s_interpolation' % type_ramp].replace("#1#", str(c)), str(e[5]), True),
+                    )
+                for k in my_temp_list:
+                    if k[2]: exec("%s = '%s'" % (k[0],  k[1]))
+                    else: exec("%s = %s" % (k[0],  k[1]))
+                c = c + 1
+    ctx_scene.shadertoolsng_utils_bar = (100/step_number) * 2

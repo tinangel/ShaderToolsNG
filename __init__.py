@@ -122,13 +122,17 @@ def LoadingMigrateProgressBar(path):
     misc.LogAndPrintError(("*"*78,  "*"*78))
     misc.LogAndPrintError(("Database version : %s" %version_values[2] ,  "Database version : %s" %version_values[2]))
     misc.SaveDatabase(default_paths['database'],  default_paths['save'],  default_paths['bin'])
+ 
     for v in range(2, number_max[0]+1):
+    #for v in range(2, 20):
+
         ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(v+1, number_max[0]+1)
         err = active_languages['menu_error_error037'] % str(v)
         print("\n%s" % err)
         misc.LogError("*"*3, 0)
         misc.LogError(err, 0)
         migrate.MigrateV1V2(path, api_functions, active_languages, active_configuration, default_paths, v)
+        open.CreateThumbnails(default_paths,  active_configuration, api_functions, active_languages, False)
         misc.LogError("*"*3 +"\n", 0)
     database_stuff = False
     
@@ -680,7 +684,3 @@ def unregister():
 #end unregister
 if __name__ == "__main__":
     register()
-    #open.CreateThumbnails(default_paths,  active_configuration, api_functions, active_languages)
-    #lauch_progress_bar = threading.Thread(None, open.CreateThumbnails, "Create_thumbnails", (default_paths,  active_configuration, api_functions, active_languages, ), {})
-    #lauch_progress_bar.start()
-
