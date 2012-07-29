@@ -22,7 +22,7 @@
 bl_info = {
     "name": "ShaderTools Next Gen",
     "author": "GRETETE Karim (Tinangel)",
-    "version": (0, 7, 0),
+    "version": (0, 7, 5),
     "blender": (2, 6, 0),
     "api": 41098,
     "location": "User Preferences",

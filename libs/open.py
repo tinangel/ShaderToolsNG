@@ -103,7 +103,6 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
     ctx_scene = eval(api_functions['context_scene'])
     database_path = misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app'])
     req_type = request.DatabaseSelect(database_path,  ('type', 'name',  'num_textures'),"TEXTURES", "where idx_materials =%s" % IdxMaterial(name_object), 'all')
-
     # Create textures slots : 
     idx = 0
     for t in req_type:
@@ -111,7 +110,6 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
         new_texture = eval(new_texture.replace("#2#", "'%s'" % t[0]))
         slot = eval(api_functions['texture_slots_add'])
         slot.texture = new_texture
-
         #Create textures keys:
         textures_keys_elements = []
         keys_elements = []
@@ -150,7 +148,7 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
             keys_elements.append(e)
             database_keys_elements.append(e.replace(".",  "_")) 
 
-        req = request.DatabaseSelect(database_path, database_keys_elements,"TEXTURES", "where num_textures =%s" % t[2], 'one')
+        req = request.DatabaseSelect(database_path, database_keys_elements,"TEXTURES", "where num_textures = %s" % t[2], 'one')
         if not req == [] and not req == False:
             c = 0
             for v in req:
@@ -164,11 +162,9 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
                 c = c + 1
             ImportTextureRampsInApp(default_paths,  active_configuration, api_functions, active_languages,  step_number, idx,  t[2])
             idx = idx + 1
-    
     ctx_scene.shadertoolsng_utils_bar = (100/step_number) * 5
     
 def ImportTextureRampsInApp(default_paths,  active_configuration, api_functions, active_languages, step_number, new_idx,  idx_textures):
-    print(idx_textures)
     ctx_scene = eval(api_functions['context_scene'])
     database_path = misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app'])
     
@@ -183,43 +179,36 @@ def ImportTextureRampsInApp(default_paths,  active_configuration, api_functions,
         {
          "texture_use_color_ramp":req_color_ramps, "texture_point_density_color_source":req_pointdensity_ramps,  
         }
-    
-    print(requests_ramps)
-    
     #Active ramps:
     for r in requests_ramps:
         if requests_ramps[r] and not requests_ramps[r] == []:
-            try: exec("%s = True" % api_functions[r])
+            try: exec("%s = True" % api_functions[r].replace("#1#", str(new_idx)))
             except: pass
-    
             #Import ramps new positions:
             c = 0
             if requests_ramps[r].__len__() > 2:
                 for e in requests_ramps[r]:
                     if c > 1:   
-                        type_ramp = r.split("_",  1)[-1]                
-                        exec(api_functions['ramps_new'] % (type_ramp,  str(e[0])))
+                        type_ramp = r.replace("texture_use_",  "")
+                        exec(api_functions['ramps_new_2'] % (str(new_idx),  type_ramp,  str(e[0])))
                     c = c + 1
-
             #Import ramps elements:
             c = 0
             for e in requests_ramps[r]:
-                type_ramp = r.split("_",  1)[-1]
+                type_ramp = r.replace("_use_",  "_")
+                type_ramp_2 = r.split("_",  2)[-1]
                 my_temp_list = \
                     (
-                     (api_functions['%s_elements_position' % type_ramp].replace("#1#", str(c)), str(e[0]), False), 
-                     (api_functions['%s_elements_color' % type_ramp].replace("#1#", str(c)), str(e[1]), False),                    
-                     (api_functions['%s_blend' % type_ramp].replace("#1#", str(c)), str(e[2]), True),
-                     (api_functions['%s_input' % type_ramp].replace("#1#", str(c)), str(e[3]), True),
-                     (api_functions['%s_factor' % type_ramp].replace("#1#", str(c)), str(e[4]), False),
-                     (api_functions['%s_interpolation' % type_ramp].replace("#1#", str(c)), str(e[5]), True),
+                     (api_functions['%s_elements_position' % type_ramp].replace("#1#", str(new_idx)).replace("#2#", str(c)), str(e[0]), False), 
+                     (api_functions['%s_elements_color' % type_ramp].replace("#1#", str(new_idx)).replace("#2#", str(c)), str(e[1]), False),                    
+                     (api_functions['%s_interpolation' % type_ramp].replace("#1#", str(new_idx)).replace("#2#", str(c)), str(e[2]), True),
                     )
                     
                 for k in my_temp_list:
                     if k[2]: exec("%s = '%s'" % (k[0],  k[1]))
                     else: exec("%s = %s" % (k[0],  k[1]))
                 c = c + 1
-    ctx_scene.shadertoolsng_utils_bar = (100/step_number) * 2
+    ctx_scene.shadertoolsng_utils_bar = (100/step_number) * 3
     
 def ImportMaterialRampsInApp(default_paths,  active_configuration, api_functions, active_languages,  name_object,  step_number,  idx_materials):
     ctx_scene = eval(api_functions['context_scene'])

@@ -110,7 +110,7 @@ def ApiKeys():
          "ops_script_python_file_run", "types_scene", "invoke_popup", "texture_noise_scale_2",  "texture_point_density_vertex_cache_space",  
          "texture_point_density_vertex_cache_space", "texture_normal_map_space",  "texture_image_generated_float",  "texture_image_frame_duration",  
          "texture_image_frame_duration",  "texture_image_frame_start",  "texture_image_frame_offset",  "texture_image_fields_per_frame",  
-         "texture_image_use_auto_refresh",  "texture_image_use_cyclic", "texture_environment_map_zoom", "material_index",  "ramps_new")
+         "texture_image_use_auto_refresh",  "texture_image_use_cyclic", "texture_environment_map_zoom", "material_index",  "ramps_new",  "ramps_new_2")
     return temp
 #end Api keys
 #Langages keys
@@ -272,7 +272,7 @@ def MaterialsPropertiesKeys(api_functions):
 #end Material Properties keys
 #Textures Properties keys
 def TexturesPropertiesKeys(api_functions):
-    temp  = {"texture_coords":(api_functions['texture_coords'],  ''), "mapping":(api_functions['mapping'],  ''), "mapping_x":(api_functions['mapping_x'],  ''), 
+    temp  = {"texture_coords":(api_functions['texture_coords'],  'yes'), "mapping":(api_functions['mapping'],  ''), "mapping_x":(api_functions['mapping_x'],  ''), 
         "mapping_y":(api_functions['mapping_y'],  ''), "mapping_z":(api_functions['mapping_z'],  ''), "use_from_dupli":(api_functions['use_from_dupli'],  ''), 
         "use_from_original":(api_functions['use_from_original'],  ''), "scale":(api_functions['scale'],  ''), "offset":(api_functions['offset'],  ''), 
         "use_map_diffuse":(api_functions['use_map_diffuse'],  ''), "use_map_color_diffuse":(api_functions['use_map_color_diffuse'],  ''), 
@@ -541,7 +541,7 @@ def StucciExportKeys():
     return stucci
 def VoronoiExportKeys():
     voronoi  = ("texture.distance_metric", "texture.minkovsky_exponent", "texture.color_mode", 
-               "texture.noise_intensity", "texture.noise_scale", "texture.nabla", "",
+               "texture.noise_intensity", "texture.noise_scale", "texture.nabla",
                 "texture.weight_1", "texture.weight_2", "texture.weight_3", "texture.weight_4",)    
     return voronoi
 def WoodExportKeys():
