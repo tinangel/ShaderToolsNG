@@ -510,7 +510,7 @@ def InfluenceExportKeys():
     return influence
 def ColorsExportKeys():
     colors  = ("texture.use_color_ramp", "texture.factor_red", "texture.factor_green", "texture.factor_blue", 
-                "texture.intensity", "texture.contrast", "texture.saturation", "texture.factor_blue",)    
+                "texture.intensity", "texture.contrast", "texture.saturation", )    
     return colors
 def BlendExportKeys():
     blend  = ("texture.progression", "texture.use_flip_axis",)    
@@ -786,12 +786,97 @@ def OldTexturesDict():
          "Tex_type_noise_distortion_noise_distortion":'texture_noise_distortion', "Tex_type_noise_distortion_basis":'texture_noise_basis',
         }
     return temp
+    
+#Textures properties keys
+def OldMappingMigrateKeys():
+    mapping  = ("Tex_mapping_texture_coords", "Tex_mapping_mapping", "Tex_mapping_mapping_x", "Tex_mapping_mapping_y", "Tex_mapping_mapping_z",
+                "Tex_mapping_use_from_dupli", "Tex_mapping_use_from_original", )    
+    return mapping
+def OldInfluenceMigrateKeys():
+    influence  = ("Tex_influence_use_map_diffuse", "Tex_influence_use_map_color_diffuse", "Tex_influence_use_map_alpha", 
+                   "Tex_influence_use_map_translucency", "Tex_influence_use_map_ambient", "Tex_influence_use_map_emit", 
+                  "Tex_influence_use_map_mirror", "Tex_influence_use_map_raymir", "Tex_influence_use_map_specular", "Tex_influence_use_map_color_spec", 
+                  "Tex_influence_use_map_map_hardness", "Tex_influence_use_map_normal", "Tex_influence_use_map_warp", 
+                  "Tex_influence_use_map_displacement", "Tex_influence_diffuse_factor", "Tex_influence_color_factor", "Tex_influence_alpha_factor", 
+                  "Tex_influence_translucency_factor", "Tex_influence_specular_factor", "Tex_influence_specular_color_factor",
+                  "Tex_influence_hardness_factor", "Tex_influence_ambiant_factor", "Tex_influence_emit_factor", "Tex_influence_mirror_factor", 
+                  "Tex_influence_raymir_factor", "Tex_influence_normal_factor", "Tex_influence_warp_factor", "Tex_influence_displacement_factor", 
+                  "Tex_influence_blend_type", "Tex_influence_use_map_rgb_to_intensity", "color", "Tex_influence_map_invert", "Tex_influence_use_stencil",
+                  "Tex_influence_default_value", "Tex_influence_bump_method", "Tex_influence_objectspace",)    
+    return influence
+def OldColorsMigrateKeys():
+    colors  = ("Tex_colors_use_color_ramp", "Tex_colors_factor_r", "Tex_colors_factor_g", "Tex_colors_factor_b", 
+                "Tex_colors_intensity", "Tex_colors_contrast", "Tex_colors_saturation", )    
+    return colors
+def OldBlendMigrateKeys():
+    blend  = ("Tex_type_blend_progression", "Tex_type_blend_use_flip_axis",)    
+    return blend
+def OldCloudsMigrateKeys():
+    clouds  = ("Tex_type_clouds_cloud_type", "Tex_type_clouds_noise_type", "Tex_type_clouds_noise_basis", 
+                     "Tex_type_clouds_noise_scale", "Tex_type_clouds_nabla", "Tex_type_clouds_noise_depth", )    
+    return clouds
+def OldDistortedMigrateKeys():
+    distorted  = ("Tex_type_noise_distortion", "Tex_type_noise_distortion_basis", "Tex_type_noise_distortion_distortion",
+               "Tex_type_noise_distortion_nabla", "Tex_type_noise_distortion_noise_scale", "Tex_type_noise_distortion_noise_distortion")    
+    return distorted
+def OldMagicMigrateKeys():
+    magic  = ("Tex_type_magic_depth", "Tex_type_magic_turbulence",)    
+    return magic
+def OldMarbleMigrateKeys():
+    marble  = ("Tex_type_marble_marble_type", "Tex_type_marble_noise_basis_2", "Tex_type_marble_noise_type", "Tex_type_marble_noise_basis",
+               "Tex_type_marble_noise_scale", "Tex_type_marble_noise_depth", "Tex_type_marble_nabla", "Tex_type_marble_turbulence",)    
+    return marble
+def OldMusgraveMigrateKeys():
+    musgrave  = ("Tex_type_musgrave_noise_basis", "Tex_type_musgrave_noise_scale", "Tex_type_musgrave_nabla", "Tex_type_musgrave_type",
+                 "Tex_type_musgrave_dimension_max", "Tex_type_musgrave_lacunarity", "Tex_type_musgrave_octaves", "Tex_type_musgrave_offset",
+                 "Tex_type_musgrave_noise_intensity", "Tex_type_musgrave_gain",)    
+    return musgrave
+def OldStucciMigrateKeys():
+    stucci  = ("Tex_type_stucci_type", "Tex_type_stucci_noise_type", "Tex_type_stucci_basis", 
+               "Tex_type_stucci_noise_scale", "Tex_type_stucci_turbulence",)    
+    return stucci
+def OldVoronoiMigrateKeys():
+    voronoi  = ("Tex_type_voronoi_distance_metric", "Tex_type_voronoi_minkovsky_exponent", "Tex_type_voronoi_color_mode", 
+               "Tex_type_voronoi_intensity", "Tex_type_voronoi_noise_scale", "Tex_type_voronoi_nabla",
+                "Tex_type_voronoi_weight_1", "Tex_type_voronoi_weight_2", "Tex_type_voronoi_weight_3", "Tex_type_voronoi_weight_4",)    
+    return voronoi
+def OldWoodMigrateKeys():
+    wood  = ("Tex_type_wood_noise_basis_2", "Tex_type_wood_wood_type", "Tex_type_wood_noise_type", "Tex_type_wood_basis",
+             "Tex_type_wood_noise_scale", "Tex_type_wood_turbulence", )    
+    return wood
+def OldPointMigrateKeys():
+    point  = ("Tex_type_point_density_point_source", "Tex_type_point_density_particule_cache_space","Tex_type_point_density_falloff_speed_scale",
+              "Tex_type_point_density_color_source", "Tex_type_point_density_radius", "Tex_type_point_density_falloff", 
+              "Tex_type_point_density_use_falloff_curve", "Tex_type_point_density_speed_scale",
+              "Tex_type_point_density_falloff_soft", )    
+    return point
+def OldImageMigrateKeys():
+    image  = ("texture.extension", "texture.crop_min_x", "texture.crop_min_y", "texture.crop_max_x","texture.crop_max_y",
+              "texture.repeat_x", "texture.repeat_y", "texture.use_mirror_x","texture.use_mirror_y",
+              "texture.use_checker_even", "texture.use_checker_odd", "texture.checker_distance", "texture.use_alpha", 
+              "texture.use_calculate_alpha", "texture.invert_alpha", "texture.use_flip_axis", "texture.use_normal_map",
+              "texture.normal_map_space", "texture.use_derivative_map", "texture.use_mipmap", "texture.use_mipmap_gauss",
+              "texture.use_interpolation","texture.filter_type","texture.filter_eccentricity","texture.filter_size",
+              "texture.filter_probes", "texture.use_filter_size_min", "texture.image.source", "texture.image.generated_width", 
+              "texture.image.generated_height", "texture.image.generated_float","texture.image.generated_type", "texture.image.use_fields", 
+              "texture.image.use_premultiply", "texture.image.field_order", "texture.image.frame_duration", "texture.image.frame_start", 
+              "texture.image.frame_offset", "texture.image.fields_per_frame", "texture.image.use_auto_refresh", "texture.image.use_cyclic",)
+    return image
+def OldVoxelMigrateKeys():
+    voxel  = ("Tex_type_voxel_data_file_format", "Tex_type_voxel_data_intensity", "Tex_type_voxel_data_extension", "Tex_type_voxel_data_interpolation", 
+              "Tex_type_voxel_data_smoke_data_type", "texture.voxel_data.filepath", "Tex_type_voxel_data_resolution_1", 
+              "Tex_type_voxel_data_resolution_2", "Tex_type_voxel_data_resolution_3", "Tex_type_voxel_data_use_still_frame",
+              "Tex_type_voxel_data_still_frame",)
+    return voxel
+#end Textures properties keys
+
 def OldTexturesColorVectorDict():
     temp = \
         {
             'influence_color':("Tex_influence_color_r", "Tex_influence_color_g", "Tex_influence_color_b"),
             'offset':("Tex_mapping_offset_x", "Tex_mapping_offset_y", "Tex_mapping_offset_z"),
             'scale':("Tex_mapping_scale_x", "Tex_mapping_scale_y", "Tex_mapping_scale_z"),
+            'color':("Tex_influence_color_r", "Tex_influence_color_g", "Tex_influence_color_b", "Tex_influence_color_a"), 
         }
     return temp
 #end ShaderTools texures keys

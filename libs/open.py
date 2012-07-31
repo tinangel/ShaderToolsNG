@@ -147,6 +147,9 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
         for e in  textures_keys_elements: 
             keys_elements.append(e)
             database_keys_elements.append(e.replace(".",  "_")) 
+            
+        
+        #print(database_keys_elements)
 
         req = request.DatabaseSelect(database_path, database_keys_elements,"TEXTURES", "where num_textures = %s" % t[2], 'one')
         if not req == [] and not req == False:

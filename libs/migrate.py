@@ -131,12 +131,41 @@ def MigrateV1V2(path, api_functions, active_languages, active_configuration, def
             textures_values_element = []
             textures_values_final = []
             if type(textures_values).__name__ != 'NoneType' and type(textures_values).__name__ != 'bool': 
+                print("*" * 65)
+                print(textures_values)
                 for v in textures_values:
+                    if v[2] == 'BLEND': None
+                    elif v[2] == 'CLOUDS': None
+                    elif v[2] == 'DISTORTED_NOISE': None
+                    elif v[2] == 'MAGIC': None
+                    elif v[2] == 'MARBLE': None
+                    elif v[2] == 'MUSGRAVE': None
+                    elif v[2] == 'STUCCI': None
+                    elif v[2] == 'VORONOI': None
+                    elif v[2] == 'WOOD': None
+                    elif v[2] == 'POINT_DENSITY': None
+                    elif v[2] == 'IMAGE': None
+                    elif v[2] == 'ENVIRONMENT_MAP': None
+                    else: None
+                    req_final = request.DatabaseSelect(path, keys.OldTexturesKeys(), "TEXTURES", "where Tex_Index = %s" %idx, 'one')
+
                     textures_values_element = []
                     textures_values_final = []
                     #here textures current properties 
                     for t in v: textures_values_final.append(t)
                     for e in keys.OldTexturesKeys(): textures_values_element.append(keys.OldTexturesDict()[e])
+                    
+                    print("*" * 60)
+                    print("NUMBER KEYS : %s" % keys.OldTexturesKeys().__len__())                    
+                    print("NUMBER VALUES : %s" % textures_values_final.__len__())
+                    c = 0
+                    for e in keys.OldTexturesKeys():
+                        print("*" * 30)
+                        print("keys : %s" % e)
+                        print("keys corres: %s" % keys.OldTexturesDict()[e])
+                        print("corres : %s" %  textures_values_final[c])
+                        c = c + 1
+ 
                     #here textures specials properties (scale, influence colors, scale)
                     for p in keys.OldTexturesColorVectorDict():
                         textures_values_element.append(p)
