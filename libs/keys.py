@@ -384,7 +384,8 @@ def TexturesPropertiesKeys(api_functions):
         "texture.voxel_data.filepath":(api_functions['texture_voxel_data_filepath'],  ''), 
         "texture.voxel_data.resolution":(api_functions['texture_voxel_data_resolution'],  ''), 
         "texture.voxel_data.use_still_frame":(api_functions['texture_voxel_data_use_still_frame'],  ''),
-        "texture.voxel_data.still_frame":(api_functions['texture_voxel_data_still_frame'],  ''),}
+        "texture.voxel_data.still_frame":(api_functions['texture_voxel_data_still_frame'],  ''),
+        "type":(api_functions['type'],  'yes'),}
     return temp    
 #end Textures Properties keys
 #Formats Supported Properties keys
@@ -495,6 +496,9 @@ def ExceptionsRampsKeys_3():
     return ramps
 #end Exceptions ramps properties keys
 #Textures properties keys
+def InfoTextureExportKeys():
+    info  = ("name", "type", "texture_use_alpha",)    
+    return info
 def MappingExportKeys():
     mapping  = ("texture_coords", "mapping", "mapping_x", "mapping_y", "mapping_z",
                 "use_from_dupli", "use_from_original", "scale", "offset", )    
@@ -527,7 +531,7 @@ def MagicExportKeys():
     magic  = ("texture.noise_depth", "texture.turbulence",)    
     return magic
 def MarbleExportKeys():
-    marble  = ("texture.marble_type", "texture.noise_scale_2", "texture.noise_type", "texture.noise_basis",
+    marble  = ("texture.marble_type", "texture.noise_type", "texture.noise_basis",
                "texture.noise_scale", "texture.noise_depth", "texture.nabla", "texture.turbulence",)    
     return marble
 def MusgraveExportKeys():
@@ -880,7 +884,7 @@ def OldTexturesColorVectorDict():
             'influence_color':("Tex_influence_color_r", "Tex_influence_color_g", "Tex_influence_color_b"),
             'offset':("Tex_mapping_offset_x", "Tex_mapping_offset_y", "Tex_mapping_offset_z"),
             'scale':("Tex_mapping_scale_x", "Tex_mapping_scale_y", "Tex_mapping_scale_z"),
-            'color':("Tex_influence_color_r", "Tex_influence_color_g", "Tex_influence_color_b", "Tex_influence_color_a"), 
+            'color':("Tex_influence_color_r", "Tex_influence_color_g", "Tex_influence_color_b",), 
         }
     return temp
 #end ShaderTools texures keys

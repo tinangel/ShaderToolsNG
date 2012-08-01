@@ -167,9 +167,9 @@ def MigrateV1V2(path, api_functions, active_languages, active_configuration, def
                             for k in keys.OldVoxelMigrateKeys(): textures_values_element.append(k)
                         
                         req_final = request.DatabaseSelect(path, textures_values_element , "TEXTURES", "where Tex_Index = %s" %v[0], 'one')
-                        print("*" * 60)
-                        print("TYPE : %s" % v[2])
-                        print(req_final)
+                        #print("*" * 60)
+                        #print("TYPE : %s" % v[2])
+                        #print(req_final)
 
                         #here textures current properties 
                         for t in req_final:                     
