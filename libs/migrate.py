@@ -125,58 +125,68 @@ def MigrateV1V2(path, api_functions, active_languages, active_configuration, def
         except: misc.LogAndPrintError((active_languages['menu_error_error034'] % ("preview render",materials_values[1]), active_languages['menu_error_error034'] % ("preview render",materials_values[1])))
     #end preview render 
     #textures
-        try:
-            textures_values = request.DatabaseSelect(path, keys.OldTexturesKeys(), "TEXTURES", "where Mat_Idx=%s" %idx, 'all')
-            #textures properties
-            textures_values_element = []
-            textures_values_final = []
-            if type(textures_values).__name__ != 'NoneType' and type(textures_values).__name__ != 'bool': 
-                print("*" * 65)
-                print(textures_values)
-                for v in textures_values:
-                    if v[2] == 'BLEND': None
-                    elif v[2] == 'CLOUDS': None
-                    elif v[2] == 'DISTORTED_NOISE': None
-                    elif v[2] == 'MAGIC': None
-                    elif v[2] == 'MARBLE': None
-                    elif v[2] == 'MUSGRAVE': None
-                    elif v[2] == 'STUCCI': None
-                    elif v[2] == 'VORONOI': None
-                    elif v[2] == 'WOOD': None
-                    elif v[2] == 'POINT_DENSITY': None
-                    elif v[2] == 'IMAGE': None
-                    elif v[2] == 'ENVIRONMENT_MAP': None
-                    else: None
-                    req_final = request.DatabaseSelect(path, keys.OldTexturesKeys(), "TEXTURES", "where Tex_Index = %s" %idx, 'one')
-
+        #try:
+        textures_values = request.DatabaseSelect(path, keys.OldTexturesKeys(), "TEXTURES", "where Mat_Idx=%s" %idx, 'all')
+        textures_values_element = []
+        textures_values_final = []
+        if type(textures_values).__name__ != 'NoneType' and type(textures_values).__name__ != 'bool': 
+            for v in textures_values:
                     textures_values_element = []
+                    textures_values_element_2 = []
                     textures_values_final = []
-                    #here textures current properties 
-                    for t in v: textures_values_final.append(t)
-                    for e in keys.OldTexturesKeys(): textures_values_element.append(keys.OldTexturesDict()[e])
-                    
-                    print("*" * 60)
-                    print("NUMBER KEYS : %s" % keys.OldTexturesKeys().__len__())                    
-                    print("NUMBER VALUES : %s" % textures_values_final.__len__())
-                    c = 0
-                    for e in keys.OldTexturesKeys():
-                        print("*" * 30)
-                        print("keys : %s" % e)
-                        print("keys corres: %s" % keys.OldTexturesDict()[e])
-                        print("corres : %s" %  textures_values_final[c])
-                        c = c + 1
- 
-                    #here textures specials properties (scale, influence colors, scale)
-                    for p in keys.OldTexturesColorVectorDict():
-                        textures_values_element.append(p)
-                        textures_values_final.append(str(request.DatabaseSelect(path, keys.OldTexturesColorVectorDict()[p], "TEXTURES", "where Mat_Idx=%s" %idx, 'one')))
-                    #here textures images
-                    imageuv_values = request.DatabaseSelect(path, keys.OldImageUvKeys(), "IMAGE_UV", "where Idx_Texture=%s" % v[0], 'one')
-                    if not imageuv_values == [] and type(imageuv_values).__name__ != 'NoneType': 
-                        for i in keys.OldImageUvKeys(): textures_values_element.append(keys.OldImageUvDict()[i])
-                        for u in range(0, keys.OldImageUvKeys().__len__()): textures_values_final.append( imageuv_values[u])
-                    request.DatabaseInsert(default_paths['database'], textures_values_element, textures_values_final, "TEXTURES")
-                    misc.LogAndPrintError((active_languages['menu_error_error038'] % (str(v[2]),str(materials_values[1])), active_languages['menu_error_error038'] % (str(v[2]),str(materials_values[1]))))
-        except: misc.LogAndPrintError(((active_languages['menu_error_error039'] %  materials_values[1]), active_languages['menu_error_error039'] % materials_values[1]))
+                    # create a new list with different only textures type properties :
+                    if not v[2] == 'NONE':
+                        for k in keys.OldInfoTextureMigrateKeys(): textures_values_element.append(k)
+                        for k in keys.OldMappingMigrateKeys(): textures_values_element.append(k)
+                        for k in keys.OldInfluenceMigrateKeys(): textures_values_element.append(k)
+                        for k in keys.OldColorsMigrateKeys(): textures_values_element.append(k)
+                        if v[2] == 'BLEND': 
+                            for k in keys.OldBlendMigrateKeys(): textures_values_element.append(k)
+                        elif v[2] == 'NOISE': None 
+                        elif v[2] == 'CLOUDS': 
+                            for k in keys.OldCloudsMigrateKeys(): textures_values_element.append(k)
+                        elif v[2] == 'DISTORTED_NOISE': 
+                            for k in keys.OldDistortedMigrateKeys(): textures_values_element.append(k)
+                        elif v[2] == 'MAGIC':
+                            for k in keys.OldMagicMigrateKeys(): textures_values_element.append(k)
+                        elif v[2] == 'MARBLE': 
+                            for k in keys.OldMarbleMigrateKeys(): textures_values_element.append(k)
+                        elif v[2] == 'MUSGRAVE':
+                            for k in keys.OldMusgraveMigrateKeys(): textures_values_element.append(k)
+                        elif v[2] == 'STUCCI':
+                            for k in keys.OldStucciMigrateKeys(): textures_values_element.append(k)
+                        elif v[2] == 'VORONOI': 
+                            for k in keys.OldVoronoiMigrateKeys(): textures_values_element.append(k)
+                        elif v[2] == 'WOOD': 
+                            for k in keys.OldWoodMigrateKeys(): textures_values_element.append(k)
+                        elif v[2] == 'POINT_DENSITY': 
+                            for k in keys.OldPointMigrateKeys(): textures_values_element.append(k)
+                        elif v[2] == 'IMAGE': 
+                            for k in keys.OldImageMigrateKeys(): textures_values_element.append(k)
+                        else: 
+                            for k in keys.OldVoxelMigrateKeys(): textures_values_element.append(k)
+                        
+                        req_final = request.DatabaseSelect(path, textures_values_element , "TEXTURES", "where Tex_Index = %s" %v[0], 'one')
+                        print("*" * 60)
+                        print("TYPE : %s" % v[2])
+                        print(req_final)
+
+                        #here textures current properties 
+                        for t in req_final:                     
+                            #print("CURRENT PROPERTIE : %s" %t)
+                            textures_values_final.append(t)
+                        for e in textures_values_element: textures_values_element_2.append(keys.OldTexturesDict()[e])
+                        #here textures specials properties (scale, influence colors, scale)
+                        for p in keys.OldTexturesColorVectorDict():
+                            textures_values_element_2.append(p)
+                            textures_values_final.append(str(request.DatabaseSelect(path, keys.OldTexturesColorVectorDict()[p], "TEXTURES", "where Mat_Idx=%s" %idx, 'one')))
+                        #here textures images
+                        imageuv_values = request.DatabaseSelect(path, keys.OldImageUvKeys(), "IMAGE_UV", "where Idx_Texture=%s" % v[0], 'one')
+                        if not imageuv_values == [] and type(imageuv_values).__name__ != 'NoneType': 
+                            for i in keys.OldImageUvKeys(): textures_values_element_2.append(keys.OldImageUvDict()[i])
+                            for u in range(0, keys.OldImageUvKeys().__len__()): textures_values_final.append( imageuv_values[u])
+                        request.DatabaseInsert(default_paths['database'], textures_values_element_2, textures_values_final, "TEXTURES")
+                        misc.LogAndPrintError((active_languages['menu_error_error038'] % (str(v[2]),str(materials_values[1])), active_languages['menu_error_error038'] % (str(v[2]),str(materials_values[1]))))
+        #except: misc.LogAndPrintError(((active_languages['menu_error_error039'] %  materials_values[1]), active_languages['menu_error_error039'] % materials_values[1]))
     #end textures
 #end Migrate SQLite Database V1->V2

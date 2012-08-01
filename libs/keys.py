@@ -788,6 +788,10 @@ def OldTexturesDict():
     return temp
     
 #Textures properties keys
+def OldInfoTextureMigrateKeys():
+    info  = ("Tex_Index", "Tex_Name", "Tex_Type", "Tex_use_preview_alpha", 
+                 "Mat_Idx", "Poi_Idx", "Col_Idx",)    
+    return info
 def OldMappingMigrateKeys():
     mapping  = ("Tex_mapping_texture_coords", "Tex_mapping_mapping", "Tex_mapping_mapping_x", "Tex_mapping_mapping_y", "Tex_mapping_mapping_z",
                 "Tex_mapping_use_from_dupli", "Tex_mapping_use_from_original", )    
@@ -801,7 +805,7 @@ def OldInfluenceMigrateKeys():
                   "Tex_influence_translucency_factor", "Tex_influence_specular_factor", "Tex_influence_specular_color_factor",
                   "Tex_influence_hardness_factor", "Tex_influence_ambiant_factor", "Tex_influence_emit_factor", "Tex_influence_mirror_factor", 
                   "Tex_influence_raymir_factor", "Tex_influence_normal_factor", "Tex_influence_warp_factor", "Tex_influence_displacement_factor", 
-                  "Tex_influence_blend_type", "Tex_influence_use_map_rgb_to_intensity", "color", "Tex_influence_map_invert", "Tex_influence_use_stencil",
+                  "Tex_influence_blend_type", "Tex_influence_use_map_rgb_to_intensity", "Tex_influence_map_invert", "Tex_influence_use_stencil",
                   "Tex_influence_default_value", "Tex_influence_bump_method", "Tex_influence_objectspace",)    
     return influence
 def OldColorsMigrateKeys():
