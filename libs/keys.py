@@ -786,7 +786,7 @@ def OldTexturesDict():
          "Tex_colors_use_color_ramp":'texture_use_color_ramp', "Tex_colors_factor_r":'texture_factor_red', "Tex_colors_factor_g":'texture_factor_green',
          "Tex_colors_factor_b":'texture_factor_blue', "Tex_colors_intensity":'texture_intensity', "Tex_colors_contrast":'texture_contrast', 
          "Tex_colors_saturation":'texture_saturation', "Mat_Idx":'idx_materials', "Poi_Idx":'idx_point_density_ramp', "Col_Idx":'idx_color_ramp',
-         "Tex_type_voronoi_intensity":'texture_intensity' , "Tex_mapping_use_from_original":'use_from_original', 
+         "Tex_type_voronoi_intensity":'texture_noise_intensity' , "Tex_mapping_use_from_original":'use_from_original', 
          "Tex_type_noise_distortion_noise_distortion":'texture_noise_distortion', "Tex_type_noise_distortion_basis":'texture_noise_basis',
         }
     return temp

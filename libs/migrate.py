@@ -27,14 +27,16 @@ def MigrateV1V2MaterialRamps(materials_ramps_properties):
     current_ramps_values = []
     materials_ramps_values_element = []
     for k in materials_ramps_properties[1]:materials_ramps_values_element.append(materials_ramps_properties[2][k])   
+    c = 0
     for r in temp_current_ramps_values:
         temp = []
-        for k in r:  temp.append(k)
+        for k in r: temp.append(k)
         for p in materials_ramps_properties[3]:
             v = materials_ramps_properties[4]
-            temp.append(str(v[0]))
+            temp.append(str(v[c]))
         if not p in materials_ramps_values_element: materials_ramps_values_element.append(p)
         current_ramps_values.append(copy(temp))
+        c = c + 1
     for r in current_ramps_values:request.DatabaseInsert(materials_ramps_properties[6]['database'], materials_ramps_values_element, r, materials_ramps_properties[5])
 #end Migrate materials ramps
 
@@ -167,19 +169,14 @@ def MigrateV1V2(path, api_functions, active_languages, active_configuration, def
                             for k in keys.OldVoxelMigrateKeys(): textures_values_element.append(k)
                         
                         req_final = request.DatabaseSelect(path, textures_values_element , "TEXTURES", "where Tex_Index = %s" %v[0], 'one')
-                        #print("*" * 60)
-                        #print("TYPE : %s" % v[2])
-                        #print(req_final)
-
                         #here textures current properties 
                         for t in req_final:                     
-                            #print("CURRENT PROPERTIE : %s" %t)
                             textures_values_final.append(t)
                         for e in textures_values_element: textures_values_element_2.append(keys.OldTexturesDict()[e])
                         #here textures specials properties (scale, influence colors, scale)
                         for p in keys.OldTexturesColorVectorDict():
                             textures_values_element_2.append(p)
-                            textures_values_final.append(str(request.DatabaseSelect(path, keys.OldTexturesColorVectorDict()[p], "TEXTURES", "where Mat_Idx=%s" %idx, 'one')))
+                            textures_values_final.append(str(request.DatabaseSelect(path, keys.OldTexturesColorVectorDict()[p], "TEXTURES", "where Tex_Index=%s"  %v[0], 'one')))
                         #here textures images
                         imageuv_values = request.DatabaseSelect(path, keys.OldImageUvKeys(), "IMAGE_UV", "where Idx_Texture=%s" % v[0], 'one')
                         if not imageuv_values == [] and type(imageuv_values).__name__ != 'NoneType': 

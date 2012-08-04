@@ -125,7 +125,7 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
                 for e in keys.BlendExportKeys(): textures_keys_elements.append(e)
             elif t[0] == 'NOISE': None
             elif t[0] == 'CLOUDS':
-                for e in keys.BlendExportKeys(): textures_keys_elements.append(e)
+                for e in keys.CloudsExportKeys(): textures_keys_elements.append(e)
             elif t[0] == 'DISTORTED_NOISE':
                 for e in keys.DistortedExportKeys(): textures_keys_elements.append(e)
             elif t[0] == 'MAGIC':
@@ -136,7 +136,7 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
                 for e in keys.MusgraveExportKeys(): textures_keys_elements.append(e)
             elif t[0] == 'STUCCI':
                 for e in keys.StucciExportKeys(): textures_keys_elements.append(e)
-            elif t[0] == 'VORONOI':
+            elif t[0] == 'VORONOI': 
                 for e in keys.VoronoiExportKeys(): textures_keys_elements.append(e)
             elif t[0] == 'WOOD':
                 for e in keys.WoodExportKeys(): textures_keys_elements.append(e)
@@ -151,24 +151,23 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
             for e in  textures_keys_elements: 
                 keys_elements.append(e)
                 database_keys_elements.append(e.replace(".",  "_")) 
-        
             req = request.DatabaseSelect(database_path, database_keys_elements,"TEXTURES", "where num_textures = %s" % t[2], 'one')
             if not req == [] and not req == False:
                 c = 0
-                
-                print("\n\n")
+                misc.LogAndPrintError(("\n\n",  "\n\n"))
+                misc.LogAndPrintError(("TEXTURE TYPE : %s" % t[0],  "TEXTURE TYPE : %s" % t[0]))
                 for v in req:
                     propertie = keys.TexturesPropertiesKeys(api_functions)[keys_elements[c]][0].replace("#1#", str(idx))
                     propertie = propertie.replace("[#2#]", "")
-            
                     if type(v).__name__ == 'str' : 
                         if not "(" in v: v = "'%s'" %v
-                    try: exec("%s = %s" % (propertie, v))
+                    try:
+                        print("Propriete : ") 
+                        print("%s = %s" % (propertie, v))
+                        exec("%s = %s" % (propertie, v))
                     except:
-                        print("*" * 60)
-                        print("KEY : %s" % keys_elements[c])
-                        print("PROPERTIE : %s" % propertie)
-                        print("VALUE : %s" % v)
+                        print("Erreur de propiete : ") 
+                        print("%s = %s" % (propertie, v))
                         pass
                     c = c + 1
                 ImportTextureRampsInApp(default_paths,  active_configuration, api_functions, active_languages,  step_number, idx,  t[2])
