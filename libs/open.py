@@ -102,7 +102,7 @@ def ImportMaterialInApp(default_paths,  active_configuration, api_functions, act
 def ImportTexturesInApp(default_paths,  active_configuration, api_functions, active_languages,  name_object,  step_number,  idx_materials):
     ctx_scene = eval(api_functions['context_scene'])
     database_path = misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app'])
-    req_type = request.DatabaseSelect(database_path,  ('type', 'name',  'num_textures'),"TEXTURES", "where idx_materials =%s" % IdxMaterial(name_object), 'all')
+    req_type = request.DatabaseSelect(database_path,  ('type', 'name',  'num_textures',  'texture_use_alpha'),"TEXTURES", "where idx_materials =%s" % IdxMaterial(name_object), 'all')
     # Create textures slots : 
     idx = 0
     for t in req_type:
@@ -111,6 +111,7 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
         slot = eval(api_functions['texture_slots_add'])
         slot.texture = new_texture
         texture_type = api_functions['texture_slots_texture_type'].replace("#1#", "%s" % idx)
+        texture_use_alpha = api_functions['texture_use_preview_alpha'].replace("#1#", "%s" % idx)
         #Create textures keys:
         textures_keys_elements = []
         keys_elements = []
@@ -119,7 +120,8 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
         for e in keys.InfluenceExportKeys(): textures_keys_elements.append(e)
         for e in keys.MappingExportKeys(): textures_keys_elements.append(e)
         for e in keys.ColorsExportKeys(): textures_keys_elements.append(e)
-        exec("%s = '%s'" % (texture_type, t[0]))        
+        exec("%s = '%s'" % (texture_type, t[0]))
+        exec("%s = %s" % (texture_use_alpha, t[3]))        
         if not t[0] == 'NONE':
             if t[0] == 'BLEND':
                 for e in keys.BlendExportKeys(): textures_keys_elements.append(e)
@@ -161,14 +163,9 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
                     propertie = propertie.replace("[#2#]", "")
                     if type(v).__name__ == 'str' : 
                         if not "(" in v: v = "'%s'" %v
-                    try:
-                        print("Propriete : ") 
-                        print("%s = %s" % (propertie, v))
-                        exec("%s = %s" % (propertie, v))
-                    except:
-                        print("Erreur de propiete : ") 
-                        print("%s = %s" % (propertie, v))
-                        pass
+                    misc.LogAndPrintError(("%s = %s" % (propertie, v),  "%s = %s" % (propertie, v)))
+                    try: exec("%s = %s" % (propertie, v))
+                    except: pass
                     c = c + 1
                 ImportTextureRampsInApp(default_paths,  active_configuration, api_functions, active_languages,  step_number, idx,  t[2])
                 idx = idx + 1

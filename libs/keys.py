@@ -195,11 +195,11 @@ def MaterialsPropertiesKeys(api_functions):
     "diffuse_intensity":(api_functions['diffuse_intensity'], ''),"roughness":(api_functions['roughness'], ''),
     "diffuse_toon_size":(api_functions['diffuse_toon_size'], ''),"diffuse_toon_smooth":(api_functions['diffuse_toon_smooth'], ''),
     "diffuse_toon_size":(api_functions['diffuse_toon_size'], ''),"darkness":(api_functions['darkness'], ''),
-    "diffuse_fresnel":(api_functions['diffuse_fresnel'], ''),"diffuse_fresnel_factor":(api_functions['roughness'], ''),
+    "diffuse_fresnel":(api_functions['diffuse_fresnel'], ''),"diffuse_fresnel_factor":(api_functions['diffuse_fresnel_factor'], ''),
     "specular_shader":(api_functions['specular_shader'], 'yes'),"specular_color":(api_functions['specular_color'], ''),
     "specular_intensity":(api_functions['specular_intensity'], ''),"specular_hardness":(api_functions['specular_hardness'], ''),
-    "specular_ior":(api_functions['specular_ior'], ''),"specular_toon_size":(api_functions['roughness'], ''),
-    "specular_toon_smooth":(api_functions['roughness'], ''),"emit":(api_functions['emit'], ''),"ambient":(api_functions['ambient'], ''),
+    "specular_ior":(api_functions['specular_ior'], ''),"specular_toon_size":(api_functions['specular_toon_size'], ''),
+    "specular_toon_smooth":(api_functions['specular_toon_smooth'], ''),"emit":(api_functions['emit'], ''),"ambient":(api_functions['ambient'], ''),
     "translucency":(api_functions['translucency'], ''),"use_shadeless":(api_functions['use_shadeless'], ''),
     "use_tangent_shading":(api_functions['use_tangent_shading'], ''),"use_transparency":(api_functions['use_transparency'], ''),                        
     "transparency_method":(api_functions['transparency_method'], 'yes'),"alpha":(api_functions['alpha'], ''),
@@ -302,14 +302,14 @@ def TexturesPropertiesKeys(api_functions):
         "texture.noise_scale":(api_functions['texture_noise_scale'],  ''), "texture.nabla":(api_functions['texture_nabla'],  ''), 
         "texture.noise_depth":(api_functions['texture_noise_depth'],  ''), "texture.noise_distortion":(api_functions['texture_noise_distortion'],  ''), 
         "texture.noise_basis":(api_functions['texture_noise_basis'],  ''), "texture.distortion":(api_functions['texture_distortion'],  ''), 
-        "texture.nabla":(api_functions['texture_nabla'],  ''), "texture.noise_scale":(api_functions['texture_noise_scale'],  ''), 
+        "texture.noise_scale":(api_functions['texture_noise_scale'],  ''), 
         "texture.noise_depth":(api_functions['texture_noise_depth'],  ''), "texture.turbulence":(api_functions['texture_turbulence'],  ''), 
         "texture.marble_type":(api_functions['texture_marble_type'],  ''), "texture.noise_scale_2":(api_functions['texture_noise_scale_2'],  ''),  
         "texture.noise_type":(api_functions['texture_noise_type'],  ''), "texture.noise_basis":(api_functions['texture_noise_basis'],  ''), 
         "texture.noise_scale":(api_functions['texture_noise_scale'],  ''), "texture.noise_depth":(api_functions['texture_noise_depth'],  ''), 
-        "texture.nabla":(api_functions['texture_nabla'],  ''), "texture.turbulence":(api_functions['texture_turbulence'],  ''), 
+        "texture.turbulence":(api_functions['texture_turbulence'],  ''), 
         "texture.noise_basis":(api_functions['texture_noise_basis'],  ''), "texture.noise_scale":(api_functions['texture_noise_scale'],  ''), 
-        "texture.nabla":(api_functions['texture_nabla'],  ''), "texture.musgrave_type":(api_functions['texture_musgrave_type'],  ''), 
+        "texture.musgrave_type":(api_functions['texture_musgrave_type'],  ''), 
         "texture.dimension_max":(api_functions['texture_dimension_max'],  ''), "texture.lacunarity":(api_functions['texture_lacunarity'],  ''), 
         "texture.octaves":(api_functions['texture_octaves'],  ''), "texture.offset":(api_functions['texture_offset'],  ''), 
         "texture.noise_intensity":(api_functions['texture_noise_intensity'],  ''), "texture.gain":(api_functions['texture_gain'],  ''),
@@ -318,12 +318,12 @@ def TexturesPropertiesKeys(api_functions):
         "texture.turbulence":(api_functions['texture_turbulence'],  ''),"texture.distance_metric":(api_functions['texture_distance_metric'],  ''), 
         "texture.minkovsky_exponent":(api_functions['texture_minkovsky_exponent'],  ''), "texture.color_mode":(api_functions['texture_color_mode'],  ''), 
         "texture.noise_intensity":(api_functions['texture_noise_intensity'],  ''), "texture.noise_scale":(api_functions['texture_noise_scale'],  ''), 
-        "texture.nabla":(api_functions['texture_nabla'],  ''), "texture.weight_1":(api_functions['texture_weight_1'],  ''), 
+        "texture.weight_1":(api_functions['texture_weight_1'],  ''), 
         "texture.weight_2":(api_functions['texture_weight_2'],  ''), "texture.weight_3":(api_functions['texture_weight_3'],  ''), 
         "texture.weight_4":(api_functions['texture_weight_4'],  ''), "texture.noise_basis_2":(api_functions['texture_noise_basis_2'],  ''), 
         "texture.wood_type":(api_functions['texture_wood_type'],  ''), "texture.noise_type":(api_functions['texture_noise_type'],  ''), 
         "texture.noise_basis":(api_functions['texture_noise_basis'],  ''), "texture.noise_scale":(api_functions['texture_noise_scale'],  ''), 
-        "texture.nabla":(api_functions['texture_nabla'],  ''), "texture.turbulence":(api_functions['texture_turbulence'],  ''),
+        "texture.turbulence":(api_functions['texture_turbulence'],  ''),
         "texture.point_density.use_turbulence":(api_functions['texture_point_density_use_turbulence'],  ''), 
         "texture.point_density.turbulence_influence":(api_functions['texture_point_density_turbulence_influence'],  ''), 
         "texture.noise_basis":(api_functions['texture_noise_basis'],  ''), 
@@ -531,7 +531,7 @@ def MagicExportKeys():
     magic  = ("texture.noise_depth", "texture.turbulence",)    
     return magic
 def MarbleExportKeys():
-    marble  = ("texture.marble_type", "texture.noise_type", "texture.noise_basis",
+    marble  = ("texture.marble_type", "texture.noise_type", "texture.noise_basis", "texture.noise_basis_2",
                "texture.noise_scale", "texture.noise_depth", "texture.nabla", "texture.turbulence",)    
     return marble
 def MusgraveExportKeys():
@@ -850,7 +850,7 @@ def OldVoronoiMigrateKeys():
     return voronoi
 def OldWoodMigrateKeys():
     wood  = ("Tex_type_wood_noise_basis_2", "Tex_type_wood_wood_type", "Tex_type_wood_noise_type", "Tex_type_wood_basis",
-             "Tex_type_wood_noise_scale", "Tex_type_wood_turbulence", )    
+             "Tex_type_wood_noise_scale", "Tex_type_wood_turbulence", "Tex_type_wood_nabla")    
     return wood
 def OldPointMigrateKeys():
     point  = ("Tex_type_point_density_point_source", "Tex_type_point_density_particule_cache_space","Tex_type_point_density_falloff_speed_scale",
