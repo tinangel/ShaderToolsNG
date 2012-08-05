@@ -22,6 +22,23 @@ import bpy, shutil,  os, binascii,  time, threading
 from . import misc, keys, request
 from copy import copy
 
+def CreateImage(default_paths,  active_configuration, api_functions, active_languages,  image_uv_blob,  idx):
+    image_path = os.path.join(default_paths['app'], default_paths['temp'],  image_uv_blob[1].split(os.sep)[-1])
+    try:misc.Clear(image_path , 'files', 'one', active_languages)
+    except: pass
+    try:
+        image_bytes = binascii.unhexlify(eval(image_uv_blob[0]))
+        image_file = open(image_path,'wb')
+        image_file.write(image_bytes)
+        image_file.close()
+        img=api_functions['texture_image_load'].replace("#1#", "'%s'" % str(image_path))
+        exec("%s = %s" % (api_functions['texture_image'].replace("#1#", str(idx)), str(img)))
+        exec("%s" % api_functions['texture_image_pack'].replace("#1#", str(idx)))
+        return True
+    except: 
+        return False
+        pass
+
 def IdxMaterial(name_object):
     idx_material = name_object.split("(")[-1]
     idx_material = idx_material.split(")")[0]
@@ -145,6 +162,8 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
             elif t[0] == 'POINT_DENSITY':
                 for e in keys.PointExportKeys(): textures_keys_elements.append(e)
             elif t[0] == 'IMAGE':
+                req_image_uv_blob = request.DatabaseSelect(database_path,  ('image_uv_blob', 'texture_image_filepath', 'name', ),"TEXTURES", "where idx_materials =%s" % IdxMaterial(name_object), 'one')
+                if req_image_uv_blob : CreateImage(default_paths,  active_configuration, api_functions, active_languages,  req_image_uv_blob,  idx)
                 for e in keys.ImageExportKeys(): textures_keys_elements.append(e)
             elif t[0] == 'ENVIRONMENT_MAP':
                 for e in keys.EnvironmentExportKeys(): textures_keys_elements.append(e)
@@ -156,14 +175,14 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
             req = request.DatabaseSelect(database_path, database_keys_elements,"TEXTURES", "where num_textures = %s" % t[2], 'one')
             if not req == [] and not req == False:
                 c = 0
-                misc.LogAndPrintError(("\n\n",  "\n\n"))
-                misc.LogAndPrintError(("TEXTURE TYPE : %s" % t[0],  "TEXTURE TYPE : %s" % t[0]))
+                #misc.LogAndPrintError(("\n\n",  "\n\n"))
+                #misc.LogAndPrintError(("TEXTURE TYPE : %s" % t[0],  "TEXTURE TYPE : %s" % t[0]))
                 for v in req:
                     propertie = keys.TexturesPropertiesKeys(api_functions)[keys_elements[c]][0].replace("#1#", str(idx))
                     propertie = propertie.replace("[#2#]", "")
                     if type(v).__name__ == 'str' : 
                         if not "(" in v: v = "'%s'" %v
-                    misc.LogAndPrintError(("%s = %s" % (propertie, v),  "%s = %s" % (propertie, v)))
+                    #misc.LogAndPrintError(("%s = %s" % (propertie, v),  "%s = %s" % (propertie, v)))
                     try: exec("%s = %s" % (propertie, v))
                     except: pass
                     c = c + 1

@@ -132,7 +132,7 @@ def MigrateV1V2(path, api_functions, active_languages, active_configuration, def
         textures_values_element = []
         textures_values_final = []
         if type(textures_values).__name__ != 'NoneType' and type(textures_values).__name__ != 'bool': 
-            for v in textures_values:
+                for v in textures_values:
                     textures_values_element = []
                     textures_values_element_2 = []
                     textures_values_final = []
@@ -163,8 +163,8 @@ def MigrateV1V2(path, api_functions, active_languages, active_configuration, def
                             for k in keys.OldWoodMigrateKeys(): textures_values_element.append(k)
                         elif v[2] == 'POINT_DENSITY': 
                             for k in keys.OldPointMigrateKeys(): textures_values_element.append(k)
-                        elif v[2] == 'IMAGE': 
-                            for k in keys.OldImageMigrateKeys(): textures_values_element.append(k)
+                        elif v[2] == 'IMAGE': None
+                        elif v[2] == 'ENVIRONMENT_MAP': None
                         else: 
                             for k in keys.OldVoxelMigrateKeys(): textures_values_element.append(k)
                         
@@ -186,4 +186,17 @@ def MigrateV1V2(path, api_functions, active_languages, active_configuration, def
                         misc.LogAndPrintError((active_languages['menu_error_error038'] % (str(v[2]),str(materials_values[1])), active_languages['menu_error_error038'] % (str(v[2]),str(materials_values[1]))))
         #except: misc.LogAndPrintError(((active_languages['menu_error_error039'] %  materials_values[1]), active_languages['menu_error_error039'] % materials_values[1]))
     #end textures
+    #informations  
+        try:
+            informations_values = request.DatabaseSelect(path, keys.OldInformationsKeys(), "INFORMATIONS", "where Mat_Index=%s" %idx, 'one')
+            #informations properties
+            informations_values_element = []
+            informations_values_final = []
+            for v in informations_values:  informations_values_final.append(v)
+            for e in keys.OldInformationsKeys(): informations_values_element.append(keys.OldInformationsDict()[e])
+            request.DatabaseInsert(default_paths['database'], informations_values_element, informations_values_final, "INFORMATIONS")
+            misc.LogAndPrintError((active_languages['menu_error_error048'] % materials_values[1], active_languages['menu_error_error048'] % materials_values[1]))
+        except: misc.LogAndPrintError((active_languages['menu_error_error049'] % materials_values[1], active_languages['menu_error_error049'] % materials_values[1]))
+    #end informations
+    
 #end Migrate SQLite Database V1->V2

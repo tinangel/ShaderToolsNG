@@ -116,15 +116,17 @@ def LoadingMigrateProgressBar(path):
     database_stuff = True
     ctx_scene = eval(api_functions['context_scene'])
     number_max = request.DatabaseCount(path, "Mat_Index", "MATERIALS", "", 'one')
-    version_values = request.DatabaseSelect(path, keys.OldVersionKeys(), "VERSION", "", 'one')         
-    misc.LogAndPrintError(("*"*78,  "*"*78))
-    misc.LogAndPrintError(("*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*",  "*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*"))
-    misc.LogAndPrintError(("*"*78,  "*"*78))
-    misc.LogAndPrintError(("Database version : %s" %version_values[2] ,  "Database version : %s" %version_values[2]))
+    version_values = request.DatabaseSelect(path, keys.OldVersionKeys(), "VERSION", "", 'one')
+    errors_list = ("*"*78,  "*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*", 
+                        "Database version : %s" %version_values[2], )
+    misc.LogAndPrintError((errors_list[0], errors_list[0]))
+    misc.LogAndPrintError((errors_list[1], errors_list[1]))
+    misc.LogAndPrintError((errors_list[0], errors_list[0]))
+    misc.LogAndPrintError((errors_list[2] ,  errors_list[2]))
     misc.SaveDatabase(default_paths['database'],  default_paths['save'],  default_paths['bin'])
  
     #for v in range(2, number_max[0]+1):
-    for v in range(45, 46):
+    for v in range(230, 231):
 
         ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(v+1, number_max[0]+1)
         err = active_languages['menu_error_error037'] % str(v)

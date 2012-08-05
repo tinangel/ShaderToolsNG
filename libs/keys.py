@@ -108,7 +108,7 @@ def ApiKeys():
          "texture_slots_values_use", "texture_slots_values_texture_type", "texture_use_preview_alpha", "texture_slots_texture_name", "texture_slots_new", "texture_slots_texture_type",
          "texture_slots_add", "texture_image_save_render", "texture_image_save_as", "texture_image_pack", "texture_image_unpack", "texture_image_load", "material_name", "render_render",
          "ops_script_python_file_run", "types_scene", "invoke_popup", "texture_noise_scale_2",  "texture_point_density_vertex_cache_space",  
-         "texture_point_density_vertex_cache_space", "texture_normal_map_space",  "texture_image_generated_float",  "texture_image_frame_duration",  
+         "texture_point_density_vertex_cache_space", "texture_normal_map_space",  "texture_image_use_generated_float",  "texture_image_frame_duration",  
          "texture_image_frame_duration",  "texture_image_frame_start",  "texture_image_frame_offset",  "texture_image_fields_per_frame",  
          "texture_image_use_auto_refresh",  "texture_image_use_cyclic", "texture_environment_map_zoom", "material_index",  "ramps_new",  "ramps_new_2")
     return temp
@@ -306,8 +306,7 @@ def TexturesPropertiesKeys(api_functions):
         "texture.noise_depth":(api_functions['texture_noise_depth'],  ''), "texture.turbulence":(api_functions['texture_turbulence'],  ''), 
         "texture.marble_type":(api_functions['texture_marble_type'],  ''), "texture.noise_scale_2":(api_functions['texture_noise_scale_2'],  ''),  
         "texture.noise_type":(api_functions['texture_noise_type'],  ''), "texture.noise_basis":(api_functions['texture_noise_basis'],  ''), 
-        "texture.noise_scale":(api_functions['texture_noise_scale'],  ''), "texture.noise_depth":(api_functions['texture_noise_depth'],  ''), 
-        "texture.turbulence":(api_functions['texture_turbulence'],  ''), 
+        "texture.noise_scale":(api_functions['texture_noise_scale'],  ''), "texture.noise_depth":(api_functions['texture_noise_depth'],  ''),  
         "texture.noise_basis":(api_functions['texture_noise_basis'],  ''), "texture.noise_scale":(api_functions['texture_noise_scale'],  ''), 
         "texture.musgrave_type":(api_functions['texture_musgrave_type'],  ''), 
         "texture.dimension_max":(api_functions['texture_dimension_max'],  ''), "texture.lacunarity":(api_functions['texture_lacunarity'],  ''), 
@@ -315,7 +314,7 @@ def TexturesPropertiesKeys(api_functions):
         "texture.noise_intensity":(api_functions['texture_noise_intensity'],  ''), "texture.gain":(api_functions['texture_gain'],  ''),
         "texture.stucci_type":(api_functions['texture_stucci_type'],  ''), "texture.noise_type":(api_functions['texture_noise_type'],  ''), 
         "texture.noise_basis":(api_functions['texture_noise_basis'],  ''), "texture.noise_scale":(api_functions['texture_noise_scale'],  ''), 
-        "texture.turbulence":(api_functions['texture_turbulence'],  ''),"texture.distance_metric":(api_functions['texture_distance_metric'],  ''), 
+        "texture.distance_metric":(api_functions['texture_distance_metric'],  ''), 
         "texture.minkovsky_exponent":(api_functions['texture_minkovsky_exponent'],  ''), "texture.color_mode":(api_functions['texture_color_mode'],  ''), 
         "texture.noise_intensity":(api_functions['texture_noise_intensity'],  ''), "texture.noise_scale":(api_functions['texture_noise_scale'],  ''), 
         "texture.weight_1":(api_functions['texture_weight_1'],  ''), 
@@ -323,7 +322,6 @@ def TexturesPropertiesKeys(api_functions):
         "texture.weight_4":(api_functions['texture_weight_4'],  ''), "texture.noise_basis_2":(api_functions['texture_noise_basis_2'],  ''), 
         "texture.wood_type":(api_functions['texture_wood_type'],  ''), "texture.noise_type":(api_functions['texture_noise_type'],  ''), 
         "texture.noise_basis":(api_functions['texture_noise_basis'],  ''), "texture.noise_scale":(api_functions['texture_noise_scale'],  ''), 
-        "texture.turbulence":(api_functions['texture_turbulence'],  ''),
         "texture.point_density.use_turbulence":(api_functions['texture_point_density_use_turbulence'],  ''), 
         "texture.point_density.turbulence_influence":(api_functions['texture_point_density_turbulence_influence'],  ''), 
         "texture.noise_basis":(api_functions['texture_noise_basis'],  ''), 
@@ -355,7 +353,7 @@ def TexturesPropertiesKeys(api_functions):
         "texture.filter_probes":(api_functions['texture_filter_probes'],  ''), "texture.use_filter_size_min":(api_functions['texture_use_filter_size_min'],  ''), 
         "texture.image.source":(api_functions['texture_image_source'],  ''), "texture.image.generated_width":(api_functions['texture_image_generated_width'],  ''), 
         "texture.image.generated_height":(api_functions['texture_image_generated_height'],  ''), 
-        "texture.image.generated_float":(api_functions['texture_image_generated_float'],  ''),
+        "texture.image.generated_float":(api_functions['texture_image_use_generated_float'],  ''),
         "texture.image.generated_type":(api_functions['texture_image_generated_type'],  ''), 
         "texture.image.use_fields":(api_functions['texture_image_use_fields'],  ''), 
         "texture.image.use_premultiply":(api_functions['texture_image_use_premultiply'],  ''), 
@@ -567,12 +565,15 @@ def ImageExportKeys():
               "texture.repeat_x", "texture.repeat_y", "texture.use_mirror_x","texture.use_mirror_y",
               "texture.use_checker_even", "texture.use_checker_odd", "texture.checker_distance", "texture.use_alpha", 
               "texture.use_calculate_alpha", "texture.invert_alpha", "texture.use_flip_axis", "texture.use_normal_map",
-              "texture.normal_map_space", "texture.use_derivative_map", "texture.use_mipmap", "texture.use_mipmap_gauss",
+              "normal_map_space", "texture.use_derivative_map", "texture.use_mipmap", "texture.use_mipmap_gauss",
               "texture.use_interpolation","texture.filter_type","texture.filter_eccentricity","texture.filter_size",
               "texture.filter_probes", "texture.use_filter_size_min", "texture.image.source", "texture.image.generated_width", 
-              "texture.image.generated_height", "texture.image.generated_float","texture.image.generated_type", "texture.image.use_fields", 
-              "texture.image.use_premultiply", "texture.image.field_order", "texture.image.frame_duration", "texture.image.frame_start", 
-              "texture.image.frame_offset", "texture.image.fields_per_frame", "texture.image.use_auto_refresh", "texture.image.use_cyclic",)
+              "texture.image.generated_height", "texture.image.use_generated_float","texture.image.generated_type", "texture.image.use_fields", 
+              "texture.image.use_premultiply", "texture.image.field_order", "texture.image.user_frame_duration", "texture.image.user_frame_start", 
+              "texture.image.user_frame_offset", "texture.image.user_fields_per_frame", "texture.image.user_use_auto_refresh", "texture.image.user_use_cyclic",)
+    return image
+def ImageUvBlobKeys():
+    image  = ("image_uv_blob", )
     return image
 def EnvironmentExportKeys():
     map  = ("texture.filter_type", "texture.filter_eccentricity", "texture.filter_size", "texture.use_filter_size_min", 
@@ -618,6 +619,16 @@ def ThumbnailsMaterialsKeys():
     temp = ("name",)
     return temp
 #end Thumbnails properties keys
+#Informations keys
+def InformationsKeys():
+    temp = \
+        (
+        "num_informations", "creator", "category", "description",
+        "weblink","email", "idx_materials", 
+         )
+    return temp
+#end Informations keys
+
 
 
 ''' *******           Here ShaderTools Utils keys           ********* '''
@@ -702,6 +713,22 @@ def OldMaterialsColorRadiusDict():
         }
     return temp
 #end ShaderTools materials keys
+#ShaderTools informations keys
+def OldInformationsKeys():
+    temp = \
+        (
+        "Inf_Index", "Inf_Creator",  "Inf_Category",  "Inf_Description", 
+        "Inf_Weblink",  "Inf_Email", "Mat_Index", 
+         )
+    return temp
+def OldInformationsDict():
+    temp = \
+        {
+        "Inf_Index":'num_informations', "Inf_Creator":'creator',  "Inf_Category":'category',  "Inf_Description":'description', 
+        "Inf_Weblink":'weblink',  "Inf_Email":'email', "Mat_Index":'idx_materials', 
+         }
+    return temp
+#end ShaderTools  informations  keys
 #ShaderTools version keys
 def OldVersionKeys():
     temp = \
@@ -757,7 +784,7 @@ def OldTexturesDict():
          "Tex_type_musgrave_noise_intensity":'texture_noise_intensity', "Tex_type_musgrave_noise_basis":'texture_noise_basis', 
          "Tex_type_musgrave_noise_scale":'texture_noise_scale', "Tex_type_musgrave_nabla":'texture_nabla', "Tex_type_musgrave_offset":'texture_offset',
          "Tex_type_musgrave_gain":'texture_gain', "Tex_type_clouds_noise_scale":'texture_noise_scale', "Tex_type_clouds_nabla":'texture_nabla',
-         "Tex_type_clouds_noise_depth":'texture_noise_depth', "Tex_type_noise_distortion_distortion":'texture_noise_distortion',
+         "Tex_type_clouds_noise_depth":'texture_noise_depth', "Tex_type_noise_distortion_distortion":'texture_distortion',
          "Tex_type_noise_distortion_texture_distortion":'texture_distortion', "Tex_type_noise_distortion_nabla":'texture_nabla', 
          "Tex_type_noise_distortion_noise_scale":'texture_noise_scale', "Tex_type_point_density_point_source":'texture_point_density_point_source',
          "Tex_type_stucci_type":'texture_stucci_type', "Tex_type_stucci_noise_type":'texture_noise_type', "Tex_type_stucci_basis":'texture_noise_basis',
@@ -859,20 +886,20 @@ def OldPointMigrateKeys():
               "Tex_type_point_density_falloff_soft", )    
     return point
 def OldImageMigrateKeys():
-    image  = ("texture.extension", "texture.crop_min_x", "texture.crop_min_y", "texture.crop_max_x","texture.crop_max_y",
-              "texture.repeat_x", "texture.repeat_y", "texture.use_mirror_x","texture.use_mirror_y",
-              "texture.use_checker_even", "texture.use_checker_odd", "texture.checker_distance", "texture.use_alpha", 
-              "texture.use_calculate_alpha", "texture.invert_alpha", "texture.use_flip_axis", "texture.use_normal_map",
-              "texture.normal_map_space", "texture.use_derivative_map", "texture.use_mipmap", "texture.use_mipmap_gauss",
-              "texture.use_interpolation","texture.filter_type","texture.filter_eccentricity","texture.filter_size",
-              "texture.filter_probes", "texture.use_filter_size_min", "texture.image.source", "texture.image.generated_width", 
-              "texture.image.generated_height", "texture.image.generated_float","texture.image.generated_type", "texture.image.use_fields", 
-              "texture.image.use_premultiply", "texture.image.field_order", "texture.image.frame_duration", "texture.image.frame_start", 
-              "texture.image.frame_offset", "texture.image.fields_per_frame", "texture.image.use_auto_refresh", "texture.image.use_cyclic",)
+    image = ("Ima_Name", "Ima_Source", "Ima_Filepath",
+            "Ima_Fileformat", "Ima_Fields", "Ima_Premultiply", "Ima_Fields_order","Ima_Generated_type",
+            "Ima_Generated_width", "Ima_Generated_height", "Ima_Float_buffer", "Ima_Blob", )
+    return image
+def OldImageMigrateDict():
+    image = {"Ima_Name":'texture_image_name', "Ima_Source":'texture_image_source', "Ima_Filepath":'texture_image_filepath',
+            "Ima_Fileformat":'texture_image_file_format', "Ima_Fields":'texture_image_use_fields', "Ima_Premultiply":'texture_image_use_premultiply', 
+            "Ima_Fields_order":'texture_image_field_order', "Ima_Generated_type":'texture_image_generated_type',
+            "Ima_Generated_width":'texture_image_generated_width', "Ima_Generated_height":'Ima_Generated_height', 
+            "Ima_Float_buffer":'texture_image_use_generated_float', "Ima_Blob":'image_uv_blob', }
     return image
 def OldVoxelMigrateKeys():
     voxel  = ("Tex_type_voxel_data_file_format", "Tex_type_voxel_data_intensity", "Tex_type_voxel_data_extension", "Tex_type_voxel_data_interpolation", 
-              "Tex_type_voxel_data_smoke_data_type", "texture.voxel_data.filepath", "Tex_type_voxel_data_resolution_1", 
+              "Tex_type_voxel_data_smoke_data_type", "texture_voxel_data_filepath", "Tex_type_voxel_data_resolution_1", 
               "Tex_type_voxel_data_resolution_2", "Tex_type_voxel_data_resolution_3", "Tex_type_voxel_data_use_still_frame",
               "Tex_type_voxel_data_still_frame",)
     return voxel
