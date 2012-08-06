@@ -40,5 +40,6 @@ __all__ = (
     "save",
     "textures",
     "zip",
+    "history",
     )
 

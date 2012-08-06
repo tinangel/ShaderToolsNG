@@ -62,7 +62,7 @@ names_config = environment.ConfigurationsNames(configurations_config)
 options_actions = environment.ConfigurationsOptions(active_languages)
 names_languages = environment.LanguagesNames(languages_config)
 space_access_name = active_languages['space_access_name'] + " "
-
+active_history = history.CurrentHistory(default_paths,  active_configuration, api_functions, active_languages)
 
 '''
 try:
@@ -159,7 +159,8 @@ class Open(eval(api_functions['types_operator'])):
     global  database_stuff
     ctx = eval(api_functions['props'])
     filename = ctx.StringProperty(subtype="FILENAME")
-    filepath = ctx.StringProperty(subtype="FILE_PATH")    
+    filepath = ctx.StringProperty(subtype="FILE_PATH") 
+    history_EP = ctx.EnumProperty(name=active_languages['menu_history_label01'],items=(active_history))
     
     def draw(self, context):
         layout = self.layout
@@ -170,10 +171,10 @@ class Open(eval(api_functions['types_operator'])):
             row.label(active_languages['menu_error_error041'])
             row = layout.row(align=True)
             row.label(active_languages['menu_error_error042'])
-        elif not ctx_active_object():
-            row.label(active_languages['menu_error_error047'], icon='RADIO')
-        else: 
-            row.label("En cours de developpement", icon='RADIO')
+        else:
+            row.label(active_languages['menu_history_title'], icon='RADIO')
+            row = layout.row(align=True)
+            row.prop(self, "history_EP")            
 
     def invoke(self, context, event):
         global  database_stuff
@@ -190,6 +191,12 @@ class Open(eval(api_functions['types_operator'])):
             ctx_scene.shadertoolsng_utils_bar = 0
             step_number = 4
             open.ImportMaterialInApp(default_paths,  active_configuration, api_functions, active_languages, self.filename,  step_number)
+            history.UpdateHistory(default_paths,  active_configuration, api_functions, active_languages,  self.filename,  active_history)
+            active_history = history.CurrentHistory(default_paths,  active_configuration, api_functions, active_languages)
+            print("ACTIVE :")
+            print(active_history)
+            eval(api_functions['utils_unregister_class'].replace("#1#", "Open"))
+            eval(api_functions['utils_register_class'].replace("#1#", "Open"))
         return {'FINISHED'}   
 
 class Save(eval(api_functions['types_operator'])):

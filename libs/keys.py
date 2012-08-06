@@ -131,11 +131,16 @@ def LangagesKeys():
          "menu_configuration_default_config", "bl_id_config_search", "menu_configuration_langage_choice", "menu_configuration_current_index", "take_preview", "buttons_log",
          "menu_import_label001", "menu_import_label002", "bl_id_name_logs", "buttons_utils", "panel_database_label", "panel_archive_label", "panel_utils_label", "menu_utils_migrate",
          "bl_id_name_utils_migrate", "menu_utils_migrate_help01", "menu_utils_migrate_help02", "menu_configuration_auto_save_1", "menu_configuration_auto_save_2", 
-         ]
-    for i in range(1, 81):
-        temp.append("menu_error_error%03d" % i)
+         "menu_history_title",  "menu_history_label01",  "menu_history_label02"]
+    for i in range(1, 81): temp.append("menu_error_error%03d" % i)
     return temp
 #end Langages keys
+#History keys
+def HistoryKeys():
+    temp = []
+    for i in range(1, 21): temp.append("history%02d" % i)
+    return temp
+#end History keys
 #Configurations keys
 def ConfigurationsKeys():
     temp = \
