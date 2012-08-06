@@ -165,6 +165,7 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
                 req_image_uv_blob = request.DatabaseSelect(database_path,  ('image_uv_blob', 'texture_image_filepath', 'name', ),"TEXTURES", "where idx_materials =%s" % IdxMaterial(name_object), 'one')
                 if req_image_uv_blob : CreateImage(default_paths,  active_configuration, api_functions, active_languages,  req_image_uv_blob,  idx)
                 for e in keys.ImageExportKeys(): textures_keys_elements.append(e)
+                textures_keys_elements.remove("texture.image.source")
             elif t[0] == 'ENVIRONMENT_MAP':
                 for e in keys.EnvironmentExportKeys(): textures_keys_elements.append(e)
             else: 

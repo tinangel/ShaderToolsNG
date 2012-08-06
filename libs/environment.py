@@ -131,8 +131,7 @@ def ApiDatas(database_path, version):
     
     def DatabaseRequest(database_path, request, list):
         ShaderToolsDatabase = sqlite3.connect(database_path) #open database
-        DatabaseCursor = ShaderToolsDatabase.cursor() #create cursor
-        
+        DatabaseCursor = ShaderToolsDatabase.cursor() #create cursor        
         #here my request :
         try:
             DatabaseCursor.execute(request)
