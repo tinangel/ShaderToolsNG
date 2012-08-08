@@ -44,8 +44,9 @@ def VerifyBookmark(bookmark_path, bookmark_folder_path, bookmark_folder_name):
     #end Save the bookmarks file:
     #Create bookmark material folder:
     try:
-        if not os.path.exists(bookmark_folder_path):
-            os.makedirs(bookmark_folder_path)
+        shaders_search_temp_folder = os.path.join(bookmark_folder_path,  "tempory")
+        if not os.path.exists(bookmark_folder_path): os.makedirs(bookmark_folder_path)
+        if not os.path.exists(shaders_search_temp_folder): os.makedirs(shaders_search_temp_folder)
         print(misc.ConsoleError("bookmark folder ", 1, True))
     except:
         print(misc.ConsoleError("bookmark folder ", 1, False))

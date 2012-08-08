@@ -187,7 +187,7 @@ class Open(eval(api_functions['types_operator'])):
             row = layout.row(align=True)
             row.label(active_languages['menu_error_error042'])
         else:
-            row.label(active_languages['menu_history_title'], icon='RADIO')
+            row.label(active_languages['menu_history_title'])
             row = layout.row(align=True)
             row.prop(self, "history_EP")            
 
