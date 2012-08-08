@@ -117,12 +117,9 @@ def LoadingMigrateProgressBar(path):
     ctx_scene = eval(api_functions['context_scene'])
     number_max = request.DatabaseCount(path, "Mat_Index", "MATERIALS", "", 'one')
     version_values = request.DatabaseSelect(path, keys.OldVersionKeys(), "VERSION", "", 'one')
-    errors_list = ("*"*78,  "*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*", 
-                        "Database version : %s" %version_values[2], )
-    misc.LogAndPrintError((errors_list[0], errors_list[0]))
-    misc.LogAndPrintError((errors_list[1], errors_list[1]))
-    misc.LogAndPrintError((errors_list[0], errors_list[0]))
-    misc.LogAndPrintError((errors_list[2] ,  errors_list[2]))
+    errors_list = ("*"*78,  "*" + " "*22 + "Shader Tools Next Gen - Migrate" + " "*23 + "*", "Database version : %s" %version_values[2], )
+    error_val = (0,  1,  0,  2)
+    for v in error_val: misc.LogAndPrintError((errors_list[v], errors_list[v]))
     misc.SaveDatabase(default_paths['database'],  default_paths['save'],  default_paths['bin'])
  
     for v in range(2, number_max[0]+1):
@@ -152,17 +149,35 @@ class UpdateWarning(eval(api_functions['types_operator'])):
     def execute(self, context):
         return {'FINISHED'}
 
+
+class BeforeOpen(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_before"
+    bl_label = ''    
+
+    def execute(self, context):
+        global database_stuff,  active_history
+        if not database_stuff:
+            ops_object = eval(api_functions['ops_object'])
+            Open.history_EP[1]['items'] = active_history
+            eval(api_functions['utils_unregister_class'].replace("#1#", "Open"))
+            eval(api_functions['utils_register_class'].replace("#1#", "Open"))
+            ops_object.shadertoolsng_open('INVOKE_DEFAULT')
+        return {'FINISHED'}
+
 class Open(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_open"
-    bl_label = space_access_name + active_languages['bl_id_name_open']    
+    bl_label = space_access_name + active_languages['bl_id_name_open']  
     
     global  database_stuff
     ctx = eval(api_functions['props'])
+    types_scene = eval(api_functions['types_scene'])
+
     filename = ctx.StringProperty(subtype="FILENAME")
     filepath = ctx.StringProperty(subtype="FILE_PATH") 
-    history_EP = ctx.EnumProperty(name=active_languages['menu_history_label01'],items=(active_history))
+    history_EP = ctx.EnumProperty(name=active_languages['menu_history_label01'],items=(active_history),  update=UpdateProgressBar)
     
     def draw(self, context):
+        ctx_scene = eval(api_functions['context_scene'])
         layout = self.layout
         row = layout.row(align=True)
         if database_stuff: 
@@ -185,18 +200,17 @@ class Open(eval(api_functions['types_operator'])):
         return {'RUNNING_MODAL'}
 
     def execute(self, context):
-        global database_stuff
+        global database_stuff,  active_history
         if not database_stuff:
             ctx_scene = eval(api_functions['context_scene'])
+            ops_object = eval(api_functions['ops_object'])
+            ctx = eval(api_functions['props'])
+
             ctx_scene.shadertoolsng_utils_bar = 0
             step_number = 4
             open.ImportMaterialInApp(default_paths,  active_configuration, api_functions, active_languages, self.filename,  step_number)
             history.UpdateHistory(default_paths,  active_configuration, api_functions, active_languages,  self.filename,  active_history)
             active_history = history.CurrentHistory(default_paths,  active_configuration, api_functions, active_languages)
-            print("ACTIVE :")
-            print(active_history)
-            eval(api_functions['utils_unregister_class'].replace("#1#", "Open"))
-            eval(api_functions['utils_register_class'].replace("#1#", "Open"))
         return {'FINISHED'}   
 
 class Save(eval(api_functions['types_operator'])):
@@ -601,7 +615,7 @@ class UtilsMigrate(eval(api_functions['types_operator'])):
 
 def OpenSaveSwitch(self, context):
     ops_object = eval(api_functions['ops_object'])
-    if self.shadertoolsng_open_save == 'buttons_open':ops_object.shadertoolsng_open('INVOKE_DEFAULT')
+    if self.shadertoolsng_open_save == 'buttons_open':ops_object.shadertoolsng_before('INVOKE_DEFAULT')
     else:ops_object.shadertoolsng_save('INVOKE_DEFAULT')
 
 def ExportImportSwitch(self, context):
@@ -670,7 +684,7 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
 MyReg = \
     (
      ShadersToolsNGPanel, Open, Save, Export, Import,New, Configuration, Help, Credits, UpdateWarning,
-     ConfigurationSearch, Errors, UtilsMigrate,  
+     ConfigurationSearch, Errors, UtilsMigrate, BeforeOpen, 
     )
 
 def register():

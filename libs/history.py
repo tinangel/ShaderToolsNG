@@ -37,15 +37,12 @@ def CurrentHistory(default_paths,  active_configuration, api_functions, active_l
     return history_tuple
 
 def UpdateHistory(default_paths,  active_configuration, api_functions, active_languages,  material_name,  active_history):
-    history_list = request.DatabaseSelect(default_paths['database'], keys.HistoryKeys(), "HISTORY", "", 'one')
-    print("UPDATE :")
-    print(history_list)
     history_list_new =[]
     condition = []
     condition_final = "set "
     history_list_new.append(material_name)
-    if history_list:
-        for v in range(1, 20): history_list_new.append(history_list[v])
+    if active_history:
+        for v in range(0, 20): history_list_new.append(active_history[v][1])
     
     c = 0
     for e in keys.HistoryKeys():
