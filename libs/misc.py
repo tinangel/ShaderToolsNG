@@ -44,6 +44,7 @@ def Clear(path, type, option, active_language):
         print("$haderTools : error import misc")
     #end Imports & external libs:
     #Clear files & folder:
+    exception = os.path.join(path,  '.tempory')
     if type == 'files' and option == 'one':
         if os.path.exists(path) :
             return os.remove(path)
@@ -54,13 +55,15 @@ def Clear(path, type, option, active_language):
             for f in files:           
                 if not os.path.isdir(f):
                     try: os.remove(os.path.join(path, f))
-                    except: print(active_language['menu_error_error021'] % f)
-    
+                    except: 
+                        if not os.path.exists(exception): print(active_language['menu_error_error021'] % f)
+                            
     if type == 'all':
         try:
             shutil.rmtree(path)
             os.makedirs(path)
-        except: print(active_language['menu_error_error021'] % path)
+        except:
+            if not os.path.exists(exception): print(active_language['menu_error_error021'] % path)
     #end Clear files & folder:
 
 def LogAndPrintError(list_error):

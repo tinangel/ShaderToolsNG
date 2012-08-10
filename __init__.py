@@ -110,6 +110,7 @@ def ctx_active_object():
         ctx_active_object = False
     return ctx_active_object 
 
+def OpenUpdateHistory(self,  context): search.FilterHistory(default_paths,  active_configuration, api_functions, active_languages,  self.history_EP)
 def UpdateProgressBar(self,  context): return None
 def LoadingMigrateProgressBar(path):
     global database_stuff
@@ -149,7 +150,6 @@ class UpdateWarning(eval(api_functions['types_operator'])):
     def execute(self, context):
         return {'FINISHED'}
 
-
 class BeforeOpen(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_before"
     bl_label = ''    
@@ -161,6 +161,9 @@ class BeforeOpen(eval(api_functions['types_operator'])):
             Open.history_EP[1]['items'] = active_history
             eval(api_functions['utils_unregister_class'].replace("#1#", "Open"))
             eval(api_functions['utils_register_class'].replace("#1#", "Open"))
+            database_folder = os.path.join(default_paths['app'],  active_languages['menu_bookmarks_name'])
+            tempory_folder = os.path.join(database_folder,  ".tempory")
+            search.MoveAllInsideFolder(active_configuration, api_functions, active_languages, tempory_folder,  database_folder)
             ops_object.shadertoolsng_open('INVOKE_DEFAULT')
         return {'FINISHED'}
 
@@ -174,7 +177,7 @@ class Open(eval(api_functions['types_operator'])):
 
     filename = ctx.StringProperty(subtype="FILENAME")
     filepath = ctx.StringProperty(subtype="FILE_PATH") 
-    history_EP = ctx.EnumProperty(name=active_languages['menu_history_label01'],items=(active_history),  update=UpdateProgressBar)
+    history_EP = ctx.EnumProperty(name=active_languages['menu_history_label01'],items=(active_history),  update=OpenUpdateHistory)
     
     def draw(self, context):
         ctx_scene = eval(api_functions['context_scene'])

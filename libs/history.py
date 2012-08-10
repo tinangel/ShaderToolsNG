@@ -25,15 +25,11 @@ from copy import copy
 def CurrentHistory(default_paths,  active_configuration, api_functions, active_languages):
     history_list = request.DatabaseSelect(default_paths['database'], keys.HistoryKeys(), "HISTORY", "", 'one')
     history_tuple =[]
-    c = 1
     if history_list:
-        for v in history_list: 
-            history_tuple.append(tuple((str(c),  v,  "")))
-            c = c+1
+        for v in history_list:  history_tuple.append(tuple((v,  v,  "")))
     else:
         for v in range(1,  21): 
-            history_tuple.append(tuple((str(c),  "No history %s" % str(v),  "")))
-            c = c+1
+            history_tuple.append(tuple((v,  "No history %s" % str(v),  "")))
     return history_tuple
 
 def UpdateHistory(default_paths,  active_configuration, api_functions, active_languages,  material_name,  active_history):
@@ -53,4 +49,8 @@ def UpdateHistory(default_paths,  active_configuration, api_functions, active_la
     condition_final = condition_final.rstrip(",")
     condition_final = condition_final + " where num_history = '1'"
     return request.DatabaseUpdate(default_paths['database'], "HISTORY", condition_final)
+
+def FilterHistory(default_paths,  active_configuration, api_functions, active_languages,  material_name):
+    return True
+
     

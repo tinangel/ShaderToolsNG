@@ -41,5 +41,6 @@ __all__ = (
     "textures",
     "zip",
     "history",
+    "search",
     )
 
