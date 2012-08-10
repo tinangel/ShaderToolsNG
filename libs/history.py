@@ -49,8 +49,3 @@ def UpdateHistory(default_paths,  active_configuration, api_functions, active_la
     condition_final = condition_final.rstrip(",")
     condition_final = condition_final + " where num_history = '1'"
     return request.DatabaseUpdate(default_paths['database'], "HISTORY", condition_final)
-
-def FilterHistory(default_paths,  active_configuration, api_functions, active_languages,  material_name):
-    return True
-
-    

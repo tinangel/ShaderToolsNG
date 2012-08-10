@@ -133,7 +133,19 @@ def LoadingMigrateProgressBar(path):
         open.CreateThumbnails(default_paths,  active_configuration, api_functions, active_languages, False)
         misc.LogError("*"*3 +"\n", 0)
     database_stuff = False
-    
+
+class RestoreFilters(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_restore"
+    bl_label = ''
+
+    def execute(self, context):
+        database_folder = os.path.join(default_paths['app'],  active_languages['menu_bookmarks_name'])
+        tempory_folder = os.path.join(database_folder,  ".tempory")
+        search.MoveAllInsideFolder(active_configuration, api_functions, active_languages, tempory_folder,  database_folder)
+        exec(api_functions['ops_file_refresh'])
+        return {'FINISHED'}
+
+
 class Errors(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_errors"
     bl_label = space_access_name + active_languages['bl_id_name_logs']
@@ -193,7 +205,9 @@ class Open(eval(api_functions['types_operator'])):
             row.label(active_languages['menu_history_title'])
             row = layout.row(align=True)
             row.prop(self, "history_EP")            
-
+            row = layout.row(align=True)
+            row.operator("object.shadertoolsng_restore", text=active_languages['menu_open_restore'], icon='FILE_REFRESH')
+            
     def invoke(self, context, event):
         global  database_stuff
         if not database_stuff :
@@ -687,7 +701,7 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
 MyReg = \
     (
      ShadersToolsNGPanel, Open, Save, Export, Import,New, Configuration, Help, Credits, UpdateWarning,
-     ConfigurationSearch, Errors, UtilsMigrate, BeforeOpen, 
+     ConfigurationSearch, Errors, UtilsMigrate, BeforeOpen, RestoreFilters, 
     )
 
 def register():
