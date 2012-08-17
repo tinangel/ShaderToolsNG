@@ -111,6 +111,17 @@ def ctx_active_object():
     return ctx_active_object 
 
 def OpenUpdateHistory(self,  context): search.FilterHistory(default_paths,  active_configuration, api_functions, active_languages,  self.history_EP)
+def OpenSearch(self,  context): 
+    advanced_search_properties = \
+        {
+            'keywords': self.search_SP, 
+            'description': self.description_BP, 
+            'creator': self.creator_BP, 
+            'category': self.category_BP, 
+            'weblink': self.weblink_BP, 
+            'email': self.email_BP, 
+        }
+    search.FilterSearch(default_paths,  active_configuration, api_functions, active_languages,  advanced_search_properties)
 def UpdateProgressBar(self,  context): return None
 def LoadingMigrateProgressBar(path):
     global database_stuff
@@ -190,6 +201,12 @@ class Open(eval(api_functions['types_operator'])):
     filename = ctx.StringProperty(subtype="FILENAME")
     filepath = ctx.StringProperty(subtype="FILE_PATH") 
     history_EP = ctx.EnumProperty(name=active_languages['menu_history_label01'],items=(active_history),  update=OpenUpdateHistory)
+    search_SP = ctx.StringProperty(name=active_languages['menu_search_label01'],  update=OpenSearch)
+    description_BP = ctx.BoolProperty(name=active_languages['menu_search_description'], default=0)
+    creator_BP = ctx.BoolProperty(name=active_languages['menu_search_creator'], default=0)
+    category_BP = ctx.BoolProperty(name=active_languages['menu_search_category'], default=0)
+    weblink_BP = ctx.BoolProperty(name=active_languages['menu_search_weblink'], default=0)
+    email_BP = ctx.BoolProperty(name=active_languages['menu_search_email'], default=0)
     
     def draw(self, context):
         ctx_scene = eval(api_functions['context_scene'])
@@ -202,11 +219,36 @@ class Open(eval(api_functions['types_operator'])):
             row = layout.row(align=True)
             row.label(active_languages['menu_error_error042'])
         else:
+            row.label(active_languages['menu_search_title'])
+            row = layout.row(align=True)
+            row.label(active_languages['menu_search_label02'],  icon='RADIO')
+            row = layout.row(align=True)
+            row.label(active_languages['menu_search_label03'])
+            row = layout.row(align=True)
+
+            row.prop(self, "search_SP") 
+            row = layout.row(align=True)
+            row.label(active_languages['menu_search_label04'])
+            row = layout.row(align=True)
+            row.prop(self, "description_BP")            
+            row.prop(self, "creator_BP")            
+            row = layout.row(align=True)
+            row.prop(self, "category_BP")            
+            row.prop(self, "weblink_BP")            
+            row = layout.row(align=True)
+            row.prop(self, "email_BP")            
+            row = layout.row(align=True)
+            row.label(" ")
+            row = layout.row(align=True)
             row.label(active_languages['menu_history_title'])
             row = layout.row(align=True)
             row.prop(self, "history_EP")            
             row = layout.row(align=True)
+            row.label(" ")
+            row = layout.row(align=True)
             row.operator("object.shadertoolsng_restore", text=active_languages['menu_open_restore'], icon='FILE_REFRESH')
+            row = layout.row(align=True)
+            row.label("_"*1024)
             
     def invoke(self, context, event):
         global  database_stuff

@@ -54,7 +54,8 @@ def DatabaseSelect(database_path, elements, table, condition, options):
     request = "select "
     
     for e in elements:  request = request + e + ","
-    request = request.rstrip(",") + " from '%s' " % table + condition
+    if "," in table: request = request.rstrip(",") + " from %s " % table + condition
+    else: request = request.rstrip(",") + " from '%s' " % table + condition
     #here my request :
     #print(request)
     try:
