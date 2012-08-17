@@ -58,12 +58,11 @@ def VerifyBookmark(bookmark_path, bookmark_folder_path, bookmark_folder_name):
         bookmarks_new_list = []
         update = True
         bookmarks_flag = False
+        category = 0
         for v in bookmarks_list:
-            if bookmark_folder_path in v:
-                update = False
-
-            if "[Bookmarks]" in v:
-                bookmarks_flag = True
+            if "[Recent]" in v: category=1
+            if bookmark_folder_path in v and not category: update = False
+            if "[Bookmarks]" in v: bookmarks_flag = True
 
         if update and bookmarks_flag:
             for v in bookmarks_list:

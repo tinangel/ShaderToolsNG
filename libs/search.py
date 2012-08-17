@@ -18,7 +18,7 @@
 
 # <pep8-80 compliant>
 
-import bpy, shutil,  os,  re
+import bpy, shutil,  os
 from . import misc, keys, request, misc
 from copy import copy
 

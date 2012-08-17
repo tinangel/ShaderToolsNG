@@ -197,11 +197,12 @@ class Open(eval(api_functions['types_operator'])):
     global  database_stuff
     ctx = eval(api_functions['props'])
     types_scene = eval(api_functions['types_scene'])
+    msg = "%s %s" % (active_languages['menu_search_label02'] ,  active_languages['menu_search_label03'])
 
     filename = ctx.StringProperty(subtype="FILENAME")
-    filepath = ctx.StringProperty(subtype="FILE_PATH") 
+    filepath = ctx.StringProperty(subtype="FILE_PATH",  default="/") 
     history_EP = ctx.EnumProperty(name=active_languages['menu_history_label01'],items=(active_history),  update=OpenUpdateHistory)
-    search_SP = ctx.StringProperty(name=active_languages['menu_search_label01'],  update=OpenSearch)
+    search_SP = ctx.StringProperty(name=active_languages['menu_search_label01'],  update=OpenSearch,  description=msg)
     description_BP = ctx.BoolProperty(name=active_languages['menu_search_description'], default=0)
     creator_BP = ctx.BoolProperty(name=active_languages['menu_search_creator'], default=0)
     category_BP = ctx.BoolProperty(name=active_languages['menu_search_category'], default=0)
@@ -221,11 +222,6 @@ class Open(eval(api_functions['types_operator'])):
         else:
             row.label(active_languages['menu_search_title'])
             row = layout.row(align=True)
-            row.label(active_languages['menu_search_label02'],  icon='RADIO')
-            row = layout.row(align=True)
-            row.label(active_languages['menu_search_label03'])
-            row = layout.row(align=True)
-
             row.prop(self, "search_SP") 
             row = layout.row(align=True)
             row.label(active_languages['menu_search_label04'])
@@ -249,6 +245,8 @@ class Open(eval(api_functions['types_operator'])):
             row.operator("object.shadertoolsng_restore", text=active_languages['menu_open_restore'], icon='FILE_REFRESH')
             row = layout.row(align=True)
             row.label("_"*1024)
+            row = layout.row(align=True)
+
             
     def invoke(self, context, event):
         global  database_stuff
