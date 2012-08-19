@@ -132,7 +132,9 @@ def LangagesKeys():
          "menu_import_label001", "menu_import_label002", "bl_id_name_logs", "buttons_utils", "panel_database_label", "panel_archive_label", "panel_utils_label", "menu_utils_migrate",
          "bl_id_name_utils_migrate", "menu_utils_migrate_help01", "menu_utils_migrate_help02", "menu_configuration_auto_save_1", "menu_configuration_auto_save_2", 
          "menu_history_title",  "menu_history_label01",  "menu_history_label02",  "menu_open_restore", "menu_search_title",  "menu_search_label01",  "menu_search_label02",  
-         "menu_search_label03", "menu_search_label04", "menu_search_description", "menu_search_creator", "menu_search_category", "menu_search_weblink", "menu_search_email",]
+         "menu_search_label03", "menu_search_label04", "menu_search_description", "menu_search_creator", "menu_search_category", "menu_search_weblink", "menu_search_email",
+         "menu_information_label01",  "menu_information_label02", "menu_information_description", "menu_information_creator", "menu_information_category", 
+         "menu_information_weblink", "menu_information_email", "bl_id_name_search_infos"]
     for i in range(1, 81): temp.append("menu_error_error%03d" % i)
     return temp
 #end Langages keys

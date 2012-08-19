@@ -42,5 +42,6 @@ __all__ = (
     "zip",
     "history",
     "search",
+    "informations",
     )
 

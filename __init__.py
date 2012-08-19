@@ -39,11 +39,11 @@ print("*"*78)
 
 #Imports & external libs:
 try:
-    import bpy, sqlite3, os, platform, locale, shutil, sys, time, shader_tools_ng.libs, threading
+    import bpy, sqlite3, os, platform, locale, shutil, sys, time, shader_tools_ng.libs, threading,  webbrowser
     from shader_tools_ng.libs import *
+    from bpy.types import Header
     print(misc.ConsoleError("Import external module ", 0, True))
-except:
-    print(misc.ConsoleError("Import external module ", 0, False))
+except: print(misc.ConsoleError("Import external module ", 0, False))
 
 misc.LogError("", True)
 misc.LogError("*"*78, True)
@@ -91,7 +91,7 @@ except:
 conf_current_name = ""
 conf_current_idx = 1
 database_stuff = False
-
+inf_current_weblink = False
 #Tests & verifications
 bookmarks_folder_path = os.path.join(default_paths['app'], active_languages['menu_bookmarks_name'])
 update = checkup.MakeCheckup(default_paths['database'], default_paths['configs_database'], default_paths['bookmarks'], 
@@ -110,6 +110,7 @@ def ctx_active_object():
         ctx_active_object = False
     return ctx_active_object 
 
+def OpenUpdateInformations(self,  context): None
 def OpenUpdateHistory(self,  context): search.FilterHistory(default_paths,  active_configuration, api_functions, active_languages,  self.history_EP)
 def OpenSearch(self,  context): 
     advanced_search_properties = \
@@ -190,6 +191,91 @@ class BeforeOpen(eval(api_functions['types_operator'])):
             ops_object.shadertoolsng_open('INVOKE_DEFAULT')
         return {'FINISHED'}
 
+class InformationsWeblink(eval(api_functions['types_operator'])): 
+    bl_idname = "object.shadertoolsng_weblink"
+    bl_label = ''    
+    
+    def execute(self, context):
+        global  inf_current_weblink
+        if  inf_current_weblink:
+            webbrowser.open_new( inf_current_weblink)
+            inf_current_weblink = False
+        return {'FINISHED'}   
+
+
+class BeforeInformations(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_before_inf"
+    bl_label = space_access_name + active_languages['bl_id_name_search_infos']      
+
+    ctx = eval(api_functions['props'])
+    type = ctx.EnumProperty(name='info',  items=informations.InformationsEnumItems(default_paths['database']))
+
+    def invoke(self, context, event):
+        wm = eval(api_functions['invoke_search_popup'].replace("#1#", "self"))
+        return {'RUNNING_MODAL'}
+
+    def execute(self, context):
+        global inf_current_weblink
+        ops_object = eval(api_functions['ops_object'])
+        eval(api_functions['utils_unregister_class'].replace("#1#", "Informations"))
+        eval(api_functions['utils_register_class'].replace("#1#", "Informations"))
+        infos = informations.InformationsSelectedItem(default_paths['database'],  self.type)
+        if infos == None: 
+            ops_object.shadertoolsng_infos('INVOKE_DEFAULT',  inf_name_SP='No informations',  inf_creator_SP='No informations',  inf_description_SP='No informations', 
+                                                                inf_category_SP='No informations',  inf_weblink_SP='No informations',  inf_email_SP='No informations')      
+        else:
+            inf_current_weblink = infos[5]
+            ops_object.shadertoolsng_infos('INVOKE_DEFAULT',  inf_name_SP=infos[1].replace("$T_",  ""),  inf_creator_SP=infos[3],  inf_description_SP=infos[2], 
+                                                                inf_category_SP=infos[4],  inf_weblink_SP=infos[5],  inf_email_SP=infos[6])      
+
+        return {'FINISHED'}
+
+class Informations(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_infos"
+    bl_label = ''
+    
+    ctx = eval(api_functions['props'])
+    #Informations properties
+    inf_name_SP = ctx.StringProperty()
+    inf_description_SP = ctx.StringProperty(name=active_languages['menu_information_description'])
+    inf_creator_SP = ctx.StringProperty()
+    inf_category_SP = ctx.StringProperty(name=active_languages['menu_information_category'])
+    inf_weblink_SP = ctx.StringProperty()
+    inf_email_SP = ctx.StringProperty(name=active_languages['menu_information_email'])
+
+    def draw(self, context):
+        global inf_current_self,  inf_current_context
+        inf_current_self = self
+        inf_current_context = context
+        ctx_scene = eval(api_functions['context_scene'])
+        layout = self.layout
+        row = layout.row(align=True)
+        row.label(active_languages['menu_information_label01'])
+        row = layout.row(align=True)
+        row.label(active_languages['menu_information_label02'] + " :")                        
+        row.label(self.inf_name_SP)                        
+        row = layout.row(align=True)
+        row.label(active_languages['menu_information_creator'] + " :") 
+        row.label(self.inf_creator_SP)            
+        row = layout.row(align=True)
+        row.label(active_languages['menu_information_category'] + " :") 
+        row.label(self.inf_category_SP)
+        row = layout.row(align=True)
+        row.label(active_languages['menu_information_email'] + " :") 
+        row.label(self.inf_email_SP)
+        row = layout.row(align=True)
+        row.prop(self, "inf_description_SP")
+        row = layout.row(align=True)
+        row.operator("object.shadertoolsng_weblink",  text=active_languages['menu_information_weblink'])            
+        row = layout.row(align=True)
+         
+    def invoke(self, context, event):
+        wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=400"))
+        return {'RUNNING_MODAL'}
+        
+    def execute(self, context): 
+        return {'FINISHED'}   
+
 class Open(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_open"
     bl_label = space_access_name + active_languages['bl_id_name_open']  
@@ -199,8 +285,9 @@ class Open(eval(api_functions['types_operator'])):
     types_scene = eval(api_functions['types_scene'])
     msg = "%s %s" % (active_languages['menu_search_label02'] ,  active_languages['menu_search_label03'])
 
+    filename_ext = ".jpg"
     filename = ctx.StringProperty(subtype="FILENAME")
-    filepath = ctx.StringProperty(subtype="FILE_PATH",  default="/") 
+    #Search properties
     history_EP = ctx.EnumProperty(name=active_languages['menu_history_label01'],items=(active_history),  update=OpenUpdateHistory)
     search_SP = ctx.StringProperty(name=active_languages['menu_search_label01'],  update=OpenSearch,  description=msg)
     description_BP = ctx.BoolProperty(name=active_languages['menu_search_description'], default=0)
@@ -244,32 +331,30 @@ class Open(eval(api_functions['types_operator'])):
             row = layout.row(align=True)
             row.operator("object.shadertoolsng_restore", text=active_languages['menu_open_restore'], icon='FILE_REFRESH')
             row = layout.row(align=True)
-            row.label("_"*1024)
+            row.operator("object.shadertoolsng_before_inf", text=active_languages['menu_information_label01'], icon='INFO')
             row = layout.row(align=True)
-
+            row.label(" ")
             
     def invoke(self, context, event):
-        global  database_stuff
-        if not database_stuff :
-            wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
-        else: 
-            wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
+        eval(api_functions['utils_unregister_class'].replace("#1#", "BeforeInformations"))
+        eval(api_functions['utils_register_class'].replace("#1#", "BeforeInformations"))
+        if not database_stuff : wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
+        else: wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
         return {'RUNNING_MODAL'}
-
+        
     def execute(self, context):
         global database_stuff,  active_history
-        if not database_stuff:
+        if not database_stuff :
             ctx_scene = eval(api_functions['context_scene'])
             ops_object = eval(api_functions['ops_object'])
             ctx = eval(api_functions['props'])
-
             ctx_scene.shadertoolsng_utils_bar = 0
             step_number = 4
             open.ImportMaterialInApp(default_paths,  active_configuration, api_functions, active_languages, self.filename,  step_number)
             history.UpdateHistory(default_paths,  active_configuration, api_functions, active_languages,  self.filename,  active_history)
             active_history = history.CurrentHistory(default_paths,  active_configuration, api_functions, active_languages)
-        return {'FINISHED'}   
-
+        return {'FINISHED'}
+        
 class Save(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_save"
     bl_label = space_access_name + active_languages['bl_id_name_save']    
@@ -291,10 +376,8 @@ class Save(eval(api_functions['types_operator'])):
             row.label("En cours de developpement", icon='RADIO')
  
     def invoke(self, context, event):
-        if not database_stuff: 
-            wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
-        else: 
-             wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
+        if not database_stuff: wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
+        else: wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
         return {'RUNNING_MODAL'} 
     
     def execute(self, context):
@@ -343,10 +426,8 @@ class Export(eval(api_functions['types_operator'])):
             row.label(active_languages['menu_error_error002'], icon='RADIO')
 
     def invoke(self, context, event):
-        if ctx_active_object():
-            wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
-        else:
-            wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
+        if ctx_active_object(): wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
+        else: wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
         return {'RUNNING_MODAL'}
 
     def execute(self, context):
@@ -390,7 +471,6 @@ class Export(eval(api_functions['types_operator'])):
         else:
             eval(api_functions['utils_unregister_class'].replace("#1#", "Export"))
             eval(api_functions['utils_register_class'].replace("#1#", "Export"))
-
         return {'FINISHED'}   
 
 class Import(eval(api_functions['types_operator'])):
@@ -741,7 +821,8 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
 MyReg = \
     (
      ShadersToolsNGPanel, Open, Save, Export, Import,New, Configuration, Help, Credits, UpdateWarning,
-     ConfigurationSearch, Errors, UtilsMigrate, BeforeOpen, RestoreFilters, 
+     ConfigurationSearch, Errors, UtilsMigrate, BeforeOpen, RestoreFilters, Informations, BeforeInformations,
+     InformationsWeblink, 
     )
 
 def register():
