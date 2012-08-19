@@ -45,26 +45,6 @@ try:
     print(misc.ConsoleError("Import external module ", 0, True))
 except: print(misc.ConsoleError("Import external module ", 0, False))
 
-misc.LogError("", True)
-misc.LogError("*"*78, True)
-misc.LogError("*" + " "*22 + "Shader Tools Next Gen - Console" + " "*23 + "*", False)
-misc.LogError("*"*78, False)
-blender_version = str(bpy.app.version[0]) + "." + str(bpy.app.version[1]) + str(bpy.app.version[2])
-default_paths = environment.DefaultPaths()
-api_functions = environment.ApiDatas(default_paths['apis_database'], blender_version)
-configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
-languages_config = environment.LanguagesDatas(default_paths['languages_database'])
-active_configuration = environment.ActiveConfigurations(configurations_config)
-active_languages = environment.ActiveLanguage(languages_config, active_configuration['language'])
-about_config = environment.AboutDatas(default_paths['database'])
-active_categories = environment.MaterialsCatergories(active_languages)
-names_config = environment.ConfigurationsNames(configurations_config)
-options_actions = environment.ConfigurationsOptions(active_languages)
-names_languages = environment.LanguagesNames(languages_config)
-space_access_name = active_languages['space_access_name'] + " "
-active_history = history.CurrentHistory(default_paths,  active_configuration, api_functions, active_languages)
-
-'''
 try:
     misc.LogError("", True)
     misc.LogError("*"*78, True)
@@ -86,7 +66,6 @@ try:
     print(misc.ConsoleError("Globals ", 0, True))
 except:
     print(misc.ConsoleError("Globals ", 0, False))
-'''
 #Functions
 conf_current_name = ""
 conf_current_idx = 1
@@ -110,7 +89,6 @@ def ctx_active_object():
         ctx_active_object = False
     return ctx_active_object 
 
-def OpenUpdateInformations(self,  context): None
 def OpenUpdateHistory(self,  context): search.FilterHistory(default_paths,  active_configuration, api_functions, active_languages,  self.history_EP)
 def OpenSearch(self,  context): 
     advanced_search_properties = \
