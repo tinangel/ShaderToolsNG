@@ -63,9 +63,9 @@ try:
     options_actions = environment.ConfigurationsOptions(active_languages)
     names_languages = environment.LanguagesNames(languages_config)
     space_access_name = active_languages['space_access_name'] + " "
+    active_history = history.CurrentHistory(default_paths,  active_configuration, api_functions, active_languages)
     print(misc.ConsoleError("Globals ", 0, True))
-except:
-    print(misc.ConsoleError("Globals ", 0, False))
+except: print(misc.ConsoleError("Globals ", 0, False))
 #Functions
 conf_current_name = ""
 conf_current_idx = 1
