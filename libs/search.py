@@ -52,14 +52,20 @@ def FilterSearch(default_paths,  active_configuration, api_functions, active_lan
     if MoveAllInsideFolder(active_configuration, api_functions, active_languages, database_folder,  tempory_folder):
         result_search_final = []
         #Here just the default search :
-        keys_list = ('num_materials', 'name', )
-        search_list = ('description', 'creator', 'category',  'weblink',  'email')
+        keys_list = ['num_materials', 'name']
+        search_list = ['name','description', 'creator', 'category',  'weblink',  'email']
         for k in keywords:
             final_keyword = "%" + k + "%"
-            advanced_request =  "where materials.num_materials=informations.idx_materials and name LIKE '%s' " % final_keyword
+            advanced_request =  "where "
+            c = 0
             for e in search_list : 
-                if advanced_search_properties[e]: advanced_request = advanced_request + "or %s LIKE '%s' "%(e, final_keyword)
-            advanced_request = advanced_request + "group by num_materials"
+                if c == 0:
+                    if advanced_search_properties[e]: 
+                        advanced_request = advanced_request + "%s LIKE '%s' "%(e, final_keyword)
+                        c = 1
+                else: 
+                    if advanced_search_properties[e]: advanced_request = advanced_request + "or %s LIKE '%s' "%(e, final_keyword)
+            advanced_request = advanced_request + " and materials.num_materials=informations.idx_materials group by num_materials"
             result_search = request.DatabaseSelect(default_paths['database'], keys_list, "'MATERIALS', 'INFORMATIONS'", advanced_request, "all")
             for v in result_search: result_search_final.append("%s_(%s).jpg" % (v[1].replace("$T_",  ""),  str(v[0])))
         for i in result_search_final:shutil.copy2(os.path.join(tempory_folder, i),  os.path.join(database_folder, i))

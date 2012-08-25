@@ -93,6 +93,7 @@ def OpenUpdateHistory(self,  context): search.FilterHistory(default_paths,  acti
 def OpenSearch(self,  context): 
     advanced_search_properties = \
         {
+            'name': self.name_BP, 
             'keywords': self.search_SP, 
             'description': self.description_BP, 
             'creator': self.creator_BP, 
@@ -175,9 +176,11 @@ class InformationsWeblink(eval(api_functions['types_operator'])):
     
     def execute(self, context):
         global  inf_current_weblink
-        if  inf_current_weblink:
-            webbrowser.open_new( inf_current_weblink)
-            inf_current_weblink = False
+        try:
+            if  inf_current_weblink:
+                webbrowser.open_new( inf_current_weblink)
+                inf_current_weblink = False
+        except:pass
         return {'FINISHED'}   
 
 
@@ -266,6 +269,7 @@ class Open(eval(api_functions['types_operator'])):
     filename_ext = ".jpg"
     filename = ctx.StringProperty(subtype="FILENAME")
     #Search properties
+    name_BP = ctx.BoolProperty(name='name', default=1)
     history_EP = ctx.EnumProperty(name=active_languages['menu_history_label01'],items=(active_history),  update=OpenUpdateHistory)
     search_SP = ctx.StringProperty(name=active_languages['menu_search_label01'],  update=OpenSearch,  description=msg)
     description_BP = ctx.BoolProperty(name=active_languages['menu_search_description'], default=0)
@@ -291,12 +295,13 @@ class Open(eval(api_functions['types_operator'])):
             row = layout.row(align=True)
             row.label(active_languages['menu_search_label04'])
             row = layout.row(align=True)
+            row.prop(self, "name_BP")            
             row.prop(self, "description_BP")            
-            row.prop(self, "creator_BP")            
             row = layout.row(align=True)
-            row.prop(self, "category_BP")            
+            row.prop(self, "creator_BP")
+            row.prop(self, "category_BP")                        
+            row = layout.row(align=True)
             row.prop(self, "weblink_BP")            
-            row = layout.row(align=True)
             row.prop(self, "email_BP")            
             row = layout.row(align=True)
             row.label(" ")
