@@ -193,7 +193,7 @@ class BeforeInformations(eval(api_functions['types_operator'])):
 
     def invoke(self, context, event):
         wm = eval(api_functions['invoke_search_popup'].replace("#1#", "self"))
-        return {'RUNNING_MODAL'}
+        return {'PASS_THROUGH'}
 
     def execute(self, context):
         global inf_current_weblink
@@ -208,8 +208,7 @@ class BeforeInformations(eval(api_functions['types_operator'])):
             inf_current_weblink = infos[5]
             ops_object.shadertoolsng_infos('INVOKE_DEFAULT',  inf_name_SP=infos[1].replace("$T_",  ""),  inf_creator_SP=infos[3],  inf_description_SP=infos[2], 
                                                                 inf_category_SP=infos[4],  inf_weblink_SP=infos[5],  inf_email_SP=infos[6])      
-
-        return {'FINISHED'}
+        return {'PASS_THROUGH'}
 
 class Informations(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_infos"
