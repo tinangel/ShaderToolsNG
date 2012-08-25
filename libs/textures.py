@@ -45,7 +45,7 @@ def TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active
             infos_texture = TexturesFileImagesExport(api_functions, material_dict, t, active_language)
             if infos_texture != False:
                 image_path = infos_texture[1].split(os.sep)[-1]
-                image_path_in_script = "os.path.join(environment_path, %s)" % str("'" + image_path + "'" )
+                image_path_in_script = "os.path.join(blend_folder, %s)" % str("'" + image_path + "'" )
                 image_path_in_script = "img = %s \n" % api_functions['texture_image_load'].replace("#1#", image_path_in_script)
                 texture_structure.append(image_path_in_script)
                 texture_structure.append("slot.texture.image = img\n")
