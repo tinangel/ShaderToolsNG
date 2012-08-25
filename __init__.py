@@ -101,7 +101,12 @@ def OpenSearch(self,  context):
             'weblink': self.weblink_BP, 
             'email': self.email_BP, 
         }
-    search.FilterSearch(default_paths,  active_configuration, api_functions, active_languages,  advanced_search_properties)
+    try:
+        search.FilterSearch(default_paths,  active_configuration, api_functions, active_languages,  advanced_search_properties)
+    except:
+        error = active_languages['menu_error_error050'] % self.search_SP
+        misc.LogAndPrintError((error,  error))
+        
 def UpdateProgressBar(self,  context): return None
 def LoadingMigrateProgressBar(path):
     global database_stuff
@@ -417,7 +422,7 @@ class Export(eval(api_functions['types_operator'])):
             global default_paths, active_configuration, api_functions
             material_dict = \
                     {
-                     "filepath":self.filepath, "filename":self.filename, "app_path":default_paths['app'],
+                     "filepath":self.filepath.replace(".",  "_"), "filename":self.filename.replace(".",  "_"), "app_path":default_paths['app'],
                      "material_name":eval(api_functions['material_name']), "creator":self.creator_SP,
                      "weblink":self.weblink_SP,"email":self.email_SP,"description":self.description_SP,
                      "key_words":self.key_words_SP, "take_preview":self.take_preview_BP,
@@ -469,12 +474,16 @@ class Import(eval(api_functions['types_operator'])):
     def draw(self, context):
         layout = self.layout
         row = layout.row(align=True)
-        row.label(active_languages['menu_import_label001'], icon="HELP")
-        row = layout.row(align=True)
-        row.label(eval(active_languages['menu_import_label002']))
+        if not eval(api_functions['blend_save']):
+            row.label(active_languages['menu_error_error050'], icon="RADIO")
+        else:
+            row.label(active_languages['menu_import_label001'], icon="HELP")
+            row = layout.row(align=True)
+            row.label(eval(active_languages['menu_import_label002']))
 
     def invoke(self, context, event):
-        wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
+        if not eval(api_functions['blend_save']): wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
+        else: wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
         return {'RUNNING_MODAL'}
 
     def execute(self, context):

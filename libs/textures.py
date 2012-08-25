@@ -36,7 +36,7 @@ def TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active
         if type_image == 'GENERATED':
             infos_texture = TexturesGeneratedImagesExport(api_functions, material_dict, t, active_language)
             if infos_texture != False:
-                image_path_in_script = "os.path.join(environment_path, %s)" % str("'" + infos_texture[1] + "'" )
+                image_path_in_script = "os.path.join(blend_folder, %s)" % str("'" + infos_texture[1] + "'" )
                 image_path_in_script = "img = %s \n" % api_functions['texture_image_load'].replace("#1#", image_path_in_script)
                 texture_structure.append(image_path_in_script)
                 texture_structure.append("slot.texture.image = img\n")
@@ -76,7 +76,9 @@ def TexturesPropertiesExport(api_functions, texture_structure, texture_keys, idx
     for k in texture_keys:
         slot = "%s[%s].%s" % (api_functions['texture_slots'], idx, k)
         val = ""
-        try: val = copy(eval(slot))
+        try: 
+            val = copy(eval(slot))
+            if val == 'GENERATED': val = 'FILE'
         except: val = None
         if val != None and val != '':
             if type(val).__name__ == 'str': texture_structure.append("slot.%s = '%s'\n" % (k,val))
@@ -129,7 +131,7 @@ def TexturesFileImagesExport(api_functions, material_dict, idx, active_language)
 def TexturesGeneratedImagesExport(api_functions, material_dict, idx, active_language):
         name_image = eval(api_functions['texture_image_filepath'].replace("#1#", str(idx)))
         name_image_2 = eval(api_functions['texture_image_filepath'].replace("#1#", str(idx)))
-        name_image = name_image + ".tga"
+        name_image = name_image + ".png"
         material_folder = os.path.join(material_dict['temp'], material_dict['material_name'], name_image)
         material_folder = misc.DoubleSlash(material_folder)
         export_generated = api_functions['texture_image_save_render'].replace("#1#", str(idx))

@@ -19,6 +19,18 @@
 # <pep8-80 compliant>
 import bpy, os, time, shutil, platform,  threading
 
+def CopyAllFiles(path,  destination):
+    if os.path.exists(path) :
+        files = os.listdir(path)
+        for f in files:           
+            if not os.path.isdir(f) and not f.endswith('.py'):
+                try:
+                    shutil.copy2(os.path.join(path, f), os.path.join(destination, f))
+                except:
+                    error = active_language['menu_error_error021'] % f
+                    LogAndPrintError((error,  error))
+                    pass
+                    
 def AutoSaveDatabase(path,  destination):
     auto_save_folder =  os.path.join(destination , time.strftime('AutoSave %d-%m-%y %H:%M:%S',time.localtime()))
     if not os.path.exists(auto_save_folder): os.makedirs(auto_save_folder)

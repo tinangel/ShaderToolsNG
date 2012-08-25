@@ -43,7 +43,7 @@ def MaterialExport(material_dict, api_functions, active_language):
                           "\n","# Script Path :\n",
                           "mat_name = '%s'\n" % material_dict['material_name'],
                           "mat_creator = '%s'\n" % material_dict['creator'],
-                          "!*-environment_path-*!\n","\n","# Create Material :\n",
+                          "!*-environment_path-*!\n","!*-blend_folder-*!\n","\n","# Create Material :\n",
                           "def CreateMaterial(mat_name):\n","\t# Materials Values :\n",
                           "\tmat = %s\n" % api_functions['materials_new'].replace("#1#", "mat_name"),]
 
@@ -284,9 +284,9 @@ def TextureExport(material_dict, api_functions, active_language):
                         TextureRampsExport(material_dict, api_functions, 'point_density_color', t, texture_structure)
                 elif texture_type == 'STUCCI': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.StucciExportKeys(), t, active_language)
                 elif texture_type == 'VORONOI': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.VoronoiExportKeys(), t, active_language)
-                elif texture_type == 'VOXEL_DATA': 
-                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.VoxelExportKeys(), t, active_language)
-                    texture_structure = textures.TexturesGeneratedImageTypeExport(api_functions, texture_structure, t, active_language, material_dict)
+                elif texture_type == 'VOXEL_DATA':
+                    error = active_language['menu_error_error053']
+                    misc.LogAndPrintError((error,  error))
                 else: texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.WoodExportKeys(), t, active_language)
 
                 texture_idx = texture_idx + 1

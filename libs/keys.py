@@ -109,7 +109,7 @@ def ApiKeys():
          "texture_slots_add", "texture_image_save_render", "texture_image_save_as", "texture_image_pack", "texture_image_unpack", "texture_image_load", "material_name", "render_render",
          "ops_script_python_file_run", "types_scene", "invoke_popup", "texture_noise_scale_2",  "texture_point_density_vertex_cache_space",  
          "texture_point_density_vertex_cache_space",  "texture_image_use_generated_float",    
-          "texture_environment_map_zoom", "material_index",  "ramps_new",  "ramps_new_2", "ops_file_refresh")
+          "texture_environment_map_zoom", "material_index",  "ramps_new",  "ramps_new_2", "ops_file_refresh",  "blend_save",  "blend_filepath")
     return temp
 #end Api keys
 #Langages keys
