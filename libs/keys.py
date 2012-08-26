@@ -134,7 +134,7 @@ def LangagesKeys():
          "menu_history_title",  "menu_history_label01",  "menu_history_label02",  "menu_open_restore", "menu_search_title",  "menu_search_label01",  "menu_search_label02",  
          "menu_search_label03", "menu_search_label04", "menu_search_description", "menu_search_creator", "menu_search_category", "menu_search_weblink", "menu_search_email",
          "menu_information_label01",  "menu_information_label02", "menu_information_description", "menu_information_creator", "menu_information_category", 
-         "menu_information_weblink", "menu_information_email", "bl_id_name_search_infos"]
+         "menu_information_weblink", "menu_information_email", "bl_id_name_search_infos",  "menu_search_name"]
     for i in range(1, 81): temp.append("menu_error_error%03d" % i)
     return temp
 #end Langages keys

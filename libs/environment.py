@@ -21,6 +21,13 @@
 import bpy, os, sqlite3, sys, platform, copy
 from shader_tools_ng.libs import keys, request, misc, configuration, zip
 
+#Convert active configuration to default path 
+def ConvertDefaultPaths(default_paths,  active_configuration):
+    temp = active_configuration['database_path'].replace('#addon#', default_paths['app'])
+    temp = temp.replace('#slash#', os.sep)
+    default_paths['database'] = temp
+    return default_paths
+#end Convert active configuration to default path 
 #Materials category dictionnary
 def MaterialsCatergories(langage):
     temp =keys.MaterialsKeys()    

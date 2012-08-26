@@ -22,13 +22,13 @@
 bl_info = {
     "name": "ShaderTools Next Gen",
     "author": "GRETETE Karim (Tinangel)",
-    "version": (0, 7, 5),
+    "version": (0, 8, 0),
     "blender": (2, 6, 0),
     "api": 41098,
     "location": "User Preferences",
     "description": "Shader tools for blender",
     "warning": "Alpha version",
-    "wiki_url": "http://shadertools.tuxfamily.org",
+    "wiki_url": "http://noadress",
     "tracker_url": "",
     "support": 'COMMUNITY',
     "category": "System",}
@@ -64,8 +64,10 @@ try:
     names_languages = environment.LanguagesNames(languages_config)
     space_access_name = active_languages['space_access_name'] + " "
     active_history = history.CurrentHistory(default_paths,  active_configuration, api_functions, active_languages)
+    default_paths = environment.ConvertDefaultPaths(default_paths,  active_configuration)
     print(misc.ConsoleError("Globals ", 0, True))
 except: print(misc.ConsoleError("Globals ", 0, False))
+
 #Functions
 conf_current_name = ""
 conf_current_idx = 1
@@ -273,7 +275,7 @@ class Open(eval(api_functions['types_operator'])):
     filename_ext = ".jpg"
     filename = ctx.StringProperty(subtype="FILENAME")
     #Search properties
-    name_BP = ctx.BoolProperty(name='name', default=1)
+    name_BP = ctx.BoolProperty(name=active_languages['menu_search_name'], default=1)
     history_EP = ctx.EnumProperty(name=active_languages['menu_history_label01'],items=(active_history),  update=OpenUpdateHistory)
     search_SP = ctx.StringProperty(name=active_languages['menu_search_label01'],  update=OpenSearch,  description=msg)
     description_BP = ctx.BoolProperty(name=active_languages['menu_search_description'], default=0)
@@ -498,6 +500,23 @@ class New(eval(api_functions['types_operator'])):
         new.CreateNew(default_paths['app'], active_configuration, api_functions, active_languages)
         return {'FINISHED'}   
 
+
+def ConfigurationUpdateDefaultConfig(self,  context):
+    global default_paths,  active_configuration,  configurations_config,  conf_current_idx
+    try:
+        request.DatabaseUpdate(default_paths['configs_database'], 'CONFIGURATION', 'set default_config=0 where default_config=1')
+        request.DatabaseUpdate(default_paths['configs_database'], 'CONFIGURATION', 'set default_config=1 where num_configuration=%s' % str(conf_current_idx))
+        configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
+        active_configuration = environment.ActiveConfigurations(configurations_config)
+        default_paths = environment.ConvertDefaultPaths(default_paths,  active_configuration)
+        lauch_progress_bar = threading.Thread(None, open.CreateThumbnails, "Create_thumbnails", (default_paths,  active_configuration, api_functions, active_languages, False, ), {})
+        lauch_progress_bar.start()
+    except:
+        error = active_languages['menu_error_error051']
+        misc.LogAndPrintError((error,  error))
+        pass
+    return None
+    
 class Configuration(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_configuration"
     bl_label = space_access_name + active_languages['bl_id_name_config']    
@@ -509,7 +528,7 @@ class Configuration(eval(api_functions['types_operator'])):
     category_EP = ctx.EnumProperty(name=active_languages['menu_configuration_category'],items=(active_categories),default=active_configuration['category'])
     conf_name_SP = ctx.StringProperty(name=active_languages['menu_configuration_name'], default=active_configuration['name'])
     conf_current_name = active_configuration['name']
-    conf_default_BP = ctx.BoolProperty(name="", default=active_configuration['default_config'])
+    conf_default_BP = ctx.BoolProperty(name="", default=active_configuration['default_config'],  update=ConfigurationUpdateDefaultConfig)
     mat_name_SP = ctx.StringProperty(name=active_languages['menu_configuration_material_name'], default=active_configuration['material_name'])
     key_words_SP = ctx.StringProperty(name=active_languages['menu_configuration_key_words'], default=active_configuration['key_words'])
     description_SP = ctx.StringProperty(name=active_languages['menu_configuration_description'], default=active_configuration['description'])
@@ -622,6 +641,9 @@ class Configuration(eval(api_functions['types_operator'])):
         for c in class_reg:        
                 eval(api_functions['utils_unregister_class'].replace("#1#", c))
                 eval(api_functions['utils_register_class'].replace("#1#", c))
+        default_paths = environment.ConvertDefaultPaths(default_paths,  active_configuration)
+        lauch_progress_bar = threading.Thread(None, open.CreateThumbnails, "Create_thumbnails", (default_paths,  active_configuration, api_functions, active_languages, False, ), {})
+        lauch_progress_bar.start()
         return {'FINISHED'}
 
 class ConfigurationSearch(eval(api_functions['types_operator'])):
@@ -646,7 +668,7 @@ class ConfigurationSearch(eval(api_functions['types_operator'])):
             wm = eval(api_functions['invoke_search_popup'].replace("#1#", "self"))
         else: 
              wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
-        return {'RUNNING_MODAL'}
+        return {'PASS_THROUGH'}
 
     def execute(self, context):
         global default_paths, conf_current_name, conf_current_idx,  database_stuff
@@ -666,8 +688,8 @@ class ConfigurationSearch(eval(api_functions['types_operator'])):
                                  weblink_SP=selected_configuration['web_link'], email_SP=selected_configuration['email_creator'],
                                  conf_res_x_IP=selected_configuration['resolution_default_x'], conf_res_y_IP=selected_configuration['resolution_default_y'],
                                  database_SP=misc.ConvertMarkOut(selected_configuration['database_path'], default_paths['app']),
-                                 take_preview_BP=int(selected_configuration['take_preview']))
-        return {'FINISHED'}   
+                                 take_preview_BP=int(selected_configuration['take_preview']),  auto_save_IP=selected_configuration['auto_save'])
+        return {'PASS_THROUGH'}   
 
 class Help(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_help"
