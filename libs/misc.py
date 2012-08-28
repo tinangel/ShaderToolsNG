@@ -19,7 +19,7 @@
 # <pep8-80 compliant>
 import bpy, os, time, shutil, platform,  threading
 
-def CopyAllFiles(path,  destination):
+def CopyAllFiles(path,  destination,active_language):
     if os.path.exists(path) :
         files = os.listdir(path)
         for f in files:           
@@ -30,9 +30,9 @@ def CopyAllFiles(path,  destination):
                     error = active_language['menu_error_error021'] % f
                     LogAndPrintError((error,  error))
                     pass
-                    
+                
 def AutoSaveDatabase(path,  destination):
-    auto_save_folder =  os.path.join(destination , time.strftime('AutoSave %d-%m-%y %H:%M:%S',time.localtime()))
+    auto_save_folder =  os.path.join(destination , time.strftime('AutoSave_%d-%m-%y %H%M%S',time.localtime()))
     if not os.path.exists(auto_save_folder): os.makedirs(auto_save_folder)
     destination_path = os.path.join(destination , auto_save_folder,  path.split(os.sep)[-1])
     try: os.remove(destination_path)
@@ -40,13 +40,14 @@ def AutoSaveDatabase(path,  destination):
     shutil.copy2(path, destination_path)
 
 def SaveDatabase(path,  destination,  bin_folder):
-    destination_path = os.path.join(destination ,   time.strftime('Migration %d-%m-%y %H:%M:%S',time.localtime()) + path.split(os.sep)[-1])
-    try: os.remove(destination_path)
+    destination_path = os.path.join(destination ,   time.strftime('Migration %d-%m-%y %H%M%S',time.localtime()) + path.split(os.sep)[-1])
+    try: 
+        os.remove(destination_path)
+        shutil.copy2("'%s'"%path, "'%s'"%destination_path)
+        os.rename(path,  path+"_old")
+        shutil.copy2("'%s'"%os.path.join(bin_folder,  "database"), "'%s'"%path)
+        os.remove(path+"_old")
     except:pass
-    shutil.copy2(path, destination_path)
-    os.rename(path,  path+"_old")
-    shutil.copy2(os.path.join(bin_folder,  "database"), path)
-    os.remove(path+"_old")
 
 def Clear(path, type, option, active_language):
     #Imports & external libs:

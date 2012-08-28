@@ -24,8 +24,8 @@ from copy import copy
 #Create import blex file folder
 def BlexImportFolder(path,  name,  api_functions, active_language, active_configuration, default_paths):
     blend_all_path = eval(api_functions['blend_filepath'])
-    blend_name = blend_all_path.split("/")[-1]
-    blend_path = blend_all_path.replace(blend_name,  "") + "/ShaderToolsNGImport/" + name
+    blend_name = blend_all_path.split(os.sep)[-1]
+    blend_path = os.path.join(blend_all_path.replace(blend_name,  ""), "ShaderToolsNGImport", name)
     if not os.path.exists(blend_path): os.makedirs(blend_path)
     return blend_path
 
@@ -46,10 +46,15 @@ def BlexImport(path, api_functions, active_language, active_configuration, defau
         for l in file_lines:
             if l.find('# Material name : ') >= 0:
                 name_folder = l.replace('# Material name : ', '')
-                name_folder = name_folder.replace("\n",  "")
+                name_folder = name_folder.rstrip("\n").rstrip(" ")                
                 blend_folder = BlexImportFolder(path,  name_folder,api_functions, active_language, active_configuration, default_paths)
+                if platform.system() == 'Windows':
+                    blend_folder = misc.DoubleSlash(blend_folder)                
+                
             if l == '!*-environment_path-*!\n': l = "environment_path = '%s'\n" % script_path
             if l == '!*-blend_folder-*!\n': l = "blend_folder = '%s'\n" % blend_folder
+            if '/' in l and platform.system() == 'Windows':
+                l = misc.DoubleSlash(l)
             new_script_file.append(l)
         file.close()
     
@@ -58,8 +63,10 @@ def BlexImport(path, api_functions, active_language, active_configuration, defau
         for l in new_script_file:
             file.write(l)
         file.close()
-        
-        misc.CopyAllFiles(script_path,  blend_folder)
+        if platform.system() == 'Windows':
+            script_path_2 = misc.DoubleSlash(script_path_2) 
+            blend_folder = misc.DoubleSlash(blend_folder) 
+        misc.CopyAllFiles(script_path,  blend_folder, active_language)
         eval(api_functions['ops_script_python_file_run'].replace("#1#", "'%s'" % script_path_2))
         
     misc.Clear(default_paths['zip'], 'all', '', active_language)
