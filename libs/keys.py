@@ -108,7 +108,7 @@ def ApiKeys():
          "texture_slots_values_use", "texture_slots_values_texture_type", "texture_use_preview_alpha", "texture_slots_texture_name", "texture_slots_new", "texture_slots_texture_type",
          "texture_slots_add", "texture_image_save_render", "texture_image_save_as", "texture_image_pack", "texture_image_unpack", "texture_image_load", "material_name", "render_render",
          "ops_script_python_file_run", "types_scene", "invoke_popup", "texture_noise_scale_2",  "texture_point_density_vertex_cache_space",  
-         "texture_point_density_vertex_cache_space",  "texture_image_use_generated_float",    
+         "texture_point_density_vertex_cache_space",  "texture_image_use_generated_float",  "blender_version_min",  "blender_version_max",   
           "texture_environment_map_zoom", "material_index",  "ramps_new",  "ramps_new_2", "ops_file_refresh",  "blend_save",  "blend_filepath")
     return temp
 #end Api keys

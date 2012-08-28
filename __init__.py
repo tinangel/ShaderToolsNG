@@ -450,11 +450,11 @@ class Export(eval(api_functions['types_operator'])):
                 misc.Clear(default_paths['temp'], 'all', '', active_language)
             except: pass
             if self.take_preview_BP:
-                try: 
+                 try: 
                     render.PreviewRenderInternal(api_functions, active_configuration, material_dict)
                     print(active_languages['menu_error_error023'])
                     misc.LogError(active_languages['menu_error_error023'], False)
-                except:
+                 except:
                     print(active_languages['menu_error_error024'])
                     misc.LogError(active_languages['menu_error_error024'], False)
         else:
