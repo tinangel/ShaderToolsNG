@@ -23,9 +23,11 @@ from shader_tools_ng.libs import keys, request, misc, configuration, zip
 
 #Convert active configuration to default path 
 def ConvertDefaultPaths(default_paths,  active_configuration):
-    temp = active_configuration['database_path'].replace('#addon#', default_paths['app'])
-    temp = temp.replace('#slash#', os.sep)
-    default_paths['database'] = temp
+    try:
+        temp = active_configuration['database_path'].replace('#addon#', default_paths['app'])
+        temp = temp.replace('#slash#', os.sep)
+        default_paths['database'] = temp
+    except:pass
     return default_paths
 #end Convert active configuration to default path 
 #Materials category dictionnary

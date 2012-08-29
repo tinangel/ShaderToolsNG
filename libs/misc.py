@@ -43,11 +43,11 @@ def SaveDatabase(path,  destination,  bin_folder):
     destination_path = os.path.join(destination ,   time.strftime('Migration %d-%m-%y %H%M%S',time.localtime()) + path.split(os.sep)[-1])
     try: 
         os.remove(destination_path)
-        shutil.copy2("'%s'"%path, "'%s'"%destination_path)
-        os.rename(path,  path+"_old")
-        shutil.copy2("'%s'"%os.path.join(bin_folder,  "database"), "'%s'"%path)
-        os.remove(path+"_old")
     except:pass
+    shutil.copy2(path, destination_path)
+    os.rename(path,  path+"_old")
+    shutil.copy2(os.path.join(bin_folder,  "database"), path)
+    os.remove(path+"_old")
 
 def Clear(path, type, option, active_language):
     #Imports & external libs:
