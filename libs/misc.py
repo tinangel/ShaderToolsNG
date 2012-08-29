@@ -19,7 +19,7 @@
 # <pep8-80 compliant>
 import bpy, os, time, shutil, platform,  threading
 
-def CopyAllFiles(path,  destination,active_language):
+def CopyAllFiles(path,  destination):
     if os.path.exists(path) :
         files = os.listdir(path)
         for f in files:           
@@ -30,9 +30,9 @@ def CopyAllFiles(path,  destination,active_language):
                     error = active_language['menu_error_error021'] % f
                     LogAndPrintError((error,  error))
                     pass
-                
+                    
 def AutoSaveDatabase(path,  destination):
-    auto_save_folder =  os.path.join(destination , time.strftime('AutoSave_%d-%m-%y %H%M%S',time.localtime()))
+    auto_save_folder =  os.path.join(destination , time.strftime('AutoSave %d-%m-%y %H:%M:%S',time.localtime()))
     if not os.path.exists(auto_save_folder): os.makedirs(auto_save_folder)
     destination_path = os.path.join(destination , auto_save_folder,  path.split(os.sep)[-1])
     try: os.remove(destination_path)
@@ -40,9 +40,8 @@ def AutoSaveDatabase(path,  destination):
     shutil.copy2(path, destination_path)
 
 def SaveDatabase(path,  destination,  bin_folder):
-    destination_path = os.path.join(destination ,   time.strftime('Migration %d-%m-%y %H%M%S',time.localtime()) + path.split(os.sep)[-1])
-    try: 
-        os.remove(destination_path)
+    destination_path = os.path.join(destination ,   time.strftime('Migration %d-%m-%y %H:%M:%S',time.localtime()) + path.split(os.sep)[-1])
+    try: os.remove(destination_path)
     except:pass
     shutil.copy2(path, destination_path)
     os.rename(path,  path+"_old")
@@ -171,24 +170,12 @@ def RemoveColor(value):
     if "Color(" in value:
         value = value.replace("))", ")")
         value = value.replace("Color(", "")
-    if "<Color " in value:
-        value = value.lstrip("<Color ")
-        value = value.rstrip(">")
-        exceptions = ('r=',  'g=',  'b=')
-        for v in exceptions :
-            value = value.replace(v,  '')
     return value
 
 def RemoveVector(value):
     if "Vector(" in value:
         value = value.replace("))", ")")
         value = value.replace("Vector(", "")
-    if "<Vector " in value:
-        value = value.lstrip("<Vector ")
-        value = value.rstrip(">")
-        exceptions = ('r=',  'g=',  'b=')
-        for v in exceptions :
-            value = value.replace(v,  '')
     return value
 
 

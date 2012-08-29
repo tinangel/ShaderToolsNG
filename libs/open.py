@@ -47,8 +47,7 @@ def IdxMaterial(name_object):
 def CreateThumbnails(default_paths,  active_configuration, api_functions, active_languages,  option_bar):
     ctx_scene = eval(api_functions['context_scene'])
     thumbnails_folder_path = os.path.join(default_paths['app'], active_languages['menu_bookmarks_name'])
-    try:database_path = misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app'])
-    except:pass
+    database_path = misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app'])
     req = request.DatabaseSelect(database_path, keys.ThumbnailsRenderKeys(),"RENDER", "", 'all')
     try: misc.Clear(thumbnails_folder_path, 'files', 'all', active_languages)
     except: pass

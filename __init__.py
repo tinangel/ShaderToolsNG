@@ -45,6 +45,30 @@ try:
     print(misc.ConsoleError("Import external module ", 0, True))
 except: print(misc.ConsoleError("Import external module ", 0, False))
 
+misc.LogError("", True)
+misc.LogError("*"*78, True)
+misc.LogError("*" + " "*22 + "Shader Tools Next Gen - Console" + " "*23 + "*", False)
+misc.LogError("*"*78, False)
+blender_version = str(bpy.app.version[0]) + "." + str(bpy.app.version[1]) + str(bpy.app.version[2])
+default_paths = environment.DefaultPaths()
+api_functions = environment.ApiDatas(default_paths['apis_database'], blender_version)
+configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
+languages_config = environment.LanguagesDatas(default_paths['languages_database'])
+active_configuration = environment.ActiveConfigurations(configurations_config)
+active_languages = environment.ActiveLanguage(languages_config, active_configuration['language'])
+about_config = environment.AboutDatas(default_paths['database'])
+active_categories = environment.MaterialsCatergories(active_languages)
+names_config = environment.ConfigurationsNames(configurations_config)
+options_actions = environment.ConfigurationsOptions(active_languages)
+names_languages = environment.LanguagesNames(languages_config)
+space_access_name = active_languages['space_access_name'] + " "
+active_history = history.CurrentHistory(default_paths,  active_configuration, api_functions, active_languages)
+default_paths = environment.ConvertDefaultPaths(default_paths,  active_configuration)
+print(misc.ConsoleError("Globals ", 0, True))
+
+
+
+'''
 try:
     misc.LogError("", True)
     misc.LogError("*"*78, True)
@@ -67,7 +91,7 @@ try:
     default_paths = environment.ConvertDefaultPaths(default_paths,  active_configuration)
     print(misc.ConsoleError("Globals ", 0, True))
 except: print(misc.ConsoleError("Globals ", 0, False))
-
+'''
 #Functions
 conf_current_name = ""
 conf_current_idx = 1
@@ -450,11 +474,11 @@ class Export(eval(api_functions['types_operator'])):
                 misc.Clear(default_paths['temp'], 'all', '', active_language)
             except: pass
             if self.take_preview_BP:
-                 try: 
+                try: 
                     render.PreviewRenderInternal(api_functions, active_configuration, material_dict)
                     print(active_languages['menu_error_error023'])
                     misc.LogError(active_languages['menu_error_error023'], False)
-                 except:
+                except:
                     print(active_languages['menu_error_error024'])
                     misc.LogError(active_languages['menu_error_error024'], False)
         else:

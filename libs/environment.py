@@ -23,11 +23,9 @@ from shader_tools_ng.libs import keys, request, misc, configuration, zip
 
 #Convert active configuration to default path 
 def ConvertDefaultPaths(default_paths,  active_configuration):
-    try:
-        temp = active_configuration['database_path'].replace('#addon#', default_paths['app'])
-        temp = temp.replace('#slash#', os.sep)
-        default_paths['database'] = temp
-    except:pass
+    temp = active_configuration['database_path'].replace('#addon#', default_paths['app'])
+    temp = temp.replace('#slash#', os.sep)
+    default_paths['database'] = temp
     return default_paths
 #end Convert active configuration to default path 
 #Materials category dictionnary
@@ -57,7 +55,9 @@ def ConfigurationsOptions(langage):
 #end Configurations options dictionnary
 #Default paths dictionnary
 def DefaultPaths():
-    app_path = os.path.join(bpy.utils.script_paths()[0], "addons", "shader_tools_ng")
+    app_path = os.path.join(bpy.utils.script_paths()[0], "addons", "shader_tools_ng",  "__init__.py")
+    if os.path.exists(app_path): app_path = os.path.join(bpy.utils.script_paths()[0], "addons", "shader_tools_ng")
+    else: app_path = os.path.join(bpy.utils.script_paths()[1], "addons", "shader_tools_ng")
     bookmarks_path_user = os.path.join(bpy.utils.resource_path('USER', major=bpy.app.version[0], minor=bpy.app.version[1]), "config", "bookmarks.txt")
     configs_path = os.path.join(app_path, "ShaderToolsConfigs.sqlite")
     #Test : verify if configs database path exists:
