@@ -285,12 +285,14 @@ def TextureExport(material_dict, api_functions, active_language):
                 elif texture_type == 'STUCCI': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.StucciExportKeys(), t, active_language)
                 elif texture_type == 'VORONOI': texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.VoronoiExportKeys(), t, active_language)
                 elif texture_type == 'VOXEL_DATA':
-                    error = active_language['menu_error_error053']
+                    error = active_language['menu_error_error052'] % texture_type
+                    misc.LogAndPrintError((error,  error))
+                elif texture_type == 'OCEAN':
+                    error = active_language['menu_error_error052'] % texture_type
                     misc.LogAndPrintError((error,  error))
                 else: texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, keys.WoodExportKeys(), t, active_language)
-
                 texture_idx = texture_idx + 1
-
+                
     # i open and create export file:
     temp_path = os.path.join(material_dict['temp'], material_dict['material_name'])
     script_path = os.path.join(temp_path, "script.py")

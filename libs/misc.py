@@ -171,12 +171,24 @@ def RemoveColor(value):
     if "Color(" in value:
         value = value.replace("))", ")")
         value = value.replace("Color(", "")
+    if "<Color " in value:
+        value = value.lstrip("<Color ")
+        value = value.rstrip(">")
+        exceptions = ('r=',  'g=',  'b=')
+        for v in exceptions :
+            value = value.replace(v,  '')
     return value
 
 def RemoveVector(value):
     if "Vector(" in value:
         value = value.replace("))", ")")
         value = value.replace("Vector(", "")
+    if "<Vector " in value:
+        value = value.lstrip("<Vector ")
+        value = value.rstrip(">")
+        exceptions = ('r=',  'g=',  'b=')
+        for v in exceptions :
+            value = value.replace(v,  '')
     return value
 
 
