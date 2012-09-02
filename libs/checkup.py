@@ -121,7 +121,7 @@ def MakeCheckup(database_path, configs_database_path,bookmark_path, bookmark_fol
     #Test : html sub folder verification:
     print(" "*11 + "check help subfolder : ")        
     for h in languages_config:
-        help_file = os.path.join(app_path, "html", h + ".html")
+        help_file = os.path.join(app_path, "html", h)
         if os.path.exists(help_file):
             print(misc.ConsoleError(str(h), 3, True))
         else:

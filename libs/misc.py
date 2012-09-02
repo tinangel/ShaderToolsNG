@@ -87,6 +87,7 @@ def LogTimeError():
 
 def LogError(msg, clear):
     app_path = os.path.join(bpy.utils.script_paths()[0], "addons", "shader_tools_ng")
+    if not os.path.exists(app_path): app_path = os.path.join(bpy.utils.script_paths()[1], "addons", "shader_tools_ng")
     error_folder = os.path.join(app_path, "error") 
     path = os.path.join(app_path, "error" ,"log.txt")
 

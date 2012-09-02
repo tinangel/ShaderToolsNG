@@ -814,15 +814,16 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
         layout = self.layout
         row = layout.row()
     
-        workbase_path = os.path.join(default_paths['temp'],  'workbase.blend')
-        workbase_path_exists =  os.path.exists(workbase_path)
-        if workbase_path_exists and  bpy.data.filepath == workbase_path:  
-            #new.NewPreviewRenderTypeHandler(eval(api_functions['preview_render_type']), api_functions, active_languages)
-            row.template_preview(context.material,  show_buttons=False)
-            row = layout.row()
-            row.prop(context.scene, "layers",  text="")
-            row = layout.row()
-    
+        try:
+            workbase_path = os.path.join(default_paths['temp'],  'workbase.blend')
+            workbase_path_exists =  os.path.exists(workbase_path)
+            if workbase_path_exists and  bpy.data.filepath == workbase_path:  
+                row.template_preview(context.material,  show_buttons=False)
+                row = layout.row()
+                row.prop(context.scene, "layers",  text="")
+                row = layout.row()
+        except:pass
+        
         if update: row.operator("object.shadertoolsng_warning", text=active_languages['menu_error_error001'], icon="RADIO")
         else:
             row.label("%s : " % active_languages['panel_database_label'], icon="SCENE_DATA")
