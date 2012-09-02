@@ -143,7 +143,6 @@ class RestoreFilters(eval(api_functions['types_operator'])):
         exec(api_functions['ops_file_refresh'])
         return {'FINISHED'}
 
-
 class Errors(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_errors"
     bl_label = space_access_name + active_languages['bl_id_name_logs']
@@ -189,7 +188,6 @@ class InformationsWeblink(eval(api_functions['types_operator'])):
                 inf_current_weblink = False
         except:pass
         return {'FINISHED'}   
-
 
 class BeforeInformations(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_before_inf"
@@ -498,8 +496,7 @@ class New(eval(api_functions['types_operator'])):
 
     def execute(self, context):
         new.CreateNew(default_paths['app'], active_configuration, api_functions, active_languages)
-        return {'FINISHED'}   
-
+        return {'PASS_THROUGH'}   
 
 def ConfigurationUpdateDefaultConfig(self,  context):
     global default_paths,  active_configuration,  configurations_config,  conf_current_idx
@@ -816,9 +813,17 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
         ctx_scene = eval(api_functions['context_scene'])
         layout = self.layout
         row = layout.row()
-
-        if update:
-            row.operator("object.shadertoolsng_warning", text=active_languages['menu_error_error001'], icon="RADIO")
+    
+        workbase_path = os.path.join(default_paths['temp'],  'workbase.blend')
+        workbase_path_exists =  os.path.exists(workbase_path)
+        if workbase_path_exists and  bpy.data.filepath == workbase_path:  
+            #new.NewPreviewRenderTypeHandler(eval(api_functions['preview_render_type']), api_functions, active_languages)
+            row.template_preview(context.material,  show_buttons=False)
+            row = layout.row()
+            row.prop(context.scene, "layers",  text="")
+            row = layout.row()
+    
+        if update: row.operator("object.shadertoolsng_warning", text=active_languages['menu_error_error001'], icon="RADIO")
         else:
             row.label("%s : " % active_languages['panel_database_label'], icon="SCENE_DATA")
             row.prop(ctx_scene, "shadertoolsng_open_save", expand=True)
@@ -830,12 +835,12 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
             row.prop(ctx_scene, "shadertoolsng_utils_enum")
             row = layout.row()
             row.prop(ctx_scene, "shadertoolsng_utils_bar")
-
+            
 MyReg = \
     (
      ShadersToolsNGPanel, Open, Save, Export, Import,New, Configuration, Help, Credits, UpdateWarning,
      ConfigurationSearch, Errors, UtilsMigrate, BeforeOpen, RestoreFilters, Informations, BeforeInformations,
-     InformationsWeblink, 
+     InformationsWeblink,
     )
 
 def register():
@@ -856,3 +861,5 @@ def unregister():
 #end unregister
 if __name__ == "__main__":
     register()
+    
+    

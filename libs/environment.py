@@ -107,6 +107,7 @@ def DefaultPaths():
     temp = \
         {
             "blend":os.path.dirname(bpy.data.filepath),
+            "blend_path":bpy.data.filepath,
             "app":app_path,
             "zip":r['zip_folder'],
             "error":r['error_folder'],

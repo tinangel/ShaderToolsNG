@@ -22,5 +22,5 @@ import bpy, os, webbrowser
 
 def help_me(app_path, active_language_name):
     #I open help file:
-    url = "file://" + os.path.join(app_path, "html", active_language_name + ".html")
+    url = "file://" + os.path.join(app_path, "html", active_language_name, "index.html")
     webbrowser.open_new(url)       

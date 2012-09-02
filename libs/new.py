@@ -17,7 +17,49 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8-80 compliant>
+import bpy
+from shader_tools_ng.libs import keys
 
+def NewActiveLayers(function_string, element_one, element_two,  activated):
+    try: 
+        if element_one and element_two: exec(function_string % (element_one, element_two,  activated))
+        else: exec(function_string % (element_one,  activated))
+    except:pass
+
+def NewPreviewRenderTypeHandler(type, api_function, active_language):
+    for v in range(0,  eval(api_function['scene_layers']).__len__()): 
+        try:NewActiveLayers("%s[%s] = %s", api_function['scene_layers'], v,  'False')
+        except:pass
+        
+    try: NewActiveLayers("%s[0] = %s", api_function['scene_layers'], False,  'True')
+    except:pass
+
+    if type == 'SPHERE':
+        try: 
+            for e in ('0',  '1') : 
+                NewActiveLayers("%s[#1#] = %s".replace('#1#', e), api_function['scene_layers'], False,  'True')
+        except:pass
+    elif type == 'CUBE':
+        try: 
+            for e in ('0',  '2') : 
+                NewActiveLayers("%s[#1#] = %s".replace('#1#', e), api_function['scene_layers'], False,  'True')
+        except:pass
+    elif type == 'MONKEY':
+        try: 
+            for e in ('0',  '3') : 
+                NewActiveLayers("%s[#1#] = %s".replace('#1#', e), api_function['scene_layers'], False,  'True')
+        except:pass
+    elif type == 'FLAT':
+        try: 
+            for e in ('0',  '4') : 
+                NewActiveLayers("%s[#1#] = %s".replace('#1#', e), api_function['scene_layers'], False,  'True')
+        except:pass
+    else:
+        try: 
+            for e in ('0',  '3') :
+                NewActiveLayers("%s[#1#] = %s".replace('#1#', e), api_function['scene_layers'], False,  'True')
+        except:pass
+    
 def CreateNew(app_path, active_configuration, api_function, active_language):
     #Imports & external libs:
     try:
@@ -48,7 +90,7 @@ def CreateNew(app_path, active_configuration, api_function, active_language):
             workbase = os.popen("open -n -a '%s' '%s'" % (bin_path.rstrip("/Contents/MacOS/blender"), path_files[1]))
 
         if platform.system() == 'Linux':
-            workbase = os.popen(bin_path + " '%s'" % path_files[1])
+            workbase = os.popen("'%s' '%s'" % (bin_path,  path_files[1]))
 
         print(active_language['menu_error_error025'])
         misc.LogError(active_language['menu_error_error025'], False)
