@@ -222,6 +222,7 @@ class OpenAddOnFolder(eval(api_functions['types_operator'])):
     bl_label = space_access_name + active_languages['bl_id_name_open_addon']
 
     def execute(self, context):
+        open.AddonFolder(default_paths,  active_configuration, api_functions, active_languages)
         return {'FINISHED'}
 
 def UpdateProgressBar(self,  context): return None
@@ -632,7 +633,7 @@ def ConfigurationUpdateDefaultConfig(self,  context):
 class Configuration(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_configuration"
     bl_label = space_access_name + active_languages['bl_id_name_config']    
-
+    
     ctx = eval(api_functions['props'])
     conf_choice_EP = ctx.EnumProperty(name=active_languages['menu_configuration_select_title'],items=(names_config))
     conf_language_EP = ctx.EnumProperty(name=active_languages['menu_configuration_langage_choice'],items=(names_languages),default=active_configuration['language'])
@@ -654,6 +655,8 @@ class Configuration(eval(api_functions['types_operator'])):
     take_preview_BP = ctx.BoolProperty(name="", default=int(active_configuration['take_preview']))
     database_SP = ctx.StringProperty(name=active_languages['menu_configuration_base_path'], default=misc.ConvertMarkOut(active_configuration['database_path'], default_paths['app']))
     auto_save_IP = ctx.IntProperty(name="", min=1, max=50, default=active_configuration['auto_save'])
+    file_browser_SP= ctx.StringProperty(name=active_languages['menu_configuration_file_browser'], default="nautilus")
+
     def draw(self, context):
         layout = self.layout
         row = layout.row(align=True)
@@ -706,6 +709,9 @@ class Configuration(eval(api_functions['types_operator'])):
         row.label(active_languages['menu_configuration_auto_save_1'] )
         row.prop(self, "auto_save_IP")
         row.label(active_languages['menu_configuration_auto_save_2'] )
+        if platform.system() == "Linux":
+            row = layout.row(align=True)
+            row.prop(self, "file_browser_SP")
 
     def invoke(self, context, event):
         wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=520"))
@@ -723,7 +729,8 @@ class Configuration(eval(api_functions['types_operator'])):
                  "web_link":'', "material_name":'', "key_words":'', "category":'', "email_creator":'', "resolution_min":0, 
                  "resolution_default_x":0, "resolution_default_y":0, "resolution_max":0, "language":'', "error_folder":'',
                 "html_folder":'', "save_folder":'', "temp_folder":'', "zip_folder":'', "workbase_file_path":'', "bin_folder":'', 
-                "help_file_path":'', "img_file_path":'', "option":'', "take_preview":0,"auto_save":0, "load_number":0, }
+                "help_file_path":'', "img_file_path":'', "option":'', "take_preview":0,"auto_save":0, "load_number":0, 
+                "file_browser": '',  "web_browser":''}
             configuration.DeleteConfiguration(default_paths['configs_database'], my_new_config, names_config, active_languages)
         else:
             my_new_config = \
@@ -739,7 +746,8 @@ class Configuration(eval(api_functions['types_operator'])):
                  "workbase_file_path":active_configuration['workbase_file_path'], 
                  "bin_folder":active_configuration['bin_folder'], "help_file_path":active_configuration['help_file_path'],
                  "img_file_path":active_configuration['img_file_path'], "option":'menu_configuration_option_save', "name2":self.conf_name_SP,
-                 "take_preview":misc.ConvertBoolStringToNumber(self.take_preview_BP), "auto_save":self.auto_save_IP,  "load_number":0}
+                 "take_preview":misc.ConvertBoolStringToNumber(self.take_preview_BP), "auto_save":self.auto_save_IP,  "load_number":0, 
+                 "file_browser":self.file_browser_SP,  "web_browser":''}
             configuration.SaveConfiguration(default_paths['configs_database'], my_new_config, active_languages)
 
         configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
@@ -800,7 +808,8 @@ class ConfigurationSearch(eval(api_functions['types_operator'])):
                                  weblink_SP=selected_configuration['web_link'], email_SP=selected_configuration['email_creator'],
                                  conf_res_x_IP=selected_configuration['resolution_default_x'], conf_res_y_IP=selected_configuration['resolution_default_y'],
                                  database_SP=misc.ConvertMarkOut(selected_configuration['database_path'], default_paths['app']),
-                                 take_preview_BP=int(selected_configuration['take_preview']),  auto_save_IP=selected_configuration['auto_save'])
+                                 take_preview_BP=int(selected_configuration['take_preview']),  auto_save_IP=selected_configuration['auto_save'], 
+                                 file_browser_SP=str(selected_configuration['file_browser']))
         return {'PASS_THROUGH'}   
 
 class Help(eval(api_functions['types_operator'])):

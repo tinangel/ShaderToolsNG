@@ -129,7 +129,8 @@ def LangagesKeys():
          "menu_information_weblink", "menu_information_email", "bl_id_name_search_infos",  "menu_search_name",  "buttons_tools_cleanup",  "buttons_addon_folder_access",  
          "buttons_export_import",  "bl_id_name_open_addon",  "bl_id_name_export_import",  "bl_id_name_tools_cleanup",  "menu_tools_cleanup_temp", "menu_tools_cleanup_zip", 
          "menu_tools_cleanup_pycache",  "menu_tools_cleanup_autosave",  "menu_tools_cleanup_logs",  "menu_tools_cleanup_title", "menu_tools_cleanup_migrate",   
-         "menu_tools_cleanup_materials_folder",  "menu_tools_io_database_title",  "menu_tools_io_database_import",  "menu_tools_io_database_export"]
+         "menu_tools_cleanup_materials_folder",  "menu_tools_io_database_title",  "menu_tools_io_database_import",  "menu_tools_io_database_export",  
+         "menu_configuration_web_browser",  "menu_configuration_file_browser"]
     for i in range(1, 81): temp.append("menu_error_error%03d" % i)
     return temp
 #end Langages keys
@@ -146,7 +147,7 @@ def ConfigurationsKeys():
          "num_configuration", "default_config", "name", "database_path", "author", "description", "web_link", "material_name", "category", "email_creator",
          "resolution_min", "resolution_max", "language", "error_folder", "html_folder", "save_folder", "temp_folder", "zip_folder", "workbase_file_path",
          "help_file_path", "img_file_path", "bin_folder", "key_words", "option", "resolution_default_x", "resolution_default_y", "take_preview", "auto_save", 
-         "load_number", 
+         "load_number", "web_browser",  "file_browser",  
          )
     return temp
 def ConfigurationsKeys_2():
