@@ -1,4 +1,4 @@
-# ##### BEGIN GPL LICENSE BLOCK #####
+# ##### BEGIN CC LICENSE BLOCK #####
 #
 # This work is licensed under a Creative 
 # Commons Attribution-NonCommercial-ShareAlike 
@@ -6,13 +6,20 @@
 #
 # More details here : http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr
 #
-# ##### END GPL LICENSE BLOCK #####
+# ##### BEGIN CC LICENSE BLOCK #####
 
 # <pep8-80 compliant>
 
-import bpy, shutil,  os, binascii,  time, threading
+import bpy, shutil,  os, binascii,  time, threading,  platform
 from . import misc, keys, request
 from copy import copy
+
+def AddonFolder(default_paths,  active_configuration, api_functions, active_languages):
+    navi = { "Windows":'explorer',  "Darwin":'open',  "Linux":'nautilus'}
+    try: folder = os.popen('%s "%s"' % (navi[platform.system()],  default_paths['app']))    
+    except: 
+        error = active_languages['menu_error_error052']
+        misc.LogAndPrintError((error , error))
 
 def CreateImage(default_paths,  active_configuration, api_functions, active_languages,  image_uv_blob,  idx):
     image_path = os.path.join(default_paths['app'], default_paths['temp'],  image_uv_blob[1].split(os.sep)[-1])

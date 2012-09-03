@@ -1,4 +1,4 @@
-# ##### BEGIN GPL LICENSE BLOCK #####
+# ##### BEGIN CC LICENSE BLOCK #####
 #
 # This work is licensed under a Creative 
 # Commons Attribution-NonCommercial-ShareAlike 
@@ -6,7 +6,7 @@
 #
 # More details here : http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr
 #
-# ##### END GPL LICENSE BLOCK #####
+# ##### END CC LICENSE BLOCK #####
 
 # <pep8-80 compliant>
 #-*- coding: utf-8 -*-
@@ -100,7 +100,62 @@ def OpenSearch(self,  context):
     except:
         error = active_languages['menu_error_error050'] % self.search_SP
         misc.LogAndPrintError((error,  error))
-        
+
+class Cleanup(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_cleanup"
+    bl_label = space_access_name + active_languages['bl_id_name_tools_cleanup']
+
+    ctx = eval(api_functions['props'])
+    temp_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_temp'], default=0)
+    zip_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_zip'], default=0)
+    error_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_logs'], default=0)
+    autosave_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_autosave'], default=0)
+    migrate_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_migrate'], default=0)
+    pycache_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_pycache'], default=0)
+    materials_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_materials_folder'], default=0)
+
+    def invoke(self, context, event):
+        wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=400"))
+        return {'RUNNING_MODAL'}
+
+    def draw(self, context):
+        layout = self.layout
+        row = layout.row(align=True)
+        if not eval(api_functions['blend_save']):
+            row.label(active_languages['menu_error_error053'], icon="RADIO")
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error054'])
+        else:
+            row.label(active_languages['menu_tools_cleanup_title'] +':')
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error054'], icon="RADIO")
+            row = layout.row(align=True)
+            row.prop(self, "temp_BP")
+            row.prop(self, "zip_BP")
+            row = layout.row(align=True)
+            row.prop(self, "error_BP")
+            row.prop(self, "autosave_BP")
+            row = layout.row(align=True)
+            row.prop(self, "migrate_BP")
+            row.prop(self, "materials_BP")
+            row = layout.row(align=True)
+            row.prop(self, "pycache_BP")
+            row = layout.row(align=True)
+            
+    def execute(self, context):
+        choices = {"temp":self.temp_BP,  "zip":self.zip_BP, "error":self.error_BP, "autosave":self.autosave_BP, 
+                           "migrate":self.migrate_BP, "pycache":self.pycache_BP, "materials":self.materials_BP}
+        try:cleanup.Selected(default_paths,  active_configuration, api_functions, active_languages, choices)
+        except:pass
+        return {'FINISHED'}
+
+class OpenAddOnFolder(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_openaddon"
+    bl_label = space_access_name + active_languages['bl_id_name_open_addon']
+
+    def execute(self, context):
+        return {'FINISHED'}
+
 def UpdateProgressBar(self,  context): return None
 def LoadingMigrateProgressBar(path):
     global database_stuff
@@ -769,6 +824,8 @@ def UtilsSwitch(self, context):
     elif self.shadertoolsng_utils_enum == 'buttons_help':ops_object.shadertoolsng_help('INVOKE_DEFAULT')
     elif self.shadertoolsng_utils_enum == 'buttons_create':ops_object.shadertoolsng_new('INVOKE_DEFAULT')
     elif self.shadertoolsng_utils_enum == 'menu_utils_migrate':ops_object.shadertoolsng_utils_migrate('INVOKE_DEFAULT')
+    elif self.shadertoolsng_utils_enum == 'buttons_addon_folder_access':ops_object.shadertoolsng_openaddon('INVOKE_DEFAULT')
+    elif self.shadertoolsng_utils_enum == 'buttons_tools_cleanup':ops_object.shadertoolsng_cleanup('INVOKE_DEFAULT')
     else:ops_object.shadertoolsng_credits('INVOKE_DEFAULT')
 
 def SwitchButtonsList(list):
@@ -795,7 +852,8 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
     ExportImport = ctx_props.EnumProperty( name = "ExportImport", items = ExportImportItems, update=ExportImportSwitch)
     types_scene.shadertoolsng_export_import = ExportImport
     #Utils button in panel
-    UtilsItems = SwitchButtonsList(("buttons_config", "buttons_create", "buttons_log", "buttons_help", "buttons_credits", "menu_utils_migrate",))
+    UtilsItems = SwitchButtonsList(("buttons_config", "buttons_create", "buttons_log", "buttons_help", "buttons_credits", "menu_utils_migrate", 
+                                                        "buttons_tools_cleanup",  "buttons_addon_folder_access",  "buttons_export_import"))
     UtilsEnum = ctx_props.EnumProperty( name = "", items = UtilsItems, update=UtilsSwitch)
     UtilsProgressBar = ctx_props.IntProperty( name = "",  subtype='PERCENTAGE',  options={'ANIMATABLE'},  min=0,  max=100,  default=0,  update=UpdateProgressBar)
     types_scene.shadertoolsng_utils_bar = UtilsProgressBar
@@ -833,7 +891,7 @@ MyReg = \
     (
      ShadersToolsNGPanel, Open, Save, Export, Import,New, Configuration, Help, Credits, UpdateWarning,
      ConfigurationSearch, Errors, UtilsMigrate, BeforeOpen, RestoreFilters, Informations, BeforeInformations,
-     InformationsWeblink,
+     InformationsWeblink, OpenAddOnFolder, Cleanup, 
     )
 
 def register():

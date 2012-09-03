@@ -1,4 +1,4 @@
-# ##### BEGIN GPL LICENSE BLOCK #####
+# ##### BEGIN CC LICENSE BLOCK #####
 #
 # This work is licensed under a Creative 
 # Commons Attribution-NonCommercial-ShareAlike 
@@ -6,7 +6,7 @@
 #
 # More details here : http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr
 #
-# ##### END GPL LICENSE BLOCK #####
+# ##### BEGIN CC LICENSE BLOCK #####
 
 # <pep8-80 compliant>
 import bpy, os, time, shutil, platform,  threading
@@ -40,6 +40,13 @@ def SaveDatabase(path,  destination,  bin_folder):
     shutil.copy2(os.path.join(bin_folder,  "database"), path)
     os.remove(path+"_old")
 
+def ClearDirectory(path,  active_languages):
+    try:
+        if os.path.exists(path) :os.rmdir(path)
+    except:
+        error = active_languages['menu_error_error021'] % f
+        misc.LogAndPrintError((error,  error))
+
 def Clear(path, type, option, active_language):
     #Imports & external libs:
     try:
@@ -63,11 +70,11 @@ def Clear(path, type, option, active_language):
                         if not os.path.exists(exception): print(active_language['menu_error_error021'] % f)
                             
     if type == 'all':
-        try:
+            #try:
             shutil.rmtree(path)
             os.makedirs(path)
-        except:
-            if not os.path.exists(exception): print(active_language['menu_error_error021'] % path)
+            #except:
+            #if not os.path.exists(exception): print(active_language['menu_error_error021'] % path)
     #end Clear files & folder:
 
 def LogAndPrintError(list_error):

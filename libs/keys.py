@@ -1,4 +1,4 @@
-# ##### BEGIN GPL LICENSE BLOCK #####
+# ##### BEGIN CC LICENSE BLOCK #####
 #
 # This work is licensed under a Creative 
 # Commons Attribution-NonCommercial-ShareAlike 
@@ -6,7 +6,7 @@
 #
 # More details here : http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr
 #
-# ##### END GPL LICENSE BLOCK #####
+# ##### BEGIN CC LICENSE BLOCK #####
 
 # <pep8-80 compliant>
 import bpy
@@ -126,7 +126,10 @@ def LangagesKeys():
          "menu_history_title",  "menu_history_label01",  "menu_history_label02",  "menu_open_restore", "menu_search_title",  "menu_search_label01",  "menu_search_label02",  
          "menu_search_label03", "menu_search_label04", "menu_search_description", "menu_search_creator", "menu_search_category", "menu_search_weblink", "menu_search_email",
          "menu_information_label01",  "menu_information_label02", "menu_information_description", "menu_information_creator", "menu_information_category", 
-         "menu_information_weblink", "menu_information_email", "bl_id_name_search_infos",  "menu_search_name"]
+         "menu_information_weblink", "menu_information_email", "bl_id_name_search_infos",  "menu_search_name",  "buttons_tools_cleanup",  "buttons_addon_folder_access",  
+         "buttons_export_import",  "bl_id_name_open_addon",  "bl_id_name_export_import",  "bl_id_name_tools_cleanup",  "menu_tools_cleanup_temp", "menu_tools_cleanup_zip", 
+         "menu_tools_cleanup_pycache",  "menu_tools_cleanup_autosave",  "menu_tools_cleanup_logs",  "menu_tools_cleanup_title", "menu_tools_cleanup_migrate",   
+         "menu_tools_cleanup_materials_folder"]
     for i in range(1, 81): temp.append("menu_error_error%03d" % i)
     return temp
 #end Langages keys
@@ -635,7 +638,14 @@ def NewObjectsKeys():
          )
     return temp
 #end New objects keys
-
+#Cleanup keys
+def CleanupKeys():
+    temp = \
+        (
+        "temp", "zip", "error", "autosave", "migrate", "pycache", "materials", 
+         )
+    return temp
+#end Cleanup keys
 
 ''' *******           Here ShaderTools Utils keys           ********* '''
 #ShaderTools materials keys
