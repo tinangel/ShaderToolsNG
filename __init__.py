@@ -101,6 +101,70 @@ def OpenSearch(self,  context):
         error = active_languages['menu_error_error050'] % self.search_SP
         misc.LogAndPrintError((error,  error))
 
+class ExportImportDatabase(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_iodatabase"
+    bl_label = space_access_name + active_languages['bl_id_name_export_import']
+
+    ctx = eval(api_functions['props'])
+    filename_ext = ".bldb"
+    filter_glob = ctx.StringProperty(default="*.bldb;*.BLDB", options={'HIDDEN'})
+    filename = ctx.StringProperty(subtype="FILENAME")
+    filepath = ctx.StringProperty(subtype="FILE_PATH")    
+    import_BP = ctx.BoolProperty(name=active_languages['menu_tools_io_database_import'], default=0)
+    export_BP = ctx.BoolProperty(name=active_languages['menu_tools_io_database_export'], default=1)
+
+    def draw(self, context):
+        if not database_stuff:
+            layout = self.layout
+            row = layout.row(align=True)
+            row.label(active_languages['menu_tools_io_database_title'] + ':', icon="HELP")
+            row = layout.row(align=True)
+            row.prop(self, "export_BP")
+            row = layout.row(align=True)
+            row.prop(self, "import_BP")
+            row = layout.row(align=True)
+        else:
+            layout = self.layout
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error040'], icon='RADIO')
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error041'])
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error042'])
+
+    def invoke(self, context, event):
+        if not database_stuff: 
+           wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
+        else: 
+             wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
+        return {'RUNNING_MODAL'} 
+
+    def execute(self, context):
+        global database_stuff
+        if not database_stuff: 
+            new_path = self.filepath.replace(".",  "_") + ".bldb"
+            new_name = self.filename.replace(".",  "_") + ".bldb"
+            if self.export_BP:
+                try:
+                    misc.Clear(new_path, 'files', 'one', active_languages)
+                    shutil.copy2(default_paths['database'],  new_path)
+                    error = active_languages['menu_error_error055'] % new_name
+                    misc.LogAndPrintError((error,  error))
+                except:
+                    error = active_languages['menu_error_error056'] % new_name
+                    misc.LogAndPrintError((error,  error))
+
+            if self.import_BP:
+                try:
+                    misc.SaveDatabase(default_paths['database'],  default_paths['save'],  default_paths['bin'])
+                    shutil.copy2(self.filepath,  default_paths['database'])
+                    error = active_languages['menu_error_error057'] % new_name
+                    misc.LogAndPrintError((error,  error))
+                except:
+                    error = active_languages['menu_error_error058'] % new_name
+                    misc.LogAndPrintError((error,  error))
+        return {'FINISHED'}   
+
 class Cleanup(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_cleanup"
     bl_label = space_access_name + active_languages['bl_id_name_tools_cleanup']
@@ -830,6 +894,7 @@ def UtilsSwitch(self, context):
     elif self.shadertoolsng_utils_enum == 'menu_utils_migrate':ops_object.shadertoolsng_utils_migrate('INVOKE_DEFAULT')
     elif self.shadertoolsng_utils_enum == 'buttons_addon_folder_access':ops_object.shadertoolsng_openaddon('INVOKE_DEFAULT')
     elif self.shadertoolsng_utils_enum == 'buttons_tools_cleanup':ops_object.shadertoolsng_cleanup('INVOKE_DEFAULT')
+    elif self.shadertoolsng_utils_enum == 'buttons_export_import':ops_object.shadertoolsng_iodatabase('INVOKE_DEFAULT')
     else:ops_object.shadertoolsng_credits('INVOKE_DEFAULT')
 
 def SwitchButtonsList(list):
@@ -895,7 +960,7 @@ MyReg = \
     (
      ShadersToolsNGPanel, Open, Save, Export, Import,New, Configuration, Help, Credits, UpdateWarning,
      ConfigurationSearch, Errors, UtilsMigrate, BeforeOpen, RestoreFilters, Informations, BeforeInformations,
-     InformationsWeblink, OpenAddOnFolder, Cleanup, 
+     InformationsWeblink, OpenAddOnFolder, Cleanup, ExportImportDatabase, 
     )
 
 def register():

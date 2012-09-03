@@ -129,7 +129,7 @@ def LangagesKeys():
          "menu_information_weblink", "menu_information_email", "bl_id_name_search_infos",  "menu_search_name",  "buttons_tools_cleanup",  "buttons_addon_folder_access",  
          "buttons_export_import",  "bl_id_name_open_addon",  "bl_id_name_export_import",  "bl_id_name_tools_cleanup",  "menu_tools_cleanup_temp", "menu_tools_cleanup_zip", 
          "menu_tools_cleanup_pycache",  "menu_tools_cleanup_autosave",  "menu_tools_cleanup_logs",  "menu_tools_cleanup_title", "menu_tools_cleanup_migrate",   
-         "menu_tools_cleanup_materials_folder"]
+         "menu_tools_cleanup_materials_folder",  "menu_tools_io_database_title",  "menu_tools_io_database_import",  "menu_tools_io_database_export"]
     for i in range(1, 81): temp.append("menu_error_error%03d" % i)
     return temp
 #end Langages keys
