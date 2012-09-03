@@ -15,7 +15,14 @@ import bpy, os
 from shader_tools_ng.libs import misc,  keys
 
 def Selected(default_paths,  active_configuration, api_functions, active_languages, choices):
+    c= 0
+    ctx_scene = eval(api_functions['context_scene'])
+    ctx_scene.shadertoolsng_utils_bar = c  
+    
     for k in keys.CleanupKeys():
+        c = c + 1
+        ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(c, keys.CleanupKeys().__len__())
+
         if choices[k]:
             if k in ('temp',  'zip',  'error'):
                 misc.Clear(default_paths[k], 'all', '', active_languages)
@@ -42,3 +49,4 @@ def Selected(default_paths,  active_configuration, api_functions, active_languag
                         misc.Clear(os.path.join(default_paths['save'],  f), 'all', '', active_languages)
                         misc.ClearDirectory(os.path.join(default_paths['save'], f),  active_languages) 
             else:None
+    ctx_scene.shadertoolsng_utils_bar = 100

@@ -143,11 +143,15 @@ class Cleanup(eval(api_functions['types_operator'])):
             row = layout.row(align=True)
             
     def execute(self, context):
+        global update
         choices = {"temp":self.temp_BP,  "zip":self.zip_BP, "error":self.error_BP, "autosave":self.autosave_BP, 
                            "migrate":self.migrate_BP, "pycache":self.pycache_BP, "materials":self.materials_BP}
-        try:cleanup.Selected(default_paths,  active_configuration, api_functions, active_languages, choices)
+        try:
+            lauch_progress_bar = threading.Thread(None, cleanup.Selected, "Cleanup", (default_paths,  active_configuration, api_functions, active_languages, choices), {})
+            lauch_progress_bar.start()
+            update = True
         except:pass
-        return {'FINISHED'}
+        return {'PASS_THROUGH'}
 
 class OpenAddOnFolder(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_openaddon"

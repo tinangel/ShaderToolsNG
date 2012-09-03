@@ -70,11 +70,11 @@ def Clear(path, type, option, active_language):
                         if not os.path.exists(exception): print(active_language['menu_error_error021'] % f)
                             
     if type == 'all':
-            #try:
+        try:
             shutil.rmtree(path)
             os.makedirs(path)
-            #except:
-            #if not os.path.exists(exception): print(active_language['menu_error_error021'] % path)
+        except:
+            if not os.path.exists(exception): print(active_language['menu_error_error021'] % path)
     #end Clear files & folder:
 
 def LogAndPrintError(list_error):
