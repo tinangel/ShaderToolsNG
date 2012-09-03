@@ -15,7 +15,10 @@ from . import misc, keys, request
 from copy import copy
 
 def AddonFolder(default_paths,  active_configuration, api_functions, active_languages):
-    navi = { "Windows":'explorer',  "Darwin":'open',  "Linux":active_configuration['file_browser']}
+    browser =''
+    if 'None' in str(active_configuration['file_browser']):browser = 'nautilus'
+    else: browser =  active_configuration['file_browser']
+    navi = { "Windows":'explorer',  "Darwin":'open',  "Linux":browser}
     try: folder = os.popen('%s "%s"' % (navi[platform.system()],  default_paths['app']))    
     except: 
         error = active_languages['menu_error_error052']
