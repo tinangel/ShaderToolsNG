@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="fr">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Aide - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_FR()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab">
+						Les Modules Logs, Credits et Aide :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Le module Logs vous permet d'obtenir des informations sur l'état de vos actions dans le ShaderTools. 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Voici à quoi ressemble le fichier de Logs accessible à partir du module 'Utilitaires' :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						<img src="../img/English/credit_help_log/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_explain">
+						<ul>
+							<li>
+								<b>Configs database exists :</b> vérifie si le fichier de configuration existe. 
+							</li>
+							<li>
+								<b>Test to open a configuration :</b> vérifie s'il est possible d'ouvrir une configuration 
+								(dans la cas contraire le ShaderTools restaurera la configuration par défaut ).
+							</li>
+							<li>
+								<b>Materials database exists :</b> vérifie si la base de matériaux existe.
+							</li>
+							<li>
+								<b>Globals :</b> le ShaderTools va vérifier plusieurs choses (elles sont représentées par des sous rubrique
+								que l'on reconnait grâce aux différentes tabulations)
+							</li>
+							<li>
+								<b>import :</b> vérifie que les librairies Python sont correctement importées.
+							</li>
+							<li>
+								<b>database exists :</b> vérifie si la table de Test existe pour effectuer différents tests.
+							</li>
+							<li>
+								<b>insert into database :</b> test d'insertion de données dans la base.
+							</li>
+							<li>
+								<b>select in database :</b> test s'il est possible d'interroger la base.
+							</li>
+							<li>
+								<b>update into database :</b> test de mise à jour des données de la base.
+							</li>
+							<li>
+								<b>default configuration verification :</b> chargement de la configuration par défaut.
+							</li>
+							<li>
+								<b>check folders :</b> vérifie si les dossiers et sous dossiers sont correctement initialisés. 
+								Dans notre exemple nous pouvons voir que seul le dossier 'English' est 'ok', cela est normal puisque
+								à l'heure où j'écris ce fichier d'aide seul la langue Française est prise en compte.
+							</li>
+							<li>
+								<b>workbase :</b> vérifie que le fichier de création d'une nouvelle matière existe bien.
+							</li>
+							<li>
+								<b>help :</b> vérifie que le fichier de sauvegarde de l'aide est accessible.
+							</li>
+							<li>
+								<b>img :</b> vérifie que le fichier de sauvegarde image d'erreur est accessible.
+							</li>
+							<li>
+								<b>bookmark import :</b> vérifie que les librairies Python d'import du module de création de bookmark sont bons.
+							</li>
+							<li>
+								<b>bookmark save :</b> fait une sauvegarde du fichier 'bookmark' de Blender3D avant d'effectuer la mise à jour.
+							</li>
+							<li>
+								<b>bookmark folder :</b> création du dossier 'Base de matériaux' sur le disque dur.
+							</li>
+							<li>
+								<b>bookmark update :</b> mise à jour du fichier 'bookmark' de Blender3D
+							</li>
+							<li>
+								<b>Panel :</b> vérifie si le panneau du ShaderTools ne contient pas d'erreurs.
+							</li>
+						</ul>						
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Passons au module 'Credits' qui permet de répertorier toutes les personnes ayant participer
+						à l'élaboration du ShaderTools :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						<img src="../img/English/credit_help_log/002.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Pour le module d'Aide, sachez juste qu'il est possible d'y accéder par le biais de l'interface du ShaderTools
+						mais aussi en vous rendant directement dans le répertoire du ShaderTools. Il vous suffira d'exécuter le 
+						fichier intitulé 'Help_me.html'.
+					</td>
+				</tr>
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<script type="text/javascript">PAGE_BOTTOM_FR()</script>		
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>
