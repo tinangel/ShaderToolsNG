@@ -170,14 +170,21 @@ def RemoveColor(value):
     if "Color(" in value:
         value = value.replace("))", ")")
         value = value.replace("Color(", "")
+    elif "<Color" in value:
+        value = value.lstrip('<Color')
+        value = value.rstrip('>') 
+        for e in ('r=',  'g=',  'b='): value = value.replace(e, '')       
     return value
 
 def RemoveVector(value):
     if "Vector(" in value:
         value = value.replace("))", ")")
         value = value.replace("Vector(", "")
+    elif "<Vector" in value:
+        value = value.lstrip('<Vector')
+        value = value.rstrip('>')
+        for e in ('r=',  'g=',  'b='): value = value.replace(e, '')       
     return value
-
 
 def RemoveRadius(value):
     one = str(eval(value)[0])
