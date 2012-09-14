@@ -183,13 +183,13 @@ class Cleanup(eval(api_functions['types_operator'])):
         return {'RUNNING_MODAL'}
 
     def draw(self, context):
-        layout = self.layout
-        row = layout.row(align=True)
-        if not eval(api_functions['blend_save']):
-            row.label(active_languages['menu_error_error053'], icon="RADIO")
+            layout = self.layout
             row = layout.row(align=True)
-            row.label(active_languages['menu_error_error054'])
-        else:
+        #if not eval(api_functions['blend_save']):
+        #   row.label(active_languages['menu_error_error053'], icon="RADIO")
+        #    row = layout.row(align=True)
+        #    row.label(active_languages['menu_error_error054'])
+        #else:
             row.label(active_languages['menu_tools_cleanup_title'] +':')
             row = layout.row(align=True)
             row.label(active_languages['menu_error_error054'], icon="RADIO")
@@ -719,7 +719,9 @@ class Configuration(eval(api_functions['types_operator'])):
 
     def execute(self, context):
         global default_paths, languages_config, active_configuration, active_languages, active_categories, names_config, options_actions,\
-               names_languages, space_access_name, ConfigurationSearch, conf_current_idx 
+               names_languages, space_access_name, ConfigurationSearch, conf_current_idx, update
+        if self.conf_language_EP != active_configuration['language'] and self.conf_default_BP: update = True
+        
         configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
         c = self.conf_options_EP.split("_")[-1]
         if c == "delete":
