@@ -14,5 +14,8 @@ import bpy, os, webbrowser
 
 def help_me(app_path, active_language_name):
     #I open help file:
+    if '(French)' in active_language_name: active_language_name = 'French'
+    elif '(English)' in active_language_name: active_language_name = 'English'
+        
     url = "file://" + os.path.join(app_path, "html", active_language_name, "index.html")
     webbrowser.open_new(url)       
