@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Aide - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_EN()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab"s>
+						Export :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						This menu allows to export a material and share it.
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						You must select and click on 'Export' button into ShaderTools user interface :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/export/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						In the left panel, put informations (creator, description ....) : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/export/002.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						If you need a preview of the material exported (*.blex), position mouse cursor on 
+						check box 'Create a preview' : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/export/003.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Check the box:
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/export/004.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						You must give name to your material inside file name area :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/export/005.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Then select directory where your material must be exported (in this example it's desktop path) :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/export/006.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Then you must click on 'Export' button at top right corner of your screen :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/export/007.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Finally, use your file browser and go to path previously selected 
+						(dektop path for this example) and you can share your material : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/export/008.jpg" id="steps">	
+					</td>
+				</tr>				
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<script type="text/javascript">PAGE_BOTTOM_EN()</script>		
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

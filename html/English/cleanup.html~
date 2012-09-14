@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Help - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_EN()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab">
+						Tools cleaning :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						This element allows you to clean the ShaderTools directory without risk. 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Click on 'Utilities' into user interface then click on 'Cleaning tools' :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						<img src="../img/English/cleanup/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						A new window appears to allows you to clean up directories inside ShaderTools folder. 
+						You must check boxes near elements you need clean up : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						<img src="../img/English/cleanup/002.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_explain">
+						<ul>
+							<li>
+								<b>Temporary folder :</b> this folder contains temporaries files used (example *.blex files). 
+							</li>
+							<li>
+								<b>Log file :</b> this folder contains the differents actions used by current user and messages 
+								(errors, informations and warnings).
+							</li>
+							<li>
+								<b>Migrate database (V1 -> V2) :</b> when you migrate or import/export a materials database a copy is 
+								created into folder 'save'. Before check this box, please make sure you have one copy because if an error 
+								occurs you lost all your datas. 
+							</li>
+							<li>
+								<b>Pycache folder :</b> this folder contains python compiled files created by Blender, if you active this box,
+								'__pycache__' folders are removed. Don't worry because the folders are recreated at next execution of Blender.    
+							</li>
+							<li>
+								<b>Archive files (zip) :</b> this folder contains all archives already used. 
+							</li>
+							<li>
+								<b>Auto-backup files :</b> depending your current configuration (please see 'Auto-backup' section for more 
+								details). You can remove all backups included inside folder 'save'. 
+							</li>
+							<li>
+								<b>Materials preview folder :</b> you can removed all previews of materials inside 'Materials database' folder.
+							</li>
+						</ul>						
+					</td>
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<script type="text/javascript">PAGE_BOTTOM_EN()</script>		
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

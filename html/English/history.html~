@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Help - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<div id="header">	
+			<img src="../img/All/logo.png" id="header_img">	
+		</div>
+
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_EN()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab"s>
+						History :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						You will find this element in the menu 'Open ...'.
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/history/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						You can access to the twenty last imported materials, you must use this list :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/history/002.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Select the material name you need in list (WARNING: if you use a multiple  databases, 
+						you must be aware each database has own history list)
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/history/003.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Position your cursor on material you need :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/history/004.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						And select him :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/history/005.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Finally you must confirm the 'return' key at top right corner or you can double-click 
+						on material needed in the list :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/history/006.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Your material should be imported into your scene :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/history/007.jpg" id="steps">	
+					</td>
+				</tr>				
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<script type="text/javascript">PAGE_BOTTOM_EN()</script>		
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

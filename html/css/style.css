@@ -1,0 +1,134 @@
+body {
+	background-color: #000;
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 12px;
+	margin: 0; 
+	padding: 0; 
+	border: 0; 
+	outline: none;
+}
+
+#content_all{
+	height: auto;
+	width: 1020px;
+}
+
+#main{
+	height: auto;
+	width: 220px;
+	color: #5880A7;
+	float: left;
+	text-align: left;
+	text-decoration:none;
+	border:1px solid #E37F1C;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	margin-right:5px;
+	margin-bottom: 5px;
+	min-height:520px;
+}
+
+ul{
+	padding: 0;	
+}
+
+li{
+	list-style-type: none;
+	text-align: left;
+	margin-top:8px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+a , a:link , a:visited{
+	color: #5880A7;
+	text-decoration: none;
+}
+
+#main ul li:hover, #main ul li a:hover{
+	background-color:#E37F1C;
+	color:#FFF;	
+}
+
+#article{
+	height: auto;
+	width: 760px;
+	color: #FFF;
+	font-size: 14px;
+	float: left;
+	text-align: justify; 
+	text-decoration:none;
+	border:1px solid #E37F1C;
+	border-radius:10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius:10px;
+	margin-right:5px;
+	margin-bottom: 5px;
+	padding: 5px;
+	min-height:520px;
+
+}
+
+#article_helpme{
+	height: auto;
+	width: 1020px;
+	color: #FFF;
+	font-size: 14px;
+	float: left;
+	text-align: justify; 
+	text-decoration:none;
+	border:1px solid #E37F1C;
+	border-radius:10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius:10px;
+	margin-right:5px;
+	margin-bottom: 5px;
+	padding: 5px;
+}
+
+#bottom_header{
+	height: 20px;
+	width: 1020px;
+	color: #FFF;
+	font-size: 10px;
+	text-align: center; 
+	text-decoration:none;
+	margin-top: 5px;
+	padding-bottom: 20px;
+	margin-bottom: 10px;
+}
+
+#steps{
+	text-align: center;
+	border:1px solid #999;
+	display: block;
+	margin: 0 auto;
+}
+
+#steps_tab{
+	padding-bottom: 30px;
+}
+
+#steps_tab_helpme{
+	width: 128px;
+	height: 128px;
+	text-align: center;
+}
+
+#steps_tab_helpme_img{
+	border:1px solid #999;
+}
+
+#steps_tab_title{
+	padding-bottom: 10px;	
+}
+
+#article table{
+	width: 760px;
+}
+
+#steps_tab_explain{
+	padding-bottom: 30px;
+	padding-left: 30px;
+}

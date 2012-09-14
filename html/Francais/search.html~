@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="fr">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Aide - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_FR()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab"s>
+						Le Module Rechercher :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Vous trouverez ce module dans le module 'Ouvrir...'.
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/search/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Placez-vous dans la zone de recherche comme indiquer ci-dessous :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/search/002.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Saisissez votre recherche (cela peut-être un mot partiel/complet, plusieurs mots entre coupés d'un espace ou des caractères
+						';' ou ',' ou, '-'ou '_' ou ':'), comme dans l'exemple ci-dessous : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/search/003.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Après avoir valider avec la touche 'entrée' de votre clavier, la liste des matériaux devrait se mettre à jour :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/search/004.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Pour avoir une représentation plus visuelle des matériaux vous pouvez utiliser le switch d'affichage pour 
+						afficher vos matériaux en miniatures :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/search/005.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Vous pouvez aussi effectuer une recherche avancée en cochant les options à inclurent dans votre recherche (par 
+						défaut la recherche s'effectuera sur le nom du matériau). Vous allez donc pouvoir effectuer une recherche plus
+						approfondit comme par exemple par catégorie :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/search/006.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Pour cela cocher la case catégorie comme ici :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/search/007.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Puis, resélectionnez votre zone de recherche pour modifier votre recherche :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/search/008.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Enfin revalider votre recherche pour que celle-ci soit effective. Votre liste de matériaux
+						devrait se mettre à jour suivant les critères sélectionner :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/search/009.jpg" id="steps">	
+					</td>
+				</tr>				
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<div id="bottom_header">
+			Créé par GRETETE Karim (alias Tinangel)<br>
+			<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">
+			<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+			</a><br />Ce travail est sous license Crative Commons : <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr">
+			Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-NC-SA 3.0) </a>.
+		</div>
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

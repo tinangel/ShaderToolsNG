@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="fr">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Aide - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_FR()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab"s>
+						Le Module Ouvrir... :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Ce module vous permet d'accéder à votre base de matériaux pré-configurés et les intégrer dans votre scène.
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Tout d'abord cliquez sur le bouton 'Ouvrir...' de l'interface du ShaderTools comme ici :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/open/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Une nouvelle fenêtre s'ouvre, sélectionnez dans le panneau 'Bookmarks' (panneau à gauche de cette nouvelle 
+						fenêtre) le bookmark 'Base Materiaux', comme suit : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/open/002.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Un liste devrait apparaître au milieu de votre fenêtre comme dans cette image :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/open/003.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Pour avoir une représentation plus visuelle des matériaux vous pouvez utiliser le switch d'affichage pour 
+						afficher vos matériaux en miniatures :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/open/004.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Vous devriez obtenir une liste qui apparaît comme dans l'échantillon suivant :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/open/005.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Il ne vous reste plus qu'à sélectionner le matériau à importer dans votre scène :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/open/006.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Puis, soit en double cliquant avec votre souris soit en utilisant le bouton d'import en haut à droite
+						de votre écran comme ici :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/open/007.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						La fenêtre devrait se refermée et votre matériau devrait apparaitre dans la liste des matériaux
+						comme ci-dessous : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/open/008.jpg" id="steps">	
+					</td>
+				</tr>				
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<div id="bottom_header">
+			Créé par GRETETE Karim (alias Tinangel)<br>
+			<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">
+			<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+			</a><br />Ce travail est sous license Crative Commons : <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr">
+			Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-NC-SA 3.0) </a>.
+		</div>
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

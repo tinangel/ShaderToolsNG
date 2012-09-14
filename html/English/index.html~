@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="fr">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Help - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_EN()</script>
+		
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td style="padding-bottom: 30px">
+						Welcome !
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+						The ShaderTools is an add-on developed for the Blender3D users. With this add on, apply a complex material is more
+						easy. Its aim is to allow you access to a library of pre-configured materials more easyly and integrate them into 
+						your projects.
+						
+						
+					
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+						Many users try to use Blender3D but the adaptation can ask very long time for somebody. It's for this reason the 
+						ShaderTools was born.
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+						It can integrate pre-configured materials, you can save your own materials, export them and share them in few clicks.
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+						You can use the left menu to access features of this addon. You can found inside different categories the answers for 
+						most questions. 
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+						You can join us on the Blenderclan site, the Python Scripting forum if you need more informations on this add-on.
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+						Happy discovery and happy blending :).
+					</td>
+				</tr>
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<script type="text/javascript">PAGE_BOTTOM_EN()</script>		
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

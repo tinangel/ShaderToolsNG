@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="fr">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Aide - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<div id="header">	
+			<img src="../img/All/logo.png" id="header_img">	
+		</div>
+
+		<!-- Ici je créé le menu -->
+		<div id="main">
+			<!-- Ici je créé la liste du menu -->
+			<ul>
+				<li>
+					<A HREF="#"> - Accueil </A>				
+				</li>		
+				<li>
+					<A HREF="#"> - Prérequis </A>											
+				</li>		
+				<li>
+					<A HREF="#"> - Installation </A>											
+				</li>		
+				<li>
+					<A HREF="#"> - L'interface	</A>										
+				</li>		
+				<li>
+					<A HREF="#"> - Les raccourcis </A>							 				
+				</li>		
+				<li>
+					<A HREF="#"> - Le module Ouvrir </A>											
+				</li>
+				<li>
+					<A HREF="#"> - Le module Rechercher </A>											
+				</li>	
+				<li>
+					<A HREF="#"> - Le module Historique </A>											
+				</li>				
+				<li>
+					<A HREF="#"> - Le module Informations </A>											
+				</li>				
+				<li>
+					<A HREF="#"> - Le module Sauvegarder </A>											
+				</li>		
+				<li>
+					<A HREF="#"> - Le module Exporter </A>											
+				</li>		
+				<li>
+					<A HREF="#"> - Le module Importer </A>											
+				</li>		
+				<li>
+					<A HREF="#"> - Le module Utilitaires </A>											
+				</li>		
+				<li>
+					<A HREF="#"> - Le module Configuration	</A>										
+				</li>		
+				<li>
+					<A HREF="#"> - Le module Créer un nouvelle matière	</A>										
+				</li>		
+				<li>
+					<A HREF="#"> - Le module Migrer une base de données (V1 -> V2) </A>											
+				</li>	
+				<li>
+					<A HREF="#"> - L'Auto-sauvegarde </A>											
+				</li>			
+				<li>
+					<A HREF="#"> - Les modules Logs, Aide et Crédits </A>							 				
+				</li>		
+			</ul>
+		</div>
+		
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td style="padding-bottom: 30px">
+						Bonjour et bienvenue sur l'aide du ShaderTools !
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+						Le ShaderTools est un add-on développé pour les utilisateurs du logiciel Blender3D. Il va vous permettre 
+						de vous simplifier la tâche dans la conception de matériaux. Son objectif est en fait de vous permettre
+						d'accéder à une banque de matériaux pré-configurés et des les intégrer trés facilement dans vos projets.  
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+						Beaucoup d'utilisateurs s'étant essayer à Blender3D peuvent le trouver déroutant car le temps d'adaptation
+						peut-être trés long pour certains et malheureusement c'est bien ce qu'il manque à d'autres. C'est pour cette
+						raison que le ShaderTools est né.
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+						En plus de vous permettre d'intégrer des matériaux pré-configurés vous pourrez sauvegarder vos
+						propres matériaux, les exporter pour les partager et tout cela en quelques clics.
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+						Le menu à gauche de cet écran vous permettra d'accéder aux principales fonctionnalités de l'add-on.
+						Vous pouvez naviguer entre les différentes catégories pour trouver des réponses à la plupart des 
+						questions que vous vous posez au sujet de l'add-on lui même ou encore des modules. 
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+						Sachez aussi que vous pouvez nous rejoindre sur les site du Blenderclan dans le forum Python & Scripting
+						si vous voulez obtenir de l'aide ou de plus amples informations sur cet add-on.
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 135px">
+						Bonne découverte et bon blend :).
+					</td>
+				</tr>
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<div id="bottom_header">
+			Créé par GRETETE Karim (alias Tinangel) - GNU GPL v2 et supérieur		
+		</div>
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

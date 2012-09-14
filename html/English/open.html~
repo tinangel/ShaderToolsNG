@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Help - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_EN()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab"s>
+						Open :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						This menu allows you to access your materials database and integrate them into your scene.
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Click the 'Open ...' button in ShaderTools interface :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/open/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						A new window appears, select the 'Bookmarks' panel and  'Materials Database':
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/open/002.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						A list should appears at the middle of window :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/open/003.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						For a best visual representation of materials you can use the switch for displaying thumbnails :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/open/004.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						You should get this list :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/open/005.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						You will just select a material to import it inside your scene :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/open/006.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Then double-click it or use the Import button at the top right corner of your screen :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/open/007.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						The window is now closed and your material should appears into list of materials :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/open/008.jpg" id="steps">	
+					</td>
+				</tr>				
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<script type="text/javascript">PAGE_BOTTOM_EN()</script>		
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

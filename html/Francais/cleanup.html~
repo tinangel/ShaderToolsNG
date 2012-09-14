@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="fr">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Aide - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_FR()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab">
+						Les Outils de nettoyage :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Ce module vous permet de nettoyer le répertoire du ShaderTools en quelques clics et sans risque. 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Cliquez sur la liste des 'Utilitaires' de l'interface du ShaderTools puis 'Outils de nettoyage' pour accéder
+						à ce module :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						<img src="../img/Francais/cleanup/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Une nouvelle fenêtre devrait s'ouvrir vous proposant de nettoyer les différents répertoires de l'add-on. Il vous 
+						suffit de cocher les cases des éléments à supprimer puis de valider comme dans l'exemple ci-dessous :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						<img src="../img/Francais/cleanup/002.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_explain">
+						<ul>
+							<li>
+								<b>Dossier temporaire :</b> l'add-on utilise ce dossier pour stoquer temporairement des éléments (export...). 
+							</li>
+							<li>
+								<b>Dossier des logs :</b> il s'agit du répertoire contenant le log de l'état des actions du ShaderTools (en bref
+								c'est le fichier qui s'affiche lorsque vous allez dans 'Utilitaires' puis 'Logs'). Ce fichier sera donc supprimer.
+							</li>
+							<li>
+								<b>Sauvegardes de migration :</b> Lorsque vous effectuez une migration de la base ou encore un import-export de 
+								la base de matériaux, une copie de l'ancienne base est faites pour éviter les erreurs humaines. Assurez-vous
+								avant de faire cela de bien réfléchir à 2 fois et surtout avoir au moins une copie de sauvgarde sans quoi en
+								cas de problème vous perdrez toutes ces données.
+							</li>
+							<li>
+								<b>Dossiers pycache :</b> il s'agit en fait des dossiers compilés pour être lisible par python (grâce à Blender3D
+								qui fait office de passerelle). Cependant il m'est arrivé de voir que ces fichiers ne se mettaient pas 
+								systématiquement à jour. Par conséquent j'offre la possibilité de les supprimer en toute sécurité au cas où cela
+								pourrait être utile. Ils seront recréer par Blender3D au prochain lancement. 
+							</li>
+							<li>
+								<b>Dossier d'archives (zip) :</b> il s'agit du répertoire contenant les archives déjà utilisées au format zip. 
+							</li>
+							<li>
+								<b>Dossier d'autosauvegardes :</b> Suivant la façon dont votre configuration actuelle est paramétrée une auto-sauvegarde
+								des fichiers importants sont stockés dans ce répertoire (voir la rubrique 'L'Auto-sauvegarde' pour plus de détails).
+								La sauvegarde automatique est un bon moyen en cas de problème pour espérer retrouver vos données. Cependant c'est
+								aussi une fonction gourmande en espace disque (suivant la taille de votre base). Pour cette raison vous pouvez
+								en cochant cette case vider le contenu de ce répertoire. 
+							</li>
+							<li>
+								<b>Dossier des previsualisations :</b> il s'agit en faite du dossier qui vous affiche la liste des matériaux 
+								(celle que vous obtenez en allant dans 'Ouvrir' puis le bookmarks 'Base Materiaux'). Vous pourrez donc supprimer
+								son contenu en cochant la case. 
+							</li>
+						</ul>						
+					</td>
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<script type="text/javascript">PAGE_BOTTOM_FR()</script>		
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

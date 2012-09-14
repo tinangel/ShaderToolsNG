@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="fr">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Aide - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_FR()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab">
+						L'Auto-sauvegarde  :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						L'Auto-sauvegarde, que vous pouvez régler dans le module 'Configuration', permet de sauvegarder
+						automatiquement les données essentielles sans que vous soyez obliger d'y penser. 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						La fréquence de sauvegarde est comprise entre 5 et 50 lancements de Blender3D par configuration. Chaque
+						configuration contient son propre compteur interne. En cas de nécessité, vous pouvez accéder aux Auto-sauvegardes
+						directement en vous rendant dans le dossier 'save' situé dans le répertoire de l'add-on, comme ici : (Vous trouverez 
+						la description des fichiers sauvegardés sous la vignette ci-dessous)
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						<img src="../img/Francais/autosave/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_explain">
+						<ul>
+							<li>
+								<b>ShaderToolsApis :</b> il s'sgit de la liste des APIS utilisées par le ShaderTools. 
+							</li>
+							<li>
+								<b>ShaderToolsConfigs :</b> il s'agit de votre fichier de configuration.
+							</li>
+							<li>
+								<b>ShaderToolsDatabaseNG :</b> il s'agit de votre base de matériaux (ATTENTION : ici il s'agit du nom par défaut
+								cela ne veut pas dire que votre fichier aura le même nom. Si vous l'avez appelé 'Toto.sqlite' alors vous aurez ce
+								fichier à la place de 'ShaderToolsDatabaseNG.sqlite').
+							</li>
+							<li>
+								<b>ShaderToolsLanguages :</b> ce fichier gère les traductions suivant la langue sélectionner dans
+								le module de 'Configuration' du ShaderTools.
+							</li>
+						</ul>						
+					</td>
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<div id="bottom_header">
+			Créé par GRETETE Karim (alias Tinangel)<br>
+			<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">
+			<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+			</a><br />Ce travail est sous license Crative Commons : <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr">
+			Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-NC-SA 3.0) </a>.
+		</div>
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

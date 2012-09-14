@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Help - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_EN()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab"s>
+						Search :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						You will find this element in the menu 'Open ...'.
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/search/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Position cursor inside search box :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/search/002.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Put your keywords (can be a word, phrase or words with separators, space or characters 
+						';' or ',' or '-' or '_' or ":") 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/search/003.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						After validation the list of materials should be updated :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/search/004.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						For a best visual representation of materials you can use the switch for displaying thumbnails :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/search/005.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						You can also perform advanced search, you must check the boxes
+						(name, category, creator ....) to a search deeper (here a example by category) :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/search/006.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						For this check the boxe :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/search/007.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Then, select your search box to modify your search and valid with the 'return' key :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/search/008.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Finally revalidate your search and your materials list should be updated with criteria selected :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/search/009.jpg" id="steps">	
+					</td>
+				</tr>				
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<script type="text/javascript">PAGE_BOTTOM_EN()</script>		
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

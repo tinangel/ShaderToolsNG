@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Help - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_EN()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab">
+						Create a new material :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						This element allows you to create a new material with a user interface simplified.
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Click on 'Utilities' into user interface then 'New':
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/new/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						A new window appears, you can access now to a new interface Blender : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/new/002.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Into user interface you can see two other elements, a preview panel and a layers selector. 
+						You can select between four views (the four first layers). 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/new/003.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						In addition to Suzanne (see below) you can select a layer :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<!-- ATTENTION CE TABLEAU SERT A AFFICHER LES 3 AUTRES TYPES DE CALQUES DANS BLENDER3D -->
+						<table>
+							<tr>
+								<td><img src="../img/English/new/003_2.jpg" id="steps">	</td>
+								<td><img src="../img/English/new/004.jpg" id="steps">	</td>
+								<td><img src="../img/English/new/005.jpg" id="steps">	</td>
+							</tr>
+						</table>	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Then select layer and the preview panel should be update :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/new/006.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Then select the material inside 3D view (with right mouse button) :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/new/007.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Now you can begin to create your new material.(you can use properties panel and switch between each menus) : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/new/008.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Finally use F12 key to create a preview : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/new/009.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Or switch to the render properties : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/English/new/010.jpg" id="steps">	
+					</td>
+				</tr>				
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<script type="text/javascript">PAGE_BOTTOM_EN()</script>		
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="fr">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Aide - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_FR()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab"s>
+						Les Raccourcis :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Blender3D nous offre la possibilité d'accéder trés rapidement à l'ensemble des modules du ShaderTools (ou autre) 
+						et ce en utilisant la barre d'espace de votre clavier. 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Placez-vous par exemple dans la fenêtre 3D et en cliquant sur la barre d'espace de votre clavier
+						vous devriez obtenir le module de recherche suivant : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/alias/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Pour afficher les différents modules du ShaderTools il vous suffira de saisir dans la zone de recherche le 
+						caractère ' <b>$</b> ' (dollar sans les guillemets bien sûr) comme dans la fenêtre qui suit : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/alias/002.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Il ne vous reste plus qu'à sélectionner le module qui vous intéresse puis de le valider avec le bouton gauche
+						de souris, comme ici :  
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/alias/003.jpg" id="steps">	
+					</td>
+				</tr>				
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<div id="bottom_header">
+			Créé par GRETETE Karim (alias Tinangel)<br>
+			<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">
+			<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+			</a><br />Ce travail est sous license Crative Commons : <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr">
+			Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-NC-SA 3.0) </a>.
+		</div>
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

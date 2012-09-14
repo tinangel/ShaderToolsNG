@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Help - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_EN()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab">
+						Auto-backup :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						You can set this parameter into 'Settings' element and save your files automatically :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						The backup frenquency can be edit between 5 and 50 executions of Blender3D. The list of files saved are :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						<img src="../img/English/autosave/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_explain">
+						<ul>
+							<li>
+								<b>ShaderToolsApis :</b>  this file contains API's functions needed by ShaderTools. 
+							</li>
+							<li>
+								<b>ShaderToolsConfigs :</b> this file contains the differents settings.
+							</li>
+							<li>
+								<b>ShaderToolsDatabaseNG :</b> this file is your materials database (WARNING: here it is the default name).
+							</li>
+							<li>
+								<b>ShaderToolsLanguages :</b> this file contains all languages supported.
+							</li>
+						</ul>						
+					</td>
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<script type="text/javascript">PAGE_BOTTOM_EN()</script>		
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

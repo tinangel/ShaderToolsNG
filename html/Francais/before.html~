@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="fr">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Aide - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_FR()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td style="padding-bottom: 30px">
+						Les Prérequis :
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+						Pour vous permettre de faire fonctionner le ShaderTools dans de bonnes conditions vous aurez besoin :  
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+						- d'un ordinateur capable de faire fonctionner Blender3D (au minimum la version 2.60.00). 
+						A savoir qu'actuellement quasiment tous les ordinateurs sont capables de faire fonctionner Blender3D.
+						Cependant je peux vous fournir les caractéristiques que j'ai utilisé pour créer cet add-on : 
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 10px">
+							<ul>
+								<li>Intel Pentium(R) CPU P6200 2.13Ghz Dual Core</li>
+								<li>4Go de Mémoire Vive</li>
+								<li>Carte Graphique Intel IronLake Mobile</li>
+							</ul>
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 30px">
+						- un minimum de 100Mo pour l'installation de l'add-on seul (sachant que le système d'auto-sauvegarde et
+						les sauvegardes de vos matériaux sont gourmands en espace, veillez à disposer de suffisamment de place
+						pour une utilisation dans les meilleures conditions possibles)
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom: 130px">
+						Et c'est tout il me semble :)
+					</td>
+				</tr>
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<!-- Ici je créé la zone bas de page -->
+		<div id="bottom_header">
+			Créé par GRETETE Karim (alias Tinangel)<br>
+			<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">
+			<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+			</a><br />Ce travail est sous license Crative Commons : <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr">
+			Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-NC-SA 3.0) </a>.
+		</div>
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

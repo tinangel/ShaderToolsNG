@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Help - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_EN()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab">
+						Logs, Credits and Help :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						The logs element allows you to obtain informations about user actions. 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						You can open log file from 'Utilities' menu :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						<img src="../img/English/credit_help_log/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_explain">
+						<ul>
+							<li>
+								<b>Configs database exists :</b> checks if the configuration file exists.
+							</li>
+							<li>
+								<b>Test to open a configuration :</b> checks if it's possible to open a configuration (if is not possible 
+								the default settings will restored).
+							</li>
+							<li>
+								<b>Materials database exists :</b> checks if the database exists.
+							</li>
+							<li>
+								<b>Globals :</b> the ShaderTools will check several things (they are represented by sub section that 
+								we recognize through different tabs).
+							</li>
+							<li>
+								<b>import :</b> it checked that the Python libraries are correctly imported.
+							</li>
+							<li>
+								<b>database exists :</b> checks if Test table exists.
+							</li>
+							<li>
+								<b>insert into database :</b> insert test datas inside Test table.
+							</li>
+							<li>
+								<b>select in database :</b> test if it is possible to query the database.
+							</li>
+							<li>
+								<b>update into database :</b> update Test table.
+							</li>
+							<li>
+								<b>default configuration verification :</b> test if it's possible to load the default settings.
+							</li>
+							<li>
+								<b>check folders :</b> checks if the folders and subfolders are properly initialized. 
+							</li>
+							<li>
+								<b>workbase :</b> checks if workbase file exists.
+							</li>
+							<li>
+								<b>help :</b> check if 'help' file backup exists.
+							</li>
+							<li>
+								<b>img :</b> check if 'img' file backup exists.
+							</li>
+							<li>
+								<b>bookmark import :</b> checks the Python libraries inside 'bookmark' file are correctly created.
+							</li>
+							<li>
+								<b>bookmark save :</b> checks if 'bookmark' copy is correctly created before to update current bookmark file. 
+							</li>
+							<li>
+								<b>bookmark folder :</b> checks if the materials folder is correctly created.
+							</li>
+							<li>
+								<b>bookmark update :</b> updates the bookmark file.
+							</li>
+							<li>
+								<b>Panel :</b> checks if the user interface contains no errors.
+							</li>
+						</ul>						
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						'Credits' : list of all contributors to this project.
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						<img src="../img/English/credit_help_log/002.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_title">
+						Help :  you can access this Help using ShaderTools. (you can access it 
+						opening add-on folder and execute file named 'Help_me.html').
+					</td>
+				</tr>
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<script type="text/javascript">PAGE_BOTTOM_FR()</script>		
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>

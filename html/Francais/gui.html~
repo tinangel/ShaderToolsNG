@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="fr">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Help - ShaderTools for Blender3D</title>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
+	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
+</head>
+<body>
+	<center>
+	<!-- Ici je créé le container -->
+	<div id="content_all">	
+
+		<!-- Ici je créé la zone en-tete de page-->
+		<script type="text/javascript">PAGE_HEADER()</script>
+		
+		<!-- Ici je créé le menu -->
+		<script type="text/javascript">GLOBAL_MAIN_EN()</script>
+				
+		<!-- Ici je créé la zone article -->
+		<div id="article">
+			<table>
+				<tr>
+					<td id="steps_tab"s>
+						User interface :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						Now we will see the user interface :
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_title">
+						The user interface should look like that : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/gui/001.jpg" id="steps">	
+					</td>
+				</tr>				
+				<tr>
+					<td id="steps_tab_explain">
+						<ul>
+							<li>
+								<b>Open :</b> This button allows you to access the materials database.
+							</li>
+							<li>
+								<b>Save :</b> This button allows you to backup the selected material into your materials database.
+							</li>
+							<li>
+								<b>Export :</b> This button allows you to export the selected material and to share him.
+							</li>
+							<li>
+								<b>Import :</b> This button allows you to import in your scene a material previously exported.
+							</li>
+							<li>
+								<b>Utilities :</b> This list allows you to access various tools that can be useful (see below).
+							</li>
+							<li>
+								<b>Progess bar :</b> Indicate the state of progress of the various tools used.
+							</li>
+						</ul>						
+					</td>
+				</tr>
+				
+				<tr>
+					<td id="steps_tab_title">
+						The list of tools should look like this : 
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab">
+						<img src="../img/Francais/gui/002.jpg" id="steps">	
+					</td>
+				</tr>
+				<tr>
+					<td id="steps_tab_explain">
+						<ul>
+							<li>
+								<b>Export or Import the materials database :</b> this element allows you to export or import  the database materials safely.
+							</li>
+							<li>
+								<b>Open the path of the add-on :</b> this element allows you to open  work directory  of ShaderTools.
+							</li>
+							<li>
+								<b>Cleaning Tools :</b> This element allows you to clean ShaderTools directories.
+							</li>
+							<li>
+								<b>Migrate a database (v1 -> v2) :</b> this element allows you to migrate an old 
+								database created with ShaderTools (the database must be a version 0.9) to a recent
+								database of the ShaderToolsNG (v2).  
+							</li>
+							<li>
+								<b>Credits :</b> this element allows you to access the list of contributors project.
+							</li>
+							<li>
+								<b>Help :</b> ce module vous permet d'accéder à la présente aide via le ShaderTools.
+							</li>
+							<li>
+								<b>Logs :</b> ce module vous permet d'obtenir des informations sur les éventuelles erreurs qui pourrait survenir
+								lors de l'utilisation de cet add-on.
+							</li>
+							<li>
+								<b>Créer une nouvelle matière :</b> ce module vous permet de créer un nouveau materiau trés simplement 
+								et en utilisant une pré-visualisation commune aux autres matériaux déjà existant. 
+							</li>
+							<li>
+								<b>Configuration :</b> ce module vous permet de créer différentes configurations suivant vos besoins et 
+								notamment de gérer de multiples bases de matériaux.
+							</li>
+						</ul>						
+					</td>
+				</tr>
+
+			</table>		
+		</div>
+
+		<!-- Ici je créé la zone bas de page -->
+		<script type="text/javascript">PAGE_BOTTOM_EN()</script>		
+		<div style="float:left; width:1020px; height:20px"></div>
+		
+
+	</div>
+	</center>
+</body>
+
+</html>
