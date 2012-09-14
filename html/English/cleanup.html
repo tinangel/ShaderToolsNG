@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="fr">
+<html lang="en">
 <head>
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
-	<title>Aide - ShaderTools for Blender3D</title>
+	<title>Help - ShaderTools for Blender3D</title>
 	<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen">
 	<SCRIPT type="text/javascript" src="../js/interface.js"></SCRIPT>
 </head>
@@ -15,25 +15,24 @@
 		<script type="text/javascript">PAGE_HEADER()</script>
 		
 		<!-- Ici je créé le menu -->
-		<script type="text/javascript">GLOBAL_MAIN_FR()</script>
+		<script type="text/javascript">GLOBAL_MAIN_EN()</script>
 				
 		<!-- Ici je créé la zone article -->
 		<div id="article">
 			<table>
 				<tr>
 					<td id="steps_tab">
-						Les Outils de nettoyage :
+						Tools cleaning :
 					</td>
 				</tr>
 				<tr>
 					<td id="steps_tab_title">
-						Ce module vous permet de nettoyer le répertoire du ShaderTools en quelques clics et sans risque. 
+						This element allows you to clean the ShaderTools directory without risk. 
 					</td>
 				</tr>
 				<tr>
 					<td id="steps_tab_title">
-						Cliquez sur la liste des 'Utilitaires' de l'interface du ShaderTools puis 'Outils de nettoyage' pour accéder
-						à ce module :
+						Click on 'Utilities' into user interface then click on 'Cleaning tools' :
 					</td>
 				</tr>
 				<tr>
@@ -43,8 +42,8 @@
 				</tr>				
 				<tr>
 					<td id="steps_tab_title">
-						Une nouvelle fenêtre devrait s'ouvrir vous proposant de nettoyer les différents répertoires de l'add-on. Il vous 
-						suffit de cocher les cases des éléments à supprimer puis de valider comme dans l'exemple ci-dessous :
+						A new window appears to allows you to clean up directories inside ShaderTools folder. 
+						You must check boxes near elements you need clean up : 
 					</td>
 				</tr>
 				<tr>
@@ -56,38 +55,30 @@
 					<td id="steps_tab_explain">
 						<ul>
 							<li>
-								<b>Dossier temporaire :</b> l'add-on utilise ce dossier pour stoquer temporairement des éléments (export...). 
+								<b>Temporary folder :</b> this folder contains temporaries files used (example *.blex files). 
 							</li>
 							<li>
-								<b>Dossier des logs :</b> il s'agit du répertoire contenant le log de l'état des actions du ShaderTools (en bref
-								c'est le fichier qui s'affiche lorsque vous allez dans 'Utilitaires' puis 'Logs'). Ce fichier sera donc supprimer.
+								<b>Log file :</b> this folder contains the differents actions used by current user and messages 
+								(errors, informations and warnings).
 							</li>
 							<li>
-								<b>Sauvegardes de migration :</b> Lorsque vous effectuez une migration de la base ou encore un import-export de 
-								la base de matériaux, une copie de l'ancienne base est faites pour éviter les erreurs humaines. Assurez-vous
-								avant de faire cela de bien réfléchir à 2 fois et surtout avoir au moins une copie de sauvgarde sans quoi en
-								cas de problème vous perdrez toutes ces données.
+								<b>Migrate database (V1 -> V2) :</b> when you migrate or import/export a materials database a copy is 
+								created into folder 'save'. Before check this box, please make sure you have one copy because if an error 
+								occurs you lost all your datas. 
 							</li>
 							<li>
-								<b>Dossiers pycache :</b> il s'agit en fait des dossiers compilés pour être lisible par python (grâce à Blender3D
-								qui fait office de passerelle). Cependant il m'est arrivé de voir que ces fichiers ne se mettaient pas 
-								systématiquement à jour. Par conséquent j'offre la possibilité de les supprimer en toute sécurité au cas où cela
-								pourrait être utile. Ils seront recréer par Blender3D au prochain lancement. 
+								<b>Pycache folder :</b> this folder contains python compiled files created by Blender, if you active this box,
+								'__pycache__' folders are removed. Don't worry because the folders are recreated at next execution of Blender.    
 							</li>
 							<li>
-								<b>Dossier d'archives (zip) :</b> il s'agit du répertoire contenant les archives déjà utilisées au format zip. 
+								<b>Archive files (zip) :</b> this folder contains all archives already used. 
 							</li>
 							<li>
-								<b>Dossier d'autosauvegardes :</b> Suivant la façon dont votre configuration actuelle est paramétrée une auto-sauvegarde
-								des fichiers importants sont stockés dans ce répertoire (voir la rubrique 'L'Auto-sauvegarde' pour plus de détails).
-								La sauvegarde automatique est un bon moyen en cas de problème pour espérer retrouver vos données. Cependant c'est
-								aussi une fonction gourmande en espace disque (suivant la taille de votre base). Pour cette raison vous pouvez
-								en cochant cette case vider le contenu de ce répertoire. 
+								<b>Auto-backup files :</b> depending your current configuration (please see 'Auto-backup' section for more 
+								details). You can remove all backups included inside folder 'save'. 
 							</li>
 							<li>
-								<b>Dossier des previsualisations :</b> il s'agit en fait du dossier qui vous affiche la liste des matériaux 
-								(celle que vous obtenez en allant dans 'Ouvrir' puis le bookmarks 'Base Materiaux'). Vous pourrez donc supprimer
-								son contenu en cochant la case. 
+								<b>Materials preview folder :</b> you can removed all previews of materials inside 'Materials database' folder.
 							</li>
 						</ul>						
 					</td>
@@ -95,10 +86,9 @@
 		</div>
 
 		<!-- Ici je créé la zone bas de page -->
-		<script type="text/javascript">PAGE_BOTTOM_FR()</script>		
+		<script type="text/javascript">PAGE_BOTTOM_EN()</script>		
 		<div style="float:left; width:1020px; height:20px"></div>
 		
-
 	</div>
 	</center>
 </body>
