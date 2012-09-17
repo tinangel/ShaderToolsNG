@@ -167,6 +167,7 @@ class ExportImportDatabase(eval(api_functions['types_operator'])):
 class Cleanup(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_cleanup"
     bl_label = space_access_name + active_languages['bl_id_name_tools_cleanup']
+    global  database_stuff
 
     ctx = eval(api_functions['props'])
     temp_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_temp'], default=0)
@@ -178,17 +179,20 @@ class Cleanup(eval(api_functions['types_operator'])):
     materials_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_materials_folder'], default=0)
 
     def invoke(self, context, event):
-        wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=400"))
+        if database_stuff: wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
+        else: wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=400"))
         return {'RUNNING_MODAL'}
 
     def draw(self, context):
-            layout = self.layout
+        layout = self.layout
+        row = layout.row(align=True)
+        if database_stuff: 
+            row.label(active_languages['menu_error_error040'], icon='RADIO')
             row = layout.row(align=True)
-        #if not eval(api_functions['blend_save']):
-        #   row.label(active_languages['menu_error_error053'], icon="RADIO")
-        #    row = layout.row(align=True)
-        #    row.label(active_languages['menu_error_error054'])
-        #else:
+            row.label(active_languages['menu_error_error041'])
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error042'])
+        else:
             row.label(active_languages['menu_tools_cleanup_title'] +':')
             row = layout.row(align=True)
             row.label(active_languages['menu_error_error054'], icon="RADIO")
@@ -207,13 +211,14 @@ class Cleanup(eval(api_functions['types_operator'])):
             
     def execute(self, context):
         global update
-        choices = {"temp":self.temp_BP,  "zip":self.zip_BP, "error":self.error_BP, "autosave":self.autosave_BP, 
+        if not database_stuff: 
+            choices = {"temp":self.temp_BP,  "zip":self.zip_BP, "error":self.error_BP, "autosave":self.autosave_BP, 
                            "migrate":self.migrate_BP, "pycache":self.pycache_BP, "materials":self.materials_BP}
-        try:
-            lauch_progress_bar = threading.Thread(None, cleanup.Selected, "Cleanup", (default_paths,  active_configuration, api_functions, active_languages, choices), {})
-            lauch_progress_bar.start()
-            update = True
-        except:pass
+            try:
+                lauch_progress_bar = threading.Thread(None, cleanup.Selected, "Cleanup", (default_paths,  active_configuration, api_functions, active_languages, choices), {})
+                lauch_progress_bar.start()
+                update = True
+            except:pass
         return {'PASS_THROUGH'}
 
 class OpenAddOnFolder(eval(api_functions['types_operator'])):
@@ -639,10 +644,27 @@ class Import(eval(api_functions['types_operator'])):
 class New(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_new"
     bl_label = space_access_name + active_languages['bl_id_name_create']    
+    global  database_stuff
 
-    def execute(self, context):
-        new.CreateNew(default_paths['app'], active_configuration, api_functions, active_languages)
-        return {'PASS_THROUGH'}   
+    def draw(self, context):
+        layout = self.layout
+        row = layout.row(align=True)
+        if database_stuff: 
+            row.label(active_languages['menu_error_error040'], icon='RADIO')
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error041'])
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error042'])
+
+    def invoke(self, context, event):
+        if database_stuff: 
+            wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
+            return {'RUNNING_MODAL'} 
+        else:
+            new.CreateNew(default_paths['app'], active_configuration, api_functions, active_languages) 
+            return {'PASS_THROUGH'} 
+
+    def execute(self, context): return {'PASS_THROUGH'}   
 
 def ConfigurationUpdateDefaultConfig(self,  context):
     global default_paths,  active_configuration,  configurations_config,  conf_current_idx
