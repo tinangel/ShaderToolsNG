@@ -65,6 +65,7 @@ conf_current_name = ""
 conf_current_idx = 1
 database_stuff = False
 inf_current_weblink = False
+progress_bar = False
 #Tests & verifications
 bookmarks_folder_path = os.path.join(default_paths['app'], active_languages['menu_bookmarks_name'])
 update = checkup.MakeCheckup(default_paths['database'], default_paths['configs_database'], default_paths['bookmarks'], 
@@ -114,9 +115,9 @@ class ExportImportDatabase(eval(api_functions['types_operator'])):
     export_BP = ctx.BoolProperty(name=active_languages['menu_tools_io_database_export'], default=1)
 
     def draw(self, context):
+        layout = self.layout
+        row = layout.row(align=True)
         if not database_stuff:
-            layout = self.layout
-            row = layout.row(align=True)
             row.label(active_languages['menu_tools_io_database_title'] + ':', icon="HELP")
             row = layout.row(align=True)
             row.prop(self, "export_BP")
@@ -124,8 +125,6 @@ class ExportImportDatabase(eval(api_functions['types_operator'])):
             row.prop(self, "import_BP")
             row = layout.row(align=True)
         else:
-            layout = self.layout
-            row = layout.row(align=True)
             row.label(active_languages['menu_error_error040'], icon='RADIO')
             row = layout.row(align=True)
             row.label(active_languages['menu_error_error041'])
@@ -227,8 +226,9 @@ class OpenAddOnFolder(eval(api_functions['types_operator'])):
 
 def UpdateProgressBar(self,  context): return None
 def LoadingMigrateProgressBar(path):
-    global database_stuff
+    global database_stuff, progress_bar
     database_stuff = True
+    progress_bar = True
     ctx_scene = eval(api_functions['context_scene'])
     number_max = request.DatabaseCount(path, "Mat_Index", "MATERIALS", "", 'one')
     version_values = request.DatabaseSelect(path, keys.OldVersionKeys(), "VERSION", "", 'one')
@@ -247,6 +247,7 @@ def LoadingMigrateProgressBar(path):
         open.CreateThumbnails(default_paths,  active_configuration, api_functions, active_languages, False)
         misc.LogError("*"*3 +"\n", 0)
     database_stuff = False
+    progress_bar = False
 
 class RestoreFilters(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_restore"
@@ -277,11 +278,25 @@ class UpdateWarning(eval(api_functions['types_operator'])):
 
 class BeforeOpen(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_before"
-    bl_label = ''    
+    bl_label = space_access_name + active_languages['bl_id_name_open'] 
 
-    def execute(self, context):
-        global database_stuff,  active_history
-        if not database_stuff:
+    def draw(self, context):
+        global  database_stuff
+        if database_stuff:
+            layout = self.layout
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error040'], icon='RADIO')
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error041'])
+            row = layout.row(align=True)
+            row.label(active_languages['menu_error_error042'])
+
+    def invoke(self, context, event):
+        global  database_stuff,  active_history
+        if database_stuff : 
+            wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
+            return {'RUNNING_MODAL'}
+        else: 
             ops_object = eval(api_functions['ops_object'])
             Open.history_EP[1]['items'] = active_history
             eval(api_functions['utils_unregister_class'].replace("#1#", "Open"))
@@ -290,7 +305,9 @@ class BeforeOpen(eval(api_functions['types_operator'])):
             tempory_folder = os.path.join(database_folder,  ".tempory")
             search.MoveAllInsideFolder(active_configuration, api_functions, active_languages, tempory_folder,  database_folder)
             ops_object.shadertoolsng_open('INVOKE_DEFAULT')
-        return {'FINISHED'}
+            return {'FINISHED'}
+
+    def execute(self, context): return {'FINISHED'}   
 
 class InformationsWeblink(eval(api_functions['types_operator'])): 
     bl_idname = "object.shadertoolsng_weblink"
@@ -380,8 +397,7 @@ class Informations(eval(api_functions['types_operator'])):
 class Open(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_open"
     bl_label = space_access_name + active_languages['bl_id_name_open']  
-    
-    global  database_stuff
+
     ctx = eval(api_functions['props'])
     types_scene = eval(api_functions['types_scene'])
     msg = "%s %s" % (active_languages['menu_search_label02'] ,  active_languages['menu_search_label03'])
@@ -399,7 +415,70 @@ class Open(eval(api_functions['types_operator'])):
     email_BP = ctx.BoolProperty(name=active_languages['menu_search_email'], default=0)
     
     def draw(self, context):
+        layout = self.layout
+        row = layout.row(align=True)
+        row.label(active_languages['menu_search_title'])
+        row = layout.row(align=True)
+        row.prop(self, "search_SP") 
+        row = layout.row(align=True)
+        row.label(active_languages['menu_search_label04'])
+        row = layout.row(align=True)
+        row.prop(self, "name_BP")            
+        row.prop(self, "description_BP")            
+        row = layout.row(align=True)
+        row.prop(self, "creator_BP")
+        row.prop(self, "category_BP")                        
+        row = layout.row(align=True)
+        row.prop(self, "weblink_BP")            
+        row.prop(self, "email_BP")            
+        row = layout.row(align=True)
+        row.label(" ")
+        row = layout.row(align=True)
+        row.label(active_languages['menu_history_title'])
+        row = layout.row(align=True)
+        row.prop(self, "history_EP")            
+        row = layout.row(align=True)
+        row.label(" ")
+        row = layout.row(align=True)
+        row.operator("object.shadertoolsng_restore", text=active_languages['menu_open_restore'], icon='FILE_REFRESH')
+        row = layout.row(align=True)
+        row.operator("object.shadertoolsng_before_inf", text=active_languages['menu_information_label01'], icon='INFO')
+        row = layout.row(align=True)
+        row.label(" ")
+            
+    def invoke(self, context, event):
+        eval(api_functions['utils_unregister_class'].replace("#1#", "BeforeInformations"))
+        eval(api_functions['utils_register_class'].replace("#1#", "BeforeInformations"))
+        wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
+        return {'RUNNING_MODAL'}
+        
+    def execute(self, context):
+        global active_history
         ctx_scene = eval(api_functions['context_scene'])
+        ops_object = eval(api_functions['ops_object'])
+        ctx = eval(api_functions['props'])
+        ctx_scene.shadertoolsng_utils_bar = 0
+        step_number = 4
+        open.ImportMaterialInApp(default_paths,  active_configuration, api_functions, active_languages, self.filename,  step_number)
+        history.UpdateHistory(default_paths,  active_configuration, api_functions, active_languages,  self.filename,  active_history)
+        active_history = history.CurrentHistory(default_paths,  active_configuration, api_functions, active_languages)
+        return {'FINISHED'}
+        
+class Save(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_save"
+    bl_label = space_access_name + active_languages['bl_id_name_save']    
+
+    global  database_stuff
+    ctx = eval(api_functions['props'])
+    name_SP = ctx.StringProperty(name=active_languages['menu_save_material_title'], default=active_configuration['material_name'])
+    creator_SP = ctx.StringProperty(name=active_languages['menu_save_creator_name_title'], default=active_configuration['author'])
+    weblink_SP = ctx.StringProperty(name=active_languages['menu_save_web_link_title'], default=active_configuration['web_link'])
+    email_SP = ctx.StringProperty(name=active_languages['menu_save_email_title'], default=active_configuration['email_creator'])
+    key_words_SP = ctx.StringProperty(name=active_languages['menu_save_key_words_title'], default=active_configuration['key_words'])
+    description_SP = ctx.StringProperty(name=active_languages['menu_save_description_title'], default=active_configuration['description'])    
+    category_EP = ctx.EnumProperty(name=active_languages['menu_configuration_category'],items=(active_categories),default=active_configuration['category'])
+   
+    def draw(self, context):
         layout = self.layout
         row = layout.row(align=True)
         if database_stuff: 
@@ -408,79 +487,30 @@ class Open(eval(api_functions['types_operator'])):
             row.label(active_languages['menu_error_error041'])
             row = layout.row(align=True)
             row.label(active_languages['menu_error_error042'])
-        else:
-            row.label(active_languages['menu_search_title'])
-            row = layout.row(align=True)
-            row.prop(self, "search_SP") 
-            row = layout.row(align=True)
-            row.label(active_languages['menu_search_label04'])
-            row = layout.row(align=True)
-            row.prop(self, "name_BP")            
-            row.prop(self, "description_BP")            
-            row = layout.row(align=True)
-            row.prop(self, "creator_BP")
-            row.prop(self, "category_BP")                        
-            row = layout.row(align=True)
-            row.prop(self, "weblink_BP")            
-            row.prop(self, "email_BP")            
-            row = layout.row(align=True)
-            row.label(" ")
-            row = layout.row(align=True)
-            row.label(active_languages['menu_history_title'])
-            row = layout.row(align=True)
-            row.prop(self, "history_EP")            
-            row = layout.row(align=True)
-            row.label(" ")
-            row = layout.row(align=True)
-            row.operator("object.shadertoolsng_restore", text=active_languages['menu_open_restore'], icon='FILE_REFRESH')
-            row = layout.row(align=True)
-            row.operator("object.shadertoolsng_before_inf", text=active_languages['menu_information_label01'], icon='INFO')
-            row = layout.row(align=True)
-            row.label(" ")
-            
-    def invoke(self, context, event):
-        eval(api_functions['utils_unregister_class'].replace("#1#", "BeforeInformations"))
-        eval(api_functions['utils_register_class'].replace("#1#", "BeforeInformations"))
-        if not database_stuff : wm = eval(api_functions['fileselect_add'].replace("#1#", "self"))
-        else: wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
-        return {'RUNNING_MODAL'}
-        
-    def execute(self, context):
-        global database_stuff,  active_history
-        if not database_stuff :
-            ctx_scene = eval(api_functions['context_scene'])
-            ops_object = eval(api_functions['ops_object'])
-            ctx = eval(api_functions['props'])
-            ctx_scene.shadertoolsng_utils_bar = 0
-            step_number = 4
-            open.ImportMaterialInApp(default_paths,  active_configuration, api_functions, active_languages, self.filename,  step_number)
-            history.UpdateHistory(default_paths,  active_configuration, api_functions, active_languages,  self.filename,  active_history)
-            active_history = history.CurrentHistory(default_paths,  active_configuration, api_functions, active_languages)
-        return {'FINISHED'}
-        
-class Save(eval(api_functions['types_operator'])):
-    bl_idname = "object.shadertoolsng_save"
-    bl_label = space_access_name + active_languages['bl_id_name_save']    
-
-    global  database_stuff
-    
-    def draw(self, context):
-        if database_stuff: 
-            layout = self.layout
-            row = layout.row(align=True)
-            row.label(active_languages['menu_error_error040'], icon='RADIO')
-            row = layout.row(align=True)
-            row.label(active_languages['menu_error_error041'])
-            row = layout.row(align=True)
-            row.label(active_languages['menu_error_error042'])
         else: 
-            layout = self.layout
-            row = layout.row(align=True)
-            row.label("En cours de developpement", icon='RADIO')
+            if ctx_active_object():
+                row.label(active_languages['menu_save_title'] + ":",  icon='INFO')
+                row = layout.row(align=True)
+                row.prop(self, "name_SP")  
+                row = layout.row(align=True)
+                row.prop(self, "creator_SP")    
+                row = layout.row(align=True)
+                row.prop(self, "weblink_SP")    
+                row = layout.row(align=True)
+                row.prop(self, "email_SP")    
+                row = layout.row(align=True)
+                row.prop(self, "description_SP")    
+                row = layout.row(align=True)
+                row.prop(self, "key_words_SP")    
+                row = layout.row(align=True)
+                row.prop(self, "category_EP")    
+                row = layout.row(align=True)
+            else:
+                row.label(active_languages['menu_error_error059'], icon='RADIO')
  
     def invoke(self, context, event):
-        if not database_stuff: wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
-        else: wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self"))
+        if not database_stuff and ctx_active_object(): wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
+        else: wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
         return {'RUNNING_MODAL'} 
     
     def execute(self, context):
@@ -721,6 +751,7 @@ class Configuration(eval(api_functions['types_operator'])):
         global default_paths, languages_config, active_configuration, active_languages, active_categories, names_config, options_actions,\
                names_languages, space_access_name, ConfigurationSearch, conf_current_idx, update
         if self.conf_language_EP != active_configuration['language'] and self.conf_default_BP: update = True
+        elif self.conf_language_EP != active_configuration['language'] : update = True
         
         configurations_config = environment.ConfigurationsDatas(default_paths['configs_database'], False)
         c = self.conf_options_EP.split("_")[-1]
@@ -849,7 +880,7 @@ class UtilsMigrate(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_utils_migrate"
     bl_label = space_access_name + active_languages['bl_id_name_utils_migrate']    
 
-    global database_stuff
+    global database_stuff,  progress_bar
     
     ctx = eval(api_functions['props'])
     filename_ext = ".sqlite"
@@ -880,8 +911,9 @@ class UtilsMigrate(eval(api_functions['types_operator'])):
         return {'RUNNING_MODAL'} 
 
     def execute(self, context):
-        global database_stuff
+        global database_stuff,  progress_bar
         if not database_stuff: 
+            progress_bar = True
             lauch_progress_bar = threading.Thread(None, LoadingMigrateProgressBar, None, (self.filepath,), {})
             lauch_progress_bar.start()
         return {'FINISHED'}   
@@ -964,8 +996,9 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
             row = layout.row()
             row.label("%s : " % active_languages['panel_utils_label'], icon="PREFERENCES")
             row.prop(ctx_scene, "shadertoolsng_utils_enum")
-            row = layout.row()
-            row.prop(ctx_scene, "shadertoolsng_utils_bar")
+            if progress_bar:
+                row = layout.row()
+                row.prop(ctx_scene, "shadertoolsng_utils_bar")
             
 MyReg = \
     (

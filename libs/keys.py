@@ -129,8 +129,10 @@ def LangagesKeys():
          "menu_information_weblink", "menu_information_email", "bl_id_name_search_infos",  "menu_search_name",  "buttons_tools_cleanup",  "buttons_addon_folder_access",  
          "buttons_export_import",  "bl_id_name_open_addon",  "bl_id_name_export_import",  "bl_id_name_tools_cleanup",  "menu_tools_cleanup_temp", "menu_tools_cleanup_zip", 
          "menu_tools_cleanup_pycache",  "menu_tools_cleanup_autosave",  "menu_tools_cleanup_logs",  "menu_tools_cleanup_title", "menu_tools_cleanup_migrate",   
-         "menu_tools_cleanup_materials_folder",  "menu_tools_io_database_title",  "menu_tools_io_database_import",  "menu_tools_io_database_export",  
-         "menu_configuration_web_browser",  "menu_configuration_file_browser"]
+         "menu_tools_cleanup_materials_folder",  "menu_tools_io_database_title",  "menu_tools_io_database_import",  "menu_tools_io_database_export", 
+         "menu_save_material_title", "menu_save_creator_name_title", "menu_save_creator_name", "menu_save_description_title", "menu_save_description", 
+         "menu_save_category_title", "menu_save_category", "menu_save_key_words_title", "menu_save_key_words", "menu_save_web_link_title", "menu_save_web_link", 
+         "menu_save_email_title", "menu_save_email", "menu_save_title",  "menu_configuration_web_browser",  "menu_configuration_file_browser"]
     for i in range(1, 81): temp.append("menu_error_error%03d" % i)
     return temp
 #end Langages keys
