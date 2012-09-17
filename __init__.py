@@ -84,7 +84,10 @@ def ctx_active_object():
         ctx_active_object = False
     return ctx_active_object 
 
-def OpenUpdateHistory(self,  context): search.FilterHistory(default_paths,  active_configuration, api_functions, active_languages,  self.history_EP)
+def OpenUpdateHistory(self,  context): 
+    if self.history_EP != 'None' and self.history_EP != None:     
+        search.FilterHistory(default_paths,  active_configuration, api_functions, active_languages,  self.history_EP)
+
 def OpenSearch(self,  context): 
     advanced_search_properties = \
         {
