@@ -44,7 +44,4 @@ def PreviewRenderInternal(api_functions, active_configuration, material_dict):
                 exec("%s = '%s'" % (str(api_functions[p]), str(save_render_configuration[p])))
             else: exec("%s = %s" % (str(api_functions[p]), str(save_render_configuration[p])))
 
-         
-
-
-
+    return preview_name

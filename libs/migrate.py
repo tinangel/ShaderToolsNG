@@ -29,7 +29,7 @@ def MigrateV1V2MaterialRamps(materials_ramps_properties):
         if not p in materials_ramps_values_element: materials_ramps_values_element.append(p)
         current_ramps_values.append(copy(temp))
         c = c + 1
-    for r in current_ramps_values:request.DatabaseInsert(materials_ramps_properties[6]['database'], materials_ramps_values_element, r, materials_ramps_properties[5])
+    for r in current_ramps_values:request.DatabaseInsert(materials_ramps_properties[6]['database'], materials_ramps_values_element, r, materials_ramps_properties[5],  False)
 #end Migrate materials ramps
 
 #Migrate SQLite Database V1->V2
@@ -50,7 +50,7 @@ def MigrateV1V2(path, api_functions, active_languages, active_configuration, def
             materials_values_final.append(str(request.DatabaseSelect(path, \
                 keys.OldMaterialsColorRadiusDict()[t], "MATERIALS", "where Mat_Index=%s" %idx, 'one')))
         materials_values_final[1] = materials_values_final[1].replace("MAT_PRE_", "$T_")
-        request.DatabaseInsert(default_paths['database'], materials_values_element, materials_values_final, "MATERIALS")
+        request.DatabaseInsert(default_paths['database'], materials_values_element, materials_values_final, "MATERIALS",  False)
         material_created = True
         misc.LogAndPrintError((active_languages['menu_error_error035'] % (materials_values[1]),  active_languages['menu_error_error035'] % (materials_values[1])))
     except: misc.LogAndPrintError((active_languages['menu_error_error033'] % (materials_values[1]),  active_languages['menu_error_error033'] % (materials_values[1])))
@@ -114,7 +114,7 @@ def MigrateV1V2(path, api_functions, active_languages, active_configuration, def
             render_values_final = []
             for v in render_values:  render_values_final.append(v)
             for e in keys.OldRenderKeys(): render_values_element.append(keys.OldRenderDict()[e])
-            request.DatabaseInsert(default_paths['database'], render_values_element, render_values_final, "RENDER")
+            request.DatabaseInsert(default_paths['database'], render_values_element, render_values_final, "RENDER",  False)
             misc.LogAndPrintError((active_languages['menu_error_error036'] % ("preview render",materials_values[1]), active_languages['menu_error_error036'] % ("preview render",materials_values[1])))
         except: misc.LogAndPrintError((active_languages['menu_error_error034'] % ("preview render",materials_values[1]), active_languages['menu_error_error034'] % ("preview render",materials_values[1])))
     #end preview render 
@@ -174,7 +174,7 @@ def MigrateV1V2(path, api_functions, active_languages, active_configuration, def
                         if not imageuv_values == [] and type(imageuv_values).__name__ != 'NoneType': 
                             for i in keys.OldImageUvKeys(): textures_values_element_2.append(keys.OldImageUvDict()[i])
                             for u in range(0, keys.OldImageUvKeys().__len__()): textures_values_final.append( imageuv_values[u])
-                        request.DatabaseInsert(default_paths['database'], textures_values_element_2, textures_values_final, "TEXTURES")
+                        request.DatabaseInsert(default_paths['database'], textures_values_element_2, textures_values_final, "TEXTURES",  False)
                         misc.LogAndPrintError((active_languages['menu_error_error038'] % (str(v[2]),str(materials_values[1])), active_languages['menu_error_error038'] % (str(v[2]),str(materials_values[1]))))
         #except: misc.LogAndPrintError(((active_languages['menu_error_error039'] %  materials_values[1]), active_languages['menu_error_error039'] % materials_values[1]))
     #end textures
@@ -186,7 +186,7 @@ def MigrateV1V2(path, api_functions, active_languages, active_configuration, def
             informations_values_final = []
             for v in informations_values:  informations_values_final.append(v)
             for e in keys.OldInformationsKeys(): informations_values_element.append(keys.OldInformationsDict()[e])
-            request.DatabaseInsert(default_paths['database'], informations_values_element, informations_values_final, "INFORMATIONS")
+            request.DatabaseInsert(default_paths['database'], informations_values_element, informations_values_final, "INFORMATIONS",  False)
             misc.LogAndPrintError((active_languages['menu_error_error048'] % materials_values[1], active_languages['menu_error_error048'] % materials_values[1]))
         except: misc.LogAndPrintError((active_languages['menu_error_error049'] % materials_values[1], active_languages['menu_error_error049'] % materials_values[1]))
     #end informations

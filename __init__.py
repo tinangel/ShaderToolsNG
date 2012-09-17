@@ -522,9 +522,58 @@ class Save(eval(api_functions['types_operator'])):
         return {'RUNNING_MODAL'} 
     
     def execute(self, context):
-        global database_stuff
+        global database_stuff, default_paths, active_configuration, api_functions
         if not database_stuff:
-           print("Database has not stuff") 
+            num_material = request.DatabaseMax(default_paths['database'], "num_materials", "MATERIALS", "", 'one')[0] + 1
+            num_information = request.DatabaseMax(default_paths['database'], "num_informations", "INFORMATIONS", "", 'one')[0] + 1
+            num_render = request.DatabaseMax(default_paths['database'], "num_render", "RENDER", "", 'one')[0] + 1
+            num_texture = request.DatabaseMax(default_paths['database'], "num_textures", "TEXTURES", "", 'one')[0] + 1
+            num_diffuse_ramp = request.DatabaseMax(default_paths['database'], "num_diffuse_ramps", "DIFFUSE_RAMPS", "", 'one')[0] + 1
+            num_specular_ramp = request.DatabaseMax(default_paths['database'], "num_specular_ramps", "SPECULAR_RAMPS", "", 'one')[0] + 1
+
+            request_dict = \
+                    {
+                     "informations":True,  "material":True,  "diffuse_ramps":True,  "specular_ramps":True, 
+                     "textures":True,  "color_ramps":True,  "pointdensity_ramps":True,  "render":True, 
+                     }
+            material_dict = \
+                    {
+                     "material_name": self.name_SP, "name": "$T_%s" % self.name_SP, "creator":self.creator_SP,
+                     "weblink":self.weblink_SP,"email":self.email_SP,"description":self.description_SP,
+                     "key_words":self.key_words_SP, "category":self.category_EP,
+                     "paths":default_paths, "idx_materials":num_material, "num_informations":num_information, "num_render":num_render, 
+                     "idx_textures":num_texture, "idx_diffuse_ramp":num_diffuse_ramp, "idx_specular_ramp":num_specular_ramp, 
+                     "filename":self.name_SP, "filepath":os.path.join(default_paths['temp'],  'tempory_name.jpg'),
+                     "type":eval(api_functions['type']),  "preview_render_type":eval(api_functions['preview_render_type']),
+                      "num_materials":num_material, 
+                    }
+            
+            #Test all requests before commit:
+            request_dict['informations']  = save.InformationsSave(material_dict, api_functions, active_languages, active_configuration, True)
+            request_dict['render'] = save.RenderSave(material_dict, api_functions, active_languages, active_configuration, True)
+            request_dict['material'] = save.MaterialSave(material_dict, api_functions, active_languages, active_configuration, True)
+            if eval(api_functions['use_diffuse_ramp']):
+                request_dict['diffuse_ramps'] = save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'diffuse',  True)
+            if eval(api_functions['use_specular_ramp']):
+                request_dict['specular_ramps'] = save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'specular',  True)
+            
+            #Here i commit all requests:
+            error_occurs = False
+            for v in request_dict:
+                if not request_dict[v]: 
+                    error_occurs = True
+                    break
+            if not error_occurs:       
+                save.InformationsSave(material_dict, api_functions, active_languages, active_configuration, False)
+                save.RenderSave(material_dict, api_functions, active_languages, active_configuration, False)
+                save.MaterialSave(material_dict, api_functions, active_languages, active_configuration, False)
+                if eval(api_functions['use_diffuse_ramp']):
+                    request_dict['diffuse_ramps'] = save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'diffuse',  False)
+                if eval(api_functions['use_specular_ramp']):
+                    request_dict['specular_ramps'] = save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'specular',  False)
+            
+        lauch_progress_bar = threading.Thread(None, open.CreateThumbnails, "Create_thumbnails", (default_paths,  active_configuration, api_functions, active_languages, False, ), {})
+        lauch_progress_bar.start()
         return {'FINISHED'}   
 
 class Export(eval(api_functions['types_operator'])):

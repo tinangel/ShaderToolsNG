@@ -41,7 +41,7 @@ def MakeCheckup(database_path, configs_database_path,bookmark_path, bookmark_fol
         )
     
     try:
-        result = request.DatabaseInsert(database_path, keys.TestKeys(), elements_val, 'TEST')
+        result = request.DatabaseInsert(database_path, keys.TestKeys(), elements_val, 'TEST',  False)
         if result:
             print(misc.ConsoleError("insert into database ", 1, True))
         else:

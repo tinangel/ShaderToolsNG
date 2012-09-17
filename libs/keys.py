@@ -101,7 +101,8 @@ def ApiKeys():
          "texture_slots_add", "texture_image_save_render", "texture_image_save_as", "texture_image_pack", "texture_image_unpack", "texture_image_load", "material_name", "render_render",
          "ops_script_python_file_run", "types_scene", "invoke_popup", "texture_noise_scale_2",  "texture_point_density_vertex_cache_space",  
          "texture_point_density_vertex_cache_space",  "texture_image_use_generated_float",  "scene_layers", "select_object",    
-          "texture_environment_map_zoom", "material_index",  "ramps_new",  "ramps_new_2", "ops_file_refresh",  "blend_save",  "blend_filepath")
+         "texture_environment_map_zoom", "material_index",  "ramps_new",  "ramps_new_2", "ops_file_refresh",  "blend_save",  "blend_filepath",  
+         "render_color_management")
     return temp
 #end Api keys
 #Langages keys
@@ -274,6 +275,12 @@ def MaterialsPropertiesKeys(api_functions):
     "halo.flare_seed":(api_functions['halo_flare_seed'], ''),"halo.flare_subflare_count":(api_functions['halo_flare_subflare_count'], ''),
     "halo.flare_subflare_size":(api_functions['halo_flare_subflare_size'], ''),}
     return mat_properties
+def MaterialsSaveKeys():
+    temp = \
+        (
+         "num_materials", "idx_textures", "idx_diffuse_ramp", "idx_specular_ramp", "name", "type", "preview_render_type",
+         )
+    return temp    
 #end Material Properties keys
 #Textures Properties keys
 def TexturesPropertiesKeys(api_functions):
@@ -593,6 +600,9 @@ def VoxelExportKeys():
     return voxel
 #end Textures properties keys
 #Render properties keys
+def RenderKeys():
+    render  = ("num_render",  "idx_materials",  "render_color_management",  "render_preview_object", )    
+    return render
 def RenderInternalKeys():
     render_internal  = ("render_resolution_x", "render_resolution_y", "render_resolution_percentage", "render_pixel_aspect_x", "render_pixel_aspect_y",
                         "render_use_antialiasing", "render_antialiasing_samples", "render_use_full_sample", "render_filepath", "render_file_format",

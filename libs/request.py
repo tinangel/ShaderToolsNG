@@ -14,7 +14,7 @@ from copy import copy
         
 #end Convert blobs elements
 #Insert into database
-def DatabaseInsert(database_path, elements, elements_val, table):
+def DatabaseInsert(database_path, elements, elements_val, table, test):
     ShaderToolsDatabase = sqlite3.connect(database_path) #open database
     DatabaseCursor = ShaderToolsDatabase.cursor() #create cursor
     request = "insert into '%s' (" % table   
@@ -29,7 +29,7 @@ def DatabaseInsert(database_path, elements, elements_val, table):
     #print(request)
     try:
         DatabaseCursor.execute(request)
-        ShaderToolsDatabase.commit()
+        if not test : ShaderToolsDatabase.commit()
         DatabaseCursor.close() #close cursor
         ShaderToolsDatabase.close() #close database
         return True    
@@ -131,4 +131,26 @@ def DatabaseDelete(database_path, table, condition):
         ShaderToolsDatabase.close() #close database        
         return False  
 #end Delete in database
-
+#Max in database
+def DatabaseMax(database_path, element, table, condition, options):
+    ShaderToolsDatabase = sqlite3.connect(database_path) #open database
+    DatabaseCursor = ShaderToolsDatabase.cursor() #create cursor
+    request = "select max(%s)" % element  
+    request = request.rstrip(",") + " from '%s' " % table + condition
+    #here my request :
+    try:
+        DatabaseCursor.execute(request)
+        
+        if options == "one": #options
+            result = DatabaseCursor.fetchone()
+        else:
+            result = DatabaseCursor.fetchall()
+        
+        DatabaseCursor.close() #close cursor
+        ShaderToolsDatabase.close() #close database 
+        return result
+    except:
+        DatabaseCursor.close() #close cursor
+        ShaderToolsDatabase.close() #close database
+        return False
+#end Max in database

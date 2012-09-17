@@ -61,7 +61,7 @@ def SaveConfiguration(database_path, new_config, active_language):
             elements_val.append(new_config[v]) 
         
         try:
-            request.DatabaseInsert(database_path, elements, elements_val, "CONFIGURATION")
+            request.DatabaseInsert(database_path, elements, elements_val, "CONFIGURATION",  False)
             if new_config['default_config']:
                 DefaultConfiguration(database_path, new_config['name'])
             print(active_language['menu_error_error007'])

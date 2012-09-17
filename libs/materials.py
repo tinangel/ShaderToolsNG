@@ -27,6 +27,3 @@ def SurfaceWireVolumeHalo(api_functions, mat_properties_keys, surface_wire_keys)
         c  = misc.ConvertStringProperties(k, keys.StringPropertiesKeys())
         mat_properties.append((k,prop, c))
     return mat_properties
- 
-def MaterialMigrateV1V2(path, api_functions, active_language, active_configuration, default_paths):
-    print("test")
