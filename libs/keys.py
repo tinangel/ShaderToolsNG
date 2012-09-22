@@ -396,7 +396,22 @@ def TexturesPropertiesKeys(api_functions):
         "texture.voxel_data.use_still_frame":(api_functions['texture_voxel_data_use_still_frame'],  ''),
         "texture.voxel_data.still_frame":(api_functions['texture_voxel_data_still_frame'],  ''),
         "type":(api_functions['type'],  'yes'),}
-    return temp    
+    return temp
+def TexturesSaveKeys():
+    temp = \
+        (
+            "num_textures", "idx_materials", "idx_color_ramp",  "idx_point_density_ramp",  "name", "type", "use_textures", "texture_use_alpha"
+         )
+    return temp   
+def TexturesOtherSaveKeys():
+    temp = \
+        (
+            "texture_image", "texture_image_name", "texture_image_source",  "texture_image_filepath",  "texture_image_filepath_raw", 
+            "texture_image_file_format", "texture_voxel_data_domain_object_name", "texture_point_density_object", "texture_point_density_object_name", 
+            "texture_image_blob",  "texture_environment_map_viewpoint_object",  "texture_environment_map_viewpoint_object_name", "object",  "object_name", 
+            "uv_layer", "uv_layer_name",  "image_uv_blob", 
+         )
+    return temp 
 #end Textures Properties keys
 #Formats Supported Properties keys
 def ImageFileFormatKeys(format):

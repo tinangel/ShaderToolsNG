@@ -530,6 +530,8 @@ class Save(eval(api_functions['types_operator'])):
             num_texture = request.DatabaseMax(default_paths['database'], "num_textures", "TEXTURES", "", 'one')[0] + 1
             num_diffuse_ramp = request.DatabaseMax(default_paths['database'], "num_diffuse_ramps", "DIFFUSE_RAMPS", "", 'one')[0] + 1
             num_specular_ramp = request.DatabaseMax(default_paths['database'], "num_specular_ramps", "SPECULAR_RAMPS", "", 'one')[0] + 1
+            num_color_ramp = request.DatabaseMax(default_paths['database'], "num_color_ramps", "COLOR_RAMPS", "", 'one')[0] + 1
+            num_pointdensity_ramp = request.DatabaseMax(default_paths['database'], "num_point_density_ramps", "POINTDENSITY_RAMPS", "", 'one')[0] + 1
 
             request_dict = \
                     {
@@ -545,7 +547,9 @@ class Save(eval(api_functions['types_operator'])):
                      "idx_textures":num_texture, "idx_diffuse_ramp":num_diffuse_ramp, "idx_specular_ramp":num_specular_ramp, 
                      "filename":self.name_SP, "filepath":os.path.join(default_paths['temp'],  'tempory_name.jpg'),
                      "type":eval(api_functions['type']),  "preview_render_type":eval(api_functions['preview_render_type']),
-                      "num_materials":num_material, 
+                     "num_materials":num_material, "num_textures":num_texture, "idx_color_ramp":num_color_ramp, 
+                     "idx_point_density_ramp":num_pointdensity_ramp, "use_textures":1, "texture_use_alpha":0,
+                     "temp":default_paths['temp'], 
                     }
             
             #Test all requests before commit:
@@ -556,7 +560,8 @@ class Save(eval(api_functions['types_operator'])):
                 request_dict['diffuse_ramps'] = save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'diffuse',  True)
             if eval(api_functions['use_specular_ramp']):
                 request_dict['specular_ramps'] = save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'specular',  True)
-            
+            request_dict['textures'] = save.TexturesSave(material_dict, api_functions, active_languages, active_configuration, True)
+    
             #Here i commit all requests:
             error_occurs = False
             for v in request_dict:
@@ -571,9 +576,11 @@ class Save(eval(api_functions['types_operator'])):
                     request_dict['diffuse_ramps'] = save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'diffuse',  False)
                 if eval(api_functions['use_specular_ramp']):
                     request_dict['specular_ramps'] = save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'specular',  False)
-            
+                request_dict['textures'] = save.TexturesSave(material_dict, api_functions, active_languages, active_configuration,  False)
+
         lauch_progress_bar = threading.Thread(None, open.CreateThumbnails, "Create_thumbnails", (default_paths,  active_configuration, api_functions, active_languages, False, ), {})
         lauch_progress_bar.start()
+        print(request_dict)
         return {'FINISHED'}   
 
 class Export(eval(api_functions['types_operator'])):

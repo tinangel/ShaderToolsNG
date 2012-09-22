@@ -11,7 +11,7 @@
 # <pep8-80 compliant>
 
 import bpy, shutil,  os, binascii, threading
-from . import misc, keys, request,  render,  materials,  ramps
+from . import misc, keys, request,  render,  materials,  ramps,  textures
 from copy import copy
 
 def InformationsSave(material_dict, api_functions, active_language, active_configuration, test):
@@ -57,6 +57,75 @@ def MaterialSave(material_dict, api_functions, active_language, active_configura
             
     if  test: return request.DatabaseInsert(material_dict['paths']['database'],elements_keys, elements_val, "MATERIALS",  True)
     else: return request.DatabaseInsert(material_dict['paths']['database'], elements_keys, elements_val, "MATERIALS",  False)
+
+def TexturesSave(material_dict, api_functions, active_language, active_configuration, test):
+    ctx_mat = copy(api_functions['context_material'])
+    ctx_texture = copy(api_functions['context_texture'])
+    current_texture = eval(api_functions['texture_slots_values'])
+    for t in range(0, current_texture.__len__()):
+        texture_type = 'NONE'
+        try :texture_type = copy(eval(api_functions['texture_slots_texture_type'].replace("#1#", str(t))))
+        except:pass
+        if texture_type != 'NONE' and eval(api_functions['use_textures'].replace('#1#', str(t))):
+            texture_name = copy(eval(api_functions['texture_slots_texture_name'].replace("#1#", str(t))))
+            preview_alpha = eval(api_functions['texture_use_preview_alpha'].replace("#1#", str(t))) 
+            elements_keys =[]
+            elements_val = []
+            all_keys = []
+            for p in keys.TexturesSaveKeys(): all_keys.append(p)
+            for p in keys.TexturesPropertiesKeys(api_functions): all_keys.append(p)
+            for p in keys.TexturesOtherSaveKeys(): all_keys.append(p)
+            for exceptions in ("texture_use_alpha",  "texture.noise_scale_2",  "texture.environment_map.zoom",  "texture.point_density.vertex_cache_space"):
+                all_keys.remove(exceptions)
+            
+            for k in all_keys: elements_keys .append(k.replace(".",  '_'))
+            for e in elements_keys:
+                if e == "type": elements_val.append(copy(texture_type))
+                elif e == "idx_materials":  elements_val.append(material_dict[e])
+                elif e == "idx_color_ramp":  elements_val.append(material_dict[e])
+                elif e == "idx_point_density_ramp":  elements_val.append(material_dict[e])
+                elif e == "use_textures":  elements_val.append(material_dict[e])
+                elif e == "name":  elements_val.append(copy(texture_name))
+                elif e == "texture_use_alpha":  elements_val.append(copy(preview_alpha))
+                elif e == "num_textures": 
+                    try: 
+                        material_dict[e] = request.DatabaseMax(material_dict['paths']['database'], "num_textures", "TEXTURES", "", 'one')[0] + 1
+                        elements_val.append(material_dict[e])
+                    except: return False
+                else: 
+                    try:
+                        val = ''
+                        if e == "image_uv_blob" and texture_type == 'IMAGE':
+                            source = eval(api_functions["texture_image_source"].replace("#1#", str(t)))
+                            if source == 'FILE':
+                                img_filepath = eval(api_functions["texture_image_filepath"].replace("#1#", str(t)))                            
+                                img_filepath = bpy.path.abspath(img_filepath, start=None, library=None)
+                                if os.path.exists(img_filepath):
+                                    new_img_path = os.path.join(material_dict['paths']['temp'],  img_filepath.split(os.sep)[-1])
+                                    shutil.copy2(img_filepath,  new_img_path)
+                                    byte_preview = open(new_img_path, 'rb')
+                                    val = byte_preview .read()
+                                    misc.Clear(new_img_path, 'files', 'one', active_language)
+                            elif source == 'GENERATED':
+                                list = textures.TexturesGeneratedImagesExport(api_functions, material_dict, t, active_language)
+                                if os.path.exists(list[3]):
+                                    byte_preview = open(list[3], 'rb')
+                                    val = byte_preview .read()
+                                    misc.Clear(list[3], 'files', 'one', active_language)
+                        else: val = eval(api_functions[e].replace("#1#", str(t)))
+                        elements_val.append( misc. ConvertBoolStringToNumber(val))
+                    except: elements_val.append('')
+
+            if  test: 
+                try: 
+                    request.DatabaseInsert(material_dict['paths']['database'],elements_keys, elements_val, "TEXTURES",  True)
+                except: return False
+            else: request.DatabaseInsert(material_dict['paths']['database'], elements_keys, elements_val, "TEXTURES",  False)
+    
+    return True
+
+
+
 
 def RampsSave(material_dict, api_functions, active_language, active_configuration, type_ramp,  test):
     elements_keys = []

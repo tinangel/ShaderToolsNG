@@ -218,9 +218,11 @@ def TextureExport(material_dict, api_functions, active_language):
     current_texture = eval(api_functions['texture_slots_values'])
     texture_idx = 0
     for t in range(0, current_texture.__len__()):
-        if current_texture[t] != None:
+        texture_type = 'NONE'
+        try :texture_type = copy(eval(api_functions['texture_slots_texture_type'].replace("#1#", str(t))))
+        except:pass
+        if texture_type != 'NONE' and eval(api_functions['use_textures'].replace('#1#', str(t))):
             texture_used = copy(eval(api_functions['texture_slots_values_use'].replace("#1#", str(t))))
-            texture_type = copy(eval(api_functions['texture_slots_values_texture_type'].replace("#1#", str(t))))            
             if texture_used :
                 texture_structure.append("\n# Create %s texture :\n" % texture_type)
                 #Add texture name here

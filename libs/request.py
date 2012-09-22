@@ -147,8 +147,9 @@ def DatabaseMax(database_path, element, table, condition, options):
             result = DatabaseCursor.fetchall()
         
         DatabaseCursor.close() #close cursor
-        ShaderToolsDatabase.close() #close database 
-        return result
+        ShaderToolsDatabase.close() #close database
+        if result[0] == None: return (0, )
+        else: return result
     except:
         DatabaseCursor.close() #close cursor
         ShaderToolsDatabase.close() #close database
