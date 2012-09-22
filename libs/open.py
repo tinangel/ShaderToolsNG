@@ -164,7 +164,7 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
             elif t[0] == 'POINT_DENSITY':
                 for e in keys.PointExportKeys(): textures_keys_elements.append(e)
             elif t[0] == 'IMAGE':
-                req_image_uv_blob = request.DatabaseSelect(database_path,  ('image_uv_blob', 'texture_image_filepath', 'name', ),"TEXTURES", "where idx_materials =%s" % IdxMaterial(name_object), 'one')
+                req_image_uv_blob = request.DatabaseSelect(database_path,  ('image_uv_blob', 'texture_image_filepath', 'name', ),"TEXTURES", "where idx_materials =%s and num_textures=%s" % (IdxMaterial(name_object),  t[2]), 'one')
                 if req_image_uv_blob : CreateImage(default_paths,  active_configuration, api_functions, active_languages,  req_image_uv_blob,  idx)
                 for e in keys.ImageExportKeys(): textures_keys_elements.append(e)
                 textures_keys_elements.remove("texture.image.source")
