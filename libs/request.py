@@ -10,21 +10,26 @@
 
 # <pep8-80 compliant>
 import bpy, os, sqlite3,  binascii
+from . import misc
 from copy import copy
         
 #end Convert blobs elements
 #Insert into database
-def DatabaseInsert(database_path, elements, elements_val, table, test):
+def DatabaseInsert(database_path, elements, elements_val, table, test,  option):
     ShaderToolsDatabase = sqlite3.connect(database_path) #open database
     DatabaseCursor = ShaderToolsDatabase.cursor() #create cursor
-    request = "insert into '%s' (" % table   
-    for e in elements: request = request + "'%s'," % e 
-    request = request.rstrip(",") 
-    request = request + ") values ("
-    for v in elements_val: 
-        if type(v).__name__ == 'bytes': request =request + '"%s",' % binascii.hexlify(v)
-        else: request = request + "'%s'," % v
-    request = request.rstrip(",") + ")"
+    request = ""
+    if not option == 'force':
+        request = "insert into '%s' (" % table   
+        for e in elements: request = request + "'%s'," % e 
+        request = request.rstrip(",") 
+        request = request + ") values ("
+        for v in elements_val: 
+            if type(v).__name__ == 'bytes': request =request + '"%s",' % binascii.hexlify(v)
+            else: request = request + "'%s'," % v
+        request = request.rstrip(",") + ")"
+    else: request = elements
+    
     #here my request :
     #print(request)
     try:
@@ -32,11 +37,12 @@ def DatabaseInsert(database_path, elements, elements_val, table, test):
         if not test : ShaderToolsDatabase.commit()
         DatabaseCursor.close() #close cursor
         ShaderToolsDatabase.close() #close database
+        if option=='save': return (True,  request)
         return True    
-
     except:
         DatabaseCursor.close() #close cursor
         ShaderToolsDatabase.close() #close database
+        if option=='save': return (False,  request)
         return False
 #end Insert into database
 #Select in database

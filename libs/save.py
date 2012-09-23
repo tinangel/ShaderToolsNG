@@ -17,29 +17,28 @@ from copy import copy
 def InformationsSave(material_dict, api_functions, active_language, active_configuration, test):
     elements_val = []
     for e in keys.InformationsKeys(): elements_val.append(material_dict[e]) 
-    if  test: return request.DatabaseInsert(material_dict['paths']['database'], keys.InformationsKeys(), elements_val, "INFORMATIONS",  True)
-    else: return request.DatabaseInsert(material_dict['paths']['database'], keys.InformationsKeys(), elements_val, "INFORMATIONS",  False)
+    if  test: return request.DatabaseInsert(material_dict['paths']['database'], keys.InformationsKeys(), elements_val, "INFORMATIONS",  True,  'save')
+    else: return request.DatabaseInsert(material_dict['paths']['database'], keys.InformationsKeys(), elements_val, "INFORMATIONS",  False,  'save')
 
-def RenderSave(material_dict, api_functions, active_language, active_configuration, test):
-    preview_name = render.PreviewRenderInternal(api_functions, active_configuration, material_dict)
+def RenderSave(material_dict, api_functions, active_language, active_configuration, test, default_paths):
+    preview_name = render.PreviewRenderInternal(default_paths, api_functions, active_configuration, active_language, material_dict,  'save')
     elements_val = [] 
     for e in keys.RenderKeys(): 
         try: elements_val.append(material_dict[e]) 
         except : 
             if e == "render_preview_object":
-                preview_path = os.path.join(material_dict['paths']['temp'],  preview_name)
-                if os.path.exists(preview_path):
-                    byte_preview = open(preview_path, 'rb')
-                    elements_val.append(byte_preview .read())
-                    misc.Clear(preview_path, 'files', 'one', active_language)
+                if os.path.exists(preview_name):
+                    byte_preview = open(preview_name, 'rb')
+                    elements_val.append(byte_preview.read())
+                    misc.Clear(preview_name, 'files', 'one', active_language)
                 else: return False
             else: 
                 val = eval(api_functions[e])
                 if type(val).__name__ == 'bool': val = misc.ConvertBoolStringToNumber(val)
                 elements_val.append(val)
                 
-    if  test: return request.DatabaseInsert(material_dict['paths']['database'], keys.RenderKeys(), elements_val, "RENDER",  True)
-    else: return request.DatabaseInsert(material_dict['paths']['database'], keys.RenderKeys(), elements_val, "RENDER",  False)
+    if  test: return request.DatabaseInsert(material_dict['paths']['database'], keys.RenderKeys(), elements_val, "RENDER",  True, 'save')
+    else: return request.DatabaseInsert(material_dict['paths']['database'], keys.RenderKeys(), elements_val, "RENDER",  False, 'save')
 
 def MaterialSave(material_dict, api_functions, active_language, active_configuration, test):
     elements_keys =[]
@@ -55,13 +54,14 @@ def MaterialSave(material_dict, api_functions, active_language, active_configura
             elements_keys.append(e[0].replace('.',  '_'))
             elements_val.append(e[1])
             
-    if  test: return request.DatabaseInsert(material_dict['paths']['database'],elements_keys, elements_val, "MATERIALS",  True)
-    else: return request.DatabaseInsert(material_dict['paths']['database'], elements_keys, elements_val, "MATERIALS",  False)
+    if  test: return request.DatabaseInsert(material_dict['paths']['database'],elements_keys, elements_val, "MATERIALS",  True, 'save')
+    else: return request.DatabaseInsert(material_dict['paths']['database'], elements_keys, elements_val, "MATERIALS",  False, 'save')
 
 def TexturesSave(material_dict, api_functions, active_language, active_configuration, test):
     ctx_mat = copy(api_functions['context_material'])
     ctx_texture = copy(api_functions['context_texture'])
     current_texture = eval(api_functions['texture_slots_values'])
+    return_request = []
     for t in range(0, current_texture.__len__()):
         texture_type = 'NONE'
         try :texture_type = copy(eval(api_functions['texture_slots_texture_type'].replace("#1#", str(t))))
@@ -83,7 +83,7 @@ def TexturesSave(material_dict, api_functions, active_language, active_configura
                 if e == "type": elements_val.append(copy(texture_type))
                 elif e == "idx_materials":  elements_val.append(material_dict[e])
                 elif e == "idx_color_ramp":  elements_val.append(material_dict[e])
-                elif e == "idx_point_density_ramp":  elements_val.append(material_dict[e])
+                elif e == "idx_point_density_color_ramp":  elements_val.append(material_dict[e])
                 elif e == "use_textures":  elements_val.append(material_dict[e])
                 elif e == "name":  elements_val.append(copy(texture_name))
                 elif e == "texture_use_alpha":  elements_val.append(copy(preview_alpha))
@@ -115,39 +115,71 @@ def TexturesSave(material_dict, api_functions, active_language, active_configura
                         else: val = eval(api_functions[e].replace("#1#", str(t)))
                         elements_val.append( misc. ConvertBoolStringToNumber(val))
                     except: elements_val.append('')
-
+                    
+            color_ramps = True
+            point_ramps = True
+            try:
+                if eval(api_functions['texture_use_color_ramp'].replace("#1#", str(t))):
+                    return_request.append(RampsSave(material_dict, api_functions, active_language, active_configuration, 'color',  True,  t))
+                ramp_point =  copy(api_functions['texture_point_density_color_source'].replace("#1#", str(t)))
+                
+                if eval(ramp_point) == 'PARTICLE_SPEED' or eval(ramp_point) == 'PARTICLE_AGE':
+                    return_request.append(RampsSave(material_dict, api_functions, active_language, active_configuration, 'point_density_color',  True,  t))
+            except: pass
+            
             if  test: 
                 try: 
-                    request.DatabaseInsert(material_dict['paths']['database'],elements_keys, elements_val, "TEXTURES",  True)
+                        return_request.append(request.DatabaseInsert(material_dict['paths']['database'],elements_keys, elements_val, "TEXTURES",  True, 'save'))
                 except: return False
-            else: request.DatabaseInsert(material_dict['paths']['database'], elements_keys, elements_val, "TEXTURES",  False)
-    
-    return True
+            else: 
+                request.DatabaseInsert(material_dict['paths']['database'], elements_keys, elements_val, "TEXTURES",  False, 'save')
+                try:
+                    if eval(api_functions['texture_use_color_ramp'].replace("#1#", str(t))):
+                        RampsSave(material_dict, api_functions, active_language, active_configuration, 'color',  False,  t)
+                    
+                    ramp_point =  copy(api_functions['texture_point_density_color_source'].replace("#1#", str(t)))
+                    if eval(ramp_point) == 'PARTICLE_SPEED' or eval(ramp_point) == 'PARTICLE_AGE':
+                        point_ramps = RampsSave(material_dict, api_functions, active_language, active_configuration, 'point_density_color',  False,  t)
+                except: pass
+    return (True,  return_request)
 
-
-
-
-def RampsSave(material_dict, api_functions, active_language, active_configuration, type_ramp,  test):
+def RampsSave(material_dict, api_functions, active_language, active_configuration, type_ramp,  test,  idx_texture):
     elements_keys = []
     elements_val = []
-    ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp, '')
+    return_request = []
+    ramp_properties = ''
+    ramp_properties = ramps.Ramps(api_functions, keys.RampsPropertiesKeys(api_functions), keys.RampsKeys(type_ramp), type_ramp, idx_texture)
     for v in range(0,  ramp_properties.__len__()):
         elements_keys = []
         elements_val = []
-        if type_ramp == 'diffuse' or type_ramp == 'specular': 
-            elements_keys .append('num_%s_ramps' % type_ramp)
-            elements_keys .append('idx_materials')
+        if type_ramp == 'point_density_color': type_ramp = 'point_density'
+        elements_keys .append('num_%s_ramps' % type_ramp)
+        elements_keys .append('idx_materials')
+        if type_ramp == 'color': 
+            elements_keys .append('idx_textures')
+            elements_val .append(material_dict['idx_%s_ramp' % type_ramp] + v)
+            elements_val .append(material_dict['idx_materials'] )
+            elements_val .append(request.DatabaseMax(material_dict['paths']['database'], "num_textures", "TEXTURES", "", 'one')[0]+1)
+        elif type_ramp == 'point_density': 
+            elements_keys .append('idx_textures')
+            elements_val .append(material_dict['idx_point_density_color_ramp'] + v)
+            elements_val .append(material_dict['idx_materials'] )
+            elements_val .append(request.DatabaseMax(material_dict['paths']['database'], "num_textures", "TEXTURES", "", 'one')[0]+1)
+        else: 
             elements_val .append(material_dict['idx_%s_ramp' % type_ramp] + v)
             elements_val .append(material_dict['idx_materials'] )
 
         for e in ramp_properties[str(v)]: 
-            elements_keys.append(e.replace('.',  '_'))
+            if type_ramp == 'point_density': 
+                tmp = e.replace('_color',  '')
+                elements_keys.append(tmp.replace('.',  '_'))
+            else: elements_keys.append(e.replace('.',  '_'))
             elements_val.append(ramp_properties[str(v)][e][1])
 
-        if  test:
-            if type_ramp == 'diffuse' or type_ramp == 'specular': 
-                request.DatabaseInsert(material_dict['paths']['database'],elements_keys, elements_val, "%s_RAMPS" % type_ramp.capitalize(),  True)
-            if v == ramp_properties.__len__()-1: return True
-        else: 
-            if type_ramp == 'diffuse' or type_ramp == 'specular': 
-                request.DatabaseInsert(material_dict['paths']['database'], elements_keys, elements_val, "%s_RAMPS" % type_ramp.capitalize(),  False)
+        if  test:            
+            if type_ramp == 'point_density': return_request.append(request.DatabaseInsert(material_dict['paths']['database'],elements_keys, elements_val, "POINTDENSITY_RAMPS",  True, 'save'))
+            else: return_request.append(request.DatabaseInsert(material_dict['paths']['database'],elements_keys, elements_val, "%s_RAMPS" % type_ramp.capitalize(),  True, 'save'))
+            if v == ramp_properties.__len__()-1: return (True, return_request)
+        else:
+            if type_ramp == 'point_density': request.DatabaseInsert(material_dict['paths']['database'],elements_keys, elements_val, "POINTDENSITY_RAMPS",  False, 'save') 
+            else: request.DatabaseInsert(material_dict['paths']['database'], elements_keys, elements_val, "%s_RAMPS" % type_ramp.capitalize(),  False, 'save')

@@ -220,7 +220,7 @@ def VerifyDefaultConfiguration(database_path, option):
                  "#addon##slash#zip", "#addon##slash#bin#slash#workbase", "#addon##slash#bin#slash#help","#addon##slash#bin#slash#img", "#addon##slash#bin", 
                  "green, mat, red lines ...", "menu_configuration_option_save", "256", "256",
                  )
-            request.DatabaseInsert(database_path, keys.ConfigurationsKeys(), elements_val, "CONFIGURATION",  False)
+            request.DatabaseInsert(database_path, keys.ConfigurationsKeys(), elements_val, "CONFIGURATION",  False,  '')
         if option:
             print(misc.ConsoleError("default configuration verification ", 1, True))
     except:

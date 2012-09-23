@@ -471,7 +471,28 @@ class Open(eval(api_functions['types_operator'])):
         history.UpdateHistory(default_paths,  active_configuration, api_functions, active_languages,  self.filename,  active_history)
         active_history = history.CurrentHistory(default_paths,  active_configuration, api_functions, active_languages)
         return {'FINISHED'}
-        
+
+def SaveInsideDatabase(save_request):
+    global database_stuff, progress_bar
+    database_stuff = True
+    progress_bar = True
+    ctx_scene = eval(api_functions['context_scene'])
+    v = 0
+    for e in save_request:
+        if v in range(0, 3): request.DatabaseInsert(default_paths['database'], e[1], '', '',  False,  'force')
+        else: 
+            for r in e[1]:
+                if type(r[1]).__name__ == 'str': request.DatabaseInsert(default_paths['database'], r[1], '', '',  False,  'force')
+                else: 
+                    for p in r[1]: request.DatabaseInsert(default_paths['database'], p[1], '', '',  False,  'force')
+        ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(v+1, save_request.__len__()+1)
+        v = v + 1
+    open.CreateThumbnails(default_paths,  active_configuration, api_functions, active_languages, False, )
+    ctx_scene.shadertoolsng_utils_bar = 100
+    database_stuff = False
+    progress_bar = False
+            
+
 class Save(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_save"
     bl_label = space_access_name + active_languages['bl_id_name_save']    
@@ -524,6 +545,7 @@ class Save(eval(api_functions['types_operator'])):
     def execute(self, context):
         global database_stuff, default_paths, active_configuration, api_functions
         if not database_stuff:
+            ops_object = eval(api_functions['ops_object'])
             num_material = request.DatabaseMax(default_paths['database'], "num_materials", "MATERIALS", "", 'one')[0] + 1
             num_information = request.DatabaseMax(default_paths['database'], "num_informations", "INFORMATIONS", "", 'one')[0] + 1
             num_render = request.DatabaseMax(default_paths['database'], "num_render", "RENDER", "", 'one')[0] + 1
@@ -548,40 +570,28 @@ class Save(eval(api_functions['types_operator'])):
                      "filename":self.name_SP, "filepath":os.path.join(default_paths['temp'],  'tempory_name.jpg'),
                      "type":eval(api_functions['type']),  "preview_render_type":eval(api_functions['preview_render_type']),
                      "num_materials":num_material, "num_textures":num_texture, "idx_color_ramp":num_color_ramp, 
-                     "idx_point_density_ramp":num_pointdensity_ramp, "use_textures":1, "texture_use_alpha":0,
+                     "idx_point_density_color_ramp":num_pointdensity_ramp, "use_textures":1, "texture_use_alpha":0,
                      "temp":default_paths['temp'], 
                     }
-            
             #Test all requests before commit:
-            request_dict['informations']  = save.InformationsSave(material_dict, api_functions, active_languages, active_configuration, True)
-            request_dict['render'] = save.RenderSave(material_dict, api_functions, active_languages, active_configuration, True)
-            request_dict['material'] = save.MaterialSave(material_dict, api_functions, active_languages, active_configuration, True)
+            save_request = []
+            save_request.append(save.InformationsSave(material_dict, api_functions, active_languages, active_configuration, True))
+            save_request.append(save.RenderSave(material_dict, api_functions, active_languages, active_configuration, True, default_paths))
+            save_request.append(save.MaterialSave(material_dict, api_functions, active_languages, active_configuration, True))
             if eval(api_functions['use_diffuse_ramp']):
-                request_dict['diffuse_ramps'] = save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'diffuse',  True)
+                save_request.append(save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'diffuse',  True,  ''))
             if eval(api_functions['use_specular_ramp']):
-                request_dict['specular_ramps'] = save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'specular',  True)
-            request_dict['textures'] = save.TexturesSave(material_dict, api_functions, active_languages, active_configuration, True)
-    
-            #Here i commit all requests:
-            error_occurs = False
-            for v in request_dict:
-                if not request_dict[v]: 
-                    error_occurs = True
-                    break
-            if not error_occurs:       
-                save.InformationsSave(material_dict, api_functions, active_languages, active_configuration, False)
-                save.RenderSave(material_dict, api_functions, active_languages, active_configuration, False)
-                save.MaterialSave(material_dict, api_functions, active_languages, active_configuration, False)
-                if eval(api_functions['use_diffuse_ramp']):
-                    request_dict['diffuse_ramps'] = save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'diffuse',  False)
-                if eval(api_functions['use_specular_ramp']):
-                    request_dict['specular_ramps'] = save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'specular',  False)
-                request_dict['textures'] = save.TexturesSave(material_dict, api_functions, active_languages, active_configuration,  False)
+                save_request.append(save.RampsSave(material_dict, api_functions, active_languages, active_configuration, 'specular',  True,  ''))
+            save_request.append(save.TexturesSave(material_dict, api_functions, active_languages, active_configuration, True))
 
-        lauch_progress_bar = threading.Thread(None, open.CreateThumbnails, "Create_thumbnails", (default_paths,  active_configuration, api_functions, active_languages, False, ), {})
-        lauch_progress_bar.start()
-        print(request_dict)
-        return {'FINISHED'}   
+            request_progress_bar = threading.Thread(None, SaveInsideDatabase, "Save inside database", (save_request, ), {})
+            request_progress_bar.start()
+
+ 
+            
+            
+            #ops_object.shadertoolsng_saveinside('EXEC_DEFAULT')  
+        return {'PASS_THROUGH'}   
 
 class Export(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_export"
@@ -629,7 +639,7 @@ class Export(eval(api_functions['types_operator'])):
 
     def execute(self, context):
         if ctx_active_object():
-            global default_paths, active_configuration, api_functions
+            global default_paths, active_configuration, api_functions,  active_languages
             material_dict = \
                     {
                      "filepath":self.filepath.replace(".",  "_"), "filename":self.filename.replace(".",  "_"), "app_path":default_paths['app'],
@@ -654,12 +664,12 @@ class Export(eval(api_functions['types_operator'])):
                 print(active_languages['menu_error_error028'])
                 misc.LogError(active_languages['menu_error_error028'], False)
             try:
-                misc.Clear(default_paths['zip'], 'all', '', active_language)
-                misc.Clear(default_paths['temp'], 'all', '', active_language)
+                misc.Clear(default_paths['zip'], 'all', '', active_languages)
+                misc.Clear(default_paths['temp'], 'all', '', active_languages)
             except: pass
             if self.take_preview_BP:
                 try: 
-                    render.PreviewRenderInternal(api_functions, active_configuration, material_dict)
+                    render.PreviewRenderInternal(default_paths, api_functions, active_configuration,  active_languages, material_dict,  '')
                     print(active_languages['menu_error_error023'])
                     misc.LogError(active_languages['menu_error_error023'], False)
                 except:
