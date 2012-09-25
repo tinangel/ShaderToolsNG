@@ -11,7 +11,7 @@
 # <pep8-80 compliant>
 
 import bpy, shutil,  os, binascii,  time, threading,  platform
-from . import misc, keys, request
+from . import misc, keys, request,  textures
 from copy import copy
 
 def AddonFolder(default_paths,  active_configuration, api_functions, active_languages):
@@ -178,14 +178,11 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
             req = request.DatabaseSelect(database_path, database_keys_elements,"TEXTURES", "where num_textures = %s" % t[2], 'one')
             if not req == [] and not req == False:
                 c = 0
-                #misc.LogAndPrintError(("\n\n",  "\n\n"))
-                #misc.LogAndPrintError(("TEXTURE TYPE : %s" % t[0],  "TEXTURE TYPE : %s" % t[0]))
                 for v in req:
                     propertie = keys.TexturesPropertiesKeys(api_functions)[keys_elements[c]][0].replace("#1#", str(idx))
                     propertie = propertie.replace("[#2#]", "")
                     if type(v).__name__ == 'str' : 
                         if not "(" in v: v = "'%s'" %v
-                    #misc.LogAndPrintError(("%s = %s" % (propertie, v),  "%s = %s" % (propertie, v)))
                     try: exec("%s = %s" % (propertie, v))
                     except: pass
                     c = c + 1

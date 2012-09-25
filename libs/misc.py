@@ -202,6 +202,7 @@ def RemoveRampsColor(value):
     return value
 
 def ImageAbsolutePath(path):
+    print(path)
     idx = 0
     for p in bpy.utils.blend_paths(absolute=False):
         if p.find(eval(path)) >= 0: break

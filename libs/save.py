@@ -86,36 +86,55 @@ def TexturesSave(material_dict, api_functions, active_language, active_configura
                 elif e == "idx_point_density_color_ramp":  elements_val.append(material_dict[e])
                 elif e == "use_textures":  elements_val.append(material_dict[e])
                 elif e == "name":  elements_val.append(copy(texture_name))
-                elif e == "texture_use_alpha":  elements_val.append(copy(preview_alpha))
+                elif e == "texture_use_preview_alpha":  elements_val.append(copy(preview_alpha))
                 elif e == "num_textures": 
                     try: 
-                        material_dict[e] = request.DatabaseMax(material_dict['paths']['database'], "num_textures", "TEXTURES", "", 'one')[0] + 1
+                        material_dict[e] = request.DatabaseMax(material_dict['paths']['database'], "num_textures", "TEXTURES", "", 'one')[0] + 1 + t
                         elements_val.append(material_dict[e])
                     except: return False
-                else: 
+                elif e in ("color",  "scale"):
+                    texture_structure = []
+                    texture_structure = textures.TexturesPropertiesExport(api_functions, texture_structure, (e, ), t, active_language)
+                    tmp = texture_structure[0].split("=")
+                    val = tmp[-1].strip()
+                    elements_val.append(val)
+                else:
                     try:
                         val = ''
                         if e == "image_uv_blob" and texture_type == 'IMAGE':
                             source = eval(api_functions["texture_image_source"].replace("#1#", str(t)))
                             if source == 'FILE':
-                                img_filepath = eval(api_functions["texture_image_filepath"].replace("#1#", str(t)))                            
+                                img_filepath = eval(api_functions["texture_image_filepath"].replace("#1#", str(t)))
+                                img_filepath_2 = copy(img_filepath) 
                                 img_filepath = bpy.path.abspath(img_filepath, start=None, library=None)
-                                if os.path.exists(img_filepath):
-                                    new_img_path = os.path.join(material_dict['paths']['temp'],  img_filepath.split(os.sep)[-1])
-                                    shutil.copy2(img_filepath,  new_img_path)
+                                new_img_path = os.path.join(material_dict['paths']['temp'],  img_filepath.split(os.sep)[-1])
+                                try:
+                                    exec("%s = '%s'" % (api_functions["texture_image_filepath"].replace("#1#", str(t)), new_img_path))
+                                    unpack = api_functions['texture_image_unpack'].replace("#1#", str(t))
+                                    exec("%s" % unpack.replace("#2#", "'WRITE_ORIGINAL'"))
+                                    pack = eval(api_functions['texture_image_pack'].replace("#1#", str(t)))
+                                    exec("%s = '%s'" % (api_functions["texture_image_filepath"].replace("#1#", str(t)), img_filepath_2))                                    
+                                except:pass                                
+                                if os.path.exists(img_filepath) or os.path.exists(new_img_path):
+                                    try:shutil.copy2(img_filepath,  new_img_path)
+                                    except:pass
                                     byte_preview = open(new_img_path, 'rb')
-                                    val = byte_preview .read()
+                                    val = byte_preview.read()
+                                    #val = "mon image test"
                                     misc.Clear(new_img_path, 'files', 'one', active_language)
                             elif source == 'GENERATED':
                                 list = textures.TexturesGeneratedImagesExport(api_functions, material_dict, t, active_language)
                                 if os.path.exists(list[3]):
                                     byte_preview = open(list[3], 'rb')
-                                    val = byte_preview .read()
+                                    val = byte_preview.read()
                                     misc.Clear(list[3], 'files', 'one', active_language)
+                        elif e == "texture_image_filepath" or e == "texture_image_filepath_raw":
+                            source = eval(api_functions["texture_image_source"].replace("#1#", str(t)))
+                            img_filepath = eval(api_functions["texture_image_filepath"].replace("#1#", str(t)))
+                            val = os.path.join(material_dict['paths']['temp'],  img_filepath.split(os.sep)[-1])
                         else: val = eval(api_functions[e].replace("#1#", str(t)))
                         elements_val.append( misc. ConvertBoolStringToNumber(val))
                     except: elements_val.append('')
-                    
             color_ramps = True
             point_ramps = True
             try:
@@ -128,7 +147,7 @@ def TexturesSave(material_dict, api_functions, active_language, active_configura
             except: pass
             
             if  test: 
-                try: 
+                try:
                         return_request.append(request.DatabaseInsert(material_dict['paths']['database'],elements_keys, elements_val, "TEXTURES",  True, 'save'))
                 except: return False
             else: 
