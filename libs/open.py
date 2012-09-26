@@ -36,6 +36,8 @@ def CreateImage(default_paths,  active_configuration, api_functions, active_lang
         img=api_functions['texture_image_load'].replace("#1#", "'%s'" % str(image_path))
         exec("%s = %s" % (api_functions['texture_image'].replace("#1#", str(idx)), str(img)))
         exec("%s" % api_functions['texture_image_pack'].replace("#1#", str(idx)))
+        try:misc.Clear(image_path , 'files', 'one', active_languages)
+        except: pass
         return True
     except: 
         return False
@@ -140,7 +142,8 @@ def ImportTexturesInApp(default_paths,  active_configuration, api_functions, act
         for e in keys.MappingExportKeys(): textures_keys_elements.append(e)
         for e in keys.ColorsExportKeys(): textures_keys_elements.append(e)
         exec("%s = '%s'" % (texture_type, t[0]))
-        exec("%s = %s" % (texture_use_alpha, t[3]))        
+        try:exec("%s = %s" % (texture_use_alpha, t[3]))        
+        except:pass
         if not t[0] == 'NONE':
             if t[0] == 'BLEND':
                 for e in keys.BlendExportKeys(): textures_keys_elements.append(e)

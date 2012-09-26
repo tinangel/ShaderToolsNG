@@ -107,7 +107,8 @@ def TexturesSave(material_dict, api_functions, active_language, active_configura
                                 img_filepath = eval(api_functions["texture_image_filepath"].replace("#1#", str(t)))
                                 img_filepath_2 = copy(img_filepath) 
                                 img_filepath = bpy.path.abspath(img_filepath, start=None, library=None)
-                                new_img_path = os.path.join(material_dict['paths']['temp'],  img_filepath.split(os.sep)[-1])
+                                if '\\' in img_filepath: new_img_path = os.path.join(material_dict['paths']['temp'],  img_filepath.split('\\')[-1])
+                                else: new_img_path = os.path.join(material_dict['paths']['temp'],  img_filepath.split(os.sep)[-1])
                                 try:
                                     exec("%s = '%s'" % (api_functions["texture_image_filepath"].replace("#1#", str(t)), new_img_path))
                                     unpack = api_functions['texture_image_unpack'].replace("#1#", str(t))
@@ -131,7 +132,8 @@ def TexturesSave(material_dict, api_functions, active_language, active_configura
                         elif e == "texture_image_filepath" or e == "texture_image_filepath_raw":
                             source = eval(api_functions["texture_image_source"].replace("#1#", str(t)))
                             img_filepath = eval(api_functions["texture_image_filepath"].replace("#1#", str(t)))
-                            val = os.path.join(material_dict['paths']['temp'],  img_filepath.split(os.sep)[-1])
+                            if '\\' in img_filepath: val = os.path.join(material_dict['paths']['temp'],  img_filepath.split('\\')[-1])
+                            else: val = os.path.join(material_dict['paths']['temp'],  img_filepath.split(os.sep)[-1])
                         else: val = eval(api_functions[e].replace("#1#", str(t)))
                         elements_val.append( misc. ConvertBoolStringToNumber(val))
                     except: elements_val.append('')
