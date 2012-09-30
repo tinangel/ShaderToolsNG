@@ -108,7 +108,7 @@ def TexturesSave(material_dict, api_functions, active_language, active_configura
                                 img_filepath_2 = copy(img_filepath) 
                                 img_filepath = bpy.path.abspath(img_filepath, start=None, library=None)
                                 if '\\' in img_filepath: new_img_path = os.path.join(material_dict['paths']['temp'],  img_filepath.split('\\')[-1])
-                                else: new_img_path = os.path.join(material_dict['paths']['temp'],  img_filepath.split(os.sep)[-1])
+                                else: new_img_path = os.path.join(material_dict['paths']['temp'],  img_filepath.split('/')[-1])
                                 try:
                                     exec("%s = '%s'" % (api_functions["texture_image_filepath"].replace("#1#", str(t)), new_img_path))
                                     unpack = api_functions['texture_image_unpack'].replace("#1#", str(t))
@@ -133,7 +133,7 @@ def TexturesSave(material_dict, api_functions, active_language, active_configura
                             source = eval(api_functions["texture_image_source"].replace("#1#", str(t)))
                             img_filepath = eval(api_functions["texture_image_filepath"].replace("#1#", str(t)))
                             if '\\' in img_filepath: val = os.path.join(material_dict['paths']['temp'],  img_filepath.split('\\')[-1])
-                            else: val = os.path.join(material_dict['paths']['temp'],  img_filepath.split(os.sep)[-1])
+                            else: val = os.path.join(material_dict['paths']['temp'],  img_filepath.split('/')[-1])
                         else: val = eval(api_functions[e].replace("#1#", str(t)))
                         elements_val.append( misc. ConvertBoolStringToNumber(val))
                     except: elements_val.append('')
@@ -180,12 +180,12 @@ def RampsSave(material_dict, api_functions, active_language, active_configuratio
             elements_keys .append('idx_textures')
             elements_val .append(material_dict['idx_%s_ramp' % type_ramp] + v)
             elements_val .append(material_dict['idx_materials'] )
-            elements_val .append(request.DatabaseMax(material_dict['paths']['database'], "num_textures", "TEXTURES", "", 'one')[0]+1)
+            elements_val .append(request.DatabaseMax(material_dict['paths']['database'], "num_textures", "TEXTURES", "", 'one')[0]+1 + idx_texture)
         elif type_ramp == 'point_density': 
             elements_keys .append('idx_textures')
             elements_val .append(material_dict['idx_point_density_color_ramp'] + v)
             elements_val .append(material_dict['idx_materials'] )
-            elements_val .append(request.DatabaseMax(material_dict['paths']['database'], "num_textures", "TEXTURES", "", 'one')[0]+1)
+            elements_val .append(request.DatabaseMax(material_dict['paths']['database'], "num_textures", "TEXTURES", "", 'one')[0]+1 +  idx_texture)
         else: 
             elements_val .append(material_dict['idx_%s_ramp' % type_ramp] + v)
             elements_val .append(material_dict['idx_materials'] )

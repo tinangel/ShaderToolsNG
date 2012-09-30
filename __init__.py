@@ -485,7 +485,8 @@ def SaveInsideDatabase(save_request):
                 if type(r[1]).__name__ == 'str': request.DatabaseInsert(default_paths['database'], r[1], '', '',  False,  'force')
                 else: 
                     for p in r[1]: request.DatabaseInsert(default_paths['database'], p[1], '', '',  False,  'force')
-        ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(v+1, save_request.__len__()+1)
+        try:ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(v+1, save_request.__len__()+1)
+        except:pass
         v = v + 1
     open.CreateThumbnails(default_paths,  active_configuration, api_functions, active_languages, False, )
     ctx_scene.shadertoolsng_utils_bar = 100
@@ -586,11 +587,6 @@ class Save(eval(api_functions['types_operator'])):
 
             request_progress_bar = threading.Thread(None, SaveInsideDatabase, "Save inside database", (save_request, ), {})
             request_progress_bar.start()
-
- 
-            
-            
-            #ops_object.shadertoolsng_saveinside('EXEC_DEFAULT')  
         return {'PASS_THROUGH'}   
 
 class Export(eval(api_functions['types_operator'])):

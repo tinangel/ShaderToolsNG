@@ -25,7 +25,10 @@ def AddonFolder(default_paths,  active_configuration, api_functions, active_lang
         misc.LogAndPrintError((error , error))
 
 def CreateImage(default_paths,  active_configuration, api_functions, active_languages,  image_uv_blob,  idx):
-    image_path = os.path.join(default_paths['app'], default_paths['temp'],  image_uv_blob[1].split(os.sep)[-1])
+    name = ""
+    if '\\' in image_uv_blob[1]: name =  image_uv_blob[1].split('\\')[-1]
+    else: name = image_uv_blob[1].split('/')[-1]
+    image_path = os.path.join(default_paths['app'], default_paths['temp'],  name)
     try:misc.Clear(image_path , 'files', 'one', active_languages)
     except: pass
     try:
@@ -90,6 +93,7 @@ def ImportMaterialInApp(default_paths,  active_configuration, api_functions, act
     mat_slots = eval(api_functions['material_slots'].replace("[#1#].material", ".__len__()" ))
     exec("%s = %s" % (slots,  new_mat))
     exec("%s = %s" %(api_functions['material_index'],  mat_slots))
+    exec("%s = '%s'" %(api_functions['type'],  req_type[0]))
     
     if req_type[0] == 'SURFACE' or req_type[0] == 'WIRE':
         for k in keys.SurfaceWireKeys(): materials_keys_elements.append(k)
@@ -210,7 +214,7 @@ def ImportTextureRampsInApp(default_paths,  active_configuration, api_functions,
         }
     #Active ramps:
     for r in requests_ramps:
-        if requests_ramps[r] and not requests_ramps[r] == []:
+        if requests_ramps[r] != False and requests_ramps[r] != []:
             try: exec("%s = True" % api_functions[r].replace("#1#", str(new_idx)))
             except: pass
             #Import ramps new positions:

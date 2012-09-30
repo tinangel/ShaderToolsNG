@@ -273,7 +273,7 @@ def MaterialsPropertiesKeys(api_functions):
     "halo.star_tip_count":(api_functions['halo_star_tip_count'], ''),"halo.use_flare_mode":(api_functions['halo_use_flare_mode'], ''),
     "halo.flare_size":(api_functions['halo_flare_size'], ''),"halo.flare_boost":(api_functions['halo_flare_boost'], ''),
     "halo.flare_seed":(api_functions['halo_flare_seed'], ''),"halo.flare_subflare_count":(api_functions['halo_flare_subflare_count'], ''),
-    "halo.flare_subflare_size":(api_functions['halo_flare_subflare_size'], ''),}
+    "halo.flare_subflare_size":(api_functions['halo_flare_subflare_size'], ''), "specular_slope":(api_functions['specular_slope'], ''),}
     return mat_properties
 def MaterialsSaveKeys():
     temp = \
@@ -461,7 +461,7 @@ def SurfaceWireKeys():
     "use_sky","use_mist","invert_z","offset_z","use_face_texture","use_face_texture_alpha","use_vertex_color_paint",
     "use_vertex_color_light","use_object_color","pass_index","use_shadows","use_transparent_shadows","use_cast_shadows_only",
     "shadow_cast_alpha","use_only_shadow","shadow_only_type","use_cast_buffer_shadows","shadow_buffer_bias","use_ray_shadow_bias",
-    "shadow_ray_bias","use_cast_approximate","light_group","use_light_group_exclusive","strand.uv_layer",)
+    "shadow_ray_bias","use_cast_approximate","light_group","use_light_group_exclusive","strand.uv_layer", "specular_slope")
     return surface_wire
 #end SurfaceWire keys
 #Volume keys
