@@ -25,7 +25,8 @@ def DatabaseInsert(database_path, elements, elements_val, table, test,  option):
         request = request.rstrip(",") 
         request = request + ") values ("
         for v in elements_val:
-            v = keys.InputExceptionsKeys(v)
+            except_list = ("name",  "creator",  "category",  "description", "weblink",  "email")
+            if option == 'save' and v in except_list:  v = keys.InputExceptionsKeys(v)
             if type(v).__name__ == 'bytes': request =request + '"%s",' % binascii.hexlify(v)
             else: request = request + "'%s'," % v
         request = request.rstrip(",") + ")"
