@@ -14,7 +14,7 @@
 bl_info = {
     "name": "ShaderTools Next Gen",
     "author": "GRETETE Karim (Tinangel)",
-    "version": (0, 8, 5),
+    "version": (0, 9, 4),
     "blender": (2, 6, 0),
     "api": 41098,
     "location": "User Preferences",
@@ -104,6 +104,107 @@ def OpenSearch(self,  context):
     except:
         error = active_languages['menu_error_error050'] % self.search_SP
         misc.LogAndPrintError((error,  error))
+
+class BeforeRemoveMaterial(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_before_rem"
+    bl_label = space_access_name + active_languages['bl_id_name_remove']      
+
+    ctx = eval(api_functions['props'])
+    type = ctx.EnumProperty(name='remove',  items=informations.InformationsEnumItems(default_paths['database']))
+
+    def invoke(self, context, event):
+        wm = eval(api_functions['invoke_search_popup'].replace("#1#", "self"))
+        return {'PASS_THROUGH'}
+
+    def execute(self, context):
+        ops_object = eval(api_functions['ops_object'])
+        eval(api_functions['utils_unregister_class'].replace("#1#", "RemoveMaterial"))
+        eval(api_functions['utils_register_class'].replace("#1#", "RemoveMaterial"))
+        infos = informations.InformationsSelectedItem(default_paths['database'],  self.type)
+        if infos == None: 
+            path = os.path.join(bookmarks_folder_path,  '.tempory')
+            paths = (bookmarks_folder_path,  path)
+            for e in paths:
+                if os.path.exists(e) :
+                    files = os.listdir(e)
+                    for f in files: 
+                        if not os.path.isdir(f) and self.type in f:
+                            ops_object.shadertoolsng_remm('INVOKE_DEFAULT',  inf_num_SP=self.type,  inf_name_SP=f.rstrip("_(%s).jpg" % self.type))
+                            break
+        else:
+            ops_object.shadertoolsng_remm('INVOKE_DEFAULT',  inf_num_SP=self.type,  inf_name_SP=infos[1].replace("$T_",  ""))
+        return {'PASS_THROUGH'}
+
+class RemoveMaterial(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_remm"
+    bl_label = ''
+    
+    ctx = eval(api_functions['props'])
+    #Informations properties
+    inf_num_SP = ctx.StringProperty()
+    inf_name_SP = ctx.StringProperty()
+
+    def draw(self, context):
+        ctx_scene = eval(api_functions['context_scene'])
+        layout = self.layout
+        row = layout.row(align=True)
+        row.label(active_languages['menu_remove_confirmation'] + " '%s_(%s)'" % (self.inf_name_SP,  self.inf_num_SP))
+        row = layout.row(align=True)
+         
+    def invoke(self, context, event):
+        wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=370"))
+        return {'RUNNING_MODAL'}
+        
+    def execute(self, context):
+        ops_object = eval(api_functions['ops_object'])
+        #materials
+        condition_update = "set " + remove.MaterialRemove(self.inf_num_SP,  api_functions) + " where num_materials=%s" % self.inf_num_SP
+        remove_req = request.DatabaseUpdate(default_paths['database'], "MATERIALS",  condition_update)
+        #informations
+        num_informations = request.DatabaseSelect(default_paths['database'], ("num_informations", ),"INFORMATIONS", "where idx_materials =%s" %self.inf_num_SP, 'one')
+        condition_update = "set " + remove.InformationsRemove(self.inf_num_SP,  api_functions,  num_informations[0]) + " where idx_materials=%s" % self.inf_num_SP
+        remove_req = request.DatabaseUpdate(default_paths['database'], "INFORMATIONS",  condition_update)
+        #render
+        num_render = request.DatabaseSelect(default_paths['database'], ("num_render", ),"RENDER", "where idx_materials =%s" %self.inf_num_SP, 'one')
+        condition_update = "set " + remove.RenderRemove(self.inf_num_SP,  api_functions,  num_render[0]) + " where idx_materials=%s" % self.inf_num_SP
+        remove_req = request.DatabaseUpdate(default_paths['database'], "RENDER",  condition_update)
+        #textures
+        all_textures = request.DatabaseSelect(default_paths['database'], ("num_textures", ),"TEXTURES", "where idx_materials =%s" %self.inf_num_SP, 'all')  
+        for t in all_textures:
+            condition_update = "set " + remove.TexturesRemove(self.inf_num_SP,  api_functions, default_paths,  t) + " where num_textures=%s" % t[0]
+            remove_req = request.DatabaseUpdate(default_paths['database'], "TEXTURES",  condition_update)
+        #diffuse ramps
+        diffuse_ramps = request.DatabaseSelect(default_paths['database'], ("num_diffuse_ramps", ),"DIFFUSE_RAMPS", "where idx_materials =%s" %self.inf_num_SP, 'all')  
+        for r in diffuse_ramps:
+            condition_update = "set " + remove.RampsRemove(self.inf_num_SP,  api_functions, default_paths,  r,  'diffuse') + " where num_diffuse_ramps=%s" % r[0]
+            remove_req = request.DatabaseUpdate(default_paths['database'], "DIFFUSE_RAMPS",  condition_update)
+        #specular ramps
+        specular_ramps = request.DatabaseSelect(default_paths['database'], ("num_specular_ramps", ),"SPECULAR_RAMPS", "where idx_materials =%s" %self.inf_num_SP, 'all')  
+        for r in specular_ramps:
+            condition_update = "set " + remove.RampsRemove(self.inf_num_SP,  api_functions, default_paths,  r,  'specular') + " where num_specular_ramps=%s" % r[0]
+            remove_req = request.DatabaseUpdate(default_paths['database'], "SPECULAR_RAMPS",  condition_update)
+        #color ramps
+        color_ramps = request.DatabaseSelect(default_paths['database'], ("num_color_ramps", ),"COLOR_RAMPS", "where idx_materials =%s" %self.inf_num_SP, 'all')  
+        for r in color_ramps:
+            condition_update = "set " + remove.RampsRemove(self.inf_num_SP,  api_functions, default_paths,  r,  'color') + " where num_color_ramps=%s" % r[0]
+            remove_req = request.DatabaseUpdate(default_paths['database'], "COLOR_RAMPS",  condition_update)
+        #point density ramps
+        point_ramps = request.DatabaseSelect(default_paths['database'], ("num_point_density_ramps", ),"POINTDENSITY_RAMPS", "where idx_materials =%s" %self.inf_num_SP, 'all')  
+        for r in point_ramps:
+            condition_update = "set " + remove.RampsRemove(self.inf_num_SP,  api_functions, default_paths,  r,  'point_density_color') + " where num_point_density_ramps=%s" % r[0]
+            remove_req = request.DatabaseUpdate(default_paths['database'], "POINTDENSITY_RAMPS",  condition_update)
+
+        rem_thumbnail = os.path.join(bookmarks_folder_path,  "%s_(%s).jpg" % (self.inf_name_SP,  self.inf_num_SP))
+        rem_thumbnail_2 = os.path.join(bookmarks_folder_path,  '.tempory', "%s_(%s).jpg" % (self.inf_name_SP,  self.inf_num_SP))
+        try:
+            misc.Clear(rem_thumbnail , 'files', 'one', active_languages)
+            misc.Clear(rem_thumbnail_2 , 'files', 'one', active_languages)
+        except: pass
+        BeforeRemoveMaterial.type[1]['items'] = informations.InformationsEnumItems(default_paths['database'])
+        eval(api_functions['utils_unregister_class'].replace("#1#", "BeforeRemoveMaterial"))
+        eval(api_functions['utils_register_class'].replace("#1#", "BeforeRemoveMaterial"))
+        ops_object.shadertoolsng_restore('EXEC_DEFAULT')
+        return {'FINISHED'}   
 
 class ExportImportDatabase(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_iodatabase"
@@ -286,7 +387,7 @@ class UpdateWarning(eval(api_functions['types_operator'])):
 
 class BeforeOpen(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_before"
-    bl_label = space_access_name + active_languages['bl_id_name_open'] 
+    bl_label = ''
 
     def draw(self, context):
         global  database_stuff
@@ -307,8 +408,12 @@ class BeforeOpen(eval(api_functions['types_operator'])):
         else: 
             ops_object = eval(api_functions['ops_object'])
             Open.history_EP[1]['items'] = active_history
+            BeforeRemoveMaterial.type[1]['items'] = informations.InformationsEnumItems(default_paths['database'])
+            eval(api_functions['utils_unregister_class'].replace("#1#", "BeforeRemoveMaterial"))
+            eval(api_functions['utils_register_class'].replace("#1#", "BeforeRemoveMaterial"))
             eval(api_functions['utils_unregister_class'].replace("#1#", "Open"))
             eval(api_functions['utils_register_class'].replace("#1#", "Open"))
+
             database_folder = os.path.join(default_paths['app'],  active_languages['menu_bookmarks_name'])
             tempory_folder = os.path.join(database_folder,  ".tempory")
             search.MoveAllInsideFolder(active_configuration, api_functions, active_languages, tempory_folder,  database_folder)
@@ -452,6 +557,8 @@ class Open(eval(api_functions['types_operator'])):
         row = layout.row(align=True)
         row.operator("object.shadertoolsng_before_inf", text=active_languages['menu_information_label01'], icon='INFO')
         row = layout.row(align=True)
+        row.operator("object.shadertoolsng_before_rem", text=active_languages['buttons_remove'], icon='X')
+        row = layout.row(align=True)
         row.label(" ")
             
     def invoke(self, context, event):
@@ -561,14 +668,21 @@ class Save(eval(api_functions['types_operator'])):
                      "informations":True,  "material":True,  "diffuse_ramps":True,  "specular_ramps":True, 
                      "textures":True,  "color_ramps":True,  "pointdensity_ramps":True,  "render":True, 
                      }
+            material_exceptions = \
+                (
+                 self.name_SP,  self.creator_SP,  self.weblink_SP, self.email_SP, 
+                 self.description_SP, self.key_words_SP, self.category_EP,  
+                )
+            material_input = []
+            for m in material_exceptions: material_input.append(keys.InputExceptionsKeys(m))    
             material_dict = \
                     {
-                     "material_name": self.name_SP, "name": "$T_%s" % self.name_SP, "creator":self.creator_SP,
-                     "weblink":self.weblink_SP,"email":self.email_SP,"description":self.description_SP,
-                     "key_words":self.key_words_SP, "category":self.category_EP,
+                     "material_name": material_input[0], "name": "$T_%s" % material_input[0], "creator":material_input[1],
+                     "weblink":material_input[2],"email":material_input[3],"description":material_input[4],
+                     "key_words":material_input[5], "category":material_input[6],
                      "paths":default_paths, "idx_materials":num_material, "num_informations":num_information, "num_render":num_render, 
                      "idx_textures":num_texture, "idx_diffuse_ramp":num_diffuse_ramp, "idx_specular_ramp":num_specular_ramp, 
-                     "filename":self.name_SP, "filepath":os.path.join(default_paths['temp'],  'tempory_name.jpg'),
+                     "filename":material_input[0], "filepath":os.path.join(default_paths['temp'],  'tempory_name.jpg'),
                      "type":eval(api_functions['type']),  "preview_render_type":eval(api_functions['preview_render_type']),
                      "num_materials":num_material, "num_textures":num_texture, "idx_color_ramp":num_color_ramp, 
                      "idx_point_density_color_ramp":num_pointdensity_ramp, "use_textures":1, "texture_use_alpha":0,
@@ -636,12 +750,19 @@ class Export(eval(api_functions['types_operator'])):
     def execute(self, context):
         if ctx_active_object():
             global default_paths, active_configuration, api_functions,  active_languages
+            material_exceptions = \
+                (
+                 eval(api_functions['material_name']),  self.creator_SP,  self.weblink_SP, 
+                 self.email_SP, self.description_SP, self.key_words_SP,  
+                )
+            material_input = []
+            for m in material_exceptions: material_input.append(keys.InputExceptionsKeys(m))    
             material_dict = \
                     {
                      "filepath":self.filepath.replace(".",  "_"), "filename":self.filename.replace(".",  "_"), "app_path":default_paths['app'],
-                     "material_name":eval(api_functions['material_name']), "creator":self.creator_SP,
-                     "weblink":self.weblink_SP,"email":self.email_SP,"description":self.description_SP,
-                     "key_words":self.key_words_SP, "take_preview":self.take_preview_BP,
+                     "material_name":material_input[0], "creator":material_input[1],
+                     "weblink":material_input[2],"email":material_input[3],"description":material_input[4],
+                     "key_words":material_input[5], "take_preview":self.take_preview_BP,
                      "temp":default_paths['temp'],  "zip":default_paths['zip'],
                     }
             misc.Clear(os.path.join(material_dict['temp'], material_dict['material_name']), 'files', 'all', active_languages)
@@ -1091,7 +1212,7 @@ MyReg = \
     (
      ShadersToolsNGPanel, Open, Save, Export, Import,New, Configuration, Help, Credits, UpdateWarning,
      ConfigurationSearch, Errors, UtilsMigrate, BeforeOpen, RestoreFilters, Informations, BeforeInformations,
-     InformationsWeblink, OpenAddOnFolder, Cleanup, ExportImportDatabase, 
+     InformationsWeblink, OpenAddOnFolder, Cleanup, ExportImportDatabase, BeforeRemoveMaterial, RemoveMaterial, 
     )
 
 def register():

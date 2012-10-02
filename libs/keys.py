@@ -133,7 +133,8 @@ def LangagesKeys():
          "menu_tools_cleanup_materials_folder",  "menu_tools_io_database_title",  "menu_tools_io_database_import",  "menu_tools_io_database_export", 
          "menu_save_material_title", "menu_save_creator_name_title", "menu_save_creator_name", "menu_save_description_title", "menu_save_description", 
          "menu_save_category_title", "menu_save_category", "menu_save_key_words_title", "menu_save_key_words", "menu_save_web_link_title", "menu_save_web_link", 
-         "menu_save_email_title", "menu_save_email", "menu_save_title",  "menu_configuration_web_browser",  "menu_configuration_file_browser"]
+         "menu_save_email_title", "menu_save_email", "menu_save_title",  "menu_configuration_web_browser",  "menu_configuration_file_browser",  "bl_id_name_remove", 
+         "buttons_remove",  "menu_remove_confirmation"]
     for i in range(1, 81): temp.append("menu_error_error%03d" % i)
     return temp
 #end Langages keys
@@ -395,7 +396,8 @@ def TexturesPropertiesKeys(api_functions):
         "texture.voxel_data.resolution":(api_functions['texture_voxel_data_resolution'],  ''), 
         "texture.voxel_data.use_still_frame":(api_functions['texture_voxel_data_use_still_frame'],  ''),
         "texture.voxel_data.still_frame":(api_functions['texture_voxel_data_still_frame'],  ''),
-        "type":(api_functions['type'],  'yes'), "texture.use_preview_alpha":(api_functions['texture_use_preview_alpha'],  ''),}
+        "type":(api_functions['type'],  'yes'), "texture.use_preview_alpha":(api_functions['texture_use_preview_alpha'],  ''),
+        }
     return temp
 def TexturesSaveKeys():
     temp = \
@@ -674,7 +676,16 @@ def CleanupKeys():
          )
     return temp
 #end Cleanup keys
-
+#Input exceptions keys
+def InputExceptionsKeys(val):
+    temp = \
+        (
+         "'",  '"',  ";", "\\",  "{",  "}",  "#", "[", "]", " ", 
+         )
+    if type(val).__name__ == 'str':
+        for e in temp: val = val.replace(e,  '_') 
+    return val
+#end Input exceptions keys
 ''' *******           Here ShaderTools Utils keys           ********* '''
 #ShaderTools materials keys
 def OldMaterialsKeys():

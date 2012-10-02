@@ -63,14 +63,15 @@ def CreateThumbnails(default_paths,  active_configuration, api_functions, active
         max_elements = req.__len__()
         for e in req:
             if  option_bar: ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(current_element, max_elements)
-            req_names = request.DatabaseSelect(database_path, keys.ThumbnailsMaterialsKeys(),"MATERIALS", "where num_materials =%s" %e[0], 'one')
-            thumbnail_name = req_names[0].replace("$T_",  "") + "_(%s).jpg" %e[0]
-            thumbnail_bytes = binascii.unhexlify(eval(e[1]))
-            thumbnails_file_path = os.path.join(thumbnails_folder_path,   thumbnail_name)
-            if os.path.exists(thumbnails_file_path) : os.remove(thumbnails_file_path)
-            create_thumbnail = open(thumbnails_file_path,'wb')
-            create_thumbnail.write(thumbnail_bytes)
-            create_thumbnail.close()
+            req_names = request.DatabaseSelect(database_path, keys.ThumbnailsMaterialsKeys(),"MATERIALS", "where num_materials =%s" %e[0], 'one')            
+            if req_names[0] != '':
+                thumbnail_name = req_names[0].replace("$T_",  "") + "_(%s).jpg" %e[0]
+                thumbnail_bytes = binascii.unhexlify(eval(e[1]))
+                thumbnails_file_path = os.path.join(thumbnails_folder_path,   thumbnail_name)
+                if os.path.exists(thumbnails_file_path) : os.remove(thumbnails_file_path)
+                create_thumbnail = open(thumbnails_file_path,'wb')
+                create_thumbnail.write(thumbnail_bytes)
+                create_thumbnail.close()
             current_element = current_element + 1
     except:
         err = ('menu_error_error043', thumbnails_folder_path, 'menu_error_error044', 'menu_error_error045', 'menu_error_error046')

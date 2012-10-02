@@ -35,6 +35,7 @@ __all__ = (
     "history",
     "search",
     "informations",
-    "cleanup", 
+    "cleanup",
+    "remove", 
     )
 

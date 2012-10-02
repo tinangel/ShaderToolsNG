@@ -10,7 +10,7 @@
 
 # <pep8-80 compliant>
 import bpy, os, sqlite3,  binascii
-from . import misc
+from . import misc,  keys
 from copy import copy
         
 #end Convert blobs elements
@@ -24,7 +24,8 @@ def DatabaseInsert(database_path, elements, elements_val, table, test,  option):
         for e in elements: request = request + "'%s'," % e 
         request = request.rstrip(",") 
         request = request + ") values ("
-        for v in elements_val: 
+        for v in elements_val:
+            v = keys.InputExceptionsKeys(v)
             if type(v).__name__ == 'bytes': request =request + '"%s",' % binascii.hexlify(v)
             else: request = request + "'%s'," % v
         request = request.rstrip(",") + ")"
@@ -154,7 +155,7 @@ def DatabaseMax(database_path, element, table, condition, options):
         
         DatabaseCursor.close() #close cursor
         ShaderToolsDatabase.close() #close database
-        if result[0] == None: return (0, )
+        if result[0] == None or result[0] == '': return (0, )        
         else: return result
     except:
         DatabaseCursor.close() #close cursor

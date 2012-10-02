@@ -17,9 +17,10 @@ def InformationsEnumItems(database_path):
     list = ('num_materials',  'name')
     search_request = request.DatabaseSelect(database_path, list, 'MATERIALS', '', 'all')
     search_tuple = []
-    for e in search_request: 
-        name = "%s_(%s)" % (e[1].replace("$T_",  ""),  e[0])
-        search_tuple.append(tuple((str(e[0]), name, "")))
+    for e in search_request:
+        if  e[1] != '':
+            name = "%s_(%s)" % (e[1].replace("$T_",  ""),  e[0])
+            search_tuple.append(tuple((str(e[0]), name, "")))
     return search_tuple
 
 #Informations for the selected element
