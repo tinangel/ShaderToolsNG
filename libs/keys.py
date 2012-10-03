@@ -102,7 +102,7 @@ def ApiKeys():
          "ops_script_python_file_run", "types_scene", "invoke_popup", "texture_noise_scale_2",  "texture_point_density_vertex_cache_space",  
          "texture_point_density_vertex_cache_space",  "texture_image_use_generated_float",  "scene_layers", "select_object",    
          "texture_environment_map_zoom", "material_index",  "ramps_new",  "ramps_new_2", "ops_file_refresh",  "blend_save",  "blend_filepath",  
-         "render_color_management")
+         "render_color_management",  "hide_object",  "hide_render",  "select_name")
     return temp
 #end Api keys
 #Langages keys

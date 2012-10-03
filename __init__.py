@@ -33,7 +33,6 @@ print("*"*78)
 try:
     import bpy, sqlite3, os, platform, locale, shutil, sys, time, shader_tools_ng.libs, threading,  webbrowser
     from shader_tools_ng.libs import *
-    from bpy.types import Header
     print(misc.ConsoleError("Import external module ", 0, True))
 except: print(misc.ConsoleError("Import external module ", 0, False))
 
@@ -1153,6 +1152,52 @@ def SwitchButtonsList(list):
     for p in list: temp.append(tuple((p, active_languages[p], "")))
     return temp
 
+def ActivePreview(type):
+    elements_preview = ['Cube',  'Plane', 'Sphere',  'Monkey', ]
+    elements_preview.remove(type)    
+    for e in elements_preview:
+       for v in ('hide_object',  'hide_render'): exec("%s = True" % api_functions[v] % e)
+    for v in ('hide_object',  'hide_render'): exec("%s = False" % api_functions[v] % type)
+    exec(api_functions['select_name'] % type)
+    if type == 'Plane': exec("%s = 'FLAT'" % api_functions['preview_render_type'])
+    else: exec("%s = '%s'" % (api_functions['preview_render_type'],  type.upper()))
+    
+class SuzannePreview(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_suzanne"
+    bl_label = ""    
+    
+    def execute(self, context):
+        try: ActivePreview('Monkey')
+        except: pass
+        return {'FINISHED'}     
+
+class SpherePreview(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_sphere"
+    bl_label = ""    
+    
+    def execute(self, context):
+        try: ActivePreview('Sphere')
+        except: pass
+        return {'FINISHED'}     
+
+class CubePreview(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_cube"
+    bl_label = ""    
+    
+    def execute(self, context):
+        try: ActivePreview('Cube')
+        except: pass
+        return {'FINISHED'}     
+
+class PlanePreview(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_plane"
+    bl_label = ""    
+    
+    def execute(self, context):
+        try: ActivePreview('Plane')
+        except: pass
+        return {'FINISHED'}     
+
 class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
     bl_label = active_languages['panel_name']
     bl_idname = "OBJECT_PT_shaderstoolsng"
@@ -1162,7 +1207,7 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
 
     ctx_props = eval(api_functions['props'])
     types_scene = eval(api_functions['types_scene'])
-
+   
     #Open and save buttons in panel
     OpenSaveItems = SwitchButtonsList(("buttons_open", "buttons_save"))
     OpenSave = ctx_props.EnumProperty( name = "OpenSave", items = OpenSaveItems, update=OpenSaveSwitch)
@@ -1187,13 +1232,13 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
         try:
             workbase_path = os.path.join(default_paths['temp'],  'workbase.blend')
             workbase_path_exists =  os.path.exists(workbase_path)
-            if workbase_path_exists and  bpy.data.filepath == workbase_path:  
-                row.template_preview(context.material,  show_buttons=False)
-                row = layout.row()
-                row.prop(context.scene, "layers",  text="")
+            if workbase_path_exists and  bpy.data.filepath == workbase_path:
+                row.operator("object.shadertoolsng_suzanne", text="", icon="MONKEY" )
+                row.operator("object.shadertoolsng_sphere", text="", icon="MESH_UVSPHERE" )
+                row.operator("object.shadertoolsng_cube", text="", icon="MESH_CUBE" )
+                row.operator("object.shadertoolsng_plane", text="", icon="MESH_PLANE" )
                 row = layout.row()
         except:pass
-        
         if update: row.operator("object.shadertoolsng_warning", text=active_languages['menu_error_error001'], icon="RADIO")
         else:
             row.label("%s : " % active_languages['panel_database_label'], icon="SCENE_DATA")
@@ -1212,7 +1257,8 @@ MyReg = \
     (
      ShadersToolsNGPanel, Open, Save, Export, Import,New, Configuration, Help, Credits, UpdateWarning,
      ConfigurationSearch, Errors, UtilsMigrate, BeforeOpen, RestoreFilters, Informations, BeforeInformations,
-     InformationsWeblink, OpenAddOnFolder, Cleanup, ExportImportDatabase, BeforeRemoveMaterial, RemoveMaterial, 
+     InformationsWeblink, OpenAddOnFolder, Cleanup, ExportImportDatabase, BeforeRemoveMaterial, RemoveMaterial,
+     SuzannePreview, CubePreview,  SpherePreview,  PlanePreview,  
     )
 
 def register():
