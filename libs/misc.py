@@ -24,7 +24,7 @@ def CopyAllFiles(path,  destination):
                     pass
                     
 def AutoSaveDatabase(path,  destination):
-    auto_save_folder =  os.path.join(destination , time.strftime('AutoSave %d-%m-%y %H:%M:%S',time.localtime()))
+    auto_save_folder =  os.path.join(destination , time.strftime('AutoSave_%d%m%y_%H%M%S',time.localtime()))
     if not os.path.exists(auto_save_folder): os.makedirs(auto_save_folder)
     destination_path = os.path.join(destination , auto_save_folder,  path.split(os.sep)[-1])
     try: os.remove(destination_path)
@@ -32,7 +32,7 @@ def AutoSaveDatabase(path,  destination):
     shutil.copy2(path, destination_path)
 
 def SaveDatabase(path,  destination,  bin_folder):
-    destination_path = os.path.join(destination ,   time.strftime('Migration %d-%m-%y %H:%M:%S',time.localtime()) + path.split(os.sep)[-1])
+    destination_path = os.path.join(destination ,   time.strftime('Migration_%d%m%y_%H%M%S',time.localtime()) + path.split(os.sep)[-1])
     try: os.remove(destination_path)
     except:pass
     shutil.copy2(path, destination_path)
