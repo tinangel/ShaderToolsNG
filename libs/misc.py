@@ -221,7 +221,3 @@ def DoubleSlash(path):
 def CrossProduct(current_value, max_value):
     total = (current_value*100)/max_value
     return int(total)
-
-def CurrentThreads():
-    while threading.active_count() > 1:return None
-        

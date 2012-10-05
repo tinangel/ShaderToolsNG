@@ -1187,8 +1187,8 @@ class CubePreview(eval(api_functions['types_operator'])):
     def execute(self, context):
         try: ActivePreview('Cube')
         except: pass
-        return {'FINISHED'}     
-
+        return {'FINISHED'}
+          
 class PlanePreview(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_plane"
     bl_label = ""    
@@ -1237,6 +1237,7 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
                 row.operator("object.shadertoolsng_sphere", text="", icon="MESH_UVSPHERE" )
                 row.operator("object.shadertoolsng_cube", text="", icon="MESH_CUBE" )
                 row.operator("object.shadertoolsng_plane", text="", icon="MESH_PLANE" )
+                row.operator("render.render", text=active_languages['menu_new_render'], icon="RENDER_STILL" )
                 row = layout.row()
         except:pass
         if update: row.operator("object.shadertoolsng_warning", text=active_languages['menu_error_error001'], icon="RADIO")
@@ -1258,7 +1259,7 @@ MyReg = \
      ShadersToolsNGPanel, Open, Save, Export, Import,New, Configuration, Help, Credits, UpdateWarning,
      ConfigurationSearch, Errors, UtilsMigrate, BeforeOpen, RestoreFilters, Informations, BeforeInformations,
      InformationsWeblink, OpenAddOnFolder, Cleanup, ExportImportDatabase, BeforeRemoveMaterial, RemoveMaterial,
-     SuzannePreview, CubePreview,  SpherePreview,  PlanePreview,  
+     SuzannePreview, CubePreview,  SpherePreview,  PlanePreview,
     )
 
 def register():
