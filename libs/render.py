@@ -9,7 +9,7 @@
 # ##### BEGIN CC LICENSE BLOCK #####
 
 # <pep8-80 compliant>
-import bpy, os, shutil
+import bpy, os, shutil, platform
 from . import misc, keys
 from copy import copy
 
@@ -47,7 +47,10 @@ def PreviewRenderInternal(default_paths, api_functions, active_configuration, ac
         eval(save_render)
 
         for p in keys.RenderInternalKeys():
-            if type(eval(api_functions[p])).__name__ == 'str': 
+            if type(eval(api_functions[p])).__name__ == 'str':
+                save_render_configuration[p] = misc.DoubleSlash(save_render_configuration[p])
+                if p == 'render_filepath' and platform.system() == 'Windows' and not ':' in save_render_configuration[p]:
+                    save_render_configuration[p] = os.path.join('C:', 'tmp')                
                 exec("%s = '%s'" % (str(api_functions[p]), str(save_render_configuration[p])))
             else: exec("%s = %s" % (str(api_functions[p]), str(save_render_configuration[p])))
 

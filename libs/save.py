@@ -10,7 +10,7 @@
 
 # <pep8-80 compliant>
 
-import bpy, shutil,  os, binascii, threading
+import bpy, shutil,  os, binascii, threading, platform
 from . import misc, keys, request,  render,  materials,  ramps,  textures
 from copy import copy
 
@@ -30,6 +30,7 @@ def RenderSave(material_dict, api_functions, active_language, active_configurati
                 if os.path.exists(preview_name):
                     byte_preview = open(preview_name, 'rb')
                     elements_val.append(byte_preview.read())
+                    byte_preview.close()
                     misc.Clear(preview_name, 'files', 'one', active_language)
                 else: return False
             else: 
@@ -105,10 +106,12 @@ def TexturesSave(material_dict, api_functions, active_language, active_configura
                             source = eval(api_functions["texture_image_source"].replace("#1#", str(t)))
                             if source == 'FILE':
                                 img_filepath = eval(api_functions["texture_image_filepath"].replace("#1#", str(t)))
+                                if platform.system() == 'Windows': img_filepath = misc.DoubleSlash(img_filepath)
                                 img_filepath_2 = copy(img_filepath) 
                                 img_filepath = bpy.path.abspath(img_filepath, start=None, library=None)
                                 if '\\' in img_filepath: new_img_path = os.path.join(material_dict['paths']['temp'],  img_filepath.split('\\')[-1])
                                 else: new_img_path = os.path.join(material_dict['paths']['temp'],  img_filepath.split('/')[-1])
+                                if platform.system() == 'Windows': new_img_path = misc.DoubleSlash(new_img_path)
                                 try:
                                     exec("%s = '%s'" % (api_functions["texture_image_filepath"].replace("#1#", str(t)), new_img_path))
                                     unpack = api_functions['texture_image_unpack'].replace("#1#", str(t))
@@ -121,13 +124,14 @@ def TexturesSave(material_dict, api_functions, active_language, active_configura
                                     except:pass
                                     byte_preview = open(new_img_path, 'rb')
                                     val = byte_preview.read()
-                                    #val = "mon image test"
+                                    byte_preview.close()
                                     misc.Clear(new_img_path, 'files', 'one', active_language)
                             elif source == 'GENERATED':
                                 list = textures.TexturesGeneratedImagesExport(api_functions, material_dict, t, active_language)
                                 if os.path.exists(list[3]):
                                     byte_preview = open(list[3], 'rb')
                                     val = byte_preview.read()
+                                    byte_preview.close()
                                     misc.Clear(list[3], 'files', 'one', active_language)
                         elif e == "texture_image_filepath" or e == "texture_image_filepath_raw":
                             source = eval(api_functions["texture_image_source"].replace("#1#", str(t)))

@@ -27,18 +27,22 @@ def AddonFolder(default_paths,  active_configuration, api_functions, active_lang
 def CreateImage(default_paths,  active_configuration, api_functions, active_languages,  image_uv_blob,  idx):
     extension_file = ""
     image_path = ""
-    if '\\' in image_uv_blob[1]: extension_file =  image_uv_blob[1].split('.')[-1]
-    else: extension_file = image_uv_blob[1].split('.')[-1]
+    tmp = ""
+    if '\\' in image_uv_blob[1]: tmp =  image_uv_blob[1].split('\\')[-1]
+    else: tmp =  image_uv_blob[1].split('/')[-1]
+    if tmp == '' or not '.' in tmp: extension_file = 'png'
+    else: extension_file = tmp.split('.')[-1]
+    
     for c in range(1,  100):
         name = "$T_Img_"
         times = time.strftime('%d%m%y%H%M%S',time.localtime()) + str(time.clock())
         times = times.replace('.', '')
         name = "%s%02d" % (name, c) 
         image_path = os.path.join(default_paths['app'], default_paths['temp'],  "%s_%s.%s" % (name, times ,extension_file))     
-        if platform.system() == 'Windows': image_path = image_path.replace(os.sep, '%s%s' % (os.sep, os.sep))        
+        image_path = misc.DoubleSlash(image_path)
         if os.path.exists(image_path) == False:break
     try:misc.Clear(image_path , 'files', 'one', active_languages)
-    except: pass
+    except:pass
     try:
         image_bytes = binascii.unhexlify(eval(image_uv_blob[0]))
         image_file = open(image_path,'wb')

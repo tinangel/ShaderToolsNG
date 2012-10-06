@@ -216,6 +216,7 @@ def ConvertMarkOut(path, app_path):
 
 def DoubleSlash(path):
     if platform.system() == 'Windows': return path.replace(os.sep, "%s%s" % (os.sep, os.sep))
+    elif '\\\\' in path: path = path.replace('\\\\', '\\')
     else: return path
 
 def CrossProduct(current_value, max_value):
