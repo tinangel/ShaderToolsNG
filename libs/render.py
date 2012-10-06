@@ -50,7 +50,7 @@ def PreviewRenderInternal(default_paths, api_functions, active_configuration, ac
             if type(eval(api_functions[p])).__name__ == 'str':
                 save_render_configuration[p] = misc.DoubleSlash(save_render_configuration[p])
                 if p == 'render_filepath' and platform.system() == 'Windows' and not ':' in save_render_configuration[p]:
-                    save_render_configuration[p] = os.path.join('C:', 'tmp')                
+                    save_render_configuration[p] = 'C:\\\\tmp'               
                 exec("%s = '%s'" % (str(api_functions[p]), str(save_render_configuration[p])))
             else: exec("%s = %s" % (str(api_functions[p]), str(save_render_configuration[p])))
 
