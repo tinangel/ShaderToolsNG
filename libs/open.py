@@ -25,10 +25,18 @@ def AddonFolder(default_paths,  active_configuration, api_functions, active_lang
         misc.LogAndPrintError((error , error))
 
 def CreateImage(default_paths,  active_configuration, api_functions, active_languages,  image_uv_blob,  idx):
-    name = ""
-    if '\\' in image_uv_blob[1]: name =  image_uv_blob[1].split('\\')[-1]
-    else: name = image_uv_blob[1].split('/')[-1]
-    image_path = os.path.join(default_paths['app'], default_paths['temp'],  name)
+    extension_file = ""
+    image_path = ""
+    if '\\' in image_uv_blob[1]: extension_file =  image_uv_blob[1].split('.')[-1]
+    else: extension_file = image_uv_blob[1].split('.')[-1]
+    for c in range(1,  100):
+        name = "$T_Img_"
+        times = time.strftime('%d%m%y%H%M%S',time.localtime()) + str(time.clock())
+        times = times.replace('.', '')
+        name = "%s%02d" % (name, c) 
+        image_path = os.path.join(default_paths['app'], default_paths['temp'],  "%s_%s.%s" % (name, times ,extension_file))     
+        if platform.system() == 'Windows': image_path = image_path.replace(os.sep, '%s%s' % (os.sep, os.sep))        
+        if os.path.exists(image_path) == False:break
     try:misc.Clear(image_path , 'files', 'one', active_languages)
     except: pass
     try:
@@ -45,7 +53,7 @@ def CreateImage(default_paths,  active_configuration, api_functions, active_lang
     except: 
         return False
         pass
-
+        
 def IdxMaterial(name_object):
     idx_material = name_object.split("(")[-1]
     idx_material = idx_material.split(")")[0]
