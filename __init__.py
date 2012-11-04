@@ -4,7 +4,7 @@
 # Commons Attribution-NonCommercial-ShareAlike 
 # 3.0 Unported License : 
 #
-# More details here : http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr
+# More details here : http://creativecommons.org/licenses/by-nc-sa/3.0/deed
 #
 # ##### END CC LICENSE BLOCK #####
 
@@ -14,13 +14,13 @@
 bl_info = {
     "name": "ShaderTools Next Gen",
     "author": "GRETETE Karim (Tinangel)",
-    "version": (0, 9, 6),
+    "version": (1, 0, 1),
     "blender": (2, 6, 0),
     "api": 41098,
     "location": "User Preferences",
     "description": "Shader tools for blender",
-    "warning": "Beta version",
-    "wiki_url": "http://noadress",
+    "warning": "",
+    "wiki_url": "http://shadertools.free.fr/help/",
     "tracker_url": "",
     "support": 'COMMUNITY',
     "category": "System",}
@@ -33,6 +33,7 @@ print("*"*78)
 try:
     import bpy, sqlite3, os, platform, locale, shutil, sys, time, shader_tools_ng.libs, threading,  webbrowser
     from shader_tools_ng.libs import *
+    from ctypes import *
     print(misc.ConsoleError("Import external module ", 0, True))
 except: print(misc.ConsoleError("Import external module ", 0, False))
 
@@ -59,12 +60,24 @@ try:
     print(misc.ConsoleError("Globals ", 0, True))
 except: print(misc.ConsoleError("Globals ", 0, False))
 
-#Functions
+
+
+
+#My Globals
 conf_current_name = ""
 conf_current_idx = 1
 database_stuff = False
 inf_current_weblink = False
 progress_bar = False
+blup_create = 0
+blup_version = ""
+blup_update = False
+blup_install = False
+blup_path = os.path.join(default_paths['zip'],  'shadertoolsng.blup')
+blup_error = os.path.join(default_paths['zip'],  'error.blup')
+blup_check = os.path.join(default_paths['zip'],  'check.blup')
+blup_directory = os.path.join(default_paths['temp'],  'blup')
+
 #Tests & verifications
 bookmarks_folder_path = os.path.join(default_paths['app'], active_languages['menu_bookmarks_name'])
 update = checkup.MakeCheckup(default_paths['database'], default_paths['configs_database'], default_paths['bookmarks'], 
@@ -270,7 +283,7 @@ class ExportImportDatabase(eval(api_functions['types_operator'])):
 class Cleanup(eval(api_functions['types_operator'])):
     bl_idname = "object.shadertoolsng_cleanup"
     bl_label = space_access_name + active_languages['bl_id_name_tools_cleanup']
-    global  database_stuff
+    global  database_stuff, blup_create 
 
     ctx = eval(api_functions['props'])
     temp_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_temp'], default=0)
@@ -313,7 +326,7 @@ class Cleanup(eval(api_functions['types_operator'])):
             row = layout.row(align=True)
             
     def execute(self, context):
-        global update
+        global update,  blup_create
         if not database_stuff: 
             choices = {"temp":self.temp_BP,  "zip":self.zip_BP, "error":self.error_BP, "autosave":self.autosave_BP, 
                            "migrate":self.migrate_BP, "pycache":self.pycache_BP, "materials":self.materials_BP}
@@ -321,6 +334,7 @@ class Cleanup(eval(api_functions['types_operator'])):
                 lauch_progress_bar = threading.Thread(None, cleanup.Selected, "Cleanup", (default_paths,  active_configuration, api_functions, active_languages, choices), {})
                 lauch_progress_bar.start()
                 update = True
+               
             except:pass
         return {'PASS_THROUGH'}
 
@@ -1138,6 +1152,7 @@ def ExportImportSwitch(self, context):
 def UtilsSwitch(self, context):
     ops_object = eval(api_functions['ops_object'])
     if self.shadertoolsng_utils_enum == 'buttons_config':ops_object.shadertoolsng_configuration_search('INVOKE_DEFAULT')
+    elif self.shadertoolsng_utils_enum == 'buttons_update':ops_object.shadertoolsng_info('INVOKE_DEFAULT')
     elif self.shadertoolsng_utils_enum == 'buttons_log':ops_object.shadertoolsng_errors('INVOKE_DEFAULT')
     elif self.shadertoolsng_utils_enum == 'buttons_help':ops_object.shadertoolsng_help('INVOKE_DEFAULT')
     elif self.shadertoolsng_utils_enum == 'buttons_create':ops_object.shadertoolsng_new('INVOKE_DEFAULT')
@@ -1158,7 +1173,8 @@ def ActivePreview(type):
     for e in elements_preview:
        for v in ('hide_object',  'hide_render'): exec("%s = True" % api_functions[v] % e)
     for v in ('hide_object',  'hide_render'): exec("%s = False" % api_functions[v] % type)
-    exec(api_functions['select_name'] % type)
+    exec(api_functions['select_pattern'] % type)
+    exec("%s = %s" % (api_functions['scenes_objects_active'] % 0,  api_functions['scenes_objects'] % (0,  type)))
     if type == 'Plane': exec("%s = 'FLAT'" % api_functions['preview_render_type'])
     else: exec("%s = '%s'" % (api_functions['preview_render_type'],  type.upper()))
     
@@ -1198,6 +1214,49 @@ class PlanePreview(eval(api_functions['types_operator'])):
         except: pass
         return {'FINISHED'}     
 
+class Information(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_info"
+    bl_label = space_access_name + active_languages['bl_id_name_update']    
+    
+    def execute(self, context):
+        global progress_bar, blup_install, blup_create,  blup_update
+        progress_bar = False
+        blup_install = False
+        blup_create = 0
+        blup_update = False
+        ctx_scene = eval(api_functions['context_scene'])
+        ctx_scene.shadertoolsng_utils_bar = 0
+
+        active_language_name = active_languages['name_language']
+        
+        if '(French)' in active_language_name: active_language_name = 'French'
+        elif '(English)' in active_language_name: active_language_name = 'English'
+        #else : active_language_name = 'English'
+        version_apis = request.DatabaseSelect(default_paths['apis_database'], ("version_apis", ),"ABOUT", "where num_about =0", 'one')
+        program_parameters = (default_paths['viewer'],  active_languages['viewer_title'],  default_paths['info'],  \
+                              default_paths['information'],  active_languages['viewer_msg_noupdate'],  active_language_name,  version_apis[0],  \
+                              active_languages['viewer_msg_server_connexion'], active_languages['viewer_msg_server_error'], platform.system())
+        viewer.OpenViewer(program_parameters)
+
+        return {'FINISHED'}     
+
+class Blup(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_blup"
+    bl_label = ""
+    
+    def execute(self, context):
+        global blup_install, blup_path, blup_directory, blup_error,  blup_check
+        ctx_scene = eval(api_functions['context_scene'])
+        ctx_scene.shadertoolsng_utils_bar = 0
+        
+        if not blup_install:
+            lauch_progress_bar = threading.Thread(None, blup.BlupInstall, "Install_blup", (default_paths,  blup_directory,  blup_path,  blup_error,  blup_check,  active_languages, api_functions), {})
+            lauch_progress_bar.start()
+            blup_install = True
+        return {'FINISHED'}     
+
+
+
 class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
     bl_label = active_languages['panel_name']
     bl_idname = "OBJECT_PT_shaderstoolsng"
@@ -1217,8 +1276,8 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
     ExportImport = ctx_props.EnumProperty( name = "ExportImport", items = ExportImportItems, update=ExportImportSwitch)
     types_scene.shadertoolsng_export_import = ExportImport
     #Utils button in panel
-    UtilsItems = SwitchButtonsList(("buttons_config", "buttons_create", "buttons_log", "buttons_help", "buttons_credits", "menu_utils_migrate", 
-                                                        "buttons_tools_cleanup",  "buttons_addon_folder_access",  "buttons_export_import"))
+    UtilsItems = SwitchButtonsList(("buttons_update", "buttons_config", "buttons_log", "buttons_help", "buttons_credits", "menu_utils_migrate", 
+                                                        "buttons_tools_cleanup",  "buttons_addon_folder_access",  "buttons_export_import",  "buttons_create"))
     UtilsEnum = ctx_props.EnumProperty( name = "", items = UtilsItems, update=UtilsSwitch)
     UtilsProgressBar = ctx_props.IntProperty( name = "",  subtype='PERCENTAGE',  options={'ANIMATABLE'},  min=0,  max=100,  default=0,  update=UpdateProgressBar)
     types_scene.shadertoolsng_utils_bar = UtilsProgressBar
@@ -1228,7 +1287,8 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
         ctx_scene = eval(api_functions['context_scene'])
         layout = self.layout
         row = layout.row()
-    
+        global blup_create,  update,  blup_version,   blup_update,  blup_install, blup_path, blup_directory,  progress_bar 
+
         try:
             workbase_path = os.path.join(default_paths['temp'],  'workbase.blend')
             workbase_path_exists =  os.path.exists(workbase_path)
@@ -1240,7 +1300,9 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
                 row.operator("render.render", text=active_languages['menu_new_render'], icon="RENDER_STILL" )
                 row = layout.row()
         except:pass
+        
         if update: row.operator("object.shadertoolsng_warning", text=active_languages['menu_error_error001'], icon="RADIO")
+        elif blup_update: None
         else:
             row.label("%s : " % active_languages['panel_database_label'], icon="SCENE_DATA")
             row.prop(ctx_scene, "shadertoolsng_open_save", expand=True)
@@ -1253,13 +1315,44 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
             if progress_bar:
                 row = layout.row()
                 row.prop(ctx_scene, "shadertoolsng_utils_bar")
+
+        blup_path_exists =  os.path.exists(blup_path)
+        if blup_path_exists and not blup_create or blup_create == 10:
+            if not blup_create == 10:
+                try: misc.ClearDirectory(blup_directory,  active_languages)
+                except: pass
+                try: os.makedirs(os.path.join(default_paths['temp'],  'blup'))
+                except: pass
+                blup_create = zip.DeZipBlup(default_paths,  blup_path,  blup_directory)
+                fversion_path = os.path.join(blup_directory,  "version.blup")
+                blup_version = blup.OpenVersion(fversion_path)
+                blup_update = True
+            
+            if not update :
+                row.operator("object.shadertoolsng_blup",  text=active_languages['menu_blup_title'] % blup_version, icon="INFO")
+                row = layout.row()
+                row.prop(ctx_scene, "shadertoolsng_utils_bar")
+
+        if not blup_path_exists and os.path.exists(blup_check):
+            progress_bar = False
+            blup_install = False
+            blup_create = 0
+            blup_update = False
+            misc.Clear(blup_check, "files", "one", active_languages)
+
+        if not blup_path_exists and os.path.exists(blup_error):
+            progress_bar = False
+            blup_install = False
+            blup_create = 0
+            blup_update = True
+            if not update : row.operator("object.shadertoolsng_blup",  text="Une erreur est survenue", icon="ERROR")
             
 MyReg = \
     (
      ShadersToolsNGPanel, Open, Save, Export, Import,New, Configuration, Help, Credits, UpdateWarning,
      ConfigurationSearch, Errors, UtilsMigrate, BeforeOpen, RestoreFilters, Informations, BeforeInformations,
      InformationsWeblink, OpenAddOnFolder, Cleanup, ExportImportDatabase, BeforeRemoveMaterial, RemoveMaterial,
-     SuzannePreview, CubePreview,  SpherePreview,  PlanePreview,
+     SuzannePreview, CubePreview,  SpherePreview,  PlanePreview,  Information, Blup, 
     )
 
 def register():
