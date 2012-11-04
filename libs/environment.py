@@ -95,7 +95,15 @@ def DefaultPaths():
     #end Test : verify if default database path exists
     for v in keys.ConfigurationsKeys_2():
         r[v] = misc.ConvertMarkOut(r[v], app_path)
-        
+    
+    app_ext = ''
+    processor = "_32"
+    if "64" in platform.machine(): processor = "_64"
+    if platform.system() == 'Windows':
+        app_ext = '.exe'
+    elif platform.system() == 'Darwin':
+        app_ext = '.app'
+
     temp = \
         {
             "blend":os.path.dirname(bpy.data.filepath),
@@ -111,6 +119,10 @@ def DefaultPaths():
             "temp":r['temp_folder'],
             "bin":r['bin_folder'],
             "bookmarks":bookmarks_path_user,
+            "viewer":os.path.join(r['bin_folder'], "systems", platform.system().lower(), "viewer" + processor + app_ext),
+            "info": os.path.join(app_path, "info",  "index.html"),
+            "information": os.path.join(r['temp_folder'],  "information"), 
+            
     }
     return temp
 #end Default paths dictionnary

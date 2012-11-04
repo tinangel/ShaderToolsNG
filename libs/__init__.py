@@ -36,6 +36,9 @@ __all__ = (
     "search",
     "informations",
     "cleanup",
-    "remove", 
+    "remove",
+    "viewer",
+    "blup",
+           
     )
 

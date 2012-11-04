@@ -102,7 +102,7 @@ def ApiKeys():
          "ops_script_python_file_run", "types_scene", "invoke_popup", "texture_noise_scale_2",  "texture_point_density_vertex_cache_space",  
          "texture_point_density_vertex_cache_space",  "texture_image_use_generated_float",  "scene_layers", "select_object",    
          "texture_environment_map_zoom", "material_index",  "ramps_new",  "ramps_new_2", "ops_file_refresh",  "blend_save",  "blend_filepath",  
-         "render_color_management",  "hide_object",  "hide_render",  "select_name")
+         "render_color_management",  "hide_object",  "hide_render",  "select_name",  "select_pattern",  "scenes_objects",  "scenes_objects_active")
     return temp
 #end Api keys
 #Langages keys
@@ -110,7 +110,7 @@ def LangagesKeys():
     temp = \
         [      
          "num_languages", "keyboard", "name_language", "panel_name", "buttons_open", "buttons_save", "buttons_config", "buttons_export", "buttons_import", "buttons_informations", 
-         "buttons_help", "buttons_credits", "buttons_create", "menu_bookmarks_name", "menu_information_title", "menu_information_name_title", "menu_information_name_default",
+         "buttons_help", "buttons_update","buttons_credits", "buttons_create", "menu_bookmarks_name", "menu_information_title", "menu_information_name_title", "menu_information_name_default",
          "menu_information_creator_title", "menu_information_creator_default", "menu_information_category_title", "menu_information_category_default", "menu_information_description_title",
          "menu_information_description_default", "menu_information_link_title", "menu_information_link_default", "menu_information_email_title", "menu_information_email_default",
          "menu_help_title", "bl_id_name_open","bl_id_name_save", "bl_id_name_export", "bl_id_name_import", "bl_id_name_create", "bl_id_name_help", "bl_id_name_credits", "bl_id_name_config", "space_access_name",
@@ -124,9 +124,9 @@ def LangagesKeys():
          "menu_configuration_default_config", "bl_id_config_search", "menu_configuration_langage_choice", "menu_configuration_current_index", "take_preview", "buttons_log",
          "menu_import_label001", "menu_import_label002", "bl_id_name_logs", "buttons_utils", "panel_database_label", "panel_archive_label", "panel_utils_label", "menu_utils_migrate",
          "bl_id_name_utils_migrate", "menu_utils_migrate_help01", "menu_utils_migrate_help02", "menu_configuration_auto_save_1", "menu_configuration_auto_save_2", 
-         "menu_history_title",  "menu_history_label01",  "menu_history_label02",  "menu_open_restore", "menu_search_title",  "menu_search_label01",  "menu_search_label02",  
+         "menu_history_title",  "menu_history_label01",  "bl_id_name_update", "menu_history_label02",  "menu_open_restore", "menu_search_title",  "menu_search_label01",  "menu_search_label02",  
          "menu_search_label03", "menu_search_label04", "menu_search_description", "menu_search_creator", "menu_search_category", "menu_search_weblink", "menu_search_email",
-         "menu_information_label01",  "menu_information_label02", "menu_information_description", "menu_information_creator", "menu_information_category", 
+         "menu_information_label01",  "menu_information_label02", "viewer_msg_noupdate", "menu_information_description", "menu_information_creator", "menu_information_category", 
          "menu_information_weblink", "menu_information_email", "bl_id_name_search_infos",  "menu_search_name",  "buttons_tools_cleanup",  "buttons_addon_folder_access",  
          "buttons_export_import",  "bl_id_name_open_addon",  "bl_id_name_export_import",  "bl_id_name_tools_cleanup",  "menu_tools_cleanup_temp", "menu_tools_cleanup_zip", 
          "menu_tools_cleanup_pycache",  "menu_tools_cleanup_autosave",  "menu_tools_cleanup_logs",  "menu_tools_cleanup_title", "menu_tools_cleanup_migrate",   
@@ -134,7 +134,7 @@ def LangagesKeys():
          "menu_save_material_title", "menu_save_creator_name_title", "menu_save_creator_name", "menu_save_description_title", "menu_save_description", 
          "menu_save_category_title", "menu_save_category", "menu_save_key_words_title", "menu_save_key_words", "menu_save_web_link_title", "menu_save_web_link", 
          "menu_save_email_title", "menu_save_email", "menu_save_title",  "menu_configuration_web_browser",  "menu_configuration_file_browser",  "bl_id_name_remove", 
-         "buttons_remove",  "menu_remove_confirmation",  "menu_new_render"]
+         "buttons_remove",  "menu_remove_confirmation",  "menu_new_render",  "viewer_title",  "viewer_msg_server_connexion",  "viewer_msg_server_error", "menu_blup_title", ]  
     for i in range(1, 81): temp.append("menu_error_error%03d" % i)
     return temp
 #end Langages keys

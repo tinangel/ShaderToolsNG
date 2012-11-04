@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="fr">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Mise Ã  jour - ShaderTools for Blender3D</title>
+	<link href="css/style.css" rel="stylesheet" type="text/css" media="screen">
+</head>
+<body>
+
+	<center>
+		<div id="content_all">
+		
+			<div id="header">
+				<img src="img/boite.png" alt="" height="32" width="32" align="left" style="margin-top:4px">
+				<div id="header_title">				
+					<b>MISE A JOUR DISPONIBLE (v1.0.1 - taille: 56.2Mo)</b>
+				</div>
+				<img src="img/boite.png" alt="" height="32" width="32" align="left" style="margin-top:4px">
+			</div>
+		
+			<div id="content">
+				<img src="img/information.png" alt="" height="24" width="24" align="left" style="margin-top:2px">
+				<div id="content_title">				
+					<b>Cette mise à jour vous permettra :</b>
+				</div>
+			</div>
+			<div id="content_content">
+				<iframe src="content/information_2.html"></iframe>
+			</div>
+		
+			<div id="content">
+				<img src="img/alert.png" alt="" height="24" width="24" align="left" style="margin-top:2px">
+				<div id="content_title">				
+					<b>Veuillez lire ceci avant d'effectuer la mise à jour :</b>
+				</div>
+			</div>
+			<div id="content_content">
+				<iframe src="content/alert_2.html"></iframe>
+			</div>
+
+			<div id="content">
+				<img src="img/warning.png" alt="" height="24" width="24" align="left" style="margin-top:2px">
+				<div id="content_title">				
+					<b>Liste des fichiers modifiés :</b>
+				</div>
+			</div>
+			<div id="content_content">
+				<iframe src="content/warning_2.html"></iframe>
+			</div>	
+		</div>
+	</center>
+</body>
+
+</html>

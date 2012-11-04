@@ -22,7 +22,25 @@ def CopyAllFiles(path,  destination):
                     error = active_language['menu_error_error021'] % f
                     LogAndPrintError((error,  error))
                     pass
-                    
+
+def CompleteSave(path,  default_paths,  option,  default_folder):
+    complete_save_folder = ""
+    path = path.lstrip(os.sep)
+    if option == "create": 
+        complete_save_folder =  os.path.join(default_paths["save"] , time.strftime('CompleteSave_%d%m%y_%H%M%S',time.localtime()))
+        if not os.path.exists(complete_save_folder): os.makedirs(complete_save_folder)
+    if os.path.exists(default_folder): 
+        temp_subfolder = default_folder
+        my_path = path.split(os.sep)
+        for subfolder in my_path:
+            temp_subfolder = os.path.join(temp_subfolder,  subfolder)
+            if path.split(os.sep)[-1] not in subfolder: 
+                if not os.path.exists(temp_subfolder): os.makedirs(temp_subfolder)
+        destination_path = os.path.join(default_folder,  path)
+    else: destination_path = complete_save_folder
+    shutil.copy2(os.path.join(default_paths["app"], path), destination_path)
+    return complete_save_folder
+    
 def AutoSaveDatabase(path,  destination):
     auto_save_folder =  os.path.join(destination , time.strftime('AutoSave_%d%m%y_%H%M%S',time.localtime()))
     if not os.path.exists(auto_save_folder): os.makedirs(auto_save_folder)
@@ -222,3 +240,44 @@ def DoubleSlash(path):
 def CrossProduct(current_value, max_value):
     total = (current_value*100)/max_value
     return int(total)
+
+def DirectoryHierarchy(default_paths,  destination,  option): 
+    temp = []
+    final = []
+    hierarchy_path = os.path.join(destination,  "hierarchy.txt")
+    exceptions = ("__pycache__",  ").jpg",  ".DS_",  "~", "AutoSave_",  os.sep + "save" + os.sep,  os.sep + "temp" + os.sep,  os.sep + "error" + os.sep,  ".blup")
+    
+    for r, d, f in os.walk(default_paths["app"]): 
+        for e in f: 
+            temp.append(os.path.join(r, e)) 
+    if destination != "":
+        if os.path.exists(hierarchy_path):
+            try: os.remove(hierarchy_path)
+            except: pass
+            
+        fhierarchy = open(hierarchy_path, "a", encoding = "utf-8")
+        if os.path.exists(hierarchy_path):
+            for e in temp:
+                stop = 0
+                for x in exceptions:
+                    if x in e: stop = 1
+                if stop == 0: 
+                    if option == "blup_file":
+                        blup_structure = e.split(os.sep)[-1] + ":;:" + e.replace(default_paths["app"],  "") + "\n" 
+                        fhierarchy.write(blup_structure)
+                    else: fhierarchy.write(e.replace(default_paths["app"],  "") + "\n")
+            fhierarchy.close()
+            return 1
+    else: 
+        for e in temp:
+            stop = 0
+            for x in exceptions:
+                if x in e: stop = 1
+            if stop == 0: final.append(e.replace(default_paths["app"],  ""))
+        return final
+    
+    
+    
+    
+    
+    

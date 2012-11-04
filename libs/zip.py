@@ -9,6 +9,8 @@
 # ##### BEGIN CC LICENSE BLOCK #####
 
 # <pep8-80 compliant>
+import bpy, os, zipfile, platform, shutil
+from . import misc
 
 def DeZip(app_path, active_configuration, zip_path, option, active_language):
     #Imports & external libs:
@@ -87,3 +89,34 @@ def Zip(material_dict, api_functions, active_languages):
         except: print(active_language['menu_error_error022'] % zip_file_path.split(os.sep)[-1])
 
     return zip_file_path
+
+def DeZipBlup(default_paths,  blup_path,  blup_directory):
+    zfile = zipfile.ZipFile(blup_path, 'r')
+    for z in zfile.namelist():
+        if os.path.isdir(z):
+            try: os.makedirs(blup_directory, z)
+            except: 
+                try: 
+                    data = zfile.read(z)
+                    fp = open(os.path.join(blup_directory, z), "wb")
+                    fp.write(data)
+                    fp.close()
+                except: pass
+        else:
+            try: os.makedirs(os.path.join(blup_directory, os.path.dirname(z)))
+            except: pass
+            data = zfile.read(z)
+            fp = open(os.path.join(blup_directory, z), "wb")
+            fp.write(data)
+            fp.close()
+    zfile.close()
+    return 10
+    
+    
+    
+    
+    
+    
+    
+    
+    
