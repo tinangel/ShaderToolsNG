@@ -70,6 +70,7 @@ database_stuff = False
 inf_current_weblink = False
 progress_bar = False
 blup_create = 0
+blup_migration = 0
 blup_version = ""
 blup_update = False
 blup_install = False
@@ -83,8 +84,11 @@ bookmarks_folder_path = os.path.join(default_paths['app'], active_languages['men
 update = checkup.MakeCheckup(default_paths['database'], default_paths['configs_database'], default_paths['bookmarks'], 
                              bookmarks_folder_path, active_languages['menu_bookmarks_name'], active_configuration, default_paths['app'], 
                              languages_config,  default_paths)
+                             
+#blup_migration = checkup.MigrateDatabases(default_paths, active_configuration, active_languages)
 lauch_progress_bar = threading.Thread(None, open.CreateThumbnails, "Create_thumbnails", (default_paths,  active_configuration, api_functions, active_languages, False, ), {})
 lauch_progress_bar.start()
+complete_hierarchy = misc.DirectoryHierarchy(default_paths["app"],  default_paths["error"],  "blup_file")
 #Panel and buttons 
 def ctx_active_object():
     global api_functions
@@ -293,6 +297,7 @@ class Cleanup(eval(api_functions['types_operator'])):
     migrate_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_migrate'], default=0)
     pycache_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_pycache'], default=0)
     materials_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_materials_folder'], default=0)
+    completesave_BP = ctx.BoolProperty(name=active_languages['menu_tools_cleanup_completesave'], default=0)
 
     def invoke(self, context, event):
         if database_stuff: wm = eval(api_functions['invoke_props_dialog'].replace("#1#", "self, width=500"))
@@ -323,13 +328,14 @@ class Cleanup(eval(api_functions['types_operator'])):
             row.prop(self, "materials_BP")
             row = layout.row(align=True)
             row.prop(self, "pycache_BP")
+            row.prop(self, "completesave_BP")
             row = layout.row(align=True)
             
     def execute(self, context):
         global update,  blup_create
         if not database_stuff: 
             choices = {"temp":self.temp_BP,  "zip":self.zip_BP, "error":self.error_BP, "autosave":self.autosave_BP, 
-                           "migrate":self.migrate_BP, "pycache":self.pycache_BP, "materials":self.materials_BP}
+                           "migrate":self.migrate_BP, "pycache":self.pycache_BP, "materials":self.materials_BP,  "completesave":self.completesave_BP}
             try:
                 lauch_progress_bar = threading.Thread(None, cleanup.Selected, "Cleanup", (default_paths,  active_configuration, api_functions, active_languages, choices), {})
                 lauch_progress_bar.start()
@@ -343,7 +349,7 @@ class OpenAddOnFolder(eval(api_functions['types_operator'])):
     bl_label = space_access_name + active_languages['bl_id_name_open_addon']
 
     def execute(self, context):
-        open.AddonFolder(default_paths,  active_configuration, api_functions, active_languages)
+        open.AddonFolder(default_paths,  active_configuration, api_functions, active_languages,  '')
         return {'FINISHED'}
 
 def UpdateProgressBar(self,  context): return None
@@ -1255,6 +1261,16 @@ class Blup(eval(api_functions['types_operator'])):
             blup_install = True
         return {'FINISHED'}     
 
+class BlupError(eval(api_functions['types_operator'])):
+    bl_idname = "object.shadertoolsng_blupe"
+    bl_label = ""
+    
+    def execute(self, context):
+        blup_error_path = os.path.join(default_paths["error"],  "blup_error.txt") 
+        blup_error_line = blup.BlupErrorFolder(blup_error_path)
+        open.AddonFolder(default_paths,  active_configuration, api_functions, active_languages, blup_error_line)
+        
+        return {'FINISHED'}     
 
 
 class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
@@ -1281,13 +1297,19 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
     UtilsEnum = ctx_props.EnumProperty( name = "", items = UtilsItems, update=UtilsSwitch)
     UtilsProgressBar = ctx_props.IntProperty( name = "",  subtype='PERCENTAGE',  options={'ANIMATABLE'},  min=0,  max=100,  default=0,  update=UpdateProgressBar)
     types_scene.shadertoolsng_utils_bar = UtilsProgressBar
+    UtilsMigrateProgressBar = ctx_props.IntProperty( name = "",  subtype='PERCENTAGE',  options={'ANIMATABLE'},  min=0,  max=100,  default=0,  update=UpdateProgressBar)
+    types_scene.shadertoolsng_utils_barm = UtilsMigrateProgressBar
     types_scene.shadertoolsng_utils_enum = UtilsEnum
+
+    @classmethod
+    def poll(cls, context):
+        return context.object is not None
 
     def draw(self, context):
         ctx_scene = eval(api_functions['context_scene'])
         layout = self.layout
         row = layout.row()
-        global blup_create,  update,  blup_version,   blup_update,  blup_install, blup_path, blup_directory,  progress_bar 
+        global blup_create,  update,  blup_version,   blup_update,  blup_install, blup_path, blup_directory,  progress_bar, blup_migration 
 
         try:
             workbase_path = os.path.join(default_paths['temp'],  'workbase.blend')
@@ -1303,6 +1325,7 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
         
         if update: row.operator("object.shadertoolsng_warning", text=active_languages['menu_error_error001'], icon="RADIO")
         elif blup_update: None
+        elif blup_migration: None
         else:
             row.label("%s : " % active_languages['panel_database_label'], icon="SCENE_DATA")
             row.prop(ctx_scene, "shadertoolsng_open_save", expand=True)
@@ -1329,9 +1352,13 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
                 blup_update = True
             
             if not update :
+                fmigrate_path = os.path.join(blup_directory,  "paths.blup")
                 row.operator("object.shadertoolsng_blup",  text=active_languages['menu_blup_title'] % blup_version, icon="INFO")
                 row = layout.row()
                 row.prop(ctx_scene, "shadertoolsng_utils_bar")
+                if blup.OpenMigrate(default_paths, fmigrate_path):
+                    row = layout.row()
+                    row.prop(ctx_scene, "shadertoolsng_utils_barm")
 
         if not blup_path_exists and os.path.exists(blup_check):
             progress_bar = False
@@ -1345,14 +1372,25 @@ class ShadersToolsNGPanel(eval(api_functions['types_panel'])):
             blup_install = False
             blup_create = 0
             blup_update = True
-            if not update : row.operator("object.shadertoolsng_blup",  text="Une erreur est survenue", icon="ERROR")
-            
+            if not update : 
+                row.operator("object.shadertoolsng_blupe",  text=active_languages['menu_blup_error'], icon="ERROR")
+                row = layout.row()
+                row.label(active_languages['menu_blup_error_info'] , icon="RADIO")
+
+        if blup_migration:
+            progress_bar = True
+            if not update : 
+                row.label("Migration en cours veuillez patienter ..." , icon="RADIO")
+                row = layout.row()
+                row.prop(ctx_scene, "shadertoolsng_utils_bar")
+           
+
 MyReg = \
     (
      ShadersToolsNGPanel, Open, Save, Export, Import,New, Configuration, Help, Credits, UpdateWarning,
      ConfigurationSearch, Errors, UtilsMigrate, BeforeOpen, RestoreFilters, Informations, BeforeInformations,
      InformationsWeblink, OpenAddOnFolder, Cleanup, ExportImportDatabase, BeforeRemoveMaterial, RemoveMaterial,
-     SuzannePreview, CubePreview,  SpherePreview,  PlanePreview,  Information, Blup, 
+     SuzannePreview, CubePreview,  SpherePreview,  PlanePreview,  Information, Blup, BlupError, 
     )
 
 def register():

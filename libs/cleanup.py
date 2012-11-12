@@ -42,10 +42,14 @@ def Selected(default_paths,  active_configuration, api_functions, active_languag
                 files = os.listdir(default_paths['save'])
                 for f in files:           
                     if not os.path.isdir(f) and 'Migration' in f: misc.Clear(os.path.join(default_paths['save'], f), 'files', 'one', active_languages) 
-            elif k == 'autosave':
+            elif k in ('autosave',  'completesave'):
                 files = os.listdir(default_paths['save'])
                 for f in files:
-                    if 'AutoSave' in f : 
+                    if 'AutoSave' in f  and k == 'autosave': 
+                        misc.Clear(os.path.join(default_paths['save'],  f), 'all', '', active_languages)
+                        misc.ClearDirectory(os.path.join(default_paths['save'], f),  active_languages) 
+
+                    if 'CompleteSave' in f  and k == 'completesave': 
                         misc.Clear(os.path.join(default_paths['save'],  f), 'all', '', active_languages)
                         misc.ClearDirectory(os.path.join(default_paths['save'], f),  active_languages) 
             else:None

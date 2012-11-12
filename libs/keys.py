@@ -9,7 +9,7 @@
 # ##### BEGIN CC LICENSE BLOCK #####
 
 # <pep8-80 compliant>
-import bpy
+import bpy,  os
 
 #Materials keys
 def MaterialsKeys():
@@ -134,7 +134,8 @@ def LangagesKeys():
          "menu_save_material_title", "menu_save_creator_name_title", "menu_save_creator_name", "menu_save_description_title", "menu_save_description", 
          "menu_save_category_title", "menu_save_category", "menu_save_key_words_title", "menu_save_key_words", "menu_save_web_link_title", "menu_save_web_link", 
          "menu_save_email_title", "menu_save_email", "menu_save_title",  "menu_configuration_web_browser",  "menu_configuration_file_browser",  "bl_id_name_remove", 
-         "buttons_remove",  "menu_remove_confirmation",  "menu_new_render",  "viewer_title",  "viewer_msg_server_connexion",  "viewer_msg_server_error", "menu_blup_title", ]  
+         "buttons_remove",  "menu_remove_confirmation",  "menu_new_render",  "viewer_title",  "viewer_msg_server_connexion",  "viewer_msg_server_error", "menu_blup_title", 
+         "menu_blup_error", "menu_blup_error_info", "menu_tools_cleanup_completesave",]  
     for i in range(1, 81): temp.append("menu_error_error%03d" % i)
     return temp
 #end Langages keys
@@ -672,7 +673,7 @@ def NewObjectsKeys():
 def CleanupKeys():
     temp = \
         (
-        "temp", "zip", "error", "autosave", "migrate", "pycache", "materials", 
+        "temp", "zip", "error", "autosave", "migrate", "pycache", "materials", "completesave", 
          )
     return temp
 #end Cleanup keys
@@ -686,6 +687,14 @@ def InputExceptionsKeys(val):
         for e in temp: val = val.replace(e,  '_') 
     return val
 #end Input exceptions keys
+#Dump keys
+def DumpKeys(default_paths):
+    temp = \
+        (      
+         default_paths['database'].split(os.sep)[-1], default_paths['configs_database'].split(os.sep)[-1], 
+         )
+    return temp
+#end Dump keys
 ''' *******           Here ShaderTools Utils keys           ********* '''
 #ShaderTools materials keys
 def OldMaterialsKeys():

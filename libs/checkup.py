@@ -10,6 +10,8 @@
 
 
 # <pep8-80 compliant>
+import bpy, sqlite3, os, zipfile
+from . import bookmark, environment, request, misc, keys, configuration
 
 def MakeCheckup(database_path, configs_database_path,bookmark_path, bookmark_folder_path, bookmark_folder_name, active_configuration, app_path, languages_config, default_paths):
     #Imports & external libs:
@@ -155,8 +157,10 @@ def MakeCheckup(database_path, configs_database_path,bookmark_path, bookmark_fol
     return(bookmark.VerifyBookmark(bookmark_path, bookmark_folder_path, bookmark_folder_name))
     #end Test : bookmark verification:
 
-
-
+def MigrateDatabases(default_paths, active_configuration, active_languages):
+    return request.DatabaseDump(default_paths, default_paths['configs_database'],  "test_dump.blup" )
+    print(misc.ConsoleError("migrate database ", 1, True))
+    #print(misc.ConsoleError("migrate database ", 1, False))
 
 
 

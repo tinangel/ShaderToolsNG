@@ -163,3 +163,41 @@ def DatabaseMax(database_path, element, table, condition, options):
         ShaderToolsDatabase.close() #close database
         return False
 #end Max in database
+
+def DatabaseDump(default_paths,  path,  name):
+    ShaderToolsDatabase = sqlite3.connect(path) #open database
+    dump_file = os.path.join(default_paths['temp'],  name)
+    if os.path.exists(dump_file): os.remove(dump_file)
+    with open(dump_file, 'w') as f:
+        for line in ShaderToolsDatabase.iterdump(): f.write('%s\n' % line)
+    ShaderToolsDatabase.close() #close database
+    return True
+
+def DatabaseDumpImport(default_paths, api_functions,  path,  name):
+    ctx_scene = eval(api_functions['context_scene'])
+    ctx_scene.shadertoolsng_utils_barm = 0
+
+    ShaderToolsDatabase = sqlite3.connect(path)
+    DatabaseCursor = ShaderToolsDatabase.cursor()
+    script_file = os.path.join(default_paths['temp'],  name.replace(".sqlite",  ".blump"))
+    fscript = open(script_file,'r', encoding = "utf-8")
+    line = fscript.read()
+    counter = 0
+    counter_two = 0
+    total_count = line.count("INSERT INTO")
+    request_split = line.split(';\n')
+    for e in request_split:
+        if "CREATE TABLE " not in e: DatabaseCursor.executescript(e)
+        if "INSERT INTO" in e:
+            counter = counter + 1
+            counter_two = counter_two + 1
+            if counter_two >= int(total_count/10):
+                counter_two = 0
+                try:ctx_scene.shadertoolsng_utils_barm = misc.CrossProduct(counter, total_count)
+                except:pass
+
+    counter = total_count    
+    ctx_scene.shadertoolsng_utils_barm = 100
+    DatabaseCursor.close() #close cursor
+    ShaderToolsDatabase.close() #close database
+    

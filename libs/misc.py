@@ -27,8 +27,14 @@ def CompleteSave(path,  default_paths,  option,  default_folder):
     complete_save_folder = ""
     path = path.lstrip(os.sep)
     if option == "create": 
+        blup_error_path = os.path.join(default_paths["error"],  "blup_error.txt") 
         complete_save_folder =  os.path.join(default_paths["save"] , time.strftime('CompleteSave_%d%m%y_%H%M%S',time.localtime()))
         if not os.path.exists(complete_save_folder): os.makedirs(complete_save_folder)
+        if os.path.exists(blup_error_path): os.remove(blup_error_path)
+        fblup_error_path = open(blup_error_path, "a", encoding = "utf-8")
+        fblup_error_path.write(complete_save_folder + "\n")
+        fblup_error_path.close()
+
     if os.path.exists(default_folder): 
         temp_subfolder = default_folder
         my_path = path.split(os.sep)
@@ -247,7 +253,7 @@ def DirectoryHierarchy(default_paths,  destination,  option):
     hierarchy_path = os.path.join(destination,  "hierarchy.txt")
     exceptions = ("__pycache__",  ").jpg",  ".DS_",  "~", "AutoSave_",  os.sep + "save" + os.sep,  os.sep + "temp" + os.sep,  os.sep + "error" + os.sep,  ".blup")
     
-    for r, d, f in os.walk(default_paths["app"]): 
+    for r, d, f in os.walk(default_paths): 
         for e in f: 
             temp.append(os.path.join(r, e)) 
     if destination != "":
@@ -263,9 +269,9 @@ def DirectoryHierarchy(default_paths,  destination,  option):
                     if x in e: stop = 1
                 if stop == 0: 
                     if option == "blup_file":
-                        blup_structure = e.split(os.sep)[-1] + ":;:" + e.replace(default_paths["app"],  "") + "\n" 
+                        blup_structure = e.split(os.sep)[-1] + ":;:" + e.replace(default_paths,  "") + "\n" 
                         fhierarchy.write(blup_structure)
-                    else: fhierarchy.write(e.replace(default_paths["app"],  "") + "\n")
+                    else: fhierarchy.write(e.replace(default_paths,  "") + "\n")
             fhierarchy.close()
             return 1
     else: 
@@ -273,7 +279,7 @@ def DirectoryHierarchy(default_paths,  destination,  option):
             stop = 0
             for x in exceptions:
                 if x in e: stop = 1
-            if stop == 0: final.append(e.replace(default_paths["app"],  ""))
+            if stop == 0: final.append(e.replace(default_paths,  ""))
         return final
     
     

@@ -14,12 +14,14 @@ import bpy, shutil,  os, binascii,  time, threading,  platform
 from . import misc, keys, request,  textures
 from copy import copy
 
-def AddonFolder(default_paths,  active_configuration, api_functions, active_languages):
+def AddonFolder(default_paths,  active_configuration, api_functions, active_languages,  path):
     browser =''
     if 'None' in str(active_configuration['file_browser']):browser = 'nautilus'
     else: browser =  active_configuration['file_browser']
     navi = { "Windows":'explorer',  "Darwin":'open',  "Linux":browser}
-    try: folder = os.popen('%s "%s"' % (navi[platform.system()],  default_paths['app']))    
+    try: 
+        if not path : folder = os.popen('%s "%s"' % (navi[platform.system()],  default_paths['app']))
+        else: folder = os.popen('%s "%s"' % (navi[platform.system()],  path))
     except: 
         error = active_languages['menu_error_error052']
         misc.LogAndPrintError((error , error))
