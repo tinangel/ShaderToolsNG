@@ -122,7 +122,6 @@ def DefaultPaths():
             "viewer":os.path.join(r['bin_folder'], "systems", platform.system().lower(), "viewer" + processor + app_ext),
             "info": os.path.join(app_path, "info",  "index.html"),
             "information": os.path.join(r['zip_folder'],  "information"), 
-            
     }
     return temp
 #end Default paths dictionnary

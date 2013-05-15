@@ -82,7 +82,6 @@ def BlupInstall(default_paths,  blup_directory, blup_path,  blup_error,  blup_ch
                     misc.Clear(os.path.join(default_paths["app"],  temp_path), "files", "one", active_languages)
                     shutil.copy2(os.path.join(blup_directory, l[0]), os.path.join(default_paths["app"],  temp_path))
                     if l[0].strip() in keys.DumpKeys(default_paths): request.DatabaseDumpImport(default_paths, api_functions,   os.path.join(default_paths["app"],  temp_path),  l[0].strip())
-                        
                     ctx_scene.shadertoolsng_utils_bar = misc.CrossProduct(counter_temp, counter)
                     counter_temp = counter_temp + 1
         except: 

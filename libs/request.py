@@ -195,7 +195,8 @@ def DatabaseDumpImport(default_paths, api_functions,  path,  name):
                 counter_two = 0
                 try:ctx_scene.shadertoolsng_utils_barm = misc.CrossProduct(counter, total_count)
                 except:pass
-
+    
+    if os.path.exists(script_file): os.remove(script_file)
     counter = total_count    
     ctx_scene.shadertoolsng_utils_barm = 100
     DatabaseCursor.close() #close cursor

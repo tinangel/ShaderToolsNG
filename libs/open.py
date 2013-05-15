@@ -107,7 +107,7 @@ def ImportMaterialInApp(default_paths,  active_configuration, api_functions, act
     new_mat = api_functions['materials_new'].replace("#1#", "'%s'" % req_type[1])
     mat_slots = eval(api_functions['material_slots'].replace("[#1#].material", ".__len__()" ))
     exec("%s = %s" % (slots,  new_mat))
-    exec("%s = %s" %(api_functions['material_index'],  mat_slots))
+    exec("%s = %s" %(api_functions['material_index'],  mat_slots-1))
     exec("%s = '%s'" %(api_functions['type'],  req_type[0]))
     
     if req_type[0] == 'SURFACE' or req_type[0] == 'WIRE':

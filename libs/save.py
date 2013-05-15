@@ -22,24 +22,34 @@ def InformationsSave(material_dict, api_functions, active_language, active_confi
 
 def RenderSave(material_dict, api_functions, active_language, active_configuration, test, default_paths):
     preview_name = render.PreviewRenderInternal(default_paths, api_functions, active_configuration, active_language, material_dict,  'save')
-    elements_val = [] 
-    for e in keys.RenderKeys(): 
+    elements_val = []
+    new_keys = []
+    for e in keys.RenderKeys():
+        #filter keys 
+        exception = False
+        if( bpy.app.version[0] == 2 and bpy.app.version[1] >= 65 ):
+            if( e == "render_color_management" ):   exception = True
+        
+        if( exception ): continue
+        
+        new_keys.append( e )
         try: elements_val.append(material_dict[e]) 
         except : 
             if e == "render_preview_object":
+                print( preview_name )
                 if os.path.exists(preview_name):
                     byte_preview = open(preview_name, 'rb')
                     elements_val.append(byte_preview.read())
                     byte_preview.close()
                     misc.Clear(preview_name, 'files', 'one', active_language)
                 else: return False
-            else: 
+            else:
                 val = eval(api_functions[e])
                 if type(val).__name__ == 'bool': val = misc.ConvertBoolStringToNumber(val)
                 elements_val.append(val)
                 
-    if  test: return request.DatabaseInsert(material_dict['paths']['database'], keys.RenderKeys(), elements_val, "RENDER",  True, 'save')
-    else: return request.DatabaseInsert(material_dict['paths']['database'], keys.RenderKeys(), elements_val, "RENDER",  False, 'save')
+    if  test: return request.DatabaseInsert(material_dict['paths']['database'], new_keys, elements_val, "RENDER",  True, 'save')
+    else: return request.DatabaseInsert(material_dict['paths']['database'], new_keys, elements_val, "RENDER",  False, 'save')
 
 def MaterialSave(material_dict, api_functions, active_language, active_configuration, test):
     elements_keys =[]
