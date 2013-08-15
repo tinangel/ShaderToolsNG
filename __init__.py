@@ -1,10 +1,10 @@
 # ##### BEGIN CC LICENSE BLOCK #####
 #
-# This work is licensed under a Creative 
-# Commons Attribution-NonCommercial-ShareAlike 
-# 3.0 Unported License : 
+# This work is licensed under a 
+# Creative Commons Attribution 3.0 
+# Unported (CC BY 3.0) License : 
 #
-# More details here : http://creativecommons.org/licenses/by-nc-sa/3.0/deed
+# More details here : http://creativecommons.org/licenses/by/3.0/deed.en
 #
 # ##### END CC LICENSE BLOCK #####
 
@@ -14,9 +14,9 @@
 bl_info = {
     "name": "ShaderTools Next Gen",
     "author": "GRETETE Karim (Tinangel)",
-    "version": (1, 0, 2),
-    "blender": (2, 6, 7),
-    "api": 56533,
+    "version": (1, 0, 3),
+    "blender": (2, 6, 8),
+    "api": 58536,
     "location": "User Preferences",
     "description": "Shader tools for blender",
     "warning": "",

@@ -54,10 +54,10 @@
 				</tr>				
 				<tr>
 					<td id="steps_tab_title">
-						Le panneau du ShaderTool vous propose deux modules supplémentaires (la prévisualisation ainsi que le choix des 
-						calques), nous allons nous intéresser dans un premier temps aux calques. Ces derniers vous permettront de choisir
+						Le panneau du ShaderTools vous propose un module supplémentaire. Ce dernier va vous permettre de choisir  
 						entre 4 modes d'affichage pour votre nouvelle matière (un cube, une sphère, un plan ou encore la mascotte j'ai
-						nommée 'Suzanne'). Pour choisir la forme de votre rendu il vous suffit de jongler entre ces 4 calques :
+						nommée 'Suzanne'). Pour choisir la forme de votre rendu il vous suffit de jongler entre les boutons correspondant
+						à la forme de la matière désirée :
 					</td>
 				</tr>
 				<tr>
@@ -84,18 +84,7 @@
 				</tr>				
 				<tr>
 					<td id="steps_tab_title">
-						Passons maintenant à la prévisualisation. Pour mettre à jour la pévisualisation il vous suufit de vous placer 
-						sur l'objet que vous avez choisit, comme ci-dessous :
-					</td>
-				</tr>
-				<tr>
-					<td id="steps_tab">
-						<img src="../img/Francais/new/006.jpg" id="steps">	
-					</td>
-				</tr>				
-				<tr>
-					<td id="steps_tab_title">
-						Puis de le sélectionner avec le bouton droit de votre souris :
+						Prenons comme exemple la sphère. Cliquez sur le bouton 'Sphere' du panneau et vous devriez obtenir ceci :
 					</td>
 				</tr>
 				<tr>
@@ -127,25 +116,19 @@
 				</tr>				
 				<tr>
 					<td id="steps_tab_title">
-						Ou en basculant dans la fenêtre de rendu comme ici : 
+						Ou en cliquant sur le bouton 'Apercu' dans le panneau du ShaderTools : 
 					</td>
 				</tr>
 				<tr>
 					<td id="steps_tab">
-						<img src="../img/Francais/new/010.jpg" id="steps">	
+						<img src="../img/Francais/new/003.jpg" id="steps">	
 					</td>
 				</tr>				
 			</table>		
 		</div>
 
 		<!-- Ici je créé la zone bas de page -->
-		<div id="bottom_header">
-			Créé par GRETETE Karim (alias Tinangel)<br>
-			<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">
-			<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
-			</a><br />Ce travail est sous license Crative Commons : <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr">
-			Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-NC-SA 3.0) </a>.
-		</div>
+		<script type="text/javascript">PAGE_BOTTOM_FR()</script>		
 		<div style="float:left; width:1020px; height:20px"></div>
 		
 

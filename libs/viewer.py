@@ -1,14 +1,16 @@
 # ##### BEGIN CC LICENSE BLOCK #####
 #
-# This work is licensed under a Creative 
-# Commons Attribution-NonCommercial-ShareAlike 
-# 3.0 Unported License : 
+# This work is licensed under a 
+# Creative Commons Attribution 3.0 
+# Unported (CC BY 3.0) License : 
 #
-# More details here : http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr
+# More details here : http://creativecommons.org/licenses/by/3.0/deed.en
 #
-# ##### BEGIN CC LICENSE BLOCK #####
+# ##### END CC LICENSE BLOCK #####
 
 # <pep8-80 compliant>
+#-*- coding: utf-8 -*-
+
 import bpy, os, platform
 
 def OpenViewer(program_parameters):

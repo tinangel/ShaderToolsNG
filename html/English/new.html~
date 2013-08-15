@@ -42,7 +42,7 @@
 				</tr>				
 				<tr>
 					<td id="steps_tab_title">
-						A new window appears, you can access now to a new interface Blender : 
+						A new window appears, you can access now to a new interface for Blender : 
 					</td>
 				</tr>
 				<tr>
@@ -52,8 +52,8 @@
 				</tr>				
 				<tr>
 					<td id="steps_tab_title">
-						Into user interface you can see two other elements, a preview panel and a layers selector. 
-						You can select between four views (the four first layers). 
+						Into user interface you can see five news buttons. 
+						You can select between four views (cube, sphere, plane and suzanne). 
 					</td>
 				</tr>
 				<tr>
@@ -63,7 +63,7 @@
 				</tr>				
 				<tr>
 					<td id="steps_tab_title">
-						In addition to Suzanne (see below) you can select a layer :
+						In addition to Suzanne (see below) you can select this views:
 					</td>
 				</tr>
 				<tr>
@@ -80,17 +80,7 @@
 				</tr>				
 				<tr>
 					<td id="steps_tab_title">
-						Then select layer and the preview panel should be update :
-					</td>
-				</tr>
-				<tr>
-					<td id="steps_tab">
-						<img src="../img/English/new/006.jpg" id="steps">	
-					</td>
-				</tr>				
-				<tr>
-					<td id="steps_tab_title">
-						Then select the material inside 3D view (with right mouse button) :
+						Click 'Sphere' button into panel :
 					</td>
 				</tr>
 				<tr>
@@ -120,12 +110,12 @@
 				</tr>				
 				<tr>
 					<td id="steps_tab_title">
-						Or switch to the render properties : 
+						Or click 'Preview' button : 
 					</td>
 				</tr>
 				<tr>
 					<td id="steps_tab">
-						<img src="../img/English/new/010.jpg" id="steps">	
+						<img src="../img/English/new/003.jpg" id="steps">	
 					</td>
 				</tr>				
 			</table>		

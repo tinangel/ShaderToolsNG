@@ -63,13 +63,7 @@
 
 		<!-- Ici je créé la zone bas de page -->
 		<!-- Ici je créé la zone bas de page -->
-		<div id="bottom_header">
-			Créé par GRETETE Karim (alias Tinangel)<br>
-			<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">
-			<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
-			</a><br />Ce travail est sous license Crative Commons : <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr">
-			Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 3.0 non transposé (CC BY-NC-SA 3.0) </a>.
-		</div>
+		<script type="text/javascript">PAGE_BOTTOM_FR()</script>		
 		<div style="float:left; width:1020px; height:20px"></div>
 		
 
